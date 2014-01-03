@@ -11,7 +11,7 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 	src = null	//so we don't abort once src is deleted
 	spawn(0)
 		if(config.use_recursive_explosions)
-			var/power = max(devastation_range * 2, 0) + max(heavy_impact_range, 0) + max(light_impact_range, 2) //The ranges add up, ie light 14 includes both heavy 7 and devestation 3. So this calculation means devestation counts for 4, heavy for 2 and light for 1 power, giving us a cap of 27 power.
+			var/power = max((devastation_range * 2), 0) + max(heavy_impact_range, 0) + max(light_impact_range, 0) //The ranges add up, ie light 14 includes both heavy 7 and devestation 3. So this calculation means devestation counts for 4, heavy for 2 and light for 1 power, giving us a cap of 27 power.
 			explosion_rec(epicenter, power)
 			return
 
