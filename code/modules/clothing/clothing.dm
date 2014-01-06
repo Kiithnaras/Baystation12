@@ -203,6 +203,8 @@ BLIND     // can't see anything
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECITON_TEMPERATURE
+	heat_protection = HEAD
+	max_heat_protection_temperature = 1500
 	siemens_coefficient = 0.9
 	species_restricted = list("exclude","Diona","Vox")
 
@@ -222,6 +224,8 @@ BLIND     // can't see anything
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECITON_TEMPERATURE
+	heat_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
+	max_heat_protection_temperature = 1500
 	siemens_coefficient = 0.9
 	species_restricted = list("exclude","Diona","Vox")
 

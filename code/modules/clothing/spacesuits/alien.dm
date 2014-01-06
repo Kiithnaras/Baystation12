@@ -111,6 +111,7 @@
 /obj/item/clothing/head/helmet/space/vox
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	flags = HEADCOVERSEYES|STOPSPRESSUREDMAGE
+	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECITON_TEMPERATURE
 	species_restricted = list("Vox")
 
 /obj/item/clothing/head/helmet/space/vox/pressure
@@ -147,6 +148,7 @@
 	item_state = "vox-stealth"
 	desc = "A smoothly contoured, matte-black alien helmet."
 	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
+	max_heat_protection_temperature = 25000
 
 /obj/item/clothing/suit/space/vox/stealth
 	name = "alien stealth suit"
@@ -155,6 +157,7 @@
 	desc = "A sleek black suit. It seems to have a tail, and is rather light and mobile-looking while appearing to have decent protection in the right places."
 	slowdown = 0
 	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
+	max_heat_protection_temperature = 25000
 
 /obj/item/clothing/head/helmet/space/vox/medic
 	name = "alien goggled helmet"
