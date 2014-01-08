@@ -1630,7 +1630,31 @@ var/list/ghostteleportlocs = list()
 	name = "\improper Telecommunications Satellite Lounge"
 	icon_state = "tcomsatlounge"
 
+//Vox Outpost
 
+/area/outpost
+	name = "\improper Outpost Common Area"
+	icon_state = "tcomsatlob"
+
+/area/outpost/docking
+	name = "\improper Outpost Teleporter Room"
+	icon_state = "tcomsatentrance"
+
+/area/outpost/dorms
+	name = "\improper Outpost Dorms"
+	icon_state = "tcomsatlounge"
+
+/area/outpost/power
+	name = "\improper Outpost Power Systems"
+	icon_state = "tcomsatcomp"
+
+/area/outpost/brig
+	name = "\improper Outpost Brig"
+	icon_state = "tcomsatcham"
+
+/area/outpost/solars
+	name = "\improper Outpost Solar Array"
+	icon_state = "panelsA"
 
 // Away Missions
 /area/awaymission

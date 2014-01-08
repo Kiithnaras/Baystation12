@@ -43,7 +43,7 @@
 		L.imp_in = H
 		L.implanted = 1
 		world << "<b>[H.real_name] is the captain!</b>"
-		H << "As the Captain, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a>"
+		src << "\red As the Captain, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a>"
 		var/datum/organ/external/affected = H.organs_by_name["head"]
 		affected.implants += L
 		L.part = affected
