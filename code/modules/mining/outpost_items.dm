@@ -10,38 +10,40 @@ proc/move_outpost_shuttle()
 	var/area/fromArea
 	var/area/dockArea
 	if(outpost_shuttle_location == 1)
-		R.autosay("The Vox outpost shuttle is preparing for transit to the station.","Outpost Shuttle Computer")
+		R.autosay("\improper The Vox outpost shuttle is preparing for transit to the station.","Outpost Shuttle Computer")
+		fromArea = locate(/area/shuttle/outpost/outpost)
+		dockArea = locate(/area/outpost/docking)
 		spawn(outpost_shuttle_tickstomove*27)
-			fromArea = locate(/area/shuttle/outpost/outpost)
-			dockArea = locate(/area/outpost/docking)
 			for(var/obj/machinery/door/unpowered/shuttle/D in fromArea) //lock dem do's!
 				D.close()
 				D.locked = 1
-			for(var/obj/machinery/door/airlock/external/D in dockArea) //station-side also. We don't like accidents.
-				D.close()
-				D.locked = 1
+			for(var/obj/machinery/door/airlock/external/E in dockArea) //station-side also. We don't like accidents.
+				E.close()
+				spawn(5)
+					E.locked = 1
 			spawn(outpost_shuttle_tickstomove*3) //then launch
 				shuttlemove()
 	else if(outpost_shuttle_location == 2)
-		R.autosay("The Vox outpost shuttle has entered hyperspace and shall arrive at the station in 90 seconds.","Outpost Shuttle Computer")
+		R.autosay("\improper The Vox outpost shuttle has entered hyperspace and shall arrive at the station in 90 seconds.","Outpost Shuttle Computer")
 		spawn(outpost_shuttle_tickstomove*90) //fly through hyperspace for 90 seconds
 			shuttlemove()
 	else if(outpost_shuttle_location == 0)
-		R.autosay("The Vox outpost shuttle is preparing to depart the station.","Outpost Shuttle Computer")
+		fromArea = locate(/area/shuttle/outpost/station)
+		dockArea = locate(/area/arrival/filter)
+		R.autosay("\improper The Vox outpost shuttle is preparing to depart the station.","Outpost Shuttle Computer")
 		spawn(outpost_shuttle_tickstomove*27)
-			fromArea = locate(/area/shuttle/outpost/station)
-			dockArea = locate(/area/arrival/filter)
 //			toArea = locate(/area/shuttle/outpost/transit)
 			for(var/obj/machinery/door/unpowered/shuttle/D in fromArea) //lock dem do's!
 				D.close()
 				D.locked = 1
 			for(var/obj/machinery/door/airlock/external/D in dockArea) //station-side also. We don't like accidents.
-				D.close()
-				D.locked = 1
+				E.close()
+				spawn(5)
+					E.locked = 1
 			spawn(outpost_shuttle_tickstomove*3) //then launch
 				shuttlemove()
 	else
-		R.autosay("The Vox outpost shuttle has entered hyperspace and shall arrive at the outpost in 90 seconds.","Outpost Shuttle Computer")
+		R.autosay("\improper The Vox outpost shuttle has entered hyperspace and shall arrive at the outpost in 90 seconds.","Outpost Shuttle Computer")
 		spawn(outpost_shuttle_tickstomove*90)
 			shuttlemove()
 
@@ -113,28 +115,31 @@ proc/shuttlemove()
 		outpost_shuttle_location = 2
 		move_outpost_shuttle()
 	else if(outpost_shuttle_location == 2)
+		R.autosay("\improper The Vox outpost shuttle has arrived at the station. All passengers please equip internals and disembark.","Outpost Shuttle Computer")
 		outpost_shuttle_location = 0
 		spawn(outpost_shuttle_tickstomove*1.5)
 			for(var/obj/machinery/door/unpowered/shuttle/D in toArea) //open dem do's!
 				D.locked = 0
 				D.open()
-			for(var/obj/machinery/door/airlock/external/D in dockArea) //open dem do's!
-				D.locked = 0
-				D.open()
+			for(var/obj/machinery/door/airlock/external/E in dockArea) //open dem do's!
+				E.locked = 0
+				spawn(5)
+					E.open()
 		outpost_shuttle_moving = 0
 	else if (outpost_shuttle_location == 0)
 		outpost_shuttle_location = 3
 		move_outpost_shuttle()
 	else
 		outpost_shuttle_location = 1
-		R.autosay("The Vox outpost shuttle has arrived at the outpost. All passengers please disembark.","Outpost Shuttle Computer")
+		R.autosay("\improper The Vox outpost shuttle has arrived at the outpost. All passengers please disembark.","Outpost Shuttle Computer")
 		spawn(outpost_shuttle_tickstomove*1.5)
 			for(var/obj/machinery/door/unpowered/shuttle/D in toArea) //open dem do's!
 				D.locked = 0
 				D.open()
-			for(var/obj/machinery/door/airlock/external/D in dockArea) //open dem do's!
-				D.locked = 0
-				D.open()
+			for(var/obj/machinery/door/airlock/external/E in dockArea) //open dem do's!
+				E.locked = 0
+				spawn(5)
+					E.open()
 		outpost_shuttle_moving = 0
 
 /obj/machinery/computer/outpost_shuttle
