@@ -197,6 +197,10 @@
 	name = "Circuit board (Mining Shuttle)"
 	build_path = "/obj/machinery/computer/mining_shuttle"
 	origin_tech = "programming=2"
+/obj/item/weapon/circuitboard/outpost_shuttle
+	name = "Circuit board (Outpost Shuttle)"
+	build_path = "/obj/machinery/computer/outpost_shuttle"
+	origin_tech = "programming=2"
 /obj/item/weapon/circuitboard/research_shuttle
 	name = "Circuit board (Research Shuttle)"
 	build_path = "/obj/machinery/computer/research_shuttle"

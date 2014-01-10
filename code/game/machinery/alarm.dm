@@ -131,6 +131,12 @@
 
 	first_run()
 
+/obj/machinery/alarm/voxdock/New()
+	..()
+	TLV["oxygen"] =			list(-1, -1, 0.5, 1.0) //Partial pressure, kpa
+	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.75,ONE_ATMOSPHERE*0.85,ONE_ATMOSPHERE*1.20,ONE_ATMOSPHERE*1.30)
+	TLV["temperature"] =	list(T0C-40, T0C, T0C+40, T0C+100)
+
 
 /obj/machinery/alarm/proc/first_run()
 	alarm_area = get_area(src)

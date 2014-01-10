@@ -43,7 +43,6 @@
 		L.imp_in = H
 		L.implanted = 1
 		world << "<b>[H.real_name] is the captain!</b>"
-		src << "\red As the Captain, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a>"
 		var/datum/organ/external/affected = H.organs_by_name["head"]
 		affected.implants += L
 		L.part = affected
@@ -87,12 +86,13 @@
 			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
 			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
 			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
-		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_personnel(H), slot_w_uniform)
-		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/hop(H), slot_belt)
-		if(H.backbag == 1)
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H), slot_r_hand)
+		if(H.species.name == "Vox")
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform/head(H), slot_w_uniform)
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
 		else
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_personnel(H), slot_w_uniform)
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/hop(H), slot_belt)
 		return 1

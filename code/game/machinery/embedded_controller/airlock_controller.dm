@@ -156,6 +156,7 @@ datum/computer/file/embedded_program/airlock_controller
 								signal.data["stabalize"] = 1
 							else if(memory["pump_status"] != "release")
 								signal.data["power"] = 1
+								signal.data["set_external_pressure"] = 110
 							post_signal(signal)
 					else if(target_state > state)
 						state = AIRLOCK_STATE_CLOSED

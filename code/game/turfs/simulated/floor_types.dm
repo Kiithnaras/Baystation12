@@ -90,7 +90,7 @@
 	nitrogen = 0.001
 	temperature = TCMB
 
-/turf/simulated/plating/vox
+/turf/simulated/floor/plating/vox
 	name = "plating"
 	icon_state = "plating"
 	oxygen = 0
