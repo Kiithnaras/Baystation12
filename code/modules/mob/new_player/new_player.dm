@@ -114,7 +114,7 @@
 				spawning = 1
 				src << sound(null, repeat = 0, wait = 0, volume = 85, channel = 1) // MAD JAMS cant last forever yo
 
-				
+
 				observer.started_as_observer = 1
 				close_spawn_windows()
 				var/obj/O = locate("landmark*Observer-Start")
@@ -292,7 +292,10 @@
 		var/mob/living/carbon/human/character = create_character()	//creates the human and transfers vars and mind
 		job_master.EquipRank(character, rank, 1)					//equips the human
 		EquipCustomItems(character)
-		character.loc = pick(latejoin)
+		if(character.species.name == "Vox")
+			character.loc = pick(latevox)
+		else
+			character.loc = pick(latejoin)
 		character.lastarea = get_area(loc)
 
 		ticker.mode.latespawn(character)
@@ -392,7 +395,7 @@
 
 		if(client.prefs.disabilities)
 			// Set defer to 1 if you add more crap here so it only recalculates struc_enzymes once. - N3X
-			new_character.dna.SetSEState(GLASSESBLOCK,1,0) 
+			new_character.dna.SetSEState(GLASSESBLOCK,1,0)
 			new_character.disabilities |= NEARSIGHTED
 
 		// And uncomment this, too.

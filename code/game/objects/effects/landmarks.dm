@@ -36,6 +36,10 @@
 			wizardstart += loc
 			del(src)
 
+		if("VoxLate")
+			latevox += loc
+			del(src)
+
 		if("JoinLate")
 			latejoin += loc
 			del(src)

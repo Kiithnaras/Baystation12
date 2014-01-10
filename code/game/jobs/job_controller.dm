@@ -357,15 +357,26 @@ var/global/datum/controller/occupations/job_master
 
 		if(!joined_late)
 			var/obj/S = null
-			for(var/obj/effect/landmark/start/sloc in landmarks_list)
-				if(sloc.name != rank)	continue
-				if(locate(/mob/living) in sloc.loc)	continue
-				S = sloc
-				break
-			if(!S)
-				S = locate("start*[rank]") // use old stype
-			if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
-				H.loc = S.loc
+			if(H.species.name == "Vox" && rank != null)
+				for(var/obj/effect/landmark/start/sloc in landmarks_list)
+					if(sloc.name != "Vox Employee") continue
+					if(locate(/mob/living) in sloc.loc) continue
+					S = sloc
+					break
+				if(!S)
+					S = locate("start*Vox Employee") // use old stype
+				if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
+					H.loc = S.loc
+			else
+				for(var/obj/effect/landmark/start/sloc in landmarks_list)
+					if(sloc.name != rank)	continue
+					if(locate(/mob/living) in sloc.loc)	continue
+					S = sloc
+					break
+				if(!S)
+					S = locate("start*[rank]") // use old stype
+				if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
+					H.loc = S.loc
 
 		//give them an account in the station database
 		var/datum/money_account/M = create_account(H.real_name, rand(50,500)*10, null)

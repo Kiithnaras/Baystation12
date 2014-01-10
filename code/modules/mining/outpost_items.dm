@@ -21,6 +21,7 @@ proc/move_outpost_shuttle()
 				E.close()
 				spawn(5)
 					E.locked = 1
+					E.update_icon()
 			spawn(outpost_shuttle_tickstomove*3) //then launch
 				shuttlemove()
 	else if(outpost_shuttle_location == 2)
@@ -36,10 +37,11 @@ proc/move_outpost_shuttle()
 			for(var/obj/machinery/door/unpowered/shuttle/D in fromArea) //lock dem do's!
 				D.close()
 				D.locked = 1
-			for(var/obj/machinery/door/airlock/external/D in dockArea) //station-side also. We don't like accidents.
+			for(var/obj/machinery/door/airlock/external/E in dockArea) //station-side also. We don't like accidents.
 				E.close()
 				spawn(5)
 					E.locked = 1
+					E.update_icon()
 			spawn(outpost_shuttle_tickstomove*3) //then launch
 				shuttlemove()
 	else
@@ -60,14 +62,12 @@ proc/shuttlemove()
 	else if(outpost_shuttle_location == 2)
 		fromArea = locate(/area/shuttle/outpost/transit)
 		toArea = locate(/area/shuttle/outpost/station)
-		dockArea = locate(/area/arrival/filter)
 	else if(outpost_shuttle_location == 0)
 		fromArea = locate(/area/shuttle/outpost/station)
 		toArea = locate(/area/shuttle/outpost/transit)
 	else
 		fromArea = locate(/area/shuttle/outpost/transit)
 		toArea = locate(/area/shuttle/outpost/outpost)
-		dockArea = locate(/area/outpost/docking)
 
 	for(var/turf/T in toArea)
 		dstturfs += T
@@ -117,6 +117,7 @@ proc/shuttlemove()
 	else if(outpost_shuttle_location == 2)
 		R.autosay("\improper The Vox outpost shuttle has arrived at the station. All passengers please equip internals and disembark.","Outpost Shuttle Computer")
 		outpost_shuttle_location = 0
+		dockArea = locate(/area/arrival/filter)
 		spawn(outpost_shuttle_tickstomove*1.5)
 			for(var/obj/machinery/door/unpowered/shuttle/D in toArea) //open dem do's!
 				D.locked = 0
@@ -131,6 +132,7 @@ proc/shuttlemove()
 		move_outpost_shuttle()
 	else
 		outpost_shuttle_location = 1
+		dockArea = locate(/area/outpost/docking)
 		R.autosay("\improper The Vox outpost shuttle has arrived at the outpost. All passengers please disembark.","Outpost Shuttle Computer")
 		spawn(outpost_shuttle_tickstomove*1.5)
 			for(var/obj/machinery/door/unpowered/shuttle/D in toArea) //open dem do's!

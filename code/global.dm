@@ -123,6 +123,7 @@ var/list/monkeystart = list()
 var/list/wizardstart = list()
 var/list/newplayer_start = list()
 var/list/latejoin = list()
+var/list/latevox = list()
 var/list/prisonwarp = list()	//prisoners go to these
 var/list/holdingfacility = list()	//captured people go here
 var/list/xeno_spawn = list()//Aliens spawn at these.
