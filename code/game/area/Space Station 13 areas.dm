@@ -1651,9 +1651,14 @@ var/list/ghostteleportlocs = list()
 	name = "\improper Outpost Common Area"
 	icon_state = "tcomsatlob"
 
-/area/outpost/docking
-	name = "\improper Outpost Teleporter Room"
+/area/outpost/teleporter
+	name = "\improper Outpost Transfer Area"
 	icon_state = "tcomsatentrance"
+
+/area/outpost/docking
+	name = "\improper Outpost Docking Arm"
+	icon_state = "tcomsatentrance"
+	requires_power = 0
 
 /area/outpost/dorms
 	name = "\improper Outpost Dorms"
