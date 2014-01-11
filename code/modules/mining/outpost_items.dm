@@ -25,12 +25,12 @@ proc/move_outpost_shuttle()
 			spawn(outpost_shuttle_tickstomove*3) //then launch
 				shuttlemove()
 	else if(outpost_shuttle_location == 2)
-		R.autosay("\improper The Vox outpost shuttle has entered hyperspace and shall arrive at the station in 90 seconds.","Outpost Shuttle Computer")
-		spawn(outpost_shuttle_tickstomove*90) //fly through hyperspace for 90 seconds
+		R.autosay("\improper The Vox outpost shuttle has entered hyperspace and shall arrive at the station in 30 seconds.","Outpost Shuttle Computer")
+		spawn(outpost_shuttle_tickstomove*30) //fly through hyperspace for 90 seconds
 			shuttlemove()
 	else if(outpost_shuttle_location == 0)
 		fromArea = locate(/area/shuttle/outpost/station)
-		dockArea = locate(/area/arrival/filter)
+		dockArea = locate(/area/hallway/secondary/entry/filter)
 		R.autosay("\improper The Vox outpost shuttle is preparing to depart the station.","Outpost Shuttle Computer")
 		spawn(outpost_shuttle_tickstomove*27)
 //			toArea = locate(/area/shuttle/outpost/transit)
@@ -117,7 +117,7 @@ proc/shuttlemove()
 	else if(outpost_shuttle_location == 2)
 		R.autosay("\improper The Vox outpost shuttle has arrived at the station. All passengers please equip internals and disembark.","Outpost Shuttle Computer")
 		outpost_shuttle_location = 0
-		dockArea = locate(/area/arrival/filter)
+		dockArea = locate(/area/hallway/secondary/entry/filter)
 		spawn(outpost_shuttle_tickstomove*1.5)
 			for(var/obj/machinery/door/unpowered/shuttle/D in toArea) //open dem do's!
 				D.locked = 0

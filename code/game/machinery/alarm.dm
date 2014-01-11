@@ -131,13 +131,6 @@
 
 	first_run()
 
-/obj/machinery/alarm/voxdock/New()
-	..()
-	TLV["oxygen"] =			list(-1, -1, 0.5, 1.0) //Partial pressure, kpa
-	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.75,ONE_ATMOSPHERE*0.85,ONE_ATMOSPHERE*1.20,ONE_ATMOSPHERE*1.30)
-	TLV["temperature"] =	list(T0C-40, T0C, T0C+40, T0C+100)
-
-
 /obj/machinery/alarm/proc/first_run()
 	alarm_area = get_area(src)
 	if (alarm_area.master)
@@ -377,7 +370,10 @@
 	switch(mode)
 		if(AALARM_MODE_SCRUBBING)
 			for(var/device_id in alarm_area.air_scrub_names)
-				send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "scrubbing"= 1, "panic_siphon"= 0) )
+				if(istype(src, /obj/machinery/alarm/voxdock))
+					send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "o2_scrub" = 1, "scrubbing"= 1, "panic_siphon"= 0) )
+				else
+					send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "scrubbing"= 1, "panic_siphon"= 0) )
 			for(var/device_id in alarm_area.air_vent_names)
 				send_signal(device_id, list("power"= 1, "checks"= 1, "set_external_pressure"= target_pressure) )
 
@@ -883,6 +879,8 @@ siphoning
 					if(data["scrubbing"])
 						sensor_data += {"
 <B>Filtering:</B>
+Oxygen
+<A href='?src=\ref[src];id_tag=[id_tag];command=o2_scrub;val=[!data["filter_o2"]]'>[data["filter_o2"]?"on":"off"]</A>
 Carbon Dioxide
 <A href='?src=\ref[src];id_tag=[id_tag];command=co2_scrub;val=[!data["filter_co2"]]'>[data["filter_co2"]?"on":"off"]</A>;
 Toxins
@@ -985,6 +983,7 @@ table tr:first-child th:first-child { border: none;}
 				"co2_scrub",
 				"tox_scrub",
 				"n2o_scrub",
+				"o2_scrub",
 				"panic_siphon",
 				"scrubbing")
 
@@ -1690,3 +1689,9 @@ Code shamelessly copied from apc_frame
 		usr << browse(null, "window=partyalarm")
 		return
 	return
+
+/obj/machinery/alarm/voxdock/New()
+	..()
+	TLV["oxygen"] =			list(-1, -1, 0.5, 1.0) //Partial pressure, kpa
+	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.75,ONE_ATMOSPHERE*0.85,ONE_ATMOSPHERE*1.20,ONE_ATMOSPHERE*1.30)
+	TLV["temperature"] =	list(T0C-40, T0C, T0C+40, T0C+100)

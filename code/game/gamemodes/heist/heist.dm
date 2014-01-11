@@ -93,7 +93,7 @@ var/global/vox_kills = 0 //Used to check the Inviolate.
 
 		while(i<=sounds)
 			i++
-			newname += pick(list("ti","hi","ki","ya","ta","ha","ka","ya","chi","cha","kah"))
+			newname += pick(list("ti","hi","ki","ya","ta","ha","ka","yi","chi","cha","kah"))
 
 		var/mob/living/carbon/human/vox = raider.current
 

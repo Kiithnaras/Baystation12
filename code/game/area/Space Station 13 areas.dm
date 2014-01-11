@@ -1674,11 +1674,11 @@ var/list/ghostteleportlocs = list()
 	luminosity = 1
 	lighting_use_dynamic = 0
 
-/area/arrival/mix
+/area/hallway/secondary/entry/mix
 	name ="\improper Arrivals Air Mixing"
 	icon_state = "away"
 
-/area/arrival/filter
+/area/hallway/secondary/entry/filter
 	name ="\improper Arrivals Air Filtering"
 	icon_state = "away1"
 
