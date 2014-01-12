@@ -1687,6 +1687,9 @@ var/list/ghostteleportlocs = list()
 	name ="\improper Arrivals Air Filtering"
 	icon_state = "away1"
 
+/area/hallway/secondary/entry/filter/doors
+	requires_power = 0
+
 // Away Missions
 /area/awaymission
 	name = "\improper Strange Location"
