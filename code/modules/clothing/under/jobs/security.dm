@@ -127,6 +127,7 @@
 	flags_inv = 0
 	flags_inv = HIDEEARS
 	siemens_coefficient = 0.8
+	species_restricted = null
 
 /obj/item/clothing/suit/armor/hos
 	name = "armored coat"
@@ -145,6 +146,7 @@
 	icon_state = "dermal"
 	item_state = "dermal"
 	siemens_coefficient = 0.6
+	species_restricted = null
 
 //Jensen cosplay gear
 /obj/item/clothing/under/rank/head_of_security/jensen
@@ -162,3 +164,4 @@
 	item_state = "jensencoat"
 	flags_inv = 0
 	siemens_coefficient = 0.6
+	species_restricted = null

@@ -18,6 +18,7 @@
 	desc = "It's a special helmet issued to the Warden of a securiy force. Protects the head from impacts."
 	icon_state = "policehelm"
 	flags_inv = 0
+	species_restricted = null
 
 /obj/item/clothing/head/helmet/riot
 	name = "riot helmet"

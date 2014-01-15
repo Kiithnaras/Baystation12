@@ -24,7 +24,7 @@ proc/move_outpost_shuttle()
 				shuttlemove()
 	else if(outpost_shuttle_location == 2)
 		R.autosay("\improper The Vox outpost shuttle has entered hyperspace and shall arrive at the station in 30 seconds.","Outpost Shuttle Computer")
-		spawn(outpost_shuttle_tickstomove*5) //fly through hyperspace for 90 seconds
+		spawn(outpost_shuttle_tickstomove*30) //fly through hyperspace for 90 seconds
 			shuttlemove()
 	else if(outpost_shuttle_location == 0)
 		fromArea = locate(/area/shuttle/outpost/station)
