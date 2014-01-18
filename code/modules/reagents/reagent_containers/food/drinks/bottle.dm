@@ -1,5 +1,4 @@
 
-
 ///////////////////////////////////////////////Alchohol bottles! -Agouri //////////////////////////
 //Functionally identical to regular drinks. The only difference is that the default bottle size is 100. - Darem
 //Bottles now weaken and break when smashed on people's heads. - Giacom
@@ -163,6 +162,13 @@
 	New()
 		..()
 		reagents.add_reagent("tequilla", 100)
+		
+/obj/item/weapon/reagent_containers/food/drinks/bottle/vglube
+	name = "Vidgy Games Lube"
+	desc = "'How did you make your millions?' 'We made a lube for gamers.'"
+	icon_state = "vglube"
+		..()
+		reagents.add_reagent("vglube", 100)
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing
 	name = "Bottle of Nothing"
