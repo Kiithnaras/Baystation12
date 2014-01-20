@@ -288,6 +288,28 @@ datum
 							T.wet_overlay = null
 						return
 
+		vglube
+			name = "Vidgy Games Lube."
+			id = "vglube"
+			description = "Vidgy Games brand lube."
+			reagent_state = LIQUID
+			color = "#e3ebf8" // rgb: 227, 235, 248
+			overdose = REAGENTS_OVERDOSE
+
+			reaction_turf(var/turf/simulated/T, var/volume)
+				if (!istype(T)) return
+				src = null
+				if(volume >= 1)
+					if(T.wet >= 2) return
+					T.wet = 2
+					spawn(800)
+						if (!istype(T)) return
+						T.wet = 0
+						if(T.wet_overlay)
+							T.overlays -= T.wet_overlay
+							T.wet_overlay = null
+						return
+
 		plasticide
 			name = "Plasticide"
 			id = "plasticide"
