@@ -165,10 +165,10 @@
 
 /*/obj/item/weapon/reagent_containers/food/drinks/bottle/vglube
 	name = "Vidgy Games Lube"
-	desc = "'How did you make your millions?' 'We made a lube for gamers.'"
+	desc = "\improper The lube designed for and by gamers."
 	icon_state = "vglube"
 		..()
-		reagents.add_reagent("vglube", 100)*/
+		reagents.add_reagent("vglube", 100)*/ //Not sure what the hell is causing the compile error in this block, but something is, causing a bad argument definition in the following definition
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing
 	name = "Bottle of Nothing"
