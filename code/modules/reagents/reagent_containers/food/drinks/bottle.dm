@@ -162,13 +162,13 @@
 	New()
 		..()
 		reagents.add_reagent("tequilla", 100)
-		
-/obj/item/weapon/reagent_containers/food/drinks/bottle/vglube
+
+/*/obj/item/weapon/reagent_containers/food/drinks/bottle/vglube
 	name = "Vidgy Games Lube"
 	desc = "'How did you make your millions?' 'We made a lube for gamers.'"
 	icon_state = "vglube"
 		..()
-		reagents.add_reagent("vglube", 100)
+		reagents.add_reagent("vglube", 100)*/
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing
 	name = "Bottle of Nothing"
