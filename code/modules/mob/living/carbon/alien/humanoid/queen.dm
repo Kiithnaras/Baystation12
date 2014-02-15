@@ -78,6 +78,7 @@
 		return
 
 /mob/living/carbon/alien/humanoid/queen/large
+	name = "alien empress"
 	icon = 'icons/mob/alienqueen.dmi'
 	icon_state = "queen_s"
 	pixel_x = -16
