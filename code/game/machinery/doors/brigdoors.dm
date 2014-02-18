@@ -197,7 +197,7 @@
 		dat += "Set Timer: [(setminute ? text("[setminute]:") : null)][setsecond]<br/>"
 
 	// Controls
-	dat += "<a href='?src=\ref[src];tp=-60'>-</a> <a href='?src=\ref[src];tp=-1'>-</a> <a href='?src=\ref[src];tp=1'>+</a> <A href='?src=\ref[src];tp=60'>+</a><br/>"
+	dat += "<a href='?src=\ref[src];tp=-300'>-</a> <a href='?src=\ref[src];tp=-60'>-</a> <a href='?src=\ref[src];tp=-1'>-</a> <a href='?src=\ref[src];tp=1'>+</a> <A href='?src=\ref[src];tp=60'>+</a> <a href='?src=\ref[src];tp=300'>+</a><br/>"
 
 	// Mounted flash controls
 	for(var/obj/machinery/flasher/F in targets)
