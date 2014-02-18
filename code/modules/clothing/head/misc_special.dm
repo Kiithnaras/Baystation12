@@ -113,6 +113,26 @@
 		user << "You lower the ear flaps on the ushanka."
 
 /*
+ * Red Ushanka
+ */
+/obj/item/clothing/head/redushanka
+	name = "red ushanka"
+	desc = "Perfect for winter in USSR, da?"
+	icon_state = "redushankadown"
+	item_state = "redushankadown"
+	flags_inv = HIDEEARS
+
+/obj/item/clothing/head/redushanka/attack_self(mob/user as mob)
+	if(src.icon_state == "redushankadown")
+		src.icon_state = "redushankaup"
+		src.item_state = "redushankaup"
+		user << "You raise the ear flaps on the ushanka."
+	else
+		src.icon_state = "redushankadown"
+		src.item_state = "redushankadown"
+		user << "You lower the ear flaps on the ushanka."
+
+/*
  * Pumpkin head
  */
 /obj/item/clothing/head/pumpkinhead
