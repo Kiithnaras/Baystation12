@@ -1,4 +1,3 @@
-
 //Bartender
 /obj/item/clothing/head/chefhat
 	name = "chef's hat"
@@ -59,6 +58,11 @@
 	name = "security beret"
 	desc = "A beret with the security insignia emblazoned on it. For officers that are more inclined towards style than safety."
 	icon_state = "beret_badge"
+	flags = FPRINT | TABLEPASS
+/obj/item/clothing/head/beret/hos
+	name = "head of security beret"
+	desc = "A beret with the head of security insignia emblazoned on it. For heads of security that are more inclined towards style than safety."
+	icon_state = "hosberet"
 	flags = FPRINT | TABLEPASS
 /obj/item/clothing/head/beret/eng
 	name = "engineering beret"
