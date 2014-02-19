@@ -149,34 +149,66 @@
 		return
 	if(src.density && istype(user, /mob/living/carbon/alien/humanoid) && !aforce)
 		if(istype(src, /obj/machinery/door/airlock))
-			var/obj/machinery/door/airlock/A = src
-			if(A.locked)
-				user << "The door bolts prevent you from forcing the door open."
+			var /obj/machinery/door/airlock/AF = src
+			if(operating || AF.welded || AF.locked)
 				return
-		aforce = 1
-		user.visible_message("[user] digs their claws in and starts to force the door!" ,"\green You dig your claws in and start to force the door!")
-		if(istype(user, /mob/living/carbon/alien/humanoid/queen/large))
-			if(do_after(user, 20))
-				if(prob(30))
-					user.visible_message("[user] mightily forces open the door!","\green You mightily force open the door!")
-					open()
-					aforce = 0
-					return
+			if(AF.arePowerSystemsOn() && !(stat & NOPOWER))
+				aforce = 1
+				user.visible_message("[user] digs their claws in and starts to force the door!" ,"\green You dig your claws in and start to force the door!")
+				if(istype(user, /mob/living/carbon/alien/humanoid/queen/large))
+					if(do_after(user, 20))
+						if(prob(35))
+							user.visible_message("[user] mightily forces open the door!","\green You mightily force open the door!")
+							open()
+							aforce = 0
+							return
+						else
+							user.visible_message("[user]'s mighty claws slip off of the door!","\green Your mighty claws slip out of the door!")
+							aforce = 0
+							return
 				else
-					user.visible_message("[user]'s mighty claws slip off of the door!","\green Your mighty claws slip out of the door!")
-					aforce = 0
-					return
+					if(do_after(user, 40))
+						if(prob(20))
+							user.visible_message("[user] slowly forces the door open!","\green You slowly force the door open!")
+							open()
+							aforce = 0
+							return
+						else
+							user.visible_message("[user] struggles uselessly against the airlock motors!", "\green You struggle uselessly against the airlock motors!")
+							aforce = 0
+							return
+			else
+				open()
+				return
 		else
-			if(do_after(user, 40))
-				if(prob(20))
-					user.visible_message("[user] slowly forces the door open!","\green You slowly force the door open!")
-					open()
-					aforce = 0
-					return
+			if(!(stat & NOPOWER))
+				aforce = 1
+				user.visible_message("[user] digs their claws in and starts to force the door!" ,"\green You dig your claws in and start to force the door!")
+				if(istype(user, /mob/living/carbon/alien/humanoid/queen/large))
+					if(do_after(user, 20))
+						if(prob(35))
+							user.visible_message("[user] mightily forces open the door!","\green You mightily force open the door!")
+							open()
+							aforce = 0
+							return
+						else
+							user.visible_message("[user]'s mighty claws slip off of the door!","\green Your mighty claws slip out of the door!")
+							aforce = 0
+							return
 				else
-					user.visible_message("[user] struggles uselessly against the airlock motors!", "\green You struggle uselessly against the airlock motors!")
-					aforce = 0
-					return
+					if(do_after(user, 40))
+						if(prob(20))
+							user.visible_message("[user] slowly forces the door open!","\green You slowly force the door open!")
+							open()
+							aforce = 0
+							return
+						else
+							user.visible_message("[user] struggles uselessly against the airlock motors!", "\green You struggle uselessly against the airlock motors!")
+							aforce = 0
+						return
+			else
+				open()
+				return
 	if(src.density)
 		flick("door_deny", src)
 	return
