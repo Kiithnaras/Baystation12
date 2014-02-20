@@ -440,11 +440,11 @@ var/global/datum/controller/occupations/job_master
 		if(job.req_admin_notify)
 			H << "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>"
 		if(rank == "Captain")
-			H << "\red<b> As the Captain, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a></b>"
+			H << "\red<b> As the Captain, you are the proud owner of a Loyalty implant. Read more about them <a href=http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a></b>"
 		if(rank == "Head of Security")
-			H << "\red<b> As the Head of Security, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a></b>"
+			H << "\red<b> As the Head of Security, you are the proud owner of a Loyalty implant. Read more about them <a href=http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a></b>"
 		if(rank in list("Head of Personnel","Research Director","Chief Engineer","Chief Medical Officer") && H.species.name == "Vox")
-			H << "\red<b> As a Vox head of staff, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a></b>"
+			H << "\red<b> As a Vox head of staff, you are the proud owner of a Loyalty implant. Read more about them <a href=http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a></b>"
 		spawnId(H, rank, alt_title)
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset(H), slot_l_ear)
 
