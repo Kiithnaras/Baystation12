@@ -77,7 +77,21 @@
 		src.emag.name = "Polyacid spray"
 		return
 
+/obj/item/weapon/robot_module/surgical
+	name = "surgical robot module"
 
+	New()
+		..()
+		src.modules += new /obj/item/borg/sight/hud/med(src)
+		src.modules += new /obj/item/device/healthanalyzer(src)
+		src.modules += new /obj/item/weapon/scalpel(src)
+		src.modules += new /obj/item/weapon/hemostat(src)
+		src.modules += new /obj/item/weapon/retractor(src)
+		src.modules += new /obj/item/weapon/cautery(src)
+		src.modules += new /obj/item/weapon/circular_saw(src)
+		src.modules += new /obj/item/weapon/bonegel(src)
+		src.modules += new /obj/item/weapon/surgicaldrill(src)
+		src.modules += new /obj/item/weapon/FixOVein(src)
 
 /obj/item/weapon/robot_module/engineering
 	name = "engineering robot module"
