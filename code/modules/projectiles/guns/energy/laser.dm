@@ -23,13 +23,13 @@ obj/item/weapon/gun/energy/laser/retro
 
 /obj/item/weapon/gun/energy/laser/captain
 	icon_state = "caplaser"
-	name = "Lassiter"
+	name = "lassiter"
 	desc = "This is an antique laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding."
 	force = 10
 	origin_tech = null
 	var/charge_tick = 0
-	projectile_type = "/obj/item/projectle/beam/heavylaser"
 	cell_type = "/obj/item/weapon/cell/super"
+	projectile_type = "/obj/item/projectile/beam/heavylaser"
 
 
 	New()
@@ -51,8 +51,6 @@ obj/item/weapon/gun/energy/laser/retro
 		update_icon()
 		return 1
 
-
-
 /obj/item/weapon/gun/energy/laser/cyborg/load_into_chamber()
 	if(in_chamber)
 		return 1
@@ -63,8 +61,6 @@ obj/item/weapon/gun/energy/laser/retro
 			in_chamber = new/obj/item/projectile/beam(src)
 			return 1
 	return 0
-
-
 
 /obj/item/weapon/gun/energy/lasercannon
 	name = "laser cannon"
