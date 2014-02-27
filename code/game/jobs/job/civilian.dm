@@ -30,14 +30,14 @@
 			if(H.backbag == 1)
 				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_r_hand)
 			else
-				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_in_backpack)
+				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
 		else
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/bartender(H), slot_w_uniform)
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
 			if(H.backbag == 1)
 				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_r_hand)
 			else
-				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_in_backpack)
+				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/bar(H), slot_belt)
 		return 1
 
@@ -56,6 +56,10 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
+		switch(H.backbag)
+			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
+			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
+			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
 		H.equip_to_slot_or_del(new /obj/item/clothing/suit/chef(H), slot_wear_suit)
 		H.equip_to_slot_or_del(new /obj/item/clothing/head/chefhat(H), slot_head)
 		if(H.species.name == "Vox")
@@ -90,6 +94,10 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
+		switch(H.backbag)
+			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
+			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_hyd(H), slot_back)
+			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
 		H.equip_to_slot_or_del(new /obj/item/clothing/suit/apron(H), slot_wear_suit)
 		if(H.species.name == "Vox")
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform(H), slot_w_uniform)
@@ -126,6 +134,10 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
+		switch(H.backbag)
+			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
+			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
+			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
 		H.equip_to_slot_or_del(new /obj/item/weapon/clipboard(H), slot_l_hand)
 		if(H.species.name == "Vox")
@@ -160,6 +172,10 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
+		switch(H.backbag)
+			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
+			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
+			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
 		if(H.species.name == "Vox")
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform(H), slot_w_uniform)
@@ -307,6 +323,10 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
+		switch(H.backbag)
+			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
+			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
+			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
 		if(H.species.name == "Vox")
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform(H), slot_w_uniform)
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
@@ -340,6 +360,10 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
+		switch(H.backbag)
+			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
+			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
+			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
 		H.equip_to_slot_or_del(new /obj/item/weapon/barcodescanner(H), slot_l_hand)
 		if(H.species.name == "Vox")
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform(H), slot_w_uniform)
