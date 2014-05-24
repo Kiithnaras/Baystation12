@@ -687,10 +687,14 @@ obj/machinery/atmospherics/pipe/manifold4w/update_icon()
 
 obj/machinery/atmospherics/pipe/manifold4w/initialize()
 
+<<<<<<< HEAD
+		volume = 5000 //in liters, 1 meters by 1 meters by 2 meters
+=======
 	for(var/obj/machinery/atmospherics/target in get_step(src,1))
 		if(target.initialize_directions & 2)
 			node1 = target
 			break
+>>>>>>> upstream/master
 
 	for(var/obj/machinery/atmospherics/target in get_step(src,2))
 		if(target.initialize_directions & 1)
