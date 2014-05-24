@@ -42,6 +42,7 @@
 	var/emagged = 0
 	var/wiresexposed = 0
 	var/locked = 1
+	var/has_power = 1
 	var/list/req_access = list(access_robotics)
 	var/ident = 0
 	//var/list/laws = list()
@@ -127,6 +128,18 @@
 		cell_component.wrapped = cell
 		cell_component.installed = 1
 
+	hud_list[HEALTH_HUD]      = image('icons/mob/hud.dmi', src, "hudblank")
+	hud_list[STATUS_HUD]      = image('icons/mob/hud.dmi', src, "hudhealth100")
+	hud_list[ID_HUD]          = image('icons/mob/hud.dmi', src, "hudblank")
+	hud_list[WANTED_HUD]      = image('icons/mob/hud.dmi', src, "hudblank")
+	hud_list[IMPLOYAL_HUD]    = image('icons/mob/hud.dmi', src, "hudblank")
+	hud_list[IMPCHEM_HUD]     = image('icons/mob/hud.dmi', src, "hudblank")
+	hud_list[IMPTRACK_HUD]    = image('icons/mob/hud.dmi', src, "hudblank")
+	hud_list[SPECIALROLE_HUD] = image('icons/mob/hud.dmi', src, "hudblank")
+
+
+
+
 	playsound(loc, 'sound/voice/liveagain.ogg', 75, 1)
 
 // setup the PDA and its name
@@ -155,7 +168,6 @@
 	modtype = input("Please, select a module!", "Robot", null, null) in modules
 
 	var/module_sprites[0] //Used to store the associations between sprite names and sprite index.
-	var/channels = list()
 
 	if(module)
 		return
@@ -177,7 +189,7 @@
 
 		if("Miner")
 			module = new /obj/item/weapon/robot_module/miner(src)
-			channels = list("Supply" = 1)
+			module.channels = list("Supply" = 1)
 			if(camera && "Robots" in camera.network)
 				camera.network.Add("MINE")
 			module_sprites["Basic"] = "Miner_old"
@@ -186,7 +198,7 @@
 
 		if("Medical")
 			module = new /obj/item/weapon/robot_module/medical(src)
-			channels = list("Medical" = 1)
+			module.channels = list("Medical" = 1)
 			if(camera && "Robots" in camera.network)
 				camera.network.Add("Medical")
 			module_sprites["Basic"] = "Medbot"
@@ -196,7 +208,7 @@
 
 		if("Security")
 			module = new /obj/item/weapon/robot_module/security(src)
-			channels = list("Security" = 1)
+			module.channels = list("Security" = 1)
 			module_sprites["Basic"] = "secborg"
 			module_sprites["Red Knight"] = "Security"
 			module_sprites["Black Knight"] = "securityrobot"
@@ -204,7 +216,7 @@
 
 		if("Engineering")
 			module = new /obj/item/weapon/robot_module/engineering(src)
-			channels = list("Engineering" = 1)
+			module.channels = list("Engineering" = 1)
 			if(camera && "Robots" in camera.network)
 				camera.network.Add("Engineering")
 			module_sprites["Basic"] = "Engineering"
@@ -220,7 +232,7 @@
 		if("Combat")
 			module = new /obj/item/weapon/robot_module/combat(src)
 			module_sprites["Combat Android"] = "droid-combat"
-			channels = list("Security" = 1)
+			module.channels = list("Security" = 1)
 
 	//Custom_sprite check and entry
 	if (custom_sprite == 1)
@@ -234,7 +246,7 @@
 		status_flags &= ~CANPUSH
 
 	choose_icon(6,module_sprites)
-	radio.config(channels)
+	radio.config(module.channels)
 
 /mob/living/silicon/robot/proc/updatename(var/prefix as text)
 	if(prefix)
@@ -567,6 +579,14 @@
 				user.drop_item()
 				W.loc = null
 
+				var/obj/item/robot_parts/robot_component/WC = W
+				if(istype(WC))
+					C.brute_damage = WC.brute
+					C.electronics_damage = WC.burn
+				else //This will nominally mean that removing and replacing a power cell will repair the mount, but I don't care at this point. ~Z
+					C.brute_damage = 0
+					C.electronics_damage = 0
+
 				usr << "\blue You install the [W.name]."
 
 				return
@@ -629,8 +649,12 @@
 				if(!remove)
 					return
 				var/datum/robot_component/C = components[remove]
-				var/obj/item/I = C.wrapped
+				var/obj/item/robot_parts/robot_component/I = C.wrapped
 				user << "You remove \the [I]."
+				if(istype(I))
+					I.brute = C.brute_damage
+					I.burn = C.electronics_damage
+
 				I.loc = src.loc
 
 				if(C.installed == 1)
@@ -708,8 +732,7 @@
 					locked = 0
 				else
 					user << "You fail to emag the cover lock."
-					if(prob(25))
-						src << "Hack attempt detected."
+					src << "Hack attempt detected."
 			else
 				user << "The cover is already unlocked."
 			return
@@ -726,7 +749,7 @@
 					lawupdate = 0
 					connected_ai = null
 					user << "You emag [src]'s interface."
-//					message_admins("[key_name_admin(user)] emagged cyborg [key_name_admin(src)].  Laws overridden.")
+					message_admins("[key_name_admin(user)] emagged cyborg [key_name_admin(src)].  Laws overridden.")
 					log_game("[key_name(user)] emagged cyborg [key_name(src)].  Laws overridden.")
 					clear_supplied_laws()
 					clear_inherent_laws()
@@ -738,7 +761,7 @@
 					sleep(5)
 					src << "\red Initiating diagnostics..."
 					sleep(20)
-					src << "\red SynBorg v1.7 loaded."
+					src << "\red SynBorg v1.7.1 loaded."
 					sleep(5)
 					src << "\red LAW SYNCHRONISATION ERROR"
 					sleep(5)
@@ -757,9 +780,8 @@
 						src.module.rebuild()
 					updateicon()
 				else
-					user << "You fail to [ locked ? "unlock" : "lock"] [src]'s interface."
-					if(prob(25))
-						src << "Hack attempt detected."
+					user << "You fail to hack [src]'s interface."
+					src << "Hack attempt detected."
 			return
 
 	else if(istype(W, /obj/item/borg/upgrade/))
@@ -798,7 +820,7 @@
 		if ("help")
 			for(var/mob/O in viewers(src, null))
 				if ((O.client && !( O.blinded )))
-					O.show_message(text("\blue [M] caresses [src]'s plating with its scythe like arm."), 1)
+					O.show_message(text("\blue [M] caresses [src]'s plating with its scythe-like arm."), 1)
 
 		if ("grab")
 			if (M == src)
@@ -817,13 +839,6 @@
 		if ("hurt")
 			var/damage = rand(10, 20)
 			if (prob(90))
-				/*
-				if (M.class == "combat")
-					damage += 15
-					if(prob(20))
-						weakened = max(weakened,4)
-						stunned = max(stunned,4)
-				What is this?*/
 
 				playsound(loc, 'sound/weapons/slash.ogg', 25, 1, -1)
 				for(var/mob/O in viewers(src, null))
@@ -1189,7 +1204,7 @@
 							if(cleaned_human.shoes)
 								cleaned_human.shoes.clean_blood()
 								cleaned_human.update_inv_shoes(0)
-							cleaned_human.clean_blood()
+							cleaned_human.clean_blood(1)
 							cleaned_human << "\red [src] cleans your face!"
 		return
 

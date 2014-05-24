@@ -108,7 +108,7 @@ turf/simulated/hotspot_expose(exposed_temperature, exposed_volume, soh)
 		A.fire_act(air_contents, air_contents.temperature, air_contents.return_volume())
 	//spread
 	for(var/direction in cardinal)
-		if(S.air_check_directions&direction) //Grab all valid bordering tiles
+		if(S.open_directions & direction) //Grab all valid bordering tiles
 
 			var/turf/simulated/enemy_tile = get_step(S, direction)
 
@@ -204,6 +204,9 @@ datum/gas_mixture/proc/zburn(obj/effect/decal/cleanable/liquid_fuel/liquid, forc
 				del liquid
 			else
 				total_fuel += liquid.amount
+
+		if(total_fuel == 0)
+			return 0
 
 		//Calculate the firelevel.
 		var/firelevel = calculate_firelevel(liquid)
