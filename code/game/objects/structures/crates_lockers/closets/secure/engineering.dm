@@ -87,6 +87,9 @@
 		new /obj/item/weapon/weldingtool/largetank(src)
 		new /obj/item/weapon/weldingtool/largetank(src)
 		new /obj/item/weapon/weldingtool/largetank(src)
+		new /obj/item/weapon/weldpack(src)
+		new /obj/item/weapon/weldpack(src)
+		new /obj/item/weapon/weldpack(src)
 		return
 
 
@@ -124,12 +127,12 @@
 /obj/structure/closet/secure_closet/atmos_personal
 	name = "Technician's Locker"
 	req_access = list(access_atmospherics)
-	icon_state = "secureeng1"
-	icon_closed = "secureeng"
-	icon_locked = "secureeng1"
-	icon_opened = "secureengopen"
-	icon_broken = "secureengbroken"
-	icon_off = "secureengoff"
+	icon_state = "secureatm1"
+	icon_closed = "secureatm"
+	icon_locked = "secureatm1"
+	icon_opened = "secureatmopen"
+	icon_broken = "secureatmbroken"
+	icon_off = "secureatmoff"
 
 
 	New()
@@ -152,44 +155,3 @@
 		new /obj/item/weapon/cartridge/atmos(src)
 		new /obj/item/taperoll/engineering(src)
 		return
-
-/obj/structure/closet/secure_closet/voxatmos
-        name = "Vox replacement internals"
-        req_access = list(access_atmospherics)
-
-        New()
-                ..()
-                sleep(2)
-                new /obj/item/clothing/mask/breath/vox(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath/vox(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath/vox(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath/vox(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath/vox(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath/vox(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath/vox(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                return
-
-/obj/structure/closet/secure_closet/voxengieva
-        name = "Vox Engineering EVA Closet"
-        req_access = list(access_eva)
-
-        New()
-                ..()
-                sleep(2)
-                new /obj/item/clothing/suit/space/vox/stealth(src)
-                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
-                new /obj/item/weapon/tank/nitrogen(src)
-                new /obj/item/clothing/suit/space/vox/stealth(src)
-                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
-                new /obj/item/weapon/tank/nitrogen(src)
-                new /obj/item/clothing/suit/space/vox/stealth(src)
-                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
-                new /obj/item/weapon/tank/nitrogen(src)
-                return

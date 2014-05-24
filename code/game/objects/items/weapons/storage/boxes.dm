@@ -434,6 +434,7 @@
 	w_class = 1
 	flags = TABLEPASS
 	slot_flags = SLOT_BELT
+	can_hold = list("/obj/item/weapon/match")
 
 	New()
 		..()
@@ -441,8 +442,9 @@
 			new /obj/item/weapon/match(src)
 
 	attackby(obj/item/weapon/match/W as obj, mob/user as mob)
-		if(istype(W, /obj/item/weapon/match) && W.lit == 0)
+		if(istype(W) && !W.lit && !W.burnt)
 			W.lit = 1
+			W.damtype = "burn"
 			W.icon_state = "match_lit"
 			processing_objects.Add(W)
 		W.update_icon()
@@ -466,7 +468,7 @@
 	foldable = /obj/item/stack/sheet/cardboard //BubbleWrap
 	storage_slots=21
 	can_hold = list("/obj/item/weapon/light/tube", "/obj/item/weapon/light/bulb")
-	max_combined_w_class = 21
+	max_combined_w_class = 42	//holds 21 items of w_class 2
 	use_to_pickup = 1 // for picking up broken bulbs, not that most people will try
 
 /obj/item/weapon/storage/box/lights/bulbs/New()

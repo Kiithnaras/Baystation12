@@ -106,7 +106,11 @@
 		var/datum/gas_mixture/environment = loc.return_air()
 
 		if(scrubbing)
+<<<<<<< HEAD
 			if((environment.toxins>0) || (environment.carbon_dioxide>0) || (environment.trace_gases.len>0) || (environment.oxygen>0))
+=======
+			if((environment.toxins>0.001) || (environment.carbon_dioxide>0.001) || (environment.trace_gases.len>0))
+>>>>>>> upstream/master
 				var/transfer_moles = min(1, volume_rate/environment.volume)*environment.total_moles()
 
 				//Take a gas sample

@@ -41,7 +41,7 @@
 	throwforce = 5.0
 	throw_speed = 1
 	throw_range = 4
-	w_class = 1
+	w_class = 2
 	origin_tech = "materials=4;magnets=3;syndicate=4"
 	var/construction_cost = list("metal"=1000,"glass"=1000,"uranium"=5000,"plasma"=5000)
 	attack_verb = list("shoved", "bashed")

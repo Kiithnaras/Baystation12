@@ -11,13 +11,13 @@
 	throwforce = 1.0
 	throw_speed = 1
 	throw_range = 2
-	w_class = 1.0
+	w_class = 2.0
 	var/access = list()
 	access = access_crate_cash
 	var/worth = 0
 
 /obj/item/weapon/spacecash/c1
-	name = "1 credip chip"
+	name = "1 credit chip"
 	icon_state = "spacecash"
 	desc = "It's worth 1 credit."
 	worth = 1
