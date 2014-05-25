@@ -1103,14 +1103,11 @@ var/list/ghostteleportlocs = list()
 	icon_state = "medbay3"
 	music = 'sound/ambience/signal.ogg'
 
-<<<<<<< HEAD
 /area/medical/auxcryo
 	name = "\improper Auxiliary Cryo Lab"
 	icon_state = "medbay3"
 	music = 'sound/ambience/signal.ogg'
 
-=======
->>>>>>> upstream/master
 /area/medical/biostorage
 	name = "\improper Secondary Storage"
 	icon_state = "medbay2"
