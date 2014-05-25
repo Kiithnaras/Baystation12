@@ -155,3 +155,45 @@
 		new /obj/item/weapon/cartridge/atmos(src)
 		new /obj/item/taperoll/engineering(src)
 		return
+
+
+/obj/structure/closet/secure_closet/voxatmos
+        name = "Vox replacement internals"
+        req_access = list(access_atmospherics)
+
+        New()
+                ..()
+                sleep(2)
+                new /obj/item/clothing/mask/breath/vox(src)
+                new /obj/item/weapon/tank/emergency_nitrogen(src)
+                new /obj/item/clothing/mask/breath/vox(src)
+                new /obj/item/weapon/tank/emergency_nitrogen(src)
+                new /obj/item/clothing/mask/breath/vox(src)
+                new /obj/item/weapon/tank/emergency_nitrogen(src)
+                new /obj/item/clothing/mask/breath/vox(src)
+                new /obj/item/weapon/tank/emergency_nitrogen(src)
+                new /obj/item/clothing/mask/breath/vox(src)
+                new /obj/item/weapon/tank/emergency_nitrogen(src)
+                new /obj/item/clothing/mask/breath/vox(src)
+                new /obj/item/weapon/tank/emergency_nitrogen(src)
+                new /obj/item/clothing/mask/breath/vox(src)
+                new /obj/item/weapon/tank/emergency_nitrogen(src)
+                return
+
+/obj/structure/closet/secure_closet/voxengieva
+        name = "Vox Engineering EVA Closet"
+        req_access = list(access_eva)
+
+        New()
+                ..()
+                sleep(2)
+                new /obj/item/clothing/suit/space/vox/stealth(src)
+                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
+                new /obj/item/weapon/tank/nitrogen(src)
+                new /obj/item/clothing/suit/space/vox/stealth(src)
+                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
+                new /obj/item/weapon/tank/nitrogen(src)
+                new /obj/item/clothing/suit/space/vox/stealth(src)
+                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
+                new /obj/item/weapon/tank/nitrogen(src)
+                return

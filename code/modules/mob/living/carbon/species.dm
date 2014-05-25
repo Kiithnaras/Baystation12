@@ -135,18 +135,28 @@
 	icobase = 'icons/mob/human_races/r_vox.dmi'
 	deform = 'icons/mob/human_races/r_def_vox.dmi'
 	language = "Vox-pidgin"
+	attack_verb = "scratch"
+	punch_damage = 8
+	darksight = 5
 
 	warning_low_pressure = 50
 	hazard_low_pressure = 0
+
+	warning_high_pressure = 500
+	hazard_high_pressure = 800
 
 	cold_level_1 = 80
 	cold_level_2 = 50
 	cold_level_3 = 0
 
+	heat_level_1 = 600 //Default 360
+	heat_level_2 = 800 //Default 400
+	heat_level_3 = 2000 //Default 1000
+
 	eyes = "vox_eyes_s"
 	breath_type = "nitrogen"
 
-	flags = NO_SCAN | NO_BLOOD
+	flags = IS_WHITELISTED | HAS_TAIL
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"

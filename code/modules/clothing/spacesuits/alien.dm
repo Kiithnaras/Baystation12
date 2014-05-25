@@ -111,7 +111,7 @@
 /obj/item/clothing/head/helmet/space/vox
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	flags = HEADCOVERSEYES|STOPSPRESSUREDMAGE
-	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECITON_TEMPERATURE
+	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	species_restricted = list("Vox")
 
 /obj/item/clothing/head/helmet/space/vox/pressure
@@ -295,7 +295,7 @@
 		if (!is_equipped())
 			user << "You will have to put on the [src] before you can do that."
 			return
-		
+
 		flags |= NOSLIP
 		magpulse = 1
 		canremove = 0	//kinda hard to take off magclaws when you are gripping them tightly.

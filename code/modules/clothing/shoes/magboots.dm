@@ -6,6 +6,10 @@
 	var/magpulse = 0
 	icon_action_button = "action_blank"
 	action_button_name = "Toggle the magboots"
+	origin_tech = "magnets=3;materials=2"
+	g_amt = 200
+	m_amt = 1000
+	var/construction_cost = list("metal"=1000,"glass"=200,"silver"=150)
 //	flags = NOSLIP //disabled by default
 
 	attack_self(mob/user)
@@ -22,7 +26,7 @@
 			icon_state = "magboots1"
 			user << "You enable the mag-pulse traction system."
 		user.update_inv_shoes()	//so our mob-overlays update
-	
+
 	examine()
 		set src in view()
 		..()

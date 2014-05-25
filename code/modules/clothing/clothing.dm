@@ -100,6 +100,7 @@
 	var/vision_flags = 0
 	var/darkness_view = 0//Base human is 2
 	var/invisa_view = 0
+	species_restricted = list("exclude","Vox")
 
 /*
 SEE_SELF  // can see self, no matter what
@@ -125,7 +126,7 @@ BLIND     // can't see anything
 	body_parts_covered = HANDS
 	slot_flags = SLOT_GLOVES
 	attack_verb = list("challenged")
-	species_restricted = list("exclude","Unathi","Tajaran")
+	species_restricted = list("exclude","Unathi","Tajaran","Vox")
 
 /obj/item/clothing/gloves/examine()
 	set src in usr
@@ -173,7 +174,7 @@ BLIND     // can't see anything
 
 	permeability_coefficient = 0.50
 	slowdown = SHOES_SLOWDOWN
-	species_restricted = list("exclude","Unathi","Tajaran")
+	species_restricted = list("exclude","Unathi","Tajaran","Vox")
 
 //Suit
 /obj/item/clothing/suit
@@ -201,6 +202,8 @@ BLIND     // can't see anything
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
+	heat_protection = HEAD
+	max_heat_protection_temperature = 500
 	siemens_coefficient = 0.9
 	species_restricted = list("exclude","Diona","Vox")
 
@@ -220,6 +223,8 @@ BLIND     // can't see anything
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
+	heat_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
+	max_heat_protection_temperature = 500
 	siemens_coefficient = 0.9
 	species_restricted = list("exclude","Diona","Vox")
 
@@ -243,6 +248,7 @@ BLIND     // can't see anything
 	var/displays_id = 1
 	var/rolled_down = 0
 	var/basecolor
+	species_restricted = list("exclude","Vox")
 
 
 /obj/item/clothing/under/attackby(obj/item/I, mob/user)

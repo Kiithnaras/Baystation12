@@ -1,7 +1,7 @@
 /obj/item/projectile/bullet
 	name = "bullet"
 	icon_state = "bullet"
-	damage = 60
+	damage = 50
 	damage_type = BRUTE
 	nodamage = 0
 	flag = "bullet"
@@ -14,8 +14,8 @@
 
 /obj/item/projectile/bullet/weakbullet // "rubber" bullets
 	damage = 10
-	stun = 5
-	weaken = 5
+	stun = 10
+	weaken = 10
 	embed = 0
 
 /obj/item/projectile/bullet/weakbullet/beanbag		//because beanbags are not bullets
@@ -25,12 +25,14 @@
 	name = "rubber bullet"
 
 /obj/item/projectile/bullet/midbullet
-	damage = 20
-	stun = 5
-	weaken = 5
+	damage = 25
+	stun = 10
+	weaken = 10
 
 /obj/item/projectile/bullet/midbullet2
-	damage = 25
+	damage = 35
+	stun = 15
+	weaken = 15
 
 /obj/item/projectile/bullet/suffocationbullet//How does this even work?
 	name = "co bullet"
@@ -52,13 +54,15 @@
 /obj/item/projectile/bullet/stunshot
 	name = "stunshot"
 	damage = 5
-	stun = 10
-	weaken = 10
-	stutter = 10
+	stun = 20
+	weaken = 15
+	stutter = 15
 	embed = 0
 
 /obj/item/projectile/bullet/a762
-	damage = 25
+	damage = 40
+	stun = 25
+	weaken = 15
 
 /obj/item/projectile/bullet/chameleon
 	damage = 1 // stop trying to murderbone with a fake gun dumbass!!!

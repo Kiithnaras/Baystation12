@@ -19,19 +19,26 @@
 			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/captain(H), slot_back)
 			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_cap(H), slot_back)
 			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
-		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
-		var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/captain(H)
-		if(H.age>49)
-			U.hastie = new /obj/item/clothing/tie/medal/gold/captain(U)
-		H.equip_to_slot_or_del(U, slot_w_uniform)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/captain(H), slot_belt)
-		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/clothing/head/caphat(H), slot_head)
-		H.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(H), slot_glasses)
-		if(H.backbag == 1)
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H), slot_r_hand)
+		if(H.species.name == "Vox")
+			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform/captain(H), slot_w_uniform)
+			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/captain/vox(H), slot_gloves)
+			H.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses/sechud/supervox(H), slot_glasses)
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/magboots/vox(H), slot_shoes)
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/space/vox/stealth(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/vox/stealth(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H.back), slot_in_backpack)
 		else
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/captain(H.back), slot_in_backpack)
+			var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/captain(H)
+			U.hastie = new /obj/item/clothing/tie/medal/gold/captain(U)
+			H.equip_to_slot_or_del(U, slot_w_uniform)
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/caphat(H), slot_head)
+			H.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(H), slot_glasses)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/captain(H), slot_belt)
+
+
 		var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
 		L.imp_in = H
 		L.implanted = 1
@@ -79,12 +86,20 @@
 			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
 			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
 			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
-		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_personnel(H), slot_w_uniform)
-		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/hop(H), slot_belt)
-		if(H.backbag == 1)
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H), slot_r_hand)
+		if(H.species.name == "Vox")
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform/head(H), slot_w_uniform)
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
+			var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
+			L.imp_in = H
+			L.implanted = 1
+			src << "\red As a Vox head of staff, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a>"
+			var/datum/organ/external/affected = H.organs_by_name["head"]
+			affected.implants += L
+			L.part = affected
 		else
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_personnel(H), slot_w_uniform)
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/hop(H), slot_belt)
 		return 1
