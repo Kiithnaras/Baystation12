@@ -133,14 +133,23 @@
 	icon_state = "vox-carapace"
 	item_state = "vox-carapace"
 	desc = "A glowing visor, perhaps stolen from a depressed Cylon."
+<<<<<<< HEAD
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
+=======
+	species_restricted = list("Vox","Vox Armalis")
+>>>>>>> upstream/master
 
 /obj/item/clothing/suit/space/vox/carapace
 	name = "alien carapace armour"
 	icon_state = "vox-carapace"
 	item_state = "vox-carapace"
+<<<<<<< HEAD
 	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down, but still sports decent protection."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
+=======
+	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down."
+	species_restricted = list("Vox","Vox Armalis")
+>>>>>>> upstream/master
 
 /obj/item/clothing/head/helmet/space/vox/stealth
 	name = "alien stealth helmet"
@@ -237,7 +246,7 @@
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
 	item_color="gloves-vox"
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/gloves/latex/vox
 	desc = "These Vox gauntlets have been coated with a heavy layer of latex for medical procedures."
@@ -281,7 +290,7 @@
 	name = "vox magclaws"
 	item_state = "boots-vox"
 	icon_state = "boots-vox"
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 	action_button_name = "Toggle the magclaws"
 
 /obj/item/clothing/shoes/magboots/vox/attack_self(mob/user)
@@ -292,10 +301,17 @@
 		user << "You relax your deathgrip on the flooring."
 	else
 		//make sure these can only be used when equipped.
-		if (!is_equipped())
+		if(!ishuman(user))
+			return
+		var/mob/living/carbon/human/H = user
+		if (H.shoes != src)
 			user << "You will have to put on the [src] before you can do that."
 			return
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 		flags |= NOSLIP
 		magpulse = 1
 		canremove = 0	//kinda hard to take off magclaws when you are gripping them tightly.
