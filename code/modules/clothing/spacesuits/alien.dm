@@ -133,23 +133,16 @@
 	icon_state = "vox-carapace"
 	item_state = "vox-carapace"
 	desc = "A glowing visor, perhaps stolen from a depressed Cylon."
-<<<<<<< HEAD
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
-=======
 	species_restricted = list("Vox","Vox Armalis")
->>>>>>> upstream/master
 
 /obj/item/clothing/suit/space/vox/carapace
 	name = "alien carapace armour"
 	icon_state = "vox-carapace"
 	item_state = "vox-carapace"
-<<<<<<< HEAD
 	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down, but still sports decent protection."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
-=======
-	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down."
 	species_restricted = list("Vox","Vox Armalis")
->>>>>>> upstream/master
 
 /obj/item/clothing/head/helmet/space/vox/stealth
 	name = "alien stealth helmet"
@@ -307,11 +300,6 @@
 		if (H.shoes != src)
 			user << "You will have to put on the [src] before you can do that."
 			return
-
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 		flags |= NOSLIP
 		magpulse = 1
 		canremove = 0	//kinda hard to take off magclaws when you are gripping them tightly.
