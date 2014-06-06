@@ -159,7 +159,7 @@
 
 /obj/structure/closet/secure_closet/voxatmos
         name = "Vox replacement internals"
-        req_access = list(access_atmospherics)
+        req_access = list(access_cargo)
 
         New()
                 ..()

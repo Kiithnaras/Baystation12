@@ -372,7 +372,10 @@
 	switch(mode)
 		if(AALARM_MODE_SCRUBBING)
 			for(var/device_id in alarm_area.air_scrub_names)
-				send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "scrubbing"= 1, "panic_siphon"= 0) )
+				if(istype(src, /obj/machinery/alarm/voxdock))
+					send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "o2_scrub" = 1, "scrubbing"= 1, "panic_siphon"= 0) )
+				else
+					send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "scrubbing"= 1, "panic_siphon"= 0) )
 			for(var/device_id in alarm_area.air_vent_names)
 				send_signal(device_id, list("power"= 1, "checks"= 1, "set_external_pressure"= target_pressure) )
 
@@ -878,6 +881,8 @@ siphoning
 					if(data["scrubbing"])
 						sensor_data += {"
 <B>Filtering:</B>
+Oxygen
+<A href='?src=\ref[src];id_tag=[id_tag];command=o2_scrub;val=[!data["filter_o2"]]'>[data["filter_o2"]?"on":"off"]</A>
 Carbon Dioxide
 <A href='?src=\ref[src];id_tag=[id_tag];command=co2_scrub;val=[!data["filter_co2"]]'>[data["filter_co2"]?"on":"off"]</A>;
 Toxins
@@ -964,11 +969,11 @@ table tr:first-child th:first-child { border: none;}
 
 	add_fingerprint(usr)
 	usr.set_machine(src)
-	
+
 	// hrefs that can always be called -walter0o
 	if(href_list["rcon"])
 		var/attempted_rcon_setting = text2num(href_list["rcon"])
-		
+
 		switch(attempted_rcon_setting)
 			if(RCON_NO)
 				rcon_setting = RCON_NO
@@ -978,7 +983,7 @@ table tr:first-child th:first-child { border: none;}
 				rcon_setting = RCON_YES
 			else
 				return
-	
+
 	if(href_list["temperature"])
 		var/list/selected = TLV["temperature"]
 		var/max_temperature = min(selected[3] - T0C, MAX_TEMPERATURE)
@@ -991,7 +996,7 @@ table tr:first-child th:first-child { border: none;}
 
 	// hrefs that need the AA unlocked -walter0o
 	if(!locked || istype(usr, /mob/living/silicon))
-	
+
 		if(href_list["command"])
 			var/device_id = href_list["id_tag"]
 			switch(href_list["command"])
@@ -1000,13 +1005,14 @@ table tr:first-child th:first-child { border: none;}
 					"set_external_pressure",
 					"checks",
 					"co2_scrub",
+					"o2_scrub",
 					"tox_scrub",
 					"n2o_scrub",
 					"panic_siphon",
 					"scrubbing")
-	
+
 					send_signal(device_id, list(href_list["command"] = text2num(href_list["val"]) ) )
-	
+
 				if("set_threshold")
 					var/env = href_list["env"]
 					var/threshold = text2num(href_list["var"])
@@ -1054,36 +1060,36 @@ table tr:first-child th:first-child { border: none;}
 							selected[2] = selected[4]
 						if(selected[3] > selected[4])
 							selected[3] = selected[4]
-	
+
 					apply_mode()
-	
+
 		if(href_list["screen"])
 			screen = text2num(href_list["screen"])
-	
+
 		if(href_list["atmos_unlock"])
 			switch(href_list["atmos_unlock"])
 				if("0")
 					air_doors_close(1)
 				if("1")
 					air_doors_open(1)
-	
+
 		if(href_list["atmos_alarm"])
 			if (alarm_area.atmosalert(2))
 				apply_danger_level(2)
 			update_icon()
-	
+
 		if(href_list["atmos_reset"])
 			if (alarm_area.atmosalert(0))
 				apply_danger_level(0)
 			update_icon()
-	
+
 		if(href_list["mode"])
 			mode = text2num(href_list["mode"])
 			apply_mode()
-	
+
 	// hrefs that need the AA wires exposed, note that borgs should be in range here too -walter0o
 	if(wiresexposed && Adjacent(usr))
-	
+
 		if (href_list["AAlarmwires"])
 			var/t1 = text2num(href_list["AAlarmwires"])
 			if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
@@ -1098,7 +1104,7 @@ table tr:first-child th:first-child { border: none;}
 					update_icon()
 					buildstage = 1
 				return
-	
+
 		else if (href_list["pulse"])
 			var/t1 = text2num(href_list["pulse"])
 			if (!istype(usr.equipped(), /obj/item/device/multitool))
@@ -1700,3 +1706,9 @@ Code shamelessly copied from apc_frame
 		usr << browse(null, "window=partyalarm")
 		return
 	return
+
+/obj/machinery/alarm/voxdock/New()
+	..()
+	TLV["oxygen"] =			list(-1, -1, 0.5, 1.0) //Partial pressure, kpa
+	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.75,ONE_ATMOSPHERE*0.85,ONE_ATMOSPHERE*1.20,ONE_ATMOSPHERE*1.30)
+	TLV["temperature"] =	list(T0C-40, T0C, T0C+40, T0C+100)
