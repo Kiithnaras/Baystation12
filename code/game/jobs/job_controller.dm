@@ -355,7 +355,7 @@ var/global/datum/controller/occupations/job_master
 
 		H.job = rank
 
-		if(!joined_late && H.species.name != "Vox")
+		if(!joined_late)
 			var/obj/S = null
 			if(H.species.name == "Vox" && rank != null)
 				for(var/obj/effect/landmark/start/sloc in landmarks_list)
