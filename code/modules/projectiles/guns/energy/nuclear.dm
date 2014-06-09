@@ -40,7 +40,7 @@
 	fire_sound = 'sound/weapons/Taser.ogg'
 
 	charge_cost = 50 //How much energy is needed to fire.
-	projectile_type = "/obj/item/projectile/energy/electrode/strong"
+	projectile_type = "/obj/item/projectile/energy/beam/stun/strong"
 	origin_tech = "combat=4;magnets=3"
 	modifystate = "capenergystun"
 	w_class = 2.0

@@ -176,3 +176,10 @@ var/list/beam_master = list()
 	nodamage = 1
 	agony = 40
 	damage_type = HALLOSS
+
+/obj/item/projectile/beam/stun
+	name = "stun beam"
+	icon_state = "stun"
+	nodamage = 1
+	agony = 55
+	damage_type = HALLOSS
