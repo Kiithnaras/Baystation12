@@ -212,8 +212,9 @@
 
 	breath_type = "nitrogen"
 	poison_type = "oxygen"
+	exhale_type = "nitrogen"
 
-	flags = IS_WHITELISTED | HAS_TAIL
+	flags = NO_BLOOD | IS_WHITELISTED | HAS_TAIL
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"
@@ -260,6 +261,7 @@
 	eyes = "blank_eyes"
 	breath_type = "nitrogen"
 	poison_type = "oxygen"
+	exhale_type = "nitrogen"
 
 	flags = NO_SCAN | NO_BLOOD | HAS_TAIL | NO_PAIN | IS_WHITELISTED
 
