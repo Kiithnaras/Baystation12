@@ -212,7 +212,7 @@
 
 	breath_type = "nitrogen"
 	poison_type = "oxygen"
-	exhale_type = "nitrogen"
+	exhale_type = null
 
 	flags = NO_BLOOD | IS_WHITELISTED | HAS_TAIL
 
@@ -261,7 +261,7 @@
 	eyes = "blank_eyes"
 	breath_type = "nitrogen"
 	poison_type = "oxygen"
-	exhale_type = "nitrogen"
+	exhale_type = null
 
 	flags = NO_SCAN | NO_BLOOD | HAS_TAIL | NO_PAIN | IS_WHITELISTED
 
