@@ -106,13 +106,13 @@
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/head/helmet/space/vox
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	flags = HEADCOVERSEYES|STOPSPRESSUREDMAGE
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/head/helmet/space/vox/pressure
 	name = "alien helmet"
@@ -178,7 +178,7 @@
 
 /obj/item/clothing/under/vox
 	has_sensor = 0
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/under/vox/vox_casual
 	name = "alien clothing"
@@ -249,7 +249,7 @@
 	item_color = "gloves-vox-med"
 	siemens_coefficient = 0.1
 	permeability_coefficient = 0.01
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/gloves/black/vox
 	desc = "These Vox gauntlets have been darkened and repurposed for security uses."
@@ -257,7 +257,7 @@
 	icon_state = "gloves-vox-sec"
 	item_state = "gloves-vox-sec"
 	item_color = "gloves-vox-sec"
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/gloves/captain/vox
 	desc = "These Vox gauntlets have been trimmed and colored for the station befitting a Qui-er, I mean, Captain."
@@ -265,7 +265,7 @@
 	icon_state = "gloves-vox-cap"
 	item_state = "gloves-vox-cap"
 	item_color = "gloves-vox-cap"
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
 
@@ -275,7 +275,7 @@
 	icon_state = "clogs-vox"
 	item_state = "clogs-vox"
 	item_color = "clogs-vox"
-	species_restricted = list("Vox")
+	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/shoes/magboots/vox
 
