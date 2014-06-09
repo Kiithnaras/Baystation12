@@ -57,7 +57,7 @@
 	max_shells = 8
 	caliber = "75"
 	fire_sound = 'sound/effects/Explosion1.ogg'
-	origin_tech = "combat=6;materials=4;plasmatech=4"
+	origin_tech = "combat=6;materials=4;phorontech=4"
 	var/construction_cost = list("metal"=7500,"glass"=1000,"uranium"=2500,"adamantine"=1000)
 	ammo_type = "/obj/item/ammo_casing/a75"
 	load_method = 2

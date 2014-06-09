@@ -9,6 +9,8 @@
 	var/translate_hive = 0
 	var/syndie = 0
 	var/list/channels = list()
+	origin_tech = "programming=3;magnets=3"
+	var/construction_cost = list("metal"=100,"glass"=500,"gold"=100)
 
 
 /obj/item/device/encryptionkey/New()
@@ -18,13 +20,13 @@
 /obj/item/device/encryptionkey/syndicate
 	icon_state = "cypherkey"
 	channels = list("Syndicate" = 1)
-	origin_tech = "syndicate=3"
+	origin_tech = "programming=3;magnets=3;syndicate=3"
 	syndie = 1//Signifies that it de-crypts Syndicate transmissions
 
 /obj/item/device/encryptionkey/binary
 	icon_state = "cypherkey"
 	translate_binary = 1
-	origin_tech = "syndicate=3"
+	origin_tech = "programming=3;magnets=3;syndicate=3"
 
 /obj/item/device/encryptionkey/headset_sec
 	name = "Security Radio Encryption Key"
