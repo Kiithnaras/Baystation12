@@ -139,8 +139,9 @@
 			if (radiation > 100)
 				radiation = 100
 				Weaken(10)
-				src << "\red You feel weak."
-				emote("collapse")
+				if(!lying)
+					src << "\red You feel weak."
+					emote("collapse")
 
 			switch(radiation)
 				if(1 to 49)
@@ -154,8 +155,9 @@
 					if(prob(5))
 						radiation -= 5
 						Weaken(3)
-						src << "\red You feel weak."
-						emote("collapse")
+						if(!lying)
+							src << "\red You feel weak."
+							emote("collapse")
 
 				if(75 to 100)
 					radiation -= 3
@@ -364,7 +366,7 @@
 			var/ratio = (breath.phoron/safe_phoron_max) * 10
 			//adjustToxLoss(Clamp(ratio, MIN_PLASMA_DAMAGE, MAX_PLASMA_DAMAGE))	//Limit amount of damage toxin exposure can do per second
 			if(reagents)
-				reagents.add_reagent("phoron", Clamp(ratio, MIN_PHORON_DAMAGE, MAX_PHORON_DAMAGE))
+				reagents.add_reagent("toxin", Clamp(ratio, MIN_TOXIN_DAMAGE, MAX_TOXIN_DAMAGE))
 			phoron_alert = max(phoron_alert, 1)
 		else
 			phoron_alert = 0

@@ -32,6 +32,29 @@
 
 	return 1
 
+/obj/item/clothing/proc/refit_for_species(var/target_species)
+	switch(target_species)
+		if("Human", "Skrell")	//humanoid bodytypes
+			species_restricted = list("exclude","Unathi","Tajaran","Diona","Vox")
+		else
+			species_restricted = list(target_species)
+
+	if (sprite_sheets_obj && (target_species in sprite_sheets_obj))
+		icon = sprite_sheets_obj[target_species]
+
+/obj/item/clothing/head/helmet/refit_for_species(var/target_species)
+	switch(target_species)
+		if("Skrell")
+			species_restricted = list("exclude","Unathi","Tajaran","Diona","Vox")
+		if("Human")
+			species_restricted = list("exclude","Skrell","Unathi","Tajaran","Diona","Vox")
+		else
+			species_restricted = list(target_species)
+
+	if (sprite_sheets_obj && (target_species in sprite_sheets_obj))
+		icon = sprite_sheets_obj[target_species]
+
+
 //Ears: headsets, earmuffs and tiny objects
 /obj/item/clothing/ears
 	name = "ears"
@@ -104,8 +127,7 @@
 	var/vision_flags = 0
 	var/darkness_view = 0//Base human is 2
 	var/invisa_view = 0
-	species_restricted = list("exclude","Vox")
-
+	sprite_sheets = list("Vox" = 'icons/mob/species/vox/eyes.dmi')
 /*
 SEE_SELF  // can see self, no matter what
 SEE_MOBS  // can see all mobs, no matter what
@@ -130,7 +152,8 @@ BLIND     // can't see anything
 	body_parts_covered = HANDS
 	slot_flags = SLOT_GLOVES
 	attack_verb = list("challenged")
-	species_restricted = list("exclude","Unathi","Tajaran","Vox")
+	species_restricted = list("exclude","Unathi","Tajaran")
+	sprite_sheets = list("Vox" = 'icons/mob/species/vox/gloves.dmi')
 
 /obj/item/clothing/gloves/examine()
 	set src in usr
@@ -159,13 +182,13 @@ BLIND     // can't see anything
 	slot_flags = SLOT_HEAD
 	w_class = 2.0
 
-
 //Mask
 /obj/item/clothing/mask
 	name = "mask"
 	icon = 'icons/obj/clothing/masks.dmi'
 	body_parts_covered = HEAD
 	slot_flags = SLOT_MASK
+	sprite_sheets = list("Vox" = 'icons/mob/species/vox/masks.dmi')
 
 //Shoes
 /obj/item/clothing/shoes
@@ -173,14 +196,14 @@ BLIND     // can't see anything
 	icon = 'icons/obj/clothing/shoes.dmi'
 	desc = "Comfortable-looking shoes."
 	gender = PLURAL //Carn: for grammarically correct text-parsing
-	var/chained = 0
 	siemens_coefficient = 0.9
 	body_parts_covered = FEET
 	slot_flags = SLOT_FEET
 
 	permeability_coefficient = 0.50
 	slowdown = SHOES_SLOWDOWN
-	species_restricted = list("exclude","Unathi","Tajaran","Vox")
+	species_restricted = list("exclude","Unathi","Tajaran")
+	sprite_sheets = list("Vox" = 'icons/mob/species/vox/shoes.dmi')
 
 //Suit
 /obj/item/clothing/suit
@@ -224,7 +247,7 @@ BLIND     // can't see anything
 	permeability_coefficient = 0.02
 	flags = FPRINT | TABLEPASS | STOPSPRESSUREDMAGE | THICKMATERIAL
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
-	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen)
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/device/suit_cooling_unit)
 	slowdown = 3
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 100, rad = 50)
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
@@ -256,7 +279,7 @@ BLIND     // can't see anything
 	var/displays_id = 1
 	var/rolled_down = 0
 	var/basecolor
-	species_restricted = list("exclude","Vox")
+	sprite_sheets = list("Vox" = 'icons/mob/species/vox/uniform.dmi')
 
 /obj/item/clothing/under/attackby(obj/item/I, mob/user)
 	if(hastie)
@@ -281,9 +304,12 @@ BLIND     // can't see anything
 	if(hastie && src.loc == user)
 		hastie.attack_hand(user)
 		return
+
+	if ((ishuman(usr) || ismonkey(usr)) && src.loc == user)	//make it harder to accidentally undress yourself
+		return
+
 	..()
 
-//This is to ensure people can take off suits when there is an attached accessory
 /obj/item/clothing/under/MouseDrop(obj/over_object as obj)
 	if (ishuman(usr) || ismonkey(usr))
 		//makes sure that the clothing is equipped so that we can't drag it into our hand from miles away.
@@ -406,4 +432,8 @@ BLIND     // can't see anything
 	sensor_mode = pick(0,1,2,3)
 	..()
 
+/obj/item/clothing/under/emp_act(severity)
+	if (hastie)
+		hastie.emp_act(severity)
+	..()
 

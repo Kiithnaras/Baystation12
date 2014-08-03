@@ -158,6 +158,20 @@
 		ewallet = W
 		user << "\blue You insert the [W] into the [src]"
 
+	else if(istype(W, /obj/item/weapon/wrench))
+
+		if(do_after(user, 20))
+			if(!src) return
+			playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
+			switch (anchored)
+				if (0)
+					anchored = 1
+					user.visible_message("[user] tightens the bolts securing \the [src] to the floor.", "You tighten the bolts securing \the [src] to the floor.")
+				if (1)
+					user.visible_message("[user] unfastens the bolts securing \the [src] to the floor.", "You unfasten the bolts securing \the [src] to the floor.")
+					anchored = 0
+		return
+
 	else if(src.panel_open)
 
 		for(var/datum/data/vending_product/R in product_records)
@@ -173,53 +187,63 @@
 	if (istype(I, /obj/item/weapon/card/id))
 		var/obj/item/weapon/card/id/C = I
 		visible_message("<span class='info'>[usr] swipes a card through [src].</span>")
-		if(check_accounts)
-			if(vendor_account)
-				var/attempt_pin = input("Enter pin code", "Vendor transaction") as num
-				var/datum/money_account/D = attempt_account_access(C.associated_account_number, attempt_pin, 2)
-				if(D)
-					var/transaction_amount = currently_vending.price
-					if(transaction_amount <= D.money)
-
-						//transfer the money
-						D.money -= transaction_amount
-						vendor_account.money += transaction_amount
-
-						//create entries in the two account transaction logs
-						var/datum/transaction/T = new()
-						T.target_name = "[vendor_account.owner_name] (via [src.name])"
-						T.purpose = "Purchase of [currently_vending.product_name]"
-						if(transaction_amount > 0)
-							T.amount = "([transaction_amount])"
-						else
-							T.amount = "[transaction_amount]"
-						T.source_terminal = src.name
-						T.date = current_date_string
-						T.time = worldtime2text()
-						D.transaction_log.Add(T)
-						//
-						T = new()
-						T.target_name = D.owner_name
-						T.purpose = "Purchase of [currently_vending.product_name]"
-						T.amount = "[transaction_amount]"
-						T.source_terminal = src.name
-						T.date = current_date_string
-						T.time = worldtime2text()
-						vendor_account.transaction_log.Add(T)
-
-						// Vend the item
-						src.vend(src.currently_vending, usr)
-						currently_vending = null
+		var/datum/money_account/CH = get_account(C.associated_account_number)
+		if (CH) // Only proceed if card contains proper account number.
+			if(!CH.suspended)
+				if(CH.security_level != 0) //If card requires pin authentication (ie seclevel 1 or 2)
+					if(vendor_account)
+						var/attempt_pin = input("Enter pin code", "Vendor transaction") as num
+						var/datum/money_account/D = attempt_account_access(C.associated_account_number, attempt_pin, 2)
+						transfer_and_vend(D)
+					else
+						usr << "\icon[src]<span class='warning'>Unable to access account. Check security settings and try again.</span>"
 				else
-					usr << "\icon[src]<span class='warning'>You don't have that much money!</span>"
+					//Just Vend it.
+					transfer_and_vend(CH)
 			else
-				usr << "\icon[src]<span class='warning'>Unable to access account. Check security settings and try again.</span>"
+				usr << "\icon[src]<span class='warning'>Connected account has been suspended.</span>"
 		else
-			//Just Vend it.
+			usr << "\icon[src]<span class='warning'>Error: Unable to access your account. Please contact technical support if problem persists.</span>"
+
+/obj/machinery/vending/proc/transfer_and_vend(var/datum/money_account/acc)
+	if(acc)
+		var/transaction_amount = currently_vending.price
+		if(transaction_amount <= acc.money)
+
+			//transfer the money
+			acc.money -= transaction_amount
+			vendor_account.money += transaction_amount
+
+			//create entries in the two account transaction logs
+			var/datum/transaction/T = new()
+			T.target_name = "[vendor_account.owner_name] (via [src.name])"
+			T.purpose = "Purchase of [currently_vending.product_name]"
+			if(transaction_amount > 0)
+				T.amount = "([transaction_amount])"
+			else
+				T.amount = "[transaction_amount]"
+			T.source_terminal = src.name
+			T.date = current_date_string
+			T.time = worldtime2text()
+			acc.transaction_log.Add(T)
+							//
+			T = new()
+			T.target_name = acc.owner_name
+			T.purpose = "Purchase of [currently_vending.product_name]"
+			T.amount = "[transaction_amount]"
+			T.source_terminal = src.name
+			T.date = current_date_string
+			T.time = worldtime2text()
+			vendor_account.transaction_log.Add(T)
+
+			// Vend the item
 			src.vend(src.currently_vending, usr)
 			currently_vending = null
+		else
+			usr << "\icon[src]<span class='warning'>You don't have that much money!</span>"
 	else
-		usr << "\icon[src]<span class='warning'>Unable to access vendor account. Please record the machine ID and call CentComm Support.</span>"
+		usr << "\icon[src]<span class='warning'>Error: Unable to access your account. Please contact technical support if problem persists.</span>"
+
 
 /obj/machinery/vending/attack_paw(mob/user as mob)
 	return attack_hand(user)
@@ -587,19 +611,6 @@
 			src.shoot_inventory = !src.shoot_inventory
 
 
-/obj/machinery/vending/proc/shock(mob/user, prb)
-	if(stat & (BROKEN|NOPOWER))		// unpowered, no shock
-		return 0
-	if(!prob(prb))
-		return 0
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-	s.set_up(5, 1, src)
-	s.start()
-	if (electrocute_mob(user, get_area(src), src, 0.7))
-		return 1
-	else
-		return 0
-
 /*
  * Vending machine types
  */
@@ -806,7 +817,7 @@
 	products = list(/obj/item/seeds/bananaseed = 3,/obj/item/seeds/berryseed = 3,/obj/item/seeds/carrotseed = 3,/obj/item/seeds/chantermycelium = 3,/obj/item/seeds/chiliseed = 3,
 					/obj/item/seeds/cornseed = 3, /obj/item/seeds/eggplantseed = 3, /obj/item/seeds/potatoseed = 3, /obj/item/seeds/replicapod = 3,/obj/item/seeds/soyaseed = 3,
 					/obj/item/seeds/sunflowerseed = 3,/obj/item/seeds/tomatoseed = 3,/obj/item/seeds/towermycelium = 3,/obj/item/seeds/wheatseed = 3,/obj/item/seeds/appleseed = 3,
-					/obj/item/seeds/poppyseed = 3,/obj/item/seeds/sugarcaneseed = 3,/obj/item/seeds/ambrosiavulgarisseed = 3,/obj/item/seeds/whitebeetseed = 3,/obj/item/seeds/watermelonseed = 3,/obj/item/seeds/limeseed = 3,
+					/obj/item/seeds/poppyseed = 3,/obj/item/seeds/sugarcaneseed = 3,/obj/item/seeds/ambrosiavulgarisseed = 3,/obj/item/seeds/peanutseed = 3,/obj/item/seeds/whitebeetseed = 3,/obj/item/seeds/watermelonseed = 3,/obj/item/seeds/limeseed = 3,
 					/obj/item/seeds/lemonseed = 3,/obj/item/seeds/orangeseed = 3,/obj/item/seeds/grassseed = 3,/obj/item/seeds/cocoapodseed = 3,/obj/item/seeds/plumpmycelium = 2,
 					/obj/item/seeds/cabbageseed = 3,/obj/item/seeds/grapeseed = 3,/obj/item/seeds/pumpkinseed = 3,/obj/item/seeds/cherryseed = 3,/obj/item/seeds/plastiseed = 3,/obj/item/seeds/riceseed = 3)
 	contraband = list(/obj/item/seeds/amanitamycelium = 2,/obj/item/seeds/glowshroom = 2,/obj/item/seeds/libertymycelium = 2,/obj/item/seeds/mtearseed = 2,

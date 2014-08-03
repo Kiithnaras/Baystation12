@@ -145,7 +145,7 @@
 	if (!ui)
 		// the ui does not exist, so we'll create a new() one
         // for a list of parameters and their descriptions see the code docs in \code\modules\nano\nanoui.dm
-		ui = new(user, src, ui_key, "chem_dispenser.tmpl", ui_title, 380, 650)
+		ui = new(user, src, ui_key, "chem_dispenser.tmpl", ui_title, 390, 655)
 		// when the ui is first opened this is the data it will use
 		ui.set_initial_data(data)
 		// open the new ui window
@@ -293,6 +293,7 @@
 	var/max_pill_count = 20
 
 /obj/machinery/chem_master/New()
+	..()
 	var/datum/reagents/R = new/datum/reagents(100)
 	reagents = R
 	R.my_atom = src
@@ -867,7 +868,6 @@
 		//Sheets
 		/obj/item/stack/sheet/mineral/phoron = list("phoron" = 20),
 		/obj/item/stack/sheet/mineral/uranium = list("uranium" = 20),
-		/obj/item/stack/sheet/mineral/clown = list("banana" = 20),
 		/obj/item/stack/sheet/mineral/silver = list("silver" = 20),
 		/obj/item/stack/sheet/mineral/gold = list("gold" = 20),
 		/obj/item/weapon/grown/nettle = list("sacid" = 0),

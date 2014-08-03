@@ -110,7 +110,7 @@ update_flag
 		overlays += "can-o3"
 	return
 
-/obj/machinery/portable_atmospherics/canister/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
+/obj/machinery/portable_atmospherics/canister/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	if(exposed_temperature > temperature_resistance)
 		health -= 5
 		healthcheck()
@@ -299,6 +299,9 @@ update_flag
 
 	if (href_list["remove_tank"])
 		if(holding)
+			if (valve_open)
+				valve_open = 0
+				release_log += "Valve was <b>closed</b> by [usr] ([usr.ckey]), stopping the transfer into the [holding]<br>"
 			if(istype(holding, /obj/item/weapon/tank))
 				holding.manipulated_by = usr.real_name
 			holding.loc = loc

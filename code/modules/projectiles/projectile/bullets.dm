@@ -1,11 +1,12 @@
 /obj/item/projectile/bullet
 	name = "bullet"
 	icon_state = "bullet"
-	damage = 50
+	damage = 60
 	damage_type = BRUTE
 	nodamage = 0
 	flag = "bullet"
 	embed = 1
+	sharp = 1
 
 	on_hit(var/atom/target, var/blocked = 0)
 		if (..(target, blocked))
@@ -14,9 +15,9 @@
 
 /obj/item/projectile/bullet/weakbullet // "rubber" bullets
 	damage = 10
-	stun = 10
-	weaken = 10
+	agony = 40
 	embed = 0
+	sharp = 0
 
 /obj/item/projectile/bullet/weakbullet/beanbag		//because beanbags are not bullets
 	name = "beanbag"
@@ -25,14 +26,10 @@
 	name = "rubber bullet"
 
 /obj/item/projectile/bullet/midbullet
-	damage = 25
-	stun = 10
-	weaken = 10
+	damage = 20
 
 /obj/item/projectile/bullet/midbullet2
-	damage = 35
-	stun = 15
-	weaken = 15
+	damage = 25
 
 /obj/item/projectile/bullet/suffocationbullet//How does this even work?
 	name = "co bullet"
@@ -49,20 +46,20 @@
 /obj/item/projectile/bullet/burstbullet//I think this one needs something for the on hit
 	name = "exploding bullet"
 	damage = 20
+	embed = 0
+	edge = 1
 
 
 /obj/item/projectile/bullet/stunshot
 	name = "stunshot"
 	damage = 5
-	stun = 20
-	weaken = 15
-	stutter = 15
+	agony = 80
+	stutter = 10
 	embed = 0
+	sharp = 0
 
 /obj/item/projectile/bullet/a762
-	damage = 40
-	stun = 25
-	weaken = 15
+	damage = 25
 
 /obj/item/projectile/bullet/chameleon
 	damage = 1 // stop trying to murderbone with a fake gun dumbass!!!

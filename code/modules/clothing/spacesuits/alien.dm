@@ -1,20 +1,4 @@
-// Tajaran rigs.
-/obj/item/clothing/head/helmet/space/rig/tajara
-	desc = "A special helmet designed for work in a hazardous, low-pressure environment. Has radiation shielding. This one doesn't look like it was made for humans."
-	icon_state = "rig0-taj-helmet"
-	item_state = "rig0-taj-helmet"
-	item_color = "taj-helmet"
-	species_restricted = list("Tajaran")
-
-/obj/item/clothing/suit/space/rig/tajara
-	desc = "A special suit that protects against hazardous, low pressure environments. Has radiation shielding. This one doesn't look like it was made for humans."
-	icon_state = "rig-taj"
-	item_state = "rig-taj"
-	item_color = "rig-taj"
-	species_restricted = list("Tajaran")
-
 //Skrell space gear. Sleek like a wetsuit.
-
 /obj/item/clothing/head/helmet/space/skrell
 	name = "Skrellian helmet"
 	desc = "Smoothly contoured and polished to a shine. Still looks like a fishbowl."
@@ -52,7 +36,6 @@
 	item_color = "skrell_suit_black"
 
 //Unathi space gear. Huge and restrictive.
-
 /obj/item/clothing/head/helmet/space/unathi
 	armor = list(melee = 40, bullet = 30, laser = 30,energy = 15, bomb = 35, bio = 100, rad = 50)
 	heat_protection = HEAD
@@ -98,7 +81,6 @@
 
 // Vox space gear (vaccuum suit, low pressure armour)
 // Can't be equipped by any other species due to bone structure and vox cybernetics.
-
 /obj/item/clothing/suit/space/vox
 	w_class = 3
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword,/obj/item/weapon/handcuffs,/obj/item/weapon/tank)
@@ -106,13 +88,21 @@
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
-	species_restricted = list("Vox","Vox Armalis")
+	species_restricted = list("Vox", "Vox Armalis")
+	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/suit.dmi',
+		"Vox Armalis" = 'icons/mob/species/armalis/suit.dmi',
+		)
 
 /obj/item/clothing/head/helmet/space/vox
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	flags = HEADCOVERSEYES|STOPSPRESSUREDMAGE
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	species_restricted = list("Vox","Vox Armalis")
+	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/head.dmi',
+		"Vox Armalis" = 'icons/mob/species/armalis/head.dmi',
+		)
 
 /obj/item/clothing/head/helmet/space/vox/pressure
 	name = "alien helmet"
@@ -134,7 +124,6 @@
 	item_state = "vox-carapace"
 	desc = "A glowing visor, perhaps stolen from a depressed Cylon."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
-	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/suit/space/vox/carapace
 	name = "alien carapace armour"
@@ -142,7 +131,6 @@
 	item_state = "vox-carapace"
 	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down, but still sports decent protection."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
-	species_restricted = list("Vox","Vox Armalis")
 
 /obj/item/clothing/head/helmet/space/vox/stealth
 	name = "alien stealth helmet"
@@ -238,8 +226,12 @@
 	item_state = "gloves-vox"
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
-	item_color="gloves-vox"
+	item_color = "gloves-vox"
 	species_restricted = list("Vox","Vox Armalis")
+	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/gloves.dmi',
+		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
+		)
 
 /obj/item/clothing/gloves/latex/vox
 	desc = "These Vox gauntlets have been coated with a heavy layer of latex for medical procedures."
@@ -250,6 +242,10 @@
 	siemens_coefficient = 0.1
 	permeability_coefficient = 0.01
 	species_restricted = list("Vox","Vox Armalis")
+	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/gloves.dmi',
+		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
+		)
 
 /obj/item/clothing/gloves/black/vox
 	desc = "These Vox gauntlets have been darkened and repurposed for security uses."
@@ -258,6 +254,10 @@
 	item_state = "gloves-vox-sec"
 	item_color = "gloves-vox-sec"
 	species_restricted = list("Vox","Vox Armalis")
+	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/gloves.dmi',
+		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
+		)
 
 /obj/item/clothing/gloves/captain/vox
 	desc = "These Vox gauntlets have been trimmed and colored for the station befitting a Qui-er, I mean, Captain."
@@ -268,6 +268,10 @@
 	species_restricted = list("Vox","Vox Armalis")
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
+	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/gloves.dmi',
+		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
+		)
 
 /obj/item/clothing/shoes/sandal/vox
 	desc = "These are sturdy, solid wooden platforms of wood fitted with straps. They seem to have plenty of wear from claws."
@@ -283,7 +287,12 @@
 	name = "vox magclaws"
 	item_state = "boots-vox"
 	icon_state = "boots-vox"
+
 	species_restricted = list("Vox","Vox Armalis")
+	sprite_sheets = list(
+		"Vox Armalis" = 'icons/mob/species/armalis/feet.dmi'
+		)
+
 	action_button_name = "Toggle the magclaws"
 
 /obj/item/clothing/shoes/magboots/vox/attack_self(mob/user)

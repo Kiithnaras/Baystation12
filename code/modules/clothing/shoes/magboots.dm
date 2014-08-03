@@ -7,9 +7,7 @@
 	icon_action_button = "action_blank"
 	action_button_name = "Toggle the magboots"
 	origin_tech = "magnets=3;materials=2"
-	g_amt = 200
-	m_amt = 1000
-	var/construction_cost = list("metal"=1000,"glass"=200,"silver"=150)
+	matter = list("metal"=1000,"glass"=200,"silver"=150)
 //	flags = NOSLIP //disabled by default
 
 	attack_self(mob/user)

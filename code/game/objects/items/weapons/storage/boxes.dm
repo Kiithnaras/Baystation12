@@ -48,6 +48,8 @@
 /obj/item/weapon/storage/box/gloves
 	name = "box of latex gloves"
 	desc = "Contains white gloves."
+	icon_state = "latex"
+
 	New()
 		..()
 		new /obj/item/clothing/gloves/latex(src)
@@ -145,6 +147,20 @@
 		new /obj/item/ammo_casing/shotgun/beanbag(src)
 		new /obj/item/ammo_casing/shotgun/beanbag(src)
 		new /obj/item/ammo_casing/shotgun/beanbag(src)
+
+/obj/item/weapon/storage/box/shotgunammo
+	name = "box of shotgun shells"
+	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+
+	New()
+		..()
+		new /obj/item/ammo_casing/shotgun(src)
+		new /obj/item/ammo_casing/shotgun(src)
+		new /obj/item/ammo_casing/shotgun(src)
+		new /obj/item/ammo_casing/shotgun(src)
+		new /obj/item/ammo_casing/shotgun(src)
+		new /obj/item/ammo_casing/shotgun(src)
+		new /obj/item/ammo_casing/shotgun(src)
 
 /obj/item/weapon/storage/box/flashbangs
 	name = "box of flashbangs (WARNING)"
@@ -390,7 +406,7 @@
 		..()
 		contents = list()
 		sleep(1)
-		new /obj/item/clothing/mask/breath/vox(src)
+		new /obj/item/clothing/mask/breath(src)
 		new /obj/item/weapon/tank/emergency_nitrogen(src)
 		new /obj/item/weapon/storage/pill_bottle/antitox(src)
 		return

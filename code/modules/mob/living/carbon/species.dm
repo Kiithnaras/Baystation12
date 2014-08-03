@@ -12,13 +12,14 @@
 	var/primitive                // Lesser form, if any (ie. monkey for humans)
 	var/tail                     // Name of tail image in species effects icon file.
 	var/language                 // Default racial language, if any.
-	var/attack_verb = "punch"    // Empty hand hurt intent verb.
-	var/punch_damage = 0		 // Extra empty hand attack damage.
+	var/unarmed                  //For empty hand harm-intent attack
+	var/unarmed_type = /datum/unarmed_attack
+	var/secondary_langs = list() // The names of secondary languages that are available to this species.
 	var/mutantrace               // Safeguard due to old code.
 
 	var/breath_type = "oxygen"   // Non-oxygen gas breathed, if any.
 	var/poison_type = "phoron"   // Poisonous air.
-	var/exhale_type = "C02"      // Exhaled gas type.
+	var/exhale_type = "carbon_dioxide"      // Exhaled gas type.
 
 	var/cold_level_1 = 260  // Cold damage level 1 below this point.
 	var/cold_level_2 = 200  // Cold damage level 2 below this point.
@@ -27,6 +28,10 @@
 	var/heat_level_1 = 360  // Heat damage level 1 above this point.
 	var/heat_level_2 = 400  // Heat damage level 2 above this point.
 	var/heat_level_3 = 1000 // Heat damage level 2 above this point.
+
+	var/body_temperature = 310.15	//non-IS_SYNTHETIC species will try to stabilize at this temperature. (also affects temperature processing)
+	var/synth_temp_gain = 0			//IS_SYNTHETIC species will gain this much temperature every second
+	var/reagent_tag                 //Used for metabolizing reagents.
 
 	var/darksight = 2
 	var/hazard_high_pressure = HAZARD_HIGH_PRESSURE   // Dangerously high pressure.
@@ -43,30 +48,14 @@
 
 	var/blood_color = "#A10808" //Red.
 	var/flesh_color = "#FFC896" //Pink.
+	var/base_color      //Used when setting species.
 
 	//Used in icon caching.
 	var/race_key = 0
 	var/icon/icon_template
 
-	/* Species-specific sprites, concept stolen from Paradise//vg/.
-	ex:
-	sprite_sheets = list(
-		"held" = 'icons/mob/path',
-		"uniform" = 'icons/mob/path',
-		"suit" = 'icons/mob/path',
-		"belt" = 'icons/mob/path'
-		"head" = 'icons/mob/path',
-		"back" = 'icons/mob/path',
-		"mask" = 'icons/mob/path',
-		"ears" = 'icons/mob/path',
-		"eyes" = 'icons/mob/path',
-		"feet" = 'icons/mob/path',
-		"gloves" = 'icons/mob/path'
-		)
-	If index term exists and icon_override is not set, this sprite sheet will be used.
-	*/
-
-	var/list/sprite_sheets = list()
+/datum/species/New()
+	unarmed = new unarmed_type()
 
 /datum/species/proc/create_organs(var/mob/living/carbon/human/H) //Handles creation of mob organs.
 	//This is a basic humanoid limb setup.
@@ -121,6 +110,7 @@
 	name = "Human"
 	language = "Sol Common"
 	primitive = /mob/living/carbon/monkey
+	unarmed_type = /datum/unarmed_attack/punch
 
 	flags = HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR
 
@@ -133,8 +123,7 @@
 	deform = 'icons/mob/human_races/r_def_lizard.dmi'
 	language = "Sinta'unathi"
 	tail = "sogtail"
-	attack_verb = "scratch"
-	punch_damage = 5
+	unarmed_type = /datum/unarmed_attack/claws
 	primitive = /mob/living/carbon/monkey/unathi
 	darksight = 3
 
@@ -150,14 +139,17 @@
 
 	flesh_color = "#34AF10"
 
+	reagent_tag = IS_UNATHI
+	base_color = "#066000"
+
 /datum/species/tajaran
 	name = "Tajaran"
 	icobase = 'icons/mob/human_races/r_tajaran.dmi'
 	deform = 'icons/mob/human_races/r_def_tajaran.dmi'
-	language = "Siik'tajr"
+	language = "Siik'maas"
+	secondary_langs = list("Siik'tajr")
 	tail = "tajtail"
-	attack_verb = "scratch"
-	punch_damage = 5
+	unarmed_type = /datum/unarmed_attack/claws
 	darksight = 8
 
 	cold_level_1 = 200 //Default 260
@@ -173,6 +165,7 @@
 	flags = IS_WHITELISTED | HAS_LIPS | HAS_UNDERWEAR | HAS_TAIL | HAS_SKIN_COLOR
 
 	flesh_color = "#AFA59E"
+	base_color = "#333333"
 
 /datum/species/skrell
 	name = "Skrell"
@@ -180,19 +173,21 @@
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
 	language = "Skrellian"
 	primitive = /mob/living/carbon/monkey/skrell
+	unarmed_type = /datum/unarmed_attack/punch
 
 	flags = IS_WHITELISTED | HAS_LIPS | HAS_UNDERWEAR | HAS_SKIN_COLOR
 
 	flesh_color = "#8CD7A3"
+
+	reagent_tag = IS_SKRELL
 
 /datum/species/vox
 	name = "Vox"
 	icobase = 'icons/mob/human_races/r_vox.dmi'
 	deform = 'icons/mob/human_races/r_def_vox.dmi'
 	language = "Vox-pidgin"
-	attack_verb = "scratch"
-	punch_damage = 8
 	darksight = 5
+	unarmed_type = /datum/unarmed_attack/claws	//I dont think it will hurt to give vox claws too.
 
 	warning_low_pressure = 50
 	hazard_low_pressure = 0
@@ -214,18 +209,12 @@
 	poison_type = "oxygen"
 	exhale_type = null
 
-	flags = NO_BLOOD | IS_WHITELISTED | HAS_TAIL
+	flags = IS_WHITELISTED
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"
 
-	sprite_sheets = list(
-		"suit" = 'icons/mob/species/vox/suit.dmi',
-		"head" = 'icons/mob/species/vox/head.dmi',
-		"mask" = 'icons/mob/species/vox/mask.dmi',
-		"feet" = 'icons/mob/species/vox/feet.dmi',
-		"gloves" = 'icons/mob/species/vox/gloves.dmi'
-		)
+	reagent_tag = IS_VOX
 
 /datum/species/vox/handle_post_spawn(var/mob/living/carbon/human/H)
 
@@ -242,7 +231,7 @@
 	icobase = 'icons/mob/human_races/r_armalis.dmi'
 	deform = 'icons/mob/human_races/r_armalis.dmi'
 	language = "Vox-pidgin"
-	attack_verb = "slash"
+	unarmed_type = /datum/unarmed_attack/claws/armalis
 
 	warning_low_pressure = 50
 	hazard_low_pressure = 0
@@ -263,7 +252,7 @@
 	poison_type = "oxygen"
 	exhale_type = null
 
-	flags = NO_SCAN | NO_BLOOD | HAS_TAIL | NO_PAIN | IS_WHITELISTED
+	flags = NO_SCAN | NO_BLOOD | HAS_TAIL | NO_PAIN
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"
@@ -271,44 +260,14 @@
 	tail = "armalis_tail"
 	icon_template = 'icons/mob/human_races/r_armalis.dmi'
 
-	sprite_sheets = list(
-		"suit" = 'icons/mob/species/armalis/suit.dmi',
-		"gloves" = 'icons/mob/species/armalis/gloves.dmi',
-		"feet" = 'icons/mob/species/armalis/feet.dmi',
-		"head" = 'icons/mob/species/armalis/head.dmi',
-		"held" = 'icons/mob/species/armalis/held.dmi'
-		)
-
-/datum/species/vox/create_organs(var/mob/living/carbon/human/H)
-
-	..() //create organs first.
-
-	//Now apply cortical stack.
-	var/datum/organ/external/affected = H.get_organ("head")
-
-	//To avoid duplicates.
-	for(var/obj/item/weapon/implant/cortical/imp in H.contents)
-		affected.implants -= imp
-		del(imp)
-
-	var/obj/item/weapon/implant/cortical/I = new(H)
-	I.imp_in = H
-	I.implanted = 1
-	affected.implants += I
-	I.part = affected
-
-	if(ticker.mode && ( istype( ticker.mode,/datum/game_mode/heist ) ) )
-		var/datum/game_mode/heist/M = ticker.mode
-		M.cortical_stacks += I
-		M.raiders[H.mind] = I
+	reagent_tag = IS_VOX
 
 /datum/species/diona
 	name = "Diona"
 	icobase = 'icons/mob/human_races/r_diona.dmi'
 	deform = 'icons/mob/human_races/r_def_plant.dmi'
 	language = "Rootspeak"
-	attack_verb = "slash"
-	punch_damage = 5
+	unarmed_type = /datum/unarmed_attack/diona
 	primitive = /mob/living/carbon/monkey/diona
 
 	warning_low_pressure = 50
@@ -322,10 +281,14 @@
 	heat_level_2 = 3000
 	heat_level_3 = 4000
 
+	body_temperature = T0C + 15		//make the plant people have a bit lower body temperature, why not
+
 	flags = IS_WHITELISTED | NO_BREATHE | REQUIRE_LIGHT | NO_SCAN | IS_PLANT | RAD_ABSORB | NO_BLOOD | IS_SLOW | NO_PAIN
 
 	blood_color = "#004400"
 	flesh_color = "#907E4A"
+
+	reagent_tag = IS_DIONA
 
 /datum/species/diona/handle_post_spawn(var/mob/living/carbon/human/H)
 	H.gender = NEUTER
@@ -353,24 +316,55 @@
 	icobase = 'icons/mob/human_races/r_machine.dmi'
 	deform = 'icons/mob/human_races/r_machine.dmi'
 	language = "Tradeband"
-	punch_damage = 2
+	unarmed_type = /datum/unarmed_attack/punch
 
 	eyes = "blank_eyes"
 	brute_mod = 0.5
 	burn_mod = 1
 
 	warning_low_pressure = 50
-	hazard_low_pressure = 10
+	hazard_low_pressure = 0
 
 	cold_level_1 = 50
 	cold_level_2 = -1
 	cold_level_3 = -1
 
-	heat_level_1 = 2000
-	heat_level_2 = 3000
-	heat_level_3 = 4000
+	heat_level_1 = 500		//gives them about 25 seconds in space before taking damage
+	heat_level_2 = 1000
+	heat_level_3 = 2000
+
+	synth_temp_gain = 10 //this should cause IPCs to stabilize at ~80 C in a 20 C environment.
 
 	flags = IS_WHITELISTED | NO_BREATHE | NO_SCAN | NO_BLOOD | NO_PAIN | IS_SYNTHETIC
 
 	blood_color = "#1F181F"
 	flesh_color = "#575757"
+
+//Species unarmed attacks
+
+/datum/unarmed_attack
+	var/attack_verb = list("attack")	// Empty hand hurt intent verb.
+	var/damage = 0						// Extra empty hand attack damage.
+	var/attack_sound = "punch"
+	var/miss_sound = 'sound/weapons/punchmiss.ogg'
+	var/sharp = 0
+	var/edge = 0
+
+/datum/unarmed_attack/punch
+	attack_verb = list("punch")
+
+/datum/unarmed_attack/diona
+	attack_verb = list("lash", "bludgeon")
+	damage = 5
+
+/datum/unarmed_attack/claws
+	attack_verb = list("scratch", "claw")
+	attack_sound = 'sound/weapons/slice.ogg'
+	miss_sound = 'sound/weapons/slashmiss.ogg'
+	damage = 8
+	sharp = 1
+	edge = 1
+
+/datum/unarmed_attack/claws/armalis
+	attack_verb = list("slash", "claw")
+	damage = 15	//they're huge! they should do a little more damage, i'd even go for 15-20 maybe...

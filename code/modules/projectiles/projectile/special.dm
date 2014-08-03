@@ -19,7 +19,8 @@
 	stun = 45
 	weaken = 35
 	flag = "bullet"
-
+	sharp = 1
+	edge = 1
 
 	on_hit(var/atom/target, var/blocked = 0)
 		explosion(target, -1, 0, 2)
