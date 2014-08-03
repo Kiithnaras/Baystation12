@@ -75,6 +75,54 @@
 			new /obj/effect/alien/egg(loc)
 		return
 
+
+/mob/living/carbon/alien/humanoid/queen/verb/evolve()
+
+	set name = "Evolve (500)"
+	set desc = "Evolve into an Empress! You must have at least 6 servants to support the strain, however."
+	set category = "Alien"
+
+	if(src.has_brain_worms())
+		src << "<span class='warning'>We cannot perform this ability at the present time!</span>"
+		return
+
+	var/aliencount = 0
+	for(var/mob/living/carbon/alien/humanoid/GG in living_mob_list)
+		if(!GG.key && GG.brain_op_stage != 4) continue  //Don't include playerless aliens!
+		if(istype(GG, /mob/living/carbon/alien/humanoid/queen/large))
+			src << "\green There is already an empress! There can be only one!" //cancel proc if there's already an empress!
+			return
+		if(GG = src) continue //Don't include yourself!
+		aliencount += 1
+
+	if(aliencount >= 6)
+		src.visible_message("[src] curls up and begins to vibrate slightly!","\green <B>You begin to evolve! Stay still and be patient!</B>")
+		if(do_after(src,60))
+			adjustToxLoss(-100)
+			src.visible_message("[src] ceases to vibrate and appears to harden!","\green The evolution progresses...you can no longer move!")
+			src.anchored = 1
+			src.update_canmove()
+			src.maxHealth += 250
+			src.health += 250
+			src.healrate += 5
+			if(do_after(src,60))
+				adjustToxLoss(-100)
+				src.visible_message("[src] grows steadily and appears to strain the confines of its hardened exterior!","\green You feel stronger...it won't be long now!")
+				src.maxHealth += 500
+				src.health += 500
+				src.healrate += 5
+				if(do_after(src,60))
+					adjustToxLoss(-300)
+					src.visible_message("<B>[src] explodes violently and rears up as a newly-risen giant alien creature!</B>","\green <B>Your evolution is complete!</B>")
+					src.say(":a Rejoice, childen! Your new empress has arisen!")
+					var/mob/living/carbon/alien/humanoid/queen/large/new_empress = new (loc)
+					mind.transfer_to(new_empress)
+					gib(src)
+	else
+		src << "\green There are not enough servants to support your transformation!"
+		return
+
+
 /mob/living/carbon/alien/humanoid/queen/large
 	name = "alien empress"
 	icon = 'icons/mob/alienqueen.dmi'

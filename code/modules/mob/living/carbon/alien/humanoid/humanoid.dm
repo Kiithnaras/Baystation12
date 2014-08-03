@@ -17,6 +17,7 @@
 	if(name == "alien")
 		name = text("alien ([rand(1, 1000)])")
 	real_name = name
+	verbs += /mob/living/carbon/alien/verb/ventcrawl
 	..()
 
 //This is fine, works the same as a human
