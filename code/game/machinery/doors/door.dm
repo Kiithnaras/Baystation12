@@ -197,6 +197,7 @@
 					return
 				else
 					aforce = 0
+					return
 			if((!(AF.arePowerSystemsOn()) || (stat & NOPOWER)) && !(AF.welded) && !(AF.locked)) //Finally! Behavior for airlocks without power that are neither welded nor bolted! Duplicate for Firelocks.
 				sleep(5)
 				user.visible_message("[user] digs its claws in and easily opens the powerless door!","\green You dig your claws in and easily open the powerless door!")
