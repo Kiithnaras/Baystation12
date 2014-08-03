@@ -105,6 +105,9 @@
 	var/temperature_dangerlevel = 0
 	var/other_dangerlevel = 0
 
+	var/alarm_sound_cooldown = 200
+	var/last_sound_time = 0
+
 /obj/machinery/alarm/server/New()
 	..()
 	req_access = list(access_rd, access_atmospherics, access_engine_equip)
@@ -168,6 +171,9 @@
 
 	var/turf/simulated/location = loc
 	if(!istype(location))	return//returns if loc is not simulated
+
+	if ((alarm_area.fire || alarm_area.atmosalm >= 2) && world.time > last_sound_time + alarm_sound_cooldown)
+		last_sound_time = world.time
 
 	var/datum/gas_mixture/environment = location.return_air()
 
