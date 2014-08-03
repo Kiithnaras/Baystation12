@@ -233,46 +233,6 @@
 		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
 		)
 
-/obj/item/clothing/gloves/latex/vox
-	desc = "These Vox gauntlets have been coated with a heavy layer of latex for medical procedures."
-	name = "latex gauntlets"
-	icon_state = "gloves-vox-med"
-	item_state = "gloves-vox-med"
-	item_color = "gloves-vox-med"
-	siemens_coefficient = 0.1
-	permeability_coefficient = 0.01
-	species_restricted = list("Vox","Vox Armalis")
-	sprite_sheets = list(
-		"Vox" = 'icons/mob/species/vox/gloves.dmi',
-		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
-		)
-
-/obj/item/clothing/gloves/black/vox
-	desc = "These Vox gauntlets have been darkened and repurposed for security uses."
-	name = "black gauntlets"
-	icon_state = "gloves-vox-sec"
-	item_state = "gloves-vox-sec"
-	item_color = "gloves-vox-sec"
-	species_restricted = list("Vox","Vox Armalis")
-	sprite_sheets = list(
-		"Vox" = 'icons/mob/species/vox/gloves.dmi',
-		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
-		)
-
-/obj/item/clothing/gloves/captain/vox
-	desc = "These Vox gauntlets have been trimmed and colored for the station befitting a Qui-er, I mean, Captain."
-	name = "captain gauntlets"
-	icon_state = "gloves-vox-cap"
-	item_state = "gloves-vox-cap"
-	item_color = "gloves-vox-cap"
-	species_restricted = list("Vox","Vox Armalis")
-	siemens_coefficient = 0
-	permeability_coefficient = 0.05
-	sprite_sheets = list(
-		"Vox" = 'icons/mob/species/vox/gloves.dmi',
-		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
-		)
-
 /obj/item/clothing/shoes/sandal/vox
 	desc = "These are sturdy, solid wooden platforms of wood fitted with straps. They seem to have plenty of wear from claws."
 	name = "vox clogs"

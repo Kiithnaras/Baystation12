@@ -22,13 +22,14 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/rd(H), slot_l_ear)
-//		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
-//		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/research_director(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/research_director(H), slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/labcoat(H), slot_wear_suit)
 		H.equip_to_slot_or_del(new /obj/item/weapon/clipboard(H), slot_l_hand)
 		if(H.species.name == "Vox")
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform/head(H), slot_w_uniform)
+			var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/research_director(H)
+			U.has_sensor = 2
+			U.sensor_mode = 3
 			var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
 			L.imp_in = H
 			L.implanted = 1
@@ -38,7 +39,6 @@
 			L.part = affected
 		else
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/research_director(H), slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/rd(H), slot_belt)
 		switch(H.backbag)
 			if(1)
@@ -69,14 +69,15 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_sci(H), slot_l_ear)
-//		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist(H), slot_w_uniform)
 //		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/white(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/labcoat/science(H), slot_wear_suit)
 		if(H.species.name == "Vox")
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform/medical(H), slot_w_uniform)
+			var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/scientist(H)
+			U.has_sensor = 2
+			U.sensor_mode = 3
 		else
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist(H), slot_w_uniform)
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/white(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/science(H), slot_belt)
 		switch(H.backbag)
@@ -107,14 +108,15 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H) return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_sci(H), slot_l_ear)
-//		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist(H), slot_w_uniform)
 //		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/white(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/labcoat/science(H), slot_wear_suit)
 		if(H.species.name == "Vox")
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform/medical(H), slot_w_uniform)
+			var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/scientist(H)
+			U.has_sensor = 2
+			U.sensor_mode = 3
 		else
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist(H), slot_w_uniform)
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/white(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/science(H), slot_belt)
 		switch(H.backbag)
@@ -144,31 +146,27 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
+		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_sci(H), slot_l_ear)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/roboticist(H), slot_w_uniform)
+//		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
+		H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/labcoat(H), slot_wear_suit)
+		H.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(H), slot_gloves)
+		H.equip_to_slot_or_del(new /obj/item/weapon/storage/toolbox/mechanical(H), slot_l_hand)
+		if(H.species.name == "Vox")
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
+			var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/roboticist(H)
+			U.has_sensor = 2
+			U.sensor_mode = 3
+		else
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/roboticist(H), slot_belt)
 		switch(H.backbag)
+			if(1)
+				if(H.species.name == "Vox") H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_r_hand)
+				else H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_r_hand)
 			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
 			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_med(H), slot_back)
 			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
-		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_sci(H), slot_l_ear)
-		if(H.backbag == 2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
-		if(H.backbag == 3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
-//		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/roboticist(H), slot_w_uniform)
-//		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/labcoat(H), slot_wear_suit)
-//		H.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(H), slot_gloves)
-		H.equip_to_slot_or_del(new /obj/item/weapon/storage/toolbox/mechanical(H), slot_l_hand)
-		if(H.species.name == "Vox")
-			if(H.backbag == 1)
-				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_r_hand)
-			else
-				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/vox/vox_uniform/medical(H), slot_w_uniform)
-		else
-			if(H.backbag == 1)
-				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_r_hand)
-			else
-				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/roboticist(H), slot_w_uniform)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/roboticist(H), slot_belt)
+		if(H.species.name == "Vox") H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
+		else H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
 		return 1
