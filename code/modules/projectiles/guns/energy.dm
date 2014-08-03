@@ -64,7 +64,7 @@
 			user.drop_item()
 			W.loc = src
 			power_supply = W
-			user.visible_message(\
-				"\red [user.name] has inserted the power cell to [src.name]!",\
+			user.visible_message(
+				"\red [user.name] has inserted the power cell to [src.name]!",
 				"You insert the power cell.")
 	update_icon()

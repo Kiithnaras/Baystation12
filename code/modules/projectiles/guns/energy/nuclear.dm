@@ -5,7 +5,7 @@
 	item_state = null	//so the human update icon uses the icon_state instead.
 	fire_sound = 'sound/weapons/Taser.ogg'
 
-	charge_cost = 100 //How much energy is needed to fire.
+	charge_cost = 50 //How much energy is needed to fire.
 	projectile_type = "/obj/item/projectile/beam/stun"
 	origin_tech = "combat=3;magnets=2"
 	modifystate = "energystun"
@@ -36,6 +36,7 @@
 			user.update_inv_r_hand()
 
 
+
 /obj/item/weapon/gun/energy/gun/captain
 	name = "Bolt 2411"
 	desc = "A true classic. Powerful and deadly, this chromed energy pistol is as much a fine-tuned personal defense weapon as it is a collector's item. Comes with a polished walnut stock."
@@ -64,7 +65,7 @@
 				charge_cost = 50
 				fire_sound = 'sound/weapons/Taser.ogg'
 				user << "\red [src.name] is now set to stun."
-				projectile_type = "/obj/item/projectile/energy/electrode/strong"
+				projectile_type = "/obj/item/projectile/energy/beam/stun/strong"
 				modifystate = "capenergystun"
 		update_icon()
 
