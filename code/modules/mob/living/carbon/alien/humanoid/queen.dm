@@ -92,7 +92,7 @@
 		if(istype(GG, /mob/living/carbon/alien/humanoid/queen/large))
 			src << "\green There is already an empress! There can be only one!" //cancel proc if there's already an empress!
 			return
-		if(GG = src) continue //Don't include yourself!
+		if(GG == src) continue //Don't include yourself!
 		aliencount += 1
 
 	if(aliencount >= 6)
@@ -104,13 +104,13 @@
 			src.update_canmove()
 			src.maxHealth += 250
 			src.health += 250
-			src.healrate += 5
+			src.heal_rate += 5
 			if(do_after(src,60))
 				adjustToxLoss(-100)
 				src.visible_message("[src] grows steadily and appears to strain the confines of its hardened exterior!","\green You feel stronger...it won't be long now!")
 				src.maxHealth += 500
 				src.health += 500
-				src.healrate += 5
+				src.heal_rate += 5
 				if(do_after(src,60))
 					adjustToxLoss(-300)
 					src.visible_message("<B>[src] explodes violently and rears up as a newly-risen giant alien creature!</B>","\green <B>Your evolution is complete!</B>")

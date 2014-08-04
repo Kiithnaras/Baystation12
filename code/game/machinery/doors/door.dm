@@ -270,7 +270,7 @@
 				user.visible_message("[user] digs their claws in and starts to force the door!" ,"\green You dig your claws in and start to force the door!")
 				if(istype(user, /mob/living/carbon/alien/humanoid/queen/large))
 					if(do_after(user, 20))
-						if(prob(50))
+						if(prob(30))
 							user.visible_message("[user] mightily forces open the door!","\green You mightily force open the door!")
 							open()
 							aforce = 0
@@ -284,7 +284,7 @@
 						return
 				else
 					if(do_after(user, 30))
-						if(prob(35))
+						if(prob(20))
 							user.visible_message("[user] slowly forces the door open!","\green You slowly force the door open!")
 							open()
 							aforce = 0
