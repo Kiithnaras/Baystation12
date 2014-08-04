@@ -189,18 +189,21 @@
 	unarmed_type = /datum/unarmed_attack/claws	//I dont think it will hurt to give vox claws too.
 
 	warning_low_pressure = 50
-	hazard_low_pressure = 0
+	hazard_low_pressure = 5
 
 	warning_high_pressure = 500
 	hazard_high_pressure = 800
 
 	cold_level_1 = 80
-	cold_level_2 = 50
-	cold_level_3 = 0
+	cold_level_2 = 40
+	cold_level_3 = 5
 
 	heat_level_1 = 600 //Default 360
 	heat_level_2 = 800 //Default 400
 	heat_level_3 = 2000 //Default 1000
+
+	burn_mod = 0.66
+	brute_mod = 0.66
 
 	eyes = "vox_eyes_s"
 
@@ -237,7 +240,7 @@
 	hazard_low_pressure = 0
 
 	cold_level_1 = 80
-	cold_level_2 = 50
+	cold_level_2 = 35
 	cold_level_3 = 0
 
 	heat_level_1 = 2000
@@ -280,6 +283,9 @@
 	heat_level_1 = 2000
 	heat_level_2 = 3000
 	heat_level_3 = 4000
+
+	brute_mod = 0.8
+	burn_mod = 0.66
 
 	body_temperature = T0C + 15		//make the plant people have a bit lower body temperature, why not
 
@@ -361,7 +367,7 @@
 	attack_verb = list("scratch", "claw")
 	attack_sound = 'sound/weapons/slice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	damage = 8
+	damage = 5
 	sharp = 1
 	edge = 1
 
