@@ -46,7 +46,7 @@
 	fire_sound = 'sound/weapons/Taser.ogg'
 
 	charge_cost = 50 //How much energy is needed to fire.
-	projectile_type = "/obj/item/projectile/energy/beam/stun/strong"
+	projectile_type = "/obj/item/projectile/beam/stun/strong"
 	origin_tech = "combat=4;magnets=3"
 	modifystate = "capenergystun"
 	w_class = 2.0
@@ -65,7 +65,7 @@
 				charge_cost = 50
 				fire_sound = 'sound/weapons/Taser.ogg'
 				user << "\red [src.name] is now set to stun."
-				projectile_type = "/obj/item/projectile/energy/beam/stun/strong"
+				projectile_type = "/obj/item/projectile/beam/stun/strong"
 				modifystate = "capenergystun"
 		update_icon()
 

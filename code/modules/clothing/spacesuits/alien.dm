@@ -250,6 +250,7 @@
 
 	species_restricted = list("Vox","Vox Armalis")
 	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/shoes.dmi'
 		"Vox Armalis" = 'icons/mob/species/armalis/feet.dmi'
 		)
 

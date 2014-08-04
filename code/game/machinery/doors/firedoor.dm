@@ -77,12 +77,72 @@
 
 /obj/machinery/door/firedoor/attack_hand(mob/user as mob)
 	add_fingerprint(user)
+	var/aforce = 0
 	if(operating)
 		return//Already doing something.
 
 	if(blocked)
 		user << "<span class='warning'>\The [src] is welded solid!</span>"
 		return
+
+	if(density && istype(user, /mob/living/carbon/alien/humanoid) && !aforce) //Firelock mechanics. Mostly duplicated, but necessarily, due to different variables in Firedoors vs Airlocks
+		if(blocked) //Behavior for welded airlocks. Duplicate for Firedoors. We don't care if they're powered or not - same behavior with or without power.
+			if(istype(user, /mob/living/carbon/alien/humanoid/queen/large))
+				aforce = 1
+				user.visible_message("[user] jabs its big claws into the door weld and yanks!", "\green You jab your big claws into the door weld and yank!")
+				if(do_after(user,20))
+					if(prob(20))
+						user.visible_message("[user] rips the door weld apart and forces the doors open!","\green You rip the door weld apart and force the doors open!")
+						blocked = 0
+						aforce = 0
+						open()
+						return
+					else
+						user.visible_message("[user] struggles against the welded door in vain!","\green You struggle against the door in vain!")
+						aforce = 0
+						return
+				else
+					aforce = 0
+					return
+			else
+				user << "\green There is no way to force open a welded door!"
+				return
+		if((stat & NOPOWER) && !(blocked)) //Finally! Behavior for airlocks without power that are neither welded nor bolted! Duplicate for Firelocks.
+			sleep(5)
+			user.visible_message("[user] digs its claws in and easily opens the powerless door!","\green You dig your claws in and easily open the powerless door!")
+			open()
+			return
+		if(!(stat & NOPOWER)) //Standard operation of airlocks. Easier to force firedoors than to open airlocks.
+			aforce = 1
+			user.visible_message("[user] digs their claws in and starts to force the door!" ,"\green You dig your claws in and start to force the door!")
+			if(istype(user, /mob/living/carbon/alien/humanoid/queen/large))
+				if(do_after(user, 20))
+					if(prob(30))
+						user.visible_message("[user] mightily forces open the door!","\green You mightily force open the door!")
+						open()
+						aforce = 0
+						return
+					else
+						user.visible_message("[user]'s mighty claws slip off of the door!","\green Your mighty claws slip out of the door!")
+						aforce = 0
+						return
+				else
+					aforce = 0
+					return
+			else
+				if(do_after(user, 30))
+					if(prob(20))
+						user.visible_message("[user] slowly forces the door open!","\green You slowly force the door open!")
+						open()
+						aforce = 0
+						return
+					else
+						user.visible_message("[user] struggles uselessly against the airlock motors!", "\green You struggle uselessly against the airlock motors!")
+						aforce = 0
+						return
+				else
+					aforce = 0
+					return
 
 	if(!allowed(user))
 		user << "<span class='warning'>Access denied.</span>"

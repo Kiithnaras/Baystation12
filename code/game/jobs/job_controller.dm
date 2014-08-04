@@ -493,15 +493,15 @@ var/global/datum/controller/occupations/job_master
 		if(H.species)
 			if(H.species.name == "Tajaran" || H.species.name == "Unathi")
 				H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes,1)
-			else if(H.species.name == "Vox")
+		/*	else if(H.species.name == "Vox")
 				H.equip_to_slot_or_del(new /obj/item/clothing/mask/breath(H), slot_wear_mask)
 				if(!H.r_hand)
-					H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_r_hand)
+					H.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency_nitrogen(H), slot_r_hand)
 					H.internal = H.r_hand
 				else if (!H.l_hand)
-					H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_l_hand)
+					H.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency_nitrogen(H), slot_l_hand)
 					H.internal = H.l_hand
-				H.internals.icon_state = "internal1"
+				H.internals.icon_state = "internal1" */ //Very cool, Zuhayr. Different than what I want to accomplish, though. I'll keep it in mind!
 
 		H << "<B>You are the [alt_title ? alt_title : rank].</B>"
 		H << "<b>As the [alt_title ? alt_title : rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>"

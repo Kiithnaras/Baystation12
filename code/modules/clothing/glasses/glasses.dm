@@ -9,7 +9,6 @@
 	//var/darkness_view = 0//Base human is 2
 	//var/invisa_view = 0
 	var/prescription = 0
-	species_restricted = list("exclude","Vox")
 
 /obj/item/clothing/glasses/meson
 	name = "Optical Meson Scanner"
