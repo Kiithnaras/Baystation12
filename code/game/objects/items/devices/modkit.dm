@@ -4,7 +4,7 @@
 
 /obj/item/device/modkit
 	name = "hardsuit modification kit"
-	desc = "A kit containing all the needed tools and parts to modify a hardsuit for another user."
+	desc = "A kit containing all the needed tools and parts to modify a hardsuit for another user. <B>Configure prior to use.</B>"
 	icon_state = "modkit"
 	var/parts = MODKIT_FULL
 	var/target_species = "Human"
@@ -13,6 +13,13 @@
 		/obj/item/clothing/head/helmet/space/rig,
 		/obj/item/clothing/suit/space/rig
 		)
+
+/obj/item/device/modkit/attack_self(mob/user as mob)
+	if(!user.species) //user must have a species
+		return
+
+	target_species = user.species.name
+	user.visible_message = ("[user] configures the modkit to modify suits for [target_species]." , "You configure the modkit to modify suits for [target_species].")
 
 /obj/item/device/modkit/afterattack(obj/O, mob/user as mob)
 	if (!target_species)
@@ -28,12 +35,12 @@
 	for (var/permitted_type in permitted_types)
 		if(istype(O, permitted_type))
 			allowed = 1
-	
+
 	var/obj/item/clothing/I = O
 	if (!istype(I) || !allowed)
 		user << "<span class='notice'>[src] is unable to modify that.</span>"
 		return
-	
+
 	var/excluding = ("exclude" in I.species_restricted)
 	var/in_list = (target_species in I.species_restricted)
 	if (excluding ^ in_list)
@@ -53,7 +60,7 @@
 		parts &= ~MODKIT_HELMET
 	if (istype(I, /obj/item/clothing/suit))
 		parts &= ~MODKIT_SUIT
-	
+
 	if(!parts)
 		user.drop_from_inventory(src)
 		del(src)

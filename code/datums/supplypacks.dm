@@ -153,10 +153,15 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 
 /datum/supply_packs/voxuniforms
 	name = "Vox Uniform Crate"
-	contains = list(/obj/item/clothing/under/vox/vox_uniform,
-					/obj/item/clothing/under/vox/vox_uniform,
-					/obj/item/clothing/under/vox/vox_uniform,
-					/obj/item/clothing/under/vox/vox_uniform,)
+	contains = list(/obj/item/clothing/under/color/grey,
+					/obj/item/clothing/under/color/grey,
+					/obj/item/clothing/under/color/grey,
+					/obj/item/clothing/under/color/grey,
+					/obj/item/clothing/shoes/sandal/vox,
+					/obj/item/clothing/shoes/sandal/vox,
+					/obj/item/clothing/shoes/sandal/vox,
+					/obj/item/clothing/shoes/sandal/vox
+					)
 	cost = 10
 	containertype = /obj/structure/closet/crate
 	containername = "Vox Uniform Crate"
