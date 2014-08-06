@@ -24,6 +24,7 @@
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	species_restricted = list("Skrell","Human")
+	breach_threshold = 10
 
 /obj/item/clothing/suit/space/skrell/white
 	icon_state = "skrell_suit_white"
@@ -56,7 +57,6 @@
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	species_restricted = list("Unathi")
-	breach_threshold = 18
 
 /obj/item/clothing/suit/space/unathi/rig_cheap
 	name = "NT breacher chassis"
@@ -135,7 +135,7 @@
 	item_state = "vox-carapace"
 	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down, but still sports decent protection."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
-	breach_threshold = 32
+	breach_threshold = 25
 
 /obj/item/clothing/head/helmet/space/vox/stealth
 	name = "alien stealth helmet"
@@ -153,7 +153,7 @@
 	slowdown = 0
 	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
 	max_heat_protection_temperature = 25000
-	breach_threshold = 25
+	breach_threshold = 20
 
 /obj/item/clothing/head/helmet/space/vox/medic
 	name = "alien goggled helmet"
@@ -170,20 +170,6 @@
 	slowdown = 1
 	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 40, bio = 100, rad = 75)
 	breach_threshold = 15
-
-/obj/item/clothing/gloves/yellow/vox
-	desc = "These bizarre gauntlets seem to be fitted for... bird claws?"
-	name = "insulated gauntlets"
-	icon_state = "gloves-vox"
-	item_state = "gloves-vox"
-	siemens_coefficient = 0
-	permeability_coefficient = 0.05
-	item_color = "gloves-vox"
-	species_restricted = list("Vox","Vox Armalis")
-	sprite_sheets = list(
-		"Vox" = 'icons/mob/species/vox/gloves.dmi',
-		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
-		)
 
 /obj/item/clothing/under/vox
 	has_sensor = 0
@@ -202,6 +188,57 @@
 	icon_state = "vox-casual-2"
 	item_color = "vox-casual-2"
 	item_state = "vox-casual-2"
+/*
+/obj/item/clothing/under/vox/vox_uniform
+	name = "vox nanotrasen uniform"
+	desc = "NanoTrasen standard-issue uniform for Vox employees."
+	icon_state = "vox-uniform"
+	item_color = "vox-uniform"
+	item_state = "vox-uniform"
+	has_sensor = 2
+	sensor_mode = 3
+
+/obj/item/clothing/under/vox/vox_uniform/head
+	name = "vox nanotrasen head's uniform"
+	desc = "NanoTrasen uniform for Vox department head employees."
+	icon_state = "vox-uniform-head"
+	item_color = "vox-uniform-head"
+	item_state = "vox-uniform-head"
+
+/obj/item/clothing/under/vox/vox_uniform/sec
+	name = "vox nanotrasen head's uniform"
+	desc = "NanoTrasen uniform for Vox Security employees."
+	icon_state = "vox-uniform-sec"
+	item_color = "vox-uniform-sec"
+	item_state = "vox-uniform-sec"
+
+/obj/item/clothing/under/vox/vox_uniform/captain
+	name = "vox nanotrasen captain's uniform"
+	desc = "NanoTrasen uniform for Vox Captain employees."
+	icon_state = "vox-uniform-cap"
+	item_color = "vox-uniform-cap"
+	item_state = "vox-uniform-cap"
+
+/obj/item/clothing/under/vox/vox_uniform/medical
+	name = "vox nanotrasen captain's uniform"
+	desc = "NanoTrasen uniform for Vox medical and research staff employees."
+	icon_state = "vox-uniform-med"
+	item_color = "vox-uniform-med"
+	item_state = "vox-uniform-med"*/
+
+/obj/item/clothing/gloves/yellow/vox
+	desc = "These bizarre gauntlets seem to be fitted for... bird claws?"
+	name = "insulated gauntlets"
+	icon_state = "gloves-vox"
+	item_state = "gloves-vox"
+	siemens_coefficient = 0
+	permeability_coefficient = 0.05
+	item_color = "gloves-vox"
+	species_restricted = list("Vox","Vox Armalis")
+	sprite_sheets = list(
+		"Vox" = 'icons/mob/species/vox/gloves.dmi',
+		"Vox Armalis" = 'icons/mob/species/armalis/gloves.dmi',
+		)
 
 /obj/item/clothing/shoes/sandal/vox
 	desc = "These are sturdy, solid wooden platforms of wood fitted with straps. They seem to have plenty of wear from claws."
@@ -305,8 +342,8 @@
 /obj/item/clothing/suit/space/rig/syndi/human
 	item_state = "syndie_hardsuit"
 	icon_state = "rig-syndie-human"
-	species_restricted = list("Human")*/
-/*
+	species_restricted = list("Human")
+
 /obj/item/clothing/suit/space/rig/syndi/vox
 	item_state = "syndie_hardsuit"
 	icon_state = "rig-syndie-vox"

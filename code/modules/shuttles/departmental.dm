@@ -16,13 +16,8 @@
 	//req_access = list(access_research)
 	circuit = /obj/item/weapon/circuitboard/research_shuttle
 
-/obj/item/weapon/circuitboard/outpost_shuttle
-	name = "Circuit board (Outpost Shuttle)"
-	build_path = "/obj/machinery/computer/shuttle_control/outpost_shuttle"
-	origin_tech = "programming=2"
-
-/obj/machinery/computer/shuttle_control/outpost_shuttle
+/obj/machinery/computer/shuttle_control/outpost
 	name = "outpost shuttle console"
 	shuttle_tag = "Outpost"
-	//req_one_access_txt = "11;24"
+	//req_access = list(access_research)
 	circuit = /obj/item/weapon/circuitboard/outpost_shuttle

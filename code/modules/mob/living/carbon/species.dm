@@ -211,7 +211,7 @@
 	poison_type = "oxygen"
 	exhale_type = null
 
-	flags = IS_WHITELISTED
+	flags = IS_WHITELISTED | NO_SCAN
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"

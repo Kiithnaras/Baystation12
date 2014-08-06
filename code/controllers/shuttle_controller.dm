@@ -177,15 +177,14 @@ var/global/datum/shuttle_controller/shuttle_controller
 	shuttles["Research"] = shuttle
 	process_shuttles += shuttle
 
-	//Vox employee shuttle
 	shuttle = new()
 	shuttle.location = 1
 	shuttle.warmup_time = 15
 	shuttle.area_offsite = locate(/area/shuttle/outpost/outpost)
 	shuttle.area_station = locate(/area/shuttle/outpost/station)
-	shuttle.docking_controller_tag = "vox_shuttle"
-	shuttle.dock_target_station = "vox_shuttle_dock"
-	shuttle.dock_target_offsite = "vox_shuttle_outpost_dock"
+	shuttle.docking_controller_tag = "outpost_shuttle"
+	shuttle.dock_target_station = "outpost_shuttle_station_dock"
+	shuttle.dock_target_offsite = "outpost_shuttle_outpost_dock"
 	shuttles["Outpost"] = shuttle
 	process_shuttles += shuttle
 
