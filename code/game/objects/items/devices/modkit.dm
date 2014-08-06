@@ -14,13 +14,6 @@
 		/obj/item/clothing/suit/space/rig
 		)
 
-/obj/item/device/modkit/attack_self(mob/living/carbon/human/user as mob)
-	if(!user.species) //user must have a species
-		return
-
-	target_species = user.species.name
-	user.visible_message("[user] configures the modkit to modify suits for [target_species]." , "You configure the modkit to modify suits for [target_species].")
-
 /obj/item/device/modkit/afterattack(obj/O, mob/user as mob)
 	if (!target_species)
 		return	//it shouldn't be null, okay?

@@ -687,15 +687,15 @@
 
 	current_settings = TLV["oxygen"]
 	var/oxygen_dangerlevel = get_danger_level(environment.oxygen*partial_pressure, current_settings)
-	var/oxygen_percent = round(environment.oxygen / total * 100, 0.1)
+	var/oxygen_percent = round(environment.oxygen / total * 100, 2)
 
 	current_settings = TLV["carbon dioxide"]
 	var/co2_dangerlevel = get_danger_level(environment.carbon_dioxide*partial_pressure, current_settings)
-	var/co2_percent = round(environment.carbon_dioxide / total * 100, 0.1)
+	var/co2_percent = round(environment.carbon_dioxide / total * 100, 2)
 
 	current_settings = TLV["phoron"]
 	var/phoron_dangerlevel = get_danger_level(environment.phoron*partial_pressure, current_settings)
-	var/phoron_percent = round(environment.phoron / total * 100, 0.1)
+	var/phoron_percent = round(environment.phoron / total * 100, 2)
 
 	current_settings = TLV["other"]
 	var/other_moles = 0.0
