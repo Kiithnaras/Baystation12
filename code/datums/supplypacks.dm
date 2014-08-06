@@ -151,17 +151,6 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	containername = "Internals crate"
 	group = "Engineering"
 
-/datum/supply_packs/voxuniforms
-	name = "Vox Uniform Crate"
-	contains = list(/obj/item/clothing/under/vox/vox_uniform,
-					/obj/item/clothing/under/vox/vox_uniform,
-					/obj/item/clothing/under/vox/vox_uniform,
-					/obj/item/clothing/under/vox/vox_uniform,)
-	cost = 10
-	containertype = /obj/structure/closet/crate
-	containername = "Vox Uniform Crate"
-	group = "Operations"
-
 /datum/supply_packs/voxinternals
 	name = "Vox Internals Crate"
 	contains = list(/obj/item/weapon/tank/emergency_nitrogen,

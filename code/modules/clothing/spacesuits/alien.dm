@@ -24,6 +24,7 @@
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	species_restricted = list("Skrell","Human")
+	breach_threshold = 10
 
 /obj/item/clothing/suit/space/skrell/white
 	icon_state = "skrell_suit_white"
@@ -63,6 +64,7 @@
 	icon_state = "rig-unathi-cheap"
 	item_state = "rig-unathi-cheap"
 	slowdown = 3
+	breach_threshold = 32
 
 /obj/item/clothing/head/helmet/space/unathi/breacher
 	name = "breacher helm"
@@ -78,6 +80,7 @@
 	item_state = "unathi_breacher"
 	item_color = "unathi_breacher"
 	slowdown = 1
+	breach_threshold = 50
 
 // Vox space gear (vaccuum suit, low pressure armour)
 // Can't be equipped by any other species due to bone structure and vox cybernetics.
@@ -117,6 +120,7 @@
 	item_state = "vox-pressure"
 	desc = "A huge, armoured, pressurized suit, designed for distinctly nonhuman proportions. Appears to be well-shielded and air-tight."
 	armor = list(melee = 40, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 100)
+	breach_threshold = 10
 
 /obj/item/clothing/head/helmet/space/vox/carapace
 	name = "alien visor"
@@ -131,6 +135,7 @@
 	item_state = "vox-carapace"
 	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down, but still sports decent protection."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
+	breach_threshold = 25
 
 /obj/item/clothing/head/helmet/space/vox/stealth
 	name = "alien stealth helmet"
@@ -148,6 +153,7 @@
 	slowdown = 0
 	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
 	max_heat_protection_temperature = 25000
+	breach_threshold = 20
 
 /obj/item/clothing/head/helmet/space/vox/medic
 	name = "alien goggled helmet"
@@ -163,6 +169,7 @@
 	desc = "An almost organic looking nonhuman pressure suit. It appears to be well-suited for toxic environments and has increased mobility."
 	slowdown = 1
 	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 40, bio = 100, rad = 75)
+	breach_threshold = 15
 
 /obj/item/clothing/under/vox
 	has_sensor = 0
@@ -181,7 +188,7 @@
 	icon_state = "vox-casual-2"
 	item_color = "vox-casual-2"
 	item_state = "vox-casual-2"
-
+/*
 /obj/item/clothing/under/vox/vox_uniform
 	name = "vox nanotrasen uniform"
 	desc = "NanoTrasen standard-issue uniform for Vox employees."
@@ -217,7 +224,7 @@
 	desc = "NanoTrasen uniform for Vox medical and research staff employees."
 	icon_state = "vox-uniform-med"
 	item_color = "vox-uniform-med"
-	item_state = "vox-uniform-med"
+	item_state = "vox-uniform-med"*/
 
 /obj/item/clothing/gloves/yellow/vox
 	desc = "These bizarre gauntlets seem to be fitted for... bird claws?"
@@ -292,7 +299,7 @@
 		usr << "It would be hard to take these off without relaxing your grip first." //theoretically this message should only be seen by the wearer when the claws are equipped.
 
 //Species-specific Syndicate rigs.
-
+/*
 /obj/item/clothing/head/helmet/space/rig/syndi/tajara
 	icon_state = "rig0-syndie-taj"
 	item_state = "syndie_helm"
@@ -336,7 +343,7 @@
 	item_state = "syndie_hardsuit"
 	icon_state = "rig-syndie-human"
 	species_restricted = list("Human")
-/*
+
 /obj/item/clothing/suit/space/rig/syndi/vox
 	item_state = "syndie_hardsuit"
 	icon_state = "rig-syndie-vox"
