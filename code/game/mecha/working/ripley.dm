@@ -5,11 +5,12 @@
 	initial_icon = "ripley"
 	step_in = 5
 	max_temperature = 20000
-	health = 200
+	health = 350
 	wreckage = /obj/effect/decal/mecha_wreckage/ripley
 	var/list/cargo = new
 	var/cargo_capacity = 15
 	max_equip = 4
+	damage_absorption = list("fire"=0.8,"laser"=0.8,"brute"=0.75)
 
 /*
 /obj/mecha/working/ripley/New()
@@ -23,7 +24,7 @@
 	icon_state = "firefighter"
 	initial_icon = "firefighter"
 	max_temperature = 65000
-	health = 250
+	health = 450
 	lights_power = 8
 	damage_absorption = list("fire"=0.5,"bullet"=0.8,"bomb"=0.5)
 	wreckage = /obj/effect/decal/mecha_wreckage/ripley/firefighter
