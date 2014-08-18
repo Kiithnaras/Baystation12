@@ -129,6 +129,11 @@
 	path = /obj/item/weapon/module/power_control
 	category = "Engineering"
 
+/datum/autolathe/recipe/cablecoil
+	name = "cable coil"
+	path = /obj/item/weapon/cable_coil
+	category = "Engineering"
+
 /datum/autolathe/recipe/rcd_ammo
 	name = "matter cartridge"
 	path = /obj/item/weapon/rcd_ammo

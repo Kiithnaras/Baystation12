@@ -200,7 +200,7 @@
 
 // the cable coil object, used for laying cable
 
-#define MAXCOIL 30
+#define MAXCOIL 60
 /obj/item/weapon/cable_coil
 	name = "cable coil"
 	icon = 'icons/obj/power.dmi'
