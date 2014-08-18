@@ -329,7 +329,7 @@
 
 /mob/living/silicon/robot/drone/start_pulling(var/atom/movable/AM)
 
-	if(istype(AM,/obj/item/pipe) || istype(AM,/obj/structure/disposalconstruct))
+	if(istype(AM,/obj/item/pipe) || istype(AM,/obj/structure/disposalconstruct) || istype(AM,/obj/machinery/portable_atmospherics/canister))
 		..()
 	else if(istype(AM,/obj/item))
 		var/obj/item/O = AM

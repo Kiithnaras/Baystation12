@@ -22,7 +22,8 @@
 		/obj/item/weapon/rack_parts,
 		/obj/item/weapon/camera_assembly,
 		/obj/item/weapon/tank,
-		/obj/item/weapon/circuitboard
+		/obj/item/weapon/circuitboard,
+		/obj/item/weapon/reagent_containers/glass/beaker
 		)
 
 	//Item currently being held.
