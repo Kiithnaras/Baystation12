@@ -1,3 +1,14 @@
+/obj/item/weapon/circuitboard/recharge_station
+	name = "recharging station circuitry"
+	build_path = "/obj/machinery/recharge_station"
+	board_type = "machine"
+	origin_tech = "engineering=1;programming=1"
+	frame_desc = "Requires 4 Capacitors, 2 Micro Manipulators, and 2 Power Cells."
+	req_components = list(
+							"/obj/item/weapon/stock_parts/capacitor" = 4,
+							"/obj/item/weapon/stock_parts/manipulator" = 2,
+							"/obj/item/weapon/cell" = 2)
+
 /obj/machinery/recharge_station
 	name = "cyborg recharging station"
 	icon = 'icons/obj/objects.dmi'
@@ -13,6 +24,16 @@
 
 	New()
 		..()
+		component_parts = list()
+		component_parts += new/obj/item/weapon/circuitboard/recharge_station(src)
+		component_parts += new/obj/item/weapon/stock_parts/capacitor(src)
+		component_parts += new/obj/item/weapon/stock_parts/capacitor(src)
+		component_parts += new/obj/item/weapon/stock_parts/capacitor(src)
+		component_parts += new/obj/item/weapon/stock_parts/capacitor(src)
+		component_parts += new/obj/item/weapon/stock_parts/manipulator(src)
+		component_parts += new/obj/item/weapon/stock_parts/manipulator(src)
+		component_parts += new/obj/item/weapon/cell(src)
+		RefreshParts()
 		build_icon()
 
 	process()
