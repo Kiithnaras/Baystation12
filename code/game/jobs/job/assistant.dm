@@ -13,6 +13,7 @@
 
 /datum/job/assistant/equip(var/mob/living/carbon/human/H)
 	if(!H)	return 0
+	H.equip_to_slot_or_del(new /obj/item/device/pda(H), slot_belt)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/color/grey(H), slot_w_uniform)
 	if(H.species.name == "Vox")
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
