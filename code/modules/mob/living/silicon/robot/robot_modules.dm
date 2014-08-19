@@ -400,13 +400,13 @@
 	stacktypes = list(
 		/obj/item/stack/sheet/wood = 1,
 		/obj/item/stack/sheet/mineral/plastic = 1,
-		/obj/item/stack/sheet/rglass = 5,
-		/obj/item/stack/tile/wood = 5,
-		/obj/item/stack/rods = 15,
+		/obj/item/stack/sheet/rglass = 10,
+		/obj/item/stack/tile/wood = 10,
+		/obj/item/stack/rods = 30,
 		/obj/item/stack/tile/plasteel = 15,
-		/obj/item/stack/sheet/metal = 20,
-		/obj/item/stack/sheet/glass = 20,
-		/obj/item/weapon/cable_coil = 30
+		/obj/item/stack/sheet/metal = 25,
+		/obj/item/stack/sheet/glass = 25,
+		/obj/item/weapon/cable_coil = 40
 		)
 
 	New()
@@ -420,6 +420,8 @@
 		src.modules += new /obj/item/weapon/gripper(src)
 		src.modules += new /obj/item/weapon/matter_decompiler(src)
 		src.modules += new /obj/item/weapon/reagent_containers/spray/cleaner/drone(src)
+		src.modules += new /obj/item/weapon/pen/robopen(src)
+		src.modules += new /obj/item/weapon/gripper/paperwork(src)
 
 		src.emag = new /obj/item/weapon/pickaxe/plasmacutter(src)
 		src.emag.name = "Plasma Cutter"
