@@ -20,7 +20,7 @@
 	var/scrub_N2O = 0
 	var/scrub_O2 = 0
 
-	var/volume_rate = 120
+	var/volume_rate = 400
 	var/panic = 0 //is this scrubber panicked?
 
 	var/area_uid
@@ -107,7 +107,7 @@
 
 		if(scrubbing)
 			if((scrub_Toxins && (environment.phoron>0.001)) || (scrub_CO2 && (environment.carbon_dioxide>0.001)) || (environment.trace_gases.len>0) || (scrub_O2 && (environment.oxygen>0.001)))
-				var/transfer_moles = min(1, volume_rate/environment.volume)*environment.total_moles()
+				var/transfer_moles = min(5, volume_rate/environment.volume)*environment.total_moles()
 
 				//Take a gas sample
 				var/datum/gas_mixture/removed = loc.remove_air(transfer_moles)
@@ -188,7 +188,7 @@
 			if(panic)
 				on = 1
 				scrubbing = 0
-				volume_rate = 2000
+				volume_rate = 5000
 			else
 				scrubbing = 1
 				volume_rate = initial(volume_rate)
@@ -197,7 +197,7 @@
 			if(panic)
 				on = 1
 				scrubbing = 0
-				volume_rate = 2000
+				volume_rate = 5000
 			else
 				scrubbing = 1
 				volume_rate = initial(volume_rate)
