@@ -125,7 +125,7 @@
 
 	var/sound/speech_sound
 	var/sound_vol
-	if((species.name == "Vox" || species.name == "Vox Armalis") && prob(20))
+	if((species.name == "Vox" || species.name == "Vox Armalis") && prob(66))
 		speech_sound = sound('sound/voice/shriek1.ogg')
 		sound_vol = 50
 
