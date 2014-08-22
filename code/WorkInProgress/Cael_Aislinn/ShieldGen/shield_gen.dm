@@ -23,7 +23,7 @@
 	var/obj/machinery/shield_capacitor/owned_capacitor
 	var/target_field_strength = 10
 	var/time_since_fail = 100
-	var/energy_conversion_rate = 0.01	//how many renwicks per watt?
+	var/energy_conversion_rate = 0.015	//how many renwicks per watt?
 	//
 	use_power = 1			//0 use nothing
 							//1 use idle power

@@ -3,6 +3,7 @@
 
 /obj/machinery/shield_gen/external
 	name = "hull shield generator"
+	energy_conversion_rate = 0.025
 
 /obj/machinery/shield_gen/external/New()
 	..()
