@@ -28,15 +28,13 @@ Doesn't work on other aliens/AI.*/
 		return
 
 	if(powerc(50,1))
-		for(var/mob/O in viewers(src, null))
-			O.show_message(text("\green <B>[src] is planting something!</B>"), 1)
+		if(locate(/obj/effect/alien/weeds/node) in get_turf(src))
+			src << "There is already a weed bulb here."
+			return
+		src.visible_message("[src] crouches down and starts retching violently!","\green You start to plant a weed bulb.")
 		if(do_after(src,30))
-			if(locate(/obj/effect/alien/weeds/node) in get_turf(src))
-				src << "There is already a weed bulb here."
-				return
 			adjustToxLoss(-50)
-			for(var/mob/O in viewers(src, null))
-				O.show_message(text("\green <B>[src] has planted some alien weeds!</B>"), 1)
+			src.visible_message("[src] plants a large purplish sac on the floor!","\green You plant a weed bulb!")
 			new /obj/effect/alien/weeds/node(loc)
 		return
 

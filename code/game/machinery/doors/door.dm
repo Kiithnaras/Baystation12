@@ -176,7 +176,7 @@
 							user.visible_message("[user] rips the door weld apart and forces the doors open!","\green You rip the door weld apart and force the doors open!")
 							AF.welded = 0
 							aforce = 0
-							open()
+							open(1)
 							return
 						else
 							user.visible_message("[user] struggles against the welded door in vain!","\green You struggle against the door in vain!")
@@ -201,7 +201,7 @@
 			if((!(AF.arePowerSystemsOn()) || (stat & NOPOWER)) && !(AF.welded) && !(AF.locked)) //Finally! Behavior for airlocks without power that are neither welded nor bolted! Duplicate for Firelocks.
 				user.visible_message("[user] digs its claws in and easily opens the powerless door!","\green You dig your claws in and easily open the powerless door!")
 				if(do_after(user,5))
-					open()
+					open(1)
 					return
 			if(AF.arePowerSystemsOn() && !(stat & NOPOWER)) //Normal Airlock operation forcing
 				aforce = 1
@@ -210,7 +210,7 @@
 					if(do_after(user, 20))
 						if(prob(35))
 							user.visible_message("[user] mightily forces open the door!","\green You mightily force open the door!")
-							open()
+							open(1)
 							aforce = 0
 							return
 						else
@@ -224,7 +224,7 @@
 					if(do_after(user, 30))
 						if(prob(25))
 							user.visible_message("[user] slowly forces the door open!","\green You slowly force the door open!")
-							open()
+							open(1)
 							aforce = 0
 							return
 						else

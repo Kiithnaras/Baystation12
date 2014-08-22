@@ -764,6 +764,7 @@ var/list/RESTRICTED_CAMERA_NETWORKS = list( //Those networks can only be accesse
 #define COLOR_PURPLE	"#FF00FF"
 #define COLOR_VIOLET	"#7F00FF"
 #define COLOR_DARKGREEN	"#007F00"
+#define COLOR_DARKPURPLE "#800080"
 
 
 

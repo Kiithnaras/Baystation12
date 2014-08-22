@@ -66,10 +66,10 @@
 
 	if(powerc(75,1))//Can't plant eggs on spess tiles. That's silly.
 		src.visible_message("[src] squats and starts to contort!","\green You squat and begin begin laying an egg!")
-		if(locate(/obj/effect/alien/egg) in get_turf(src))
-			src << "There's already an egg here."
-			return
 		if(do_after(src,60))
+			if(locate(/obj/effect/alien/egg) in get_turf(src))
+				src << "There's already an egg here."
+				return
 			adjustToxLoss(-75)
 			src.visible_message("[src] has planted a large, purplish egg-like object on the ground.","\green You have planted an egg.")
 			new /obj/effect/alien/egg(loc)
@@ -97,7 +97,7 @@
 
 	if(aliencount >= 6)
 		src.visible_message("[src] curls up and begins to vibrate slightly!","\green <B>You begin to evolve! Stay still and be patient!</B>")
-		if(do_after(src,60))
+		if(do_after(src,120))
 			adjustToxLoss(-100)
 			src.visible_message("[src] ceases to vibrate and appears to harden!","\green The evolution progresses...you can no longer move!")
 			src.anchored = 1
@@ -105,18 +105,19 @@
 			src.maxHealth += 250
 			src.health += 250
 			src.heal_rate += 5
-			if(do_after(src,60))
+			if(do_after(src,120))
 				adjustToxLoss(-100)
 				src.visible_message("[src] grows steadily and appears to strain the confines of its hardened exterior!","\green You feel stronger...it won't be long now!")
 				src.maxHealth += 500
 				src.health += 500
 				src.heal_rate += 5
-				if(do_after(src,60))
+				if(do_after(src,120))
 					adjustToxLoss(-300)
 					src.visible_message("<B>[src] explodes violently and rears up as a newly-risen giant alien creature!</B>","\green <B>Your evolution is complete!</B>")
 					src.say(":a Rejoice, childen! Your new empress has arisen!")
 					var/mob/living/carbon/alien/humanoid/queen/large/new_empress = new (loc)
 					mind.transfer_to(new_empress)
+					playsound(src,'sound/voice/hiss5.ogg',150,1)
 					gib(src)
 	else
 		src << "\green There are not enough servants to support your transformation!"
