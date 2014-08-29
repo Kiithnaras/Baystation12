@@ -7,7 +7,7 @@ var/global/datum/controller/gameticker/ticker
 
 
 /datum/controller/gameticker
-	var/const/restart_timeout = 600
+	var/const/restart_timeout = 1800
 	var/current_state = GAME_STATE_PREGAME
 
 	var/hide_mode = 0
@@ -48,7 +48,7 @@ var/global/datum/controller/gameticker/ticker
 	'sound/music/clouds.s3m',\
 	'sound/music/space_oddity.ogg') //Ground Control to Major Tom, this song is cool, what's going on?
 	do
-		pregame_timeleft = 300
+		pregame_timeleft = 240
 		world << "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>"
 		world << "Please, setup your character and select ready. Game will start in [pregame_timeleft] seconds"
 		while(current_state == GAME_STATE_PREGAME)
