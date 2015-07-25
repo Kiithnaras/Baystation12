@@ -3,18 +3,17 @@ var/list/department_radio_keys = list(
 	  ":l" = "left ear",	"#l" = "left ear",		".l" = "left ear",
 	  ":i" = "intercom",	"#i" = "intercom",		".i" = "intercom",
 	  ":h" = "department",	"#h" = "department",	".h" = "department",
+	  ":+" = "special",		"#+" = "special",		".+" = "special", //activate radio-specific special functions
 	  ":c" = "Command",		"#c" = "Command",		".c" = "Command",
 	  ":n" = "Science",		"#n" = "Science",		".n" = "Science",
 	  ":m" = "Medical",		"#m" = "Medical",		".m" = "Medical",
 	  ":e" = "Engineering", "#e" = "Engineering",	".e" = "Engineering",
 	  ":s" = "Security",	"#s" = "Security",		".s" = "Security",
 	  ":w" = "whisper",		"#w" = "whisper",		".w" = "whisper",
-	  ":b" = "binary",		"#b" = "binary",		".b" = "binary",
-	  ":a" = "alientalk",	"#a" = "alientalk",		".a" = "alientalk",
-	  ":t" = "Syndicate",	"#t" = "Syndicate",		".t" = "Syndicate",
+	  ":t" = "Mercenary",	"#t" = "Mercenary",		".t" = "Mercenary",
 	  ":u" = "Supply",		"#u" = "Supply",		".u" = "Supply",
-	  ":g" = "changeling",	"#g" = "changeling",	".g" = "changeling",
-	  ":d" = "dronechat",	"#d" = "dronechat",		".d" = "dronechat",
+	  ":v" = "Service",		"#v" = "Service",		".v" = "Service",
+	  ":p" = "AI Private",	"#p" = "AI Private",	".p" = "AI Private",
 
 	  ":R" = "right ear",	"#R" = "right ear",		".R" = "right ear",
 	  ":L" = "left ear",	"#L" = "left ear",		".L" = "left ear",
@@ -26,12 +25,10 @@ var/list/department_radio_keys = list(
 	  ":E" = "Engineering",	"#E" = "Engineering",	".E" = "Engineering",
 	  ":S" = "Security",	"#S" = "Security",		".S" = "Security",
 	  ":W" = "whisper",		"#W" = "whisper",		".W" = "whisper",
-	  ":B" = "binary",		"#B" = "binary",		".B" = "binary",
-	  ":A" = "alientalk",	"#A" = "alientalk",		".A" = "alientalk",
-	  ":T" = "Syndicate",	"#T" = "Syndicate",		".T" = "Syndicate",
+	  ":T" = "Mercenary",	"#T" = "Mercenary",		".T" = "Mercenary",
 	  ":U" = "Supply",		"#U" = "Supply",		".U" = "Supply",
-	  ":G" = "changeling",	"#G" = "changeling",	".G" = "changeling",
-	  ":D" = "dronechat",	"#D" = "dronechat",		".D" = "dronechat",
+	  ":V" = "Service",		"#V" = "Service",		".V" = "Service",
+	  ":P" = "AI Private",	"#P" = "AI Private",	".P" = "AI Private",
 
 	  //kinda localization -- rastaf0
 	  //same keys as above, but on russian keyboard layout. This file uses cp1251 as encoding.
@@ -45,20 +42,33 @@ var/list/department_radio_keys = list(
 	  ":ó" = "Engineering",	"#ó" = "Engineering",	".ó" = "Engineering",
 	  ":û" = "Security",	"#û" = "Security",		".û" = "Security",
 	  ":ö" = "whisper",		"#ö" = "whisper",		".ö" = "whisper",
-	  ":è" = "binary",		"#è" = "binary",		".è" = "binary",
-	  ":ô" = "alientalk",	"#ô" = "alientalk",		".ô" = "alientalk",
-	  ":å" = "Syndicate",	"#å" = "Syndicate",		".å" = "Syndicate",
+	  ":å" = "Mercenary",	"#å" = "Mercenary",		".å" = "Mercenary",
 	  ":é" = "Supply",		"#é" = "Supply",		".é" = "Supply",
-	  ":ï" = "changeling",	"#ï" = "changeling",	".ï" = "changeling"
 )
 
+
+var/list/channel_to_radio_key = new
+proc/get_radio_key_from_channel(var/channel)
+	var/key = channel_to_radio_key[channel]
+	if(!key)
+		for(var/radio_key in department_radio_keys)
+			if(department_radio_keys[radio_key] == channel)
+				key = radio_key
+				break
+		if(!key)
+			key = ""
+		channel_to_radio_key[channel] = key
+
+	return key
+
 /mob/living/proc/binarycheck()
+
 	if (istype(src, /mob/living/silicon/pai))
 		return
-	if (issilicon(src))
-		return 1
+
 	if (!ishuman(src))
 		return
+
 	var/mob/living/carbon/human/H = src
 	if (H.l_ear || H.r_ear)
 		var/obj/item/device/radio/headset/dongle
@@ -69,61 +79,33 @@ var/list/department_radio_keys = list(
 		if(!istype(dongle)) return
 		if(dongle.translate_binary) return 1
 
-/mob/living/proc/hivecheck()
-	if (isalien(src)) return 1
-	if (!ishuman(src)) return
-	var/mob/living/carbon/human/H = src
-	if (H.l_ear || H.r_ear)
-		var/obj/item/device/radio/headset/dongle
-		if(istype(H.l_ear,/obj/item/device/radio/headset))
-			dongle = H.l_ear
-		else
-			dongle = H.r_ear
-		if(!istype(dongle)) return
-		if(dongle.translate_binary) return 1
-
-/mob/living/say(var/message, var/datum/language/speaking = null, var/verb="says", var/alt_name="", var/italics=0, var/message_range = world.view, var/list/used_radios = list(), var/sound/speech_sound, var/sound_vol)
+/mob/living/say(var/message, var/datum/language/speaking = null, var/verb="says", var/alt_name="", var/italics=0, var/message_range = world.view, var/sound/speech_sound, var/sound_vol)
 
 	var/turf/T = get_turf(src)
-	
+
 	//handle nonverbal and sign languages here
 	if (speaking)
 		if (speaking.flags & NONVERBAL)
 			if (prob(30))
 				src.custom_emote(1, "[pick(speaking.signlang_verb)].")
-		
-		if (speaking.flags & SIGNLANG)
-			say_signlang(message, pick(speaking.signlang_verb), speaking)
-			return
-	
-	//speaking into radios
-	if(used_radios.len)
-		italics = 1
-		message_range = 1
-		
-		for(var/mob/living/M in hearers(5, src))
-			if(M != src)
-				M.show_message("<span class='notice'>[src] talks into [used_radios.len ? used_radios[1] : "the radio."]</span>")
-			if (speech_sound)
-				src.playsound_local(get_turf(src), speech_sound, sound_vol * 0.5, 1)
-		
-		speech_sound = null	//so we don't play it twice.
 
-	//make sure the air can transmit speech
-	var/datum/gas_mixture/environment = T.return_air()
-	if(environment)
-		var/pressure = environment.return_pressure()
-		if(pressure < SOUND_MINIMUM_PRESSURE)
-			italics = 1
-			message_range = 1
-			
-			if (speech_sound)
-				sound_vol *= 0.5	//muffle the sound a bit, so it's like we're actually talking through contact
+		if (speaking.flags & SIGNLANG)
+			return say_signlang(message, pick(speaking.signlang_verb), speaking)
 
 	var/list/listening = list()
 	var/list/listening_obj = list()
-	
+
 	if(T)
+		//make sure the air can transmit speech - speaker's side
+		var/datum/gas_mixture/environment = T.return_air()
+		var/pressure = (environment)? environment.return_pressure() : 0
+		if(pressure < SOUND_MINIMUM_PRESSURE)
+			message_range = 1
+
+		if (pressure < ONE_ATMOSPHERE*0.4) //sound distortion pressure, to help clue people in that the air is thin, even if it isn't a vacuum yet
+			italics = 1
+			sound_vol *= 0.5 //muffle the sound a bit, so it's like we're actually talking through contact
+
 		var/list/hear = hear(message_range, T)
 		var/list/hearturfs = list()
 
@@ -138,6 +120,7 @@ var/list/department_radio_keys = list(
 				var/obj/O = I
 				hearturfs += O.locs[1]
 				listening_obj |= O
+
 
 		for(var/mob/M in player_list)
 			if(M.stat == DEAD && M.client && (M.client.prefs.toggles & CHAT_GHOSTEARS))
@@ -158,12 +141,14 @@ var/list/department_radio_keys = list(
 		spawn(0)
 			if(O) //It's possible that it could be deleted in the meantime.
 				O.hear_talk(src, message, verb, speaking)
-	
+
 	log_say("[name]/[key] : [message]")
+	return 1
 
 /mob/living/proc/say_signlang(var/message, var/verb="gestures", var/datum/language/language)
 	for (var/mob/O in viewers(src, null))
 		O.hear_signlang(message, verb, language, src)
+	return 1
 
 /obj/effect/speech_bubble
 	var/mob/parent

@@ -74,6 +74,7 @@ datum/light_source
 			changed = 1
 
 		if (owner.l_color != _l_color)
+			readrgb(owner.l_color)
 			changed = 1
 
 		if(changed)
@@ -94,7 +95,7 @@ datum/light_source
 		if(owner.loc && owner.luminosity > 0)
 			readrgb(owner.l_color)
 			effect = list()
-			for(var/turf/T in view(owner.get_light_range(),owner))
+			for(var/turf/T in view(owner.get_light_range(),get_turf(owner)))
 				var/delta_lumen = lum(T)
 				if(delta_lumen > 0)
 					effect[T] = delta_lumen
@@ -114,7 +115,7 @@ datum/light_source
 			dist = 0
 		else
 #ifdef LIGHTING_CIRCULAR
-			dist = cheap_hypotenuse(A.x, A.y, __x, __y)
+			dist = sqrt((A.x - __x)**2 + (A.y - __y)**2)
 #else
 			dist = max(abs(A.x - __x), abs(A.y - __y))
 #endif

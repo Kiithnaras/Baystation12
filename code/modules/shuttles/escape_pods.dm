@@ -22,7 +22,7 @@
 	name = "escape pod controller"
 	var/datum/shuttle/ferry/escape_pod/pod
 
-/obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null)
+/obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	var/data[0]
 
 	data = list(
@@ -34,7 +34,7 @@
 		"is_armed" = pod.arming_controller.armed,
 	)
 
-	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data)
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 
 	if (!ui)
 		ui = new(user, src, ui_key, "escape_pod_console.tmpl", name, 470, 290)
@@ -43,7 +43,7 @@
 		ui.set_auto_update(1)
 
 /obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod/Topic(href, href_list)
-	if(..())	//I hate this "return 1 to indicate they are not allowed to use the controller" crap, but not sure how else to do it without being able to call machinery/Topic() directly.
+	if(..())
 		return 1
 	
 	if("manual_arm")
@@ -67,7 +67,7 @@
 	docking_program = new/datum/computer/file/embedded_program/docking/simple/escape_pod(src)
 	program = docking_program
 
-/obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod_berth/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null)
+/obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod_berth/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	var/data[0]
 
 	var/armed = null
@@ -81,7 +81,7 @@
 		"armed" = armed,
 	)
 
-	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data)
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 
 	if (!ui)
 		ui = new(user, src, ui_key, "escape_pod_berth_console.tmpl", name, 470, 290)
@@ -111,8 +111,9 @@
 	var/closing = 0
 
 /datum/computer/file/embedded_program/docking/simple/escape_pod/proc/arm()
-	armed = 1
-	open_door()
+	if(!armed)
+		armed = 1
+		open_door()
 
 
 /datum/computer/file/embedded_program/docking/simple/escape_pod/receive_user_command(command)

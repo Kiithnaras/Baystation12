@@ -10,14 +10,14 @@
 	var/target_species = "Human"
 
 	var/list/permitted_types = list(
-		/obj/item/clothing/head/helmet/space/rig,
-		/obj/item/clothing/suit/space/rig
+		/obj/item/clothing/head/helmet/space/void,
+		/obj/item/clothing/suit/space/void
 		)
 
 /obj/item/device/modkit/afterattack(obj/O, mob/user as mob, proximity)
 	if(!proximity)
 		return
-	
+
 	if (!target_species)
 		return	//it shouldn't be null, okay?
 
@@ -62,11 +62,11 @@
 		user.drop_from_inventory(src)
 		del(src)
 
-/obj/item/device/modkit/examine()
-	..()
-	usr << "It looks as though it modifies hardsuits to fit [target_species] users."
+/obj/item/device/modkit/examine(mob/user)
+	..(user)
+	user << "It looks as though it modifies hardsuits to fit [target_species] users."
 
 /obj/item/device/modkit/tajaran
 	name = "tajaran hardsuit modification kit"
 	desc = "A kit containing all the needed tools and parts to modify a hardsuit for another user. This one looks like it's meant for Tajaran."
-	target_species = "Tajaran"
+	target_species = "Tajara"

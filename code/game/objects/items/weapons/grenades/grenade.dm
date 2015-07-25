@@ -7,7 +7,7 @@
 	item_state = "flashbang"
 	throw_speed = 4
 	throw_range = 20
-	flags = FPRINT | TABLEPASS | CONDUCT
+	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	var/active = 0
 	var/det_time = 50
@@ -35,20 +35,21 @@
 		spawn(det_time)
 			prime()
 			return
-		user.dir = get_dir(user, target)
+		user.set_dir(get_dir(user, target))
 		user.drop_item()
 		var/t = (isturf(target) ? target : target.loc)
 		walk_towards(src, t, 3)
 	return*/
 
 
-/obj/item/weapon/grenade/examine()
-	set src in usr
-	usr << desc
-	if(det_time > 1)
-		usr << "The timer is set to [det_time/10] seconds."
-		return
-	usr << "\The [src] is set for instant detonation."
+/obj/item/weapon/grenade/examine(mob/user)
+	if(..(user, 0))
+		if(det_time > 1)
+			user << "The timer is set to [det_time/10] seconds."
+			return
+		if(det_time == null)
+			return
+		user << "\The [src] is set for instant detonation."
 
 
 /obj/item/weapon/grenade/attack_self(mob/user as mob)
@@ -90,16 +91,16 @@
 /obj/item/weapon/grenade/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(isscrewdriver(W))
 		switch(det_time)
-			if ("1")
+			if (1)
 				det_time = 10
 				user << "<span class='notice'>You set the [name] for 1 second detonation time.</span>"
-			if ("10")
+			if (10)
 				det_time = 30
 				user << "<span class='notice'>You set the [name] for 3 second detonation time.</span>"
-			if ("30")
+			if (30)
 				det_time = 50
 				user << "<span class='notice'>You set the [name] for 5 second detonation time.</span>"
-			if ("50")
+			if (50)
 				det_time = 1
 				user << "<span class='notice'>You set the [name] for instant detonation.</span>"
 		add_fingerprint(user)
@@ -110,6 +111,3 @@
 	walk(src, null, null)
 	..()
 	return
-
-/obj/item/weapon/grenade/attack_paw(mob/user as mob)
-	return attack_hand(user)

@@ -28,7 +28,6 @@
 	recommended_enemies = 4
 
 	uplink_welcome = "Nar-Sie Uplink Console:"
-	uplink_uses = 10
 
 	var/datum/mind/sacrifice_target = null
 	var/finished = 0
@@ -100,8 +99,7 @@
 		cult_mind.current << "\blue You are a member of the cult!"
 		if(!config.objectives_disabled)
 			memorize_cult_objectives(cult_mind)
-		else
-			cult_mind.current << "<font color=blue>Within the rules,</font> try to act as an opposing force to the crew. Further RP and try to make sure other players have </i>fun<i>! If you are confused or at a loss, always adminhelp, and before taking extreme actions, please try to also contact the administration! Think through your actions and make the roleplay immersive! <b>Please remember all rules aside from those without explicit exceptions apply to antagonists.</i></b>"
+		show_objectives(cult_mind)
 		cult_mind.special_role = "Cultist"
 
 	spawn (rand(waittime_l, waittime_h))
@@ -282,6 +280,7 @@
 
 /datum/game_mode/cult/declare_completion()
 	if(config.objectives_disabled)
+		..()
 		return 1
 	if(!check_cult_victory())
 		feedback_set_details("round_end_result","win - cult win")
@@ -335,17 +334,7 @@
 	if( cult.len || (ticker && istype(ticker.mode,/datum/game_mode/cult)) )
 		var/text = "<FONT size = 2><B>The cultists were:</B></FONT>"
 		for(var/datum/mind/cultist in cult)
-
-			text += "<br>[cultist.key] was [cultist.name] ("
-			if(cultist.current)
-				if(cultist.current.stat == DEAD)
-					text += "died"
-				else
-					text += "survived"
-				if(cultist.current.real_name != cultist.name)
-					text += " as [cultist.current.real_name]"
-			else
-				text += "body destroyed"
-			text += ")"
+			text += print_player_full(cultist)
+		text += "<br>"
 
 		world << text

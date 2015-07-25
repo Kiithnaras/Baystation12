@@ -66,11 +66,14 @@
 /obj/structure/closet/secure_closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(src.opened)
 		if(istype(W, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/G = W
 			if(src.large)
-				src.MouseDrop_T(W:affecting, user)	//act like they were dragged onto the closet
+				src.MouseDrop_T(G.affecting, user)	//act like they were dragged onto the closet
 			else
-				user << "<span class='notice'>The locker is too small to stuff [W:affecting] into!</span>"
+				user << "<span class='notice'>The locker is too small to stuff [G.affecting] into!</span>"
 		if(isrobot(user))
+			return
+		if(W.loc != user) // This should stop mounted modules ending up outside the module.
 			return
 		user.drop_item()
 		if(W)
@@ -104,9 +107,6 @@
 	else
 		src.toggle(user)
 
-/obj/structure/closet/secure_closet/attack_paw(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/structure/closet/secure_closet/verb/verb_togglelock()
 	set src in oview(1) // One square distance
 	set category = "Object"
@@ -132,3 +132,25 @@
 			overlays += "welded"
 	else
 		icon_state = icon_opened
+
+
+/obj/structure/closet/secure_closet/req_breakout()
+	if(!opened && locked) return 1
+	return ..() //It's a secure closet, but isn't locked.
+
+/obj/structure/closet/secure_closet/break_open()
+	desc += " It appears to be broken."
+	icon_state = icon_off
+	spawn()
+		flick(icon_broken, src)
+		sleep(10)
+		flick(icon_broken, src)
+		sleep(10)
+	broken = 1
+	locked = 0
+	update_icon()
+	//Do this to prevent contents from being opened into nullspace (read: bluespace)
+	if(istype(loc, /obj/structure/bigDelivery))
+		var/obj/structure/bigDelivery/BD = loc
+		BD.unwrap()
+	open()

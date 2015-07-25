@@ -70,17 +70,6 @@
 				user << "<span class='notice'>You need to open the drink!</span>"
 				return
 
-			if(!target.reagents.total_volume)
-				user << "\red [target] is empty."
-				return
-
-			if(reagents.total_volume >= reagents.maximum_volume)
-				user << "\red [src] is full."
-				return
-
-				var/trans = target.reagents.trans_to(src, target:amount_per_transfer_from_this)
-				user << "\blue You fill [src] with [trans] units of the contents of [target]."
-
 
 		else if(target.is_open_container()) //Something like a glass. Player probably wants to transfer TO it.
 			if (canopened == 0)
@@ -93,52 +82,21 @@
 					user << "<span class='notice'>You need to open the drink you want to pour into!</span>"
 					return
 
-			if(!reagents.total_volume)
-				user << "\red [src] is empty."
-				return
-
-			if(target.reagents.total_volume >= target.reagents.maximum_volume)
-				user << "\red [target] is full."
-				return
-
-
-
-			var/datum/reagent/refill
-			var/datum/reagent/refillName
-			if(isrobot(user))
-				refill = reagents.get_master_reagent_id()
-				refillName = reagents.get_master_reagent_name()
-
-			var/trans = src.reagents.trans_to(target, amount_per_transfer_from_this)
-			user << "\blue You transfer [trans] units of the solution to [target]."
-
-			if(isrobot(user)) //Cyborg modules that include drinks automatically refill themselves, but drain the borg's cell
-				var/mob/living/silicon/robot/bro = user
-				var/chargeAmount = max(30,4*trans)
-				bro.cell.use(chargeAmount)
-				user << "Now synthesizing [trans] units of [refillName]..."
-
-
-				spawn(300)
-					reagents.add_reagent(refill, trans)
-					user << "Cyborg [src] refilled."
-
 		return ..()
 
-/*	examine()
-		set src in view()
-		..()
-		if (!(usr in range(0)) && usr!=src.loc) return
+/*	examine(mob/user)
+		if(!..(user, 1))
+			return
 		if(!reagents || reagents.total_volume==0)
-			usr << "\blue \The [src] is empty!"
+			user << "\blue \The [src] is empty!"
 		else if (reagents.total_volume<=src.volume/4)
-			usr << "\blue \The [src] is almost empty!"
+			user << "\blue \The [src] is almost empty!"
 		else if (reagents.total_volume<=src.volume*0.66)
-			usr << "\blue \The [src] is half full!"
+			user << "\blue \The [src] is half full!"
 		else if (reagents.total_volume<=src.volume*0.90)
-			usr << "\blue \The [src] is almost full!"
+			user << "\blue \The [src] is almost full!"
 		else
-			usr << "\blue \The [src] is full!"*/
+			user << "\blue \The [src] is full!"*/
 
 
 //DRINKS
@@ -215,8 +173,7 @@
 	center_of_mass = list("x"=16, "y"=10)
 	New()
 		..()
-		reagents.add_reagent("cola", 15)
-		reagents.add_reagent("orangejuice", 15)
+		reagents.add_reagent("brownstar", 30)
 
 /obj/item/weapon/reagent_containers/food/drinks/cans/space_up
 	name = "Space-Up"

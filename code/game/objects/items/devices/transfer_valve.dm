@@ -1,8 +1,8 @@
 /obj/item/device/transfer_valve
-	icon = 'icons/obj/assemblies.dmi'
 	name = "tank transfer valve"
-	icon_state = "valve_1"
 	desc = "Regulates the transfer of air between two tanks"
+	icon = 'icons/obj/assemblies.dmi'
+	icon_state = "valve_1"
 	var/obj/item/weapon/tank/tank_one
 	var/obj/item/weapon/tank/tank_two
 	var/obj/item/device/attached_device
@@ -70,7 +70,7 @@
 /obj/item/device/transfer_valve/attack_self(mob/user as mob)
 	ui_interact(user)
 	
-/obj/item/device/transfer_valve/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null)
+/obj/item/device/transfer_valve/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 
 	// this is the data which will be sent to the ui
 	var/data[0]
@@ -80,7 +80,7 @@
 	data["valveOpen"] = valve_open ? 1 : 0
 
 	// update the ui if it exists, returns null if no ui is passed/found
-	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data)	
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)	
 	if (!ui)
 		// the ui does not exist, so we'll create a new() one
         // for a list of parameters and their descriptions see the code docs in \code\modules\nano\nanoui.dm

@@ -24,7 +24,7 @@
 /obj/machinery/conveyor/New(loc, newdir, on = 0)
 	..(loc)
 	if(newdir)
-		dir = newdir
+		set_dir(newdir)
 	switch(dir)
 		if(NORTH)
 			forwards = NORTH
@@ -95,8 +95,9 @@
 // attack with item, place item on conveyor
 /obj/machinery/conveyor/attackby(var/obj/item/I, mob/user)
 	if(isrobot(user))	return //Carn: fix for borgs dropping their modules on conveyor belts
-	user.drop_item()
-	if(I && I.loc)	I.loc = src.loc
+	if(I.loc != user)	return // This should stop mounted modules ending up outside the module.
+		
+	user.drop_item(src)
 	return
 
 // attack with hand, move pulled object onto conveyor

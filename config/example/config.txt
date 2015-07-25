@@ -73,10 +73,23 @@ LOG_PDA
 ## disconnect players who did nothing during 10 minutes
 # KICK_INACTIVE
 
-## Use Mentors instead of Moderators.  Mentors are designed with the idea that
-###they help in pushing new people to be better at roleplay.  If you uncomment
-###this it will reduce the rights that your mods have.
-#MENTORS
+##Show mods on staffwho
+SHOW_MODS
+
+##Show mentors on staffwho
+SHOW_MENTORS
+
+## Chooses whether mods have the ability to tempban or not
+MODS_CAN_TEMPBAN
+
+## Chooses whether mods have the ability to issue tempbans for jobs or not
+MODS_CAN_JOB_TEMPBAN
+
+## Maximum mod tempban duration (in minutes)
+MOD_TEMPBAN_MAX 1440
+
+## Maximum mod job tempban duration (in minutes)
+MOD_JOB_TEMPBAN_MAX 1440
 
 
 ## probablities for game modes chosen in "secret" and "random" modes
@@ -85,7 +98,7 @@ LOG_PDA
 ## set to 0 to disable that mode
 PROBABILITY EXTENDED 1
 PROBABILITY MALFUNCTION 1
-PROBABILITY NUCLEAR 1
+PROBABILITY MERCENARY 1
 PROBABILITY WIZARD 1
 PROBABILITY CHANGELING 1
 PROBABILITY CULT 1
@@ -171,11 +184,18 @@ GUEST_BAN
 ## set a server location for world reboot. Don't include the byond://, just give the address and port.
 #SERVER server.net:port
 
+## set a server URL for the IRC bot to use; like SERVER, don't include the byond://
+## Unlike SERVER, this one shouldn't break auto-reconnect
+#SERVERURL server.net:port
+
 ## forum address
 # FORUMURL http://example.com
 
 ## Wiki address
 # WIKIURL http://example.com
+
+## GitHub address
+# GITHUBURL https://github.com/example-user/example-repository
 
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
 # BANAPPEALS http://example.com
@@ -235,6 +255,9 @@ USEALIENWHITELIST
 ## Uncomment to enable sending data to the IRC bot.
 #USE_IRC_BOT
 
+## Uncomment if the IRC bot requires using world.Export() instead of nudge.py/libnudge
+#IRC_BOT_EXPORT
+
 ## Host where the IRC bot is hosted.  Port 45678 needs to be open.
 #IRC_BOT_HOST localhost
 
@@ -257,3 +280,70 @@ ALLOW_CULT_GHOSTWRITER
 
 ## Sets the minimum number of cultists needed for ghosts to write in blood.
 REQ_CULT_GHOSTWRITER 6
+
+## Sets the number of available character slots
+CHARACTER_SLOTS 10
+
+## Uncomment to use overmap system for zlevel travel
+#USE_OVERMAP
+
+## Defines which Z-levels the station exists on. 
+STATION_LEVELS 1
+
+## Defines which Z-levels are used for admin functionality, such as Central Command and the Syndicate Shuttle
+ADMIN_LEVELS 2
+
+## Defines which Z-levels which, for example, a Code Red announcement may affect
+CONTACT_LEVELS 1;5
+
+## Defines all Z-levels a character can typically reach
+PLAYER_LEVELS 1;3;4;5;6
+
+## Expected round length in minutes
+EXPECTED_ROUND_LENGTH 180
+
+## The lower delay between events in minutes.
+## Affect mundane, moderate, and major events respectively
+EVENT_DELAY_LOWER 10;30;50
+
+## The upper delay between events in minutes.
+## Affect mundane, moderate, and major events respectively
+EVENT_DELAY_UPPER 15;45;70
+
+## The delay until the first time an event of the given severity runs in minutes.
+## Unset setting use the EVENT_DELAY_LOWER and EVENT_DELAY_UPPER values instead.
+# EVENT_CUSTOM_START_MINOR 10;15
+# EVENT_CUSTOM_START_MODERATE 30;45
+EVENT_CUSTOM_START_MAJOR 80;100
+
+## Uncomment to make proccall require R_ADMIN instead of R_DEBUG
+## designed for environments where you have testers but don't want them
+## able to use the more powerful debug options.
+#DEBUG_PARANOID
+
+## Uncomment to allow aliens to spawn.
+#ALIENS_ALLOWED
+
+## Uncomment to allow xenos to spawn.
+#NINJAS_ALLOWED
+
+## Uncomment to disable the restrictive weldervision overlay.
+#DISABLE_WELDER_VISION
+
+## Uncomment to prevent anyone from joining the round by default.
+#DISABLE_ENTRY
+
+## Uncomment to disable the OOC channel by default.
+#DISABLE_OOC
+
+## Uncomment to disable the dead OOC channel by default.
+#DISABLE_DEAD_OOC
+
+## Uncomment to disable ghost chat by default.
+#DISABLE_DSAY
+
+## Uncomment to disable respawning by default.
+#DISABLE_RESPAWN
+
+## Uncomment to make space turfs have a short-range ambient light.
+# STARLIGHT

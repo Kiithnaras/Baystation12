@@ -1,3 +1,5 @@
+var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
+
 /datum/job/captain
 	title = "Captain"
 	flag = CAPTAIN
@@ -15,38 +17,29 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(H), slot_l_ear)
-		var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/captain(H)
-		H.equip_to_slot_or_del(U, slot_w_uniform)
 		switch(H.backbag)
 			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/captain(H), slot_back)
 			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_cap(H), slot_back)
 			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
-		if(H.species.name == "Vox")
-			U.has_sensor = 2
-			U.sensor_mode = 3
-			H.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses/sechud/supervox(H), slot_glasses)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/magboots/vox(H), slot_shoes)
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/space/vox/stealth(H.back), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/vox/stealth(H.back), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H.back), slot_in_backpack)
-		else
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/captain(H.back), slot_in_backpack)
-			if(H.age > 49)
-				U.hastie = new /obj/item/clothing/tie/medal/gold/captain(U)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/caphat(H), slot_head)
-			H.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(H), slot_glasses)
+		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
+		var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/captain(H)
+		if(H.age>49)
+			U.accessories += new /obj/item/clothing/accessory/medal/gold/captain(U)
+		H.equip_to_slot_or_del(U, slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/captain(H), slot_belt)
+		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
+		H.equip_to_slot_or_del(new /obj/item/clothing/head/caphat(H), slot_head)
+		H.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(H), slot_glasses)
+		if(H.backbag == 1)
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H), slot_r_hand)
+		else
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H.back), slot_in_backpack)
 
+		var/sound/announce_sound = (ticker.current_state <= GAME_STATE_SETTING_UP)? null : sound('sound/misc/boatswain.ogg', volume=20)
+		captain_announcement.Announce("All hands, Captain [H.real_name] on deck!", new_sound=announce_sound)
 
-		var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
-		L.imp_in = H
-		L.implanted = 1
-		world << "<b>[H.real_name] is the captain!</b>"
-		var/datum/organ/external/affected = H.organs_by_name["head"]
-		affected.implants += L
-		L.part = affected
+		H.implant_loyalty(src)
+
 		return 1
 
 	get_access()
@@ -83,26 +76,16 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/hop(H), slot_l_ear)
-		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_personnel(H), slot_w_uniform)
 		switch(H.backbag)
 			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
 			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(H), slot_back)
 			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
-		if(H.species.name == "Vox")
-			var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/head_of_personnel(H)
-			U.has_sensor = 2
-			U.sensor_mode = 3
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
-			var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
-			L.imp_in = H
-			L.implanted = 1
-			src << "\red As a Vox head of staff, you are the proud owner of a Loyalty implant. Read more about them <a href=http://http://baystation12.net/wiki/index.php?title=Security_Items#Loyalty_Implant>here</a>"
-			var/datum/organ/external/affected = H.organs_by_name["head"]
-			affected.implants += L
-			L.part = affected
-		else
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
+		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_personnel(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/brown(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/hop(H), slot_belt)
+		if(H.backbag == 1)
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H), slot_r_hand)
+		else
+			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/ids(H.back), slot_in_backpack)
 		return 1

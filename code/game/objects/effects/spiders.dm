@@ -22,9 +22,9 @@
 
 /obj/effect/spider/attackby(var/obj/item/weapon/W, var/mob/user)
 	if(W.attack_verb.len)
-		visible_message("\red <B>\The [src] have been [pick(W.attack_verb)] with \the [W][(user ? " by [user]." : ".")]")
+		visible_message("<span class='warning'>\The [src] have been [pick(W.attack_verb)] with \the [W][(user ? " by [user]." : ".")]</span>")
 	else
-		visible_message("\red <B>\The [src] have been attacked with \the [W][(user ? " by [user]." : ".")]")
+		visible_message("<span class='warning'>\The [src] have been attacked with \the [W][(user ? " by [user]." : ".")]</span>")
 
 	var/damage = W.force / 4.0
 
@@ -174,7 +174,7 @@
 			if(prob(25))
 				src.visible_message("\blue \the [src] skitters[pick(" away"," around","")].")
 	else if(prob(5))
-		//ventcrawl!
+		//vent crawl!
 		for(var/obj/machinery/atmospherics/unary/vent_pump/v in view(7,src))
 			if(!v.welded)
 				entry_vent = v

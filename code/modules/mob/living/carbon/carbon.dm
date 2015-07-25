@@ -1,6 +1,8 @@
 /mob/living/carbon/Life()
 	..()
 
+	handle_viruses()
+
 	// Increase germ_level regularly
 	if(germ_level < GERM_LEVEL_AMBIENT && prob(30))	//if you're just standing there, you shouldn't get more germs beyond an ambient level
 		germ_level++
@@ -19,12 +21,11 @@
 		if(germ_level < GERM_LEVEL_MOVE_CAP && prob(8))
 			germ_level++
 
-/mob/living/carbon/relaymove(var/mob/user, direction)
-	if(user in src.stomach_contents)
-		if(prob(40))
-			for(var/mob/M in hearers(4, src))
-				if(M.client)
-					M.show_message(text("\red You hear something rumbling inside [src]'s stomach..."), 2)
+/mob/living/carbon/relaymove(var/mob/living/user, direction)
+	if((user in src.stomach_contents) && istype(user))
+		if(user.last_special <= world.time)
+			user.last_special = world.time + 50
+			src.visible_message("<span class='danger'>You hear something rumbling inside [src]'s stomach...</span>")
 			var/obj/item/I = user.get_active_hand()
 			if(I && I.force)
 				var/d = rand(round(I.force / 4), I.force)
@@ -38,9 +39,7 @@
 					H.updatehealth()
 				else
 					src.take_organ_damage(d)
-				for(var/mob/M in viewers(user, null))
-					if(M.client)
-						M.show_message(text("\red <B>[user] attacks [src]'s stomach wall with the [I.name]!"), 2)
+				user.visible_message("<span class='danger'>[user] attacks [src]'s stomach wall with the [I.name]!</span>")
 				playsound(user.loc, 'sound/effects/attackblob.ogg', 50, 1)
 
 				if(prob(src.getBruteLoss() - 50))
@@ -57,7 +56,7 @@
 		for(var/mob/N in viewers(src, null))
 			if(N.client)
 				N.show_message(text("\red <B>[M] bursts out of [src]!</B>"), 2)
-	. = ..()
+	..()
 
 /mob/living/carbon/attack_hand(mob/M as mob)
 	if(!istype(M, /mob/living/carbon)) return
@@ -83,22 +82,6 @@
 
 	return
 
-
-/mob/living/carbon/attack_paw(mob/M as mob)
-	if(!istype(M, /mob/living/carbon)) return
-
-	for(var/datum/disease/D in viruses)
-
-		if(D.spread_by_touch())
-			M.contract_disease(D, 0, 1, CONTACT_HANDS)
-
-	for(var/datum/disease/D in M.viruses)
-
-		if(D.spread_by_touch())
-			contract_disease(D, 0, 1, CONTACT_HANDS)
-
-	return
-
 /mob/living/carbon/electrocute_act(var/shock_damage, var/obj/source, var/siemens_coeff = 1.0, var/def_zone = null)
 	if(status_flags & GODMODE)	return 0	//godmode
 	shock_damage *= siemens_coeff
@@ -106,9 +89,8 @@
 		return 0
 
 	src.apply_damage(shock_damage, BURN, def_zone, used_weapon="Electrocution")
-
 	playsound(loc, "sparks", 50, 1, -1)
-	if (shock_damage > 10)
+	if (shock_damage > 15)
 		src.visible_message(
 			"\red [src] was shocked by the [source]!", \
 			"\red <B>You feel a powerful shock course through your body!</B>", \
@@ -122,6 +104,11 @@
 			"\red You feel a mild shock course through your body.", \
 			"\red You hear a light zapping." \
 		)
+
+	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	s.set_up(5, 1, loc)
+	s.start()
+
 	return shock_damage
 
 
@@ -141,9 +128,9 @@
 			hud_used.l_hand_hud_object.icon_state = "hand_inactive"
 			hud_used.r_hand_hud_object.icon_state = "hand_active"
 	/*if (!( src.hand ))
-		src.hands.dir = NORTH
+		src.hands.set_dir(NORTH)
 	else
-		src.hands.dir = SOUTH*/
+		src.hands.set_dir(SOUTH)*/
 	return
 
 /mob/living/carbon/proc/activate_hand(var/selhand) //0 or "r" or "right" for right hand; 1 or "l" or "left" for left hand.
@@ -212,14 +199,21 @@
 				var/mob/living/carbon/human/H = src
 				H.w_uniform.add_fingerprint(M)
 
-			if(lying || src.sleeping)
+			if(player_logged)
+				M.visible_message("<span class='notice'>[M] shakes [src] trying to wake [t_him] up!</span>", \
+				"<span class='notice'>You shake [src], but they do not respond... Maybe they have S.S.D?</span>")
+			else if(lying || src.sleeping)
 				src.sleeping = max(0,src.sleeping-5)
 				if(src.sleeping == 0)
 					src.resting = 0
-				M.visible_message("<span class='notice'>[M] shakes [src] trying to wake [t_him] up!", \
-									"<span class='notice'>You shake [src] trying to wake [t_him] up!")
+				M.visible_message("<span class='notice'>[M] shakes [src] trying to wake [t_him] up!</span>", \
+									"<span class='notice'>You shake [src] trying to wake [t_him] up!</span>")
 			else
-				M.visible_message("<span class='notice'>[M] hugs [src] to make [t_him] feel better!</span>", \
+				var/mob/living/carbon/human/H = M
+				if(istype(H))
+					H.species.hug(H,src)
+				else
+					M.visible_message("<span class='notice'>[M] hugs [src] to make [t_him] feel better!</span>", \
 								"<span class='notice'>You hug [src] to make [t_him] feel better!</span>")
 
 			AdjustParalysis(-3)
@@ -291,7 +285,7 @@
 
 	if (istype(item, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = item
-		item = G.throw() //throw the person instead of the grab
+		item = G.throw_held() //throw the person instead of the grab
 		if(ismob(item))
 			var/turf/start_T = get_turf(loc) //Get the start and target tile for the descriptors
 			var/turf/end_T = get_turf(target)
@@ -344,7 +338,7 @@
 /mob/living/carbon/can_use_hands()
 	if(handcuffed)
 		return 0
-	if(buckled && ! istype(buckled, /obj/structure/stool/bed/chair)) // buckling does not restrict hands
+	if(buckled && ! istype(buckled, /obj/structure/bed/chair)) // buckling does not restrict hands
 		return 0
 	return 1
 
@@ -359,6 +353,8 @@
 	else if (W == handcuffed)
 		handcuffed = null
 		update_inv_handcuffed()
+		if(buckled && buckled.buckle_require_restraints)
+			buckled.unbuckle_mob()
 
 	else if (W == legcuffed)
 		legcuffed = null
@@ -419,70 +415,113 @@
 	if(alert(src,"You sure you want to sleep for a while?","Sleep","Yes","No") == "Yes")
 		usr.sleeping = 20 //Short nap
 
-//Brain slug proc for voluntary removal of control.
-/mob/living/carbon/proc/release_control()
+/mob/living/carbon/Bump(atom/movable/AM as mob|obj, yes)
 
-	set category = "Alien"
-	set name = "Release Control"
-	set desc = "Release control of your host's body."
+	spawn( 0 )
+		if ((!( yes ) || now_pushing))
+			return
+		now_pushing = 1
+		if(ismob(AM))
+			var/mob/tmob = AM
 
-	var/mob/living/simple_animal/borer/B = has_brain_worms()
+			if( istype(tmob, /mob/living/carbon) && prob(10) )
+				src.spread_disease_to(AM, "Contact")
 
-	if(B && B.host_brain)
-		src << "\red <B>You withdraw your probosci, releasing control of [B.host_brain]</B>"
+			if(istype(tmob, /mob/living/carbon/human))
 
-		B.detatch()
+				if(HULK in tmob.mutations)
+					if(prob(70))
+						usr << "\red <B>You fail to push [tmob]'s fat ass out of the way.</B>"
+						now_pushing = 0
+						return
+				if(!(tmob.status_flags & CANPUSH))
+					now_pushing = 0
+					return
 
-		verbs -= /mob/living/carbon/proc/release_control
-		verbs -= /mob/living/carbon/proc/punish_host
-		verbs -= /mob/living/carbon/proc/spawn_larvae
+				for(var/mob/M in range(tmob, 1))
+					if(tmob.pinned.len ||  ((M.pulling == tmob && ( tmob.restrained() && !( M.restrained() ) && M.stat == 0)) || locate(/obj/item/weapon/grab, tmob.grabbed_by.len)) )
+						if ( !(world.time % 5) )
+							src << "\red [tmob] is restrained, you cannot push past"
+						now_pushing = 0
+						return
+					if( tmob.pulling == M && ( M.restrained() && !( tmob.restrained() ) && tmob.stat == 0) )
+						if ( !(world.time % 5) )
+							src << "\red [tmob] is restraining [M], you cannot push past"
+						now_pushing = 0
+						return
 
-	else
-		src << "\red <B>ERROR NO BORER OR BRAINMOB DETECTED IN THIS MOB, THIS IS A BUG !</B>"
+			//Leaping mobs just land on the tile, no pushing, no anything.
+			if(status_flags & LEAPING)
+				loc = tmob.loc
+				status_flags &= ~LEAPING
+				now_pushing = 0
+				return
 
-//Brain slug proc for tormenting the host.
-/mob/living/carbon/proc/punish_host()
-	set category = "Alien"
-	set name = "Torment host"
-	set desc = "Punish your host with agony."
+			// Step over drones.
+			// I have no idea why the hell this isn't already happening. How do mice do it?
+			if(istype(tmob,/mob/living/silicon/robot/drone))
+				loc = tmob.loc
+				now_pushing = 0
+				return
 
-	var/mob/living/simple_animal/borer/B = has_brain_worms()
+			if((tmob.a_intent == "help" || tmob.restrained()) && (a_intent == "help" || src.restrained()) && tmob.canmove && !tmob.buckled && canmove) // mutual brohugs all around!
+				var/turf/oldloc = loc
+				loc = tmob.loc
+				tmob.loc = oldloc
+				now_pushing = 0
+				for(var/mob/living/carbon/slime/slime in view(1,tmob))
+					if(slime.Victim == tmob)
+						slime.UpdateFeed()
+				return
 
-	if(!B)
+			if(istype(tmob, /mob/living/carbon/human) && (FAT in tmob.mutations))
+				if(prob(40) && !(FAT in src.mutations))
+					src << "\red <B>You fail to push [tmob]'s fat ass out of the way.</B>"
+					now_pushing = 0
+					return
+			if(tmob.r_hand && istype(tmob.r_hand, /obj/item/weapon/shield/riot))
+				if(prob(99))
+					now_pushing = 0
+					return
+			if(tmob.l_hand && istype(tmob.l_hand, /obj/item/weapon/shield/riot))
+				if(prob(99))
+					now_pushing = 0
+					return
+			if(!(tmob.status_flags & CANPUSH))
+				now_pushing = 0
+				return
+
+			tmob.LAssailant = src
+
+		now_pushing = 0
+		..()
+		if (!( istype(AM, /atom/movable) ))
+			return
+		if (!( now_pushing ))
+			now_pushing = 1
+			if (!( AM.anchored ))
+				var/t = get_dir(src, AM)
+				if (istype(AM, /obj/structure/window))
+					var/obj/structure/window/W = AM
+					if(W.is_full_window())
+						for(var/obj/structure/window/win in get_step(AM,t))
+							now_pushing = 0
+							return
+				step(AM, t)
+			now_pushing = 0
 		return
+	return
 
-	if(B.host_brain.ckey)
-		src << "\red <B>You send a punishing spike of psychic agony lancing into your host's brain.</B>"
-		B.host_brain << "\red <B><FONT size=3>Horrific, burning agony lances through you, ripping a soundless scream from your trapped mind!</FONT></B>"
+/mob/living/carbon/can_use_vents()
+	return
 
-//Check for brain worms in head.
-/mob/proc/has_brain_worms()
+/mob/living/carbon/slip(var/slipped_on,stun_duration=8)
+	if(buckled)
+		return 0
+	stop_pulling()
+	src << "<span class='warning'>You slipped on [slipped_on]!</span>"
+	playsound(src.loc, 'sound/misc/slip.ogg', 50, 1, -3)
+	Stun(stun_duration)
+	Weaken(Floor(stun_duration/2))
+	return 1
 
-	for(var/I in contents)
-		if(istype(I,/mob/living/simple_animal/borer))
-			return I
-
-	return 0
-
-/mob/living/carbon/proc/spawn_larvae()
-	set category = "Alien"
-	set name = "Reproduce"
-	set desc = "Spawn several young."
-
-	var/mob/living/simple_animal/borer/B = has_brain_worms()
-
-	if(!B)
-		return
-
-	if(B.chemicals >= 100)
-		src << "\red <B>Your host twitches and quivers as you rapdly excrete several larvae from your sluglike body.</B>"
-		visible_message("\red <B>[src] heaves violently, expelling a rush of vomit and a wriggling, sluglike creature!</B>")
-		B.chemicals -= 100
-
-		new /obj/effect/decal/cleanable/vomit(get_turf(src))
-		playsound(loc, 'sound/effects/splat.ogg', 50, 1)
-		new /mob/living/simple_animal/borer(get_turf(src))
-
-	else
-		src << "You do not have enough chemicals stored to reproduce."
-		return

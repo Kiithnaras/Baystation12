@@ -1,15 +1,10 @@
-
-
-
-
-
 /datum/shuttle/ferry/supply
 	var/away_location = 1	//the location to hide at while pretending to be in-transit
 	var/late_chance = 80
 	var/max_late_time = 300
 
 /datum/shuttle/ferry/supply/short_jump(var/area/origin,var/area/destination)
-	if(moving_status != SHUTTLE_IDLE) 
+	if(moving_status != SHUTTLE_IDLE)
 		return
 	
 	if(isnull(location))
@@ -20,9 +15,6 @@
 	if(!origin)
 		origin = get_location_area(location)
 
-	if (!at_station())	//at centcom
-		supply_controller.buy()
-	
 	//it would be cool to play a sound here
 	moving_status = SHUTTLE_WARMUP
 	spawn(warmup_time*10)
@@ -34,11 +26,15 @@
 			moving_status = SHUTTLE_IDLE
 			return
 		
+		if (!at_station())	//at centcom
+			supply_controller.buy()
+		
 		//We pretend it's a long_jump by making the shuttle stay at centcom for the "in-transit" period.
 		var/area/away_area = get_location_area(away_location)
-		if (origin == away_area)
-			moving_status = SHUTTLE_INTRANSIT	//pretend
-		else
+		moving_status = SHUTTLE_INTRANSIT
+		
+		//If we are at the away_area then we are just pretending to move, otherwise actually do the move
+		if (origin != away_area)
 			move(origin, away_area)
 
 		//wait ETA here.

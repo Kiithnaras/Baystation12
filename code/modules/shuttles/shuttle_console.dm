@@ -18,7 +18,7 @@
 	
 	ui_interact(user)
 
-/obj/machinery/computer/shuttle_control/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null)
+/obj/machinery/computer/shuttle_control/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	var/data[0]
 	var/datum/shuttle/ferry/shuttle = shuttle_controller.shuttles[shuttle_tag]
 	if (!istype(shuttle))
@@ -39,7 +39,7 @@
 				shuttle_status = "Standing-by at station."
 			else
 				shuttle_status = "Standing-by at offsite location."
-		if(WAIT_LAUNCH)
+		if(WAIT_LAUNCH, FORCE_LAUNCH)
 			shuttle_status = "Shuttle has recieved command and will depart shortly."
 		if(WAIT_ARRIVE)
 			shuttle_status = "Proceeding to destination."
@@ -57,7 +57,7 @@
 		"can_force" = shuttle.can_force(),
 	)
 
-	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data)
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 
 	if (!ui)
 		ui = new(user, src, ui_key, "shuttle_control_console.tmpl", "[shuttle_tag] Shuttle Control", 470, 310)
@@ -67,7 +67,7 @@
 
 /obj/machinery/computer/shuttle_control/Topic(href, href_list)
 	if(..())
-		return
+		return 1
 
 	usr.set_machine(src)
 	src.add_fingerprint(usr)
