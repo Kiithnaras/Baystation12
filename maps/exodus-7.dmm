@@ -50,7 +50,7 @@
 "aX" = (/obj/structure/grille,/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/machinery/door/firedoor,/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aY" = (/obj/machinery/atmospherics/pipe/manifold/visible/yellow{dir = 8},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aZ" = (/obj/machinery/atmospherics/pipe/simple/visible/yellow{dir = 4},/obj/machinery/meter,/turf/simulated/floor/plating/vox,/area/outpost/power)
-"ba" = (/obj/machinery/atmospherics/pipe/tank/nitrogen,/obj/machinery/atmospherics/pipe/simple/visible/yellow{dir = 4},/turf/simulated/floor/plating/vox,/area/outpost/power)
+"ba" = (/obj/machinery/atmospherics/pipe/tank/nitrogen{layer = 2.5},/obj/machinery/atmospherics/pipe/simple/visible/yellow{dir = 4},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "bb" = (/obj/machinery/atmospherics/pipe/simple/visible/yellow{dir = 4},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "bc" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/visible/yellow{dir = 4},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "bd" = (/obj/machinery/atmospherics/pipe/simple/visible/universal{dir = 4},/turf/simulated/floor/plating/vox,/area/outpost/power)
