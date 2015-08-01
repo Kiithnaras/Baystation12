@@ -41,7 +41,7 @@
 	w_class = 3
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword,/obj/item/weapon/handcuffs,/obj/item/weapon/tank)
 	slowdown = 2
-	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
+	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	siemens_coefficient = 0.6
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
@@ -49,7 +49,7 @@
 	sprite_sheets = list("Vox" = 'icons/mob/species/vox/suit.dmi')
 
 /obj/item/clothing/head/helmet/space/vox
-	armor = list(melee = 60, bullet = 50, laser = 30, energy = 15, bomb = 30, bio = 30, rad = 30)
+	armor = list(melee = 50, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 50)
 	siemens_coefficient = 0.6
 	flags = HEADCOVERSEYES|STOPPRESSUREDAMAGE
 	species_restricted = list("Vox")
@@ -60,49 +60,65 @@
 	icon_state = "vox-pressure"
 	item_state = "vox-pressure"
 	desc = "Hey, wasn't this a prop in \'The Abyss\'?"
+	armor = list(melee = 40, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 100)
 
 /obj/item/clothing/suit/space/vox/pressure
 	name = "alien pressure suit"
 	icon_state = "vox-pressure"
 	item_state = "vox-pressure"
-	desc = "A huge, armoured, pressurized suit, designed for distinctly nonhuman proportions."
+	desc = "A huge, armoured, pressurized suit, designed for distinctly nonhuman proportions. Appears to be well-shielded and air-tight."
+	armor = list(melee = 40, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 100)
+	breach_threshold = 10
 
 /obj/item/clothing/head/helmet/space/vox/carapace
 	name = "alien visor"
 	icon_state = "vox-carapace"
 	item_state = "vox-carapace"
 	desc = "A glowing visor, perhaps stolen from a depressed Cylon."
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
 
 /obj/item/clothing/suit/space/vox/carapace
 	name = "alien carapace armour"
 	icon_state = "vox-carapace"
 	item_state = "vox-carapace"
-	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down."
+	desc = "An armoured, segmented carapace with glowing purple lights. It looks pretty run-down, but still sports decent protection."
+	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
+	breach_threshold = 25
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 
 /obj/item/clothing/head/helmet/space/vox/stealth
 	name = "alien stealth helmet"
 	icon_state = "vox-stealth"
 	item_state = "vox-stealth"
 	desc = "A smoothly contoured, matte-black alien helmet."
+	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
+	max_heat_protection_temperature = 25000
 
 /obj/item/clothing/suit/space/vox/stealth
 	name = "alien stealth suit"
 	icon_state = "vox-stealth"
 	item_state = "vox-stealth"
-	desc = "A sleek black suit. It seems to have a tail, and is very heavy."
+	desc = "A sleek black suit. It seems to have a tail, and is rather light and mobile-looking while appearing to have decent protection in the right places."
+	slowdown = 0
+	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
+	max_heat_protection_temperature = 25000
+	breach_threshold = 20
 
 /obj/item/clothing/head/helmet/space/vox/medic
 	name = "alien goggled helmet"
 	icon_state = "vox-medic"
 	item_state = "vox-medic"
 	desc = "An alien helmet with enormous goggled lenses."
+	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 40, bio = 100, rad = 75)
 
 /obj/item/clothing/suit/space/vox/medic
 	name = "alien armour"
 	icon_state = "vox-medic"
 	item_state = "vox-medic"
-	desc = "An almost organic looking nonhuman pressure suit."
+	desc = "An almost organic looking nonhuman pressure suit. It appears to be well-suited for toxic environments and has increased mobility."
+	slowdown = 1
+	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 40, bio = 100, rad = 75)
+	breach_threshold = 15
 
 /obj/item/clothing/under/vox
 	has_sensor = 0

@@ -153,42 +153,54 @@
 
 
 /obj/structure/closet/secure_closet/voxatmos
-        name = "Vox replacement internals"
-        req_access = null
+    name = "Vox replacement internals"
+    req_access = null
 
-        New()
-                ..()
-                sleep(2)
-                new /obj/item/clothing/mask/breath(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                new /obj/item/clothing/mask/breath(src)
-                new /obj/item/weapon/tank/emergency_nitrogen(src)
-                return
+    New()
+        ..()
+        sleep(2)
+        new /obj/item/clothing/mask/breath(src)
+        new /obj/item/weapon/tank/emergency_nitrogen(src)
+        new /obj/item/clothing/mask/breath(src)
+        new /obj/item/weapon/tank/emergency_nitrogen(src)
+        new /obj/item/clothing/mask/breath(src)
+        new /obj/item/weapon/tank/emergency_nitrogen(src)
+        new /obj/item/clothing/mask/breath(src)
+        new /obj/item/weapon/tank/emergency_nitrogen(src)
+        new /obj/item/clothing/mask/breath(src)
+        new /obj/item/weapon/tank/emergency_nitrogen(src)
+        new /obj/item/clothing/mask/breath(src)
+        new /obj/item/weapon/tank/emergency_nitrogen(src)
+        new /obj/item/clothing/mask/breath(src)
+        new /obj/item/weapon/tank/emergency_nitrogen(src)
+        return
 
 /obj/structure/closet/secure_closet/voxengieva
-        name = "Vox Engineering EVA Closet"
-        req_access = list(access_eva)
+	name = "Vox Engineering EVA Closet"
+	req_access = list(access_eva)
+	icon_state = "secureeng1"
+	icon_closed = "secureeng"
+	icon_locked = "secureeng1"
+	icon_opened = "secureengopen"
+	icon_broken = "secureengbroken"
+	icon_off = "secureengoff"
 
-        New()
-                ..()
-                sleep(2)
-                new /obj/item/clothing/suit/space/vox/stealth(src)
-                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
-                new /obj/item/weapon/tank/nitrogen(src)
-                new /obj/item/clothing/suit/space/vox/stealth(src)
-                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
-                new /obj/item/weapon/tank/nitrogen(src)
-                new /obj/item/clothing/suit/space/vox/stealth(src)
-                new /obj/item/clothing/head/helmet/space/vox/stealth(src)
-                new /obj/item/weapon/tank/nitrogen(src)
-                return
+	New()
+		..()
+		sleep(2)
+		new /obj/item/clothing/suit/space/vox/stealth(src)
+		new /obj/item/clothing/head/helmet/space/vox/stealth(src)
+		new /obj/item/weapon/tank/nitrogen(src)
+		new /obj/item/clothing/suit/space/vox/stealth(src)
+		new /obj/item/clothing/head/helmet/space/vox/stealth(src)
+		new /obj/item/weapon/tank/nitrogen(src)
+		new /obj/item/clothing/suit/space/vox/stealth(src)
+		new /obj/item/clothing/head/helmet/space/vox/stealth(src)
+		new /obj/item/weapon/tank/nitrogen(src)
+		new /obj/item/clothing/shoes/magboots/vox(src)
+		new /obj/item/clothing/shoes/magboots/vox(src)
+		new /obj/item/clothing/shoes/magboots/vox(src)
+		new /obj/item/clothing/gloves/yellow/vox(src)
+		new /obj/item/clothing/gloves/yellow/vox(src)
+		new /obj/item/clothing/gloves/yellow/vox(src)
+		return

@@ -67,6 +67,8 @@
 		new /obj/item/clothing/head/helmet/space/vox/medic(src)
 		new /obj/item/clothing/suit/space/vox/medic(src)
 		new /obj/item/clothing/head/helmet/space/vox/medic(src)
+		new /obj/item/clothing/shoes/magboots/vox(src)
+		new /obj/item/clothing/shoes/magboots/vox(src)
 		new /obj/item/weapon/tank/nitrogen(src)
 		new /obj/item/weapon/tank/nitrogen(src)
 		new /obj/item/weapon/tank/nitrogen(src)
