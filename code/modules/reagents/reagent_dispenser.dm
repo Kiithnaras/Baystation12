@@ -79,7 +79,7 @@
 	amount_per_transfer_from_this = 10
 	New()
 		..()
-		reagents.add_reagent("water",1000)
+		reagents.add_reagent("water",10000)
 
 /obj/structure/reagent_dispensers/fueltank
 	name = "fueltank"
@@ -91,7 +91,7 @@
 	var/obj/item/device/assembly_holder/rig = null
 	New()
 		..()
-		reagents.add_reagent("fuel",1000)
+		reagents.add_reagent("fuel",2000)
 
 /obj/structure/reagent_dispensers/fueltank/examine(mob/user)
 	if(!..(user, 2))

@@ -158,6 +158,7 @@
 	icon_state = "beaker"
 	item_state = "beaker"
 	matter = list("glass" = 500)
+	volume = 120
 
 	New()
 		..()
@@ -206,7 +207,7 @@
 	desc = "A large beaker."
 	icon_state = "beakerlarge"
 	matter = list("glass" = 5000)
-	volume = 120
+	volume = 250
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25,30,60,120)
 	flags = OPENCONTAINER
@@ -216,7 +217,7 @@
 	desc = "A cryostasis beaker that allows for chemical storage without reactions."
 	icon_state = "beakernoreact"
 	matter = list("glass" = 500)
-	volume = 60
+	volume = 120
 	amount_per_transfer_from_this = 10
 	flags = OPENCONTAINER | NOREACT
 
@@ -225,7 +226,7 @@
 	desc = "A bluespace beaker, powered by experimental bluespace technology."
 	icon_state = "beakerbluespace"
 	matter = list("glass" = 5000)
-	volume = 300
+	volume = 1000
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25,30,60,120,300)
 	flags = OPENCONTAINER
@@ -263,7 +264,7 @@
 	w_class = 3.0
 	amount_per_transfer_from_this = 20
 	possible_transfer_amounts = list(10,20,30,60,120)
-	volume = 120
+	volume = 200
 	flags = OPENCONTAINER
 
 	attackby(var/obj/D, mob/user as mob)

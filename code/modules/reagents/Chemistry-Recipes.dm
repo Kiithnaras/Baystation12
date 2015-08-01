@@ -92,6 +92,13 @@ datum
 			required_reagents = list("silicon" = 1, "potassium" = 1, "nitrogen" = 1)
 			result_amount = 3
 
+		toxin
+			name = "Toxin"
+			id = "toxin"
+			result = "toxin"
+			required_reagents = list("hydrogen" = 1, "carbon" = 1, "nitrogen" = 1)
+			result_amount = 1
+
 		mutagen
 			name = "Unstable mutagen"
 			id = "mutagen"
