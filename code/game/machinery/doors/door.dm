@@ -32,6 +32,7 @@
 	var/hitsound = 'sound/weapons/smash.ogg' //sound door makes when hit with a weapon
 	var/obj/item/stack/sheet/metal/repairing
 	var/block_air_zones = 1 //If set, air zones cannot merge across the door even when it is opened.
+	var/aforce = 0
 
 	//Multi-tile doors
 	dir = EAST
@@ -266,6 +267,90 @@
 		open()
 		operating = -1
 		return 1
+
+//Alien door forcing section
+//Goal: Normal aliens can force airlocks and firedoors when powered. When not powered and unlocked, they can open doors easily as if they were powered.
+//Large Queens (empresses) can open regular doors faster and even bypass some of the measures, such as locked and welded doors.
+
+	var/mob/Xeno = user
+	var isAlien
+	if(istype(Xeno,/mob/living/carbon/human/xdrone)||istype(Xeno,/mob/living/carbon/human/xhunter)||istype(Xeno,/mob/living/carbon/human/xsentinel)||istype(Xeno,/mob/living/carbon/human/xqueen))
+		isAlien = 1
+
+	if(src.density && isAlien && !aforce)
+		if(istype(src, /obj/machinery/door/airlock)) //Airlock-specific conditions
+			var /obj/machinery/door/airlock/AF = src
+			if(operating)
+				user << "\green You cannot force an airlock that is in motion!" //Well duh!
+				return
+			if(AF.welded && !(AF.locked)) //Behavior for welded airlocks. Duplicate for Firedoors. We don't care if they're powered or not - same behavior with or without power.
+				if(null)// (istype(user, /mob/living/carbon/human/alien/queen/large))
+					aforce = 1
+					user.visible_message("[user] jabs its big claws into the door weld and yanks!", "\green You jab your big claws into the door weld and yank!")
+					if(do_after(user,20))
+						if(prob(20))
+							user.visible_message("[user] rips the door weld apart and forces the doors open!","\green You rip the door weld apart and force the doors open!")
+							AF.welded = 0
+							aforce = 0
+							open(1)
+							return
+						else
+							user.visible_message("[user] struggles against the welded door in vain!","\green You struggle against the door in vain!")
+							aforce = 0
+							return
+					else
+						aforce = 0
+						return
+				else
+					user << "\green There is no way to force open a welded door!"
+					return
+			if(AF.locked) //Behavior for bolted airlocks - They can't be opened period. Gotta melt them suckers! We also don't need to bother checking for power here.
+				aforce = 1
+				user.visible_message("[user] digs its claws in and starts to force the door!","\green You dig your claws in and start to force the door!")
+				if(do_after(user,20))
+					user.visible_message("[user] struggles ineffectively against the door!","\green You struggle ineffectively against the door!")
+					aforce = 0
+					return
+				else
+					aforce = 0
+					return
+			if((!(AF.arePowerSystemsOn()) || (stat & NOPOWER)) && !(AF.welded) && !(AF.locked)) //Finally! Behavior for airlocks without power that are neither welded nor bolted! Duplicate for Firelocks.
+				user.visible_message("[user] digs its claws in and easily opens the powerless door!","\green You dig your claws in and easily open the powerless door!")
+				if(do_after(user,5))
+					open(1)
+					return
+			if(AF.arePowerSystemsOn() && !(stat & NOPOWER)) //Normal Airlock operation forcing
+				aforce = 1
+				user.visible_message("[user] digs their claws in and starts to force the door!" ,"\green You dig your claws in and start to force the door!")
+				if(null)//(istype(user, /mob/living/carbon/alien/humanoid/queen/large))
+					if(do_after(user, 20))
+						if(prob(35))
+							user.visible_message("[user] mightily forces open the door!","\green You mightily force open the door!")
+							open(1)
+							aforce = 0
+							return
+						else
+							user.visible_message("[user]'s mighty claws slip off of the door!","\green Your mighty claws slip out of the door!")
+							aforce = 0
+							return
+					else
+						aforce = 0
+						return
+				else
+					if(do_after(user, 30))
+						if(prob(25))
+							user.visible_message("[user] slowly forces the door open!","\green You slowly force the door open!")
+							open(1)
+							aforce = 0
+							return
+						else
+							user.visible_message("[user] struggles uselessly against the airlock motors!", "\green You struggle uselessly against the airlock motors!")
+							aforce = 0
+							return
+					else
+						aforce = 0
+						return
+//End Alien door forcing section
 
 	if(src.allowed(user) && operable())
 		if(src.density)

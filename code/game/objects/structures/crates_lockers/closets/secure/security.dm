@@ -199,6 +199,34 @@
 		new /obj/item/weapon/gun/energy/taser(src)
 		return
 
+/obj/structure/closet/secure_closet/voxarmor
+	name = "Vox Carapace Armor"
+	desc = "The label reads: For Use with Vox Security personell."
+	req_access = list(access_armory)
+	icon_state = "secure1"
+	icon_closed = "secure"
+	icon_locked = "secure1"
+	icon_opened = "secureopen"
+	icon_broken = "securebroken"
+	icon_off = "secureoff"
+
+	New()
+		..()
+		sleep(2)
+		new /obj/item/clothing/suit/space/vox/carapace(src)
+		new /obj/item/clothing/head/helmet/space/vox/carapace(src)
+		new /obj/item/weapon/tank/nitrogen(src)
+		new /obj/item/clothing/suit/space/vox/carapace(src)
+		new /obj/item/clothing/head/helmet/space/vox/carapace(src)
+		new /obj/item/weapon/tank/nitrogen(src)
+		new /obj/item/clothing/suit/space/vox/carapace(src)
+		new /obj/item/clothing/head/helmet/space/vox/carapace(src)
+		new /obj/item/weapon/tank/nitrogen(src)
+		new /obj/item/clothing/suit/space/vox/carapace(src)
+		new /obj/item/clothing/head/helmet/space/vox/carapace(src)
+		new /obj/item/weapon/tank/nitrogen(src)
+		return
+
 
 /obj/structure/closet/secure_closet/security/cargo
 

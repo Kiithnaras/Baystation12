@@ -15,14 +15,25 @@
 	dealing with their traders and merchants; those that do rarely enjoy the experience."
 
 	speech_sounds = list('sound/voice/shriek1.ogg')
-	speech_chance = 20
+	speech_chance = 40
 
 	warning_low_pressure = 50
 	hazard_low_pressure = 0
 
+	brute_mod = 0.85
+	burn_mod = 0.85
+
+	heat_level_1 = 500
+	heat_level_2 = 800
+	heat_level_3 = 1550
+
 	cold_level_1 = 80
 	cold_level_2 = 50
 	cold_level_3 = 0
+
+	darksight = 4
+
+	slowdown = -1
 
 	eyes = "vox_eyes_s"
 
@@ -30,7 +41,7 @@
 	poison_type = "oxygen"
 	siemens_coefficient = 0.2
 
-	flags = CAN_JOIN | IS_WHITELISTED | NO_SCAN | HAS_EYE_COLOR
+	flags = CAN_JOIN | NO_SCAN | HAS_EYE_COLOR
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"

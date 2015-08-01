@@ -400,6 +400,8 @@
 		if(AALARM_MODE_SCRUBBING)
 			for(var/device_id in alarm_area.air_scrub_names)
 				send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "scrubbing"= 1, "panic_siphon"= 0) )
+				if(istype(src, /obj/machinery/alarm/voxdock))
+					send_signal(device_id, list("o2_scrub"=1))
 			for(var/device_id in alarm_area.air_vent_names)
 				send_signal(device_id, list("power"= 1, "checks"= "default", "set_external_pressure"= "default") )
 
@@ -1339,3 +1341,9 @@ Code shamelessly copied from apc_frame
 		usr << browse(null, "window=partyalarm")
 		return
 	return
+
+/obj/machinery/alarm/voxdock/New()
+	..()
+	TLV["oxygen"] =			list(-1, -1, 0.5, 1.0) //Partial pressure, kpa
+	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.75,ONE_ATMOSPHERE*0.85,ONE_ATMOSPHERE*1.20,ONE_ATMOSPHERE*1.30)
+	TLV["temperature"] =	list(T0C-40, T0C, T0C+40, T0C+100)

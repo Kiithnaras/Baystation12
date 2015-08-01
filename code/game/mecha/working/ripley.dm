@@ -3,11 +3,12 @@
 	name = "APLU \"Ripley\""
 	icon_state = "ripley"
 	initial_icon = "ripley"
-	step_in = 6
+	step_in = 5
 	max_temperature = 20000
-	health = 200
+	health = 350
 	wreckage = /obj/effect/decal/mecha_wreckage/ripley
 	cargo_capacity = 10
+	max_equip = 4
 
 /obj/mecha/working/ripley/firefighter
 	desc = "Standart APLU chassis was refitted with additional thermal protection and cistern."
@@ -15,7 +16,7 @@
 	icon_state = "firefighter"
 	initial_icon = "firefighter"
 	max_temperature = 65000
-	health = 250
+	health = 450
 	lights_power = 8
 	damage_absorption = list("fire"=0.5,"bullet"=0.8,"bomb"=0.5)
 	wreckage = /obj/effect/decal/mecha_wreckage/ripley/firefighter

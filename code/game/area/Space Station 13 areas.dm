@@ -322,6 +322,39 @@ area/space/atmosalert()
 	icon_state = "shuttlered2"
 // === Trying to remove these areas:
 
+//Vox Outpost
+
+/area/outpost
+	name = "\improper Outpost"
+	icon_state = "tcomsatlob"
+
+/area/outpost/common
+	name = "\improper Outpost Common Area"
+	icon_state = "tcomsatlob"
+
+/area/outpost/teleporter
+	name = "\improper Outpost Transfer Area"
+	icon_state = "tcomsatentrance"
+
+/area/outpost/dorms
+	name = "\improper Outpost Dorms"
+	icon_state = "tcomsatlounge"
+
+/area/outpost/power
+	name = "\improper Outpost Power Systems"
+	icon_state = "tcomsatcomp"
+
+/area/outpost/brig
+	name = "\improper Outpost Brig"
+	icon_state = "tcomsatcham"
+
+/area/outpost/solars
+	name = "\improper Outpost Solar Array"
+	icon_state = "panelsA"
+	requires_power = 0
+	luminosity = 1
+	lighting_use_dynamic = 0
+
 /area/shuttle/research
 	name = "\improper Research Shuttle"
 	music = "music/escape.ogg"
@@ -336,6 +369,14 @@ area/space/atmosalert()
 	name = "\improper Vox Skipjack"
 	icon_state = "yellow"
 	requires_power = 0
+
+/area/shuttle/outpost/outpost
+	name = "\improper Outpost Shuttle"
+	icon_state = "shuttle2"
+
+/area/shuttle/outpost/station
+	name = "\improper Outpost Shuttle"
+	icon_state = "shuttle2"
 
 /area/airtunnel1/      // referenced in airtunnel.dm:759
 

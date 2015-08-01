@@ -291,3 +291,8 @@
 		initial_loc.air_scrub_names -= id_tag
 	..()
 	return
+
+/obj/machinery/atmospherics/unary/vent_scrubber/vox/
+	use_power = 1
+	icon_state = "map_scrubber_on"
+	scrubbing_gas = list("carbon_dioxide","oxygen")

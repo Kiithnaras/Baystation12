@@ -411,19 +411,30 @@ var/global/datum/controller/occupations/job_master
 
 		if(!joined_late)
 			var/obj/S = null
-			for(var/obj/effect/landmark/start/sloc in landmarks_list)
-				if(sloc.name != rank)	continue
-				if(locate(/mob/living) in sloc.loc)	continue
-				S = sloc
-				break
-			if(!S)
-				S = locate("start*[rank]") // use old stype
-			if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
-				H.loc = S.loc
-			// Moving wheelchair if they have one
-			if(H.buckled && istype(H.buckled, /obj/structure/bed/chair/wheelchair))
-				H.buckled.loc = H.loc
-				H.buckled.set_dir(H.dir)
+			if(H.species.name == "Vox" && rank != null)
+				for(var/obj/effect/landmark/start/sloc in landmarks_list)
+					if(sloc.name != "Vox Employee") continue
+					if(locate(/mob/living) in sloc.loc) continue
+					S = sloc
+					break
+				if(!S)
+					S = locate("start*Vox Employee") // use old stype
+				if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
+					H.loc = S.loc
+			else
+				for(var/obj/effect/landmark/start/sloc in landmarks_list)
+					if(sloc.name != rank)	continue
+					if(locate(/mob/living) in sloc.loc)	continue
+					S = sloc
+					break
+				if(!S)
+					S = locate("start*[rank]") // use old stype
+				if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
+					H.loc = S.loc
+				// Moving wheelchair if they have one
+				if(H.buckled && istype(H.buckled, /obj/structure/bed/chair/wheelchair))
+					H.buckled.loc = H.loc
+					H.buckled.set_dir(H.dir)
 
 		//give them an account in the station database
 		var/datum/money_account/M = create_account(H.real_name, rand(50,500)*10, null)
@@ -503,14 +514,17 @@ var/global/datum/controller/occupations/job_master
 			if(H.species.name == "Tajara" || H.species.name == "Unathi")
 				H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes,1)
 			else if(H.species.name == "Vox")
-				H.equip_to_slot_or_del(new /obj/item/clothing/mask/breath(H), slot_wear_mask)
+				H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_r_hand)
+
+
+			/*	H.equip_to_slot_or_del(new /obj/item/clothing/mask/breath(H), slot_wear_mask)
 				if(!H.r_hand)
 					H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_r_hand)
 					H.internal = H.r_hand
 				else if (!H.l_hand)
 					H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_l_hand)
 					H.internal = H.l_hand
-				H.internals.icon_state = "internal1"
+				H.internals.icon_state = "internal1" */
 
 		if(istype(H)) //give humans wheelchairs, if they need them.
 			var/datum/organ/external/l_foot = H.get_organ("l_foot")

@@ -44,6 +44,16 @@
 		new /obj/item/weapon/tank/emergency_oxygen/engi( src )
 		return
 
+/obj/item/weapon/storage/box/vox
+	New()
+		..()
+		contents = list()
+		sleep(1)
+		new /obj/item/weapon/tank/emergency_nitrogen( src )
+		new /obj/item/clothing/mask/breath( src )
+		new /obj/item/weapon/storage/pill_bottle/antitox( src )
+		return
+
 
 /obj/item/weapon/storage/box/gloves
 	name = "box of latex gloves"

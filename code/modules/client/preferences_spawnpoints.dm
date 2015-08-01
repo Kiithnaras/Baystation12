@@ -12,6 +12,8 @@ var/list/spawntypes = list()
 	var/display_name //Name used in preference setup.
 	var/list/restrict_job = null
 	var/list/disallow_job = null
+	var/list/restrict_species = null
+	var/list/disallow_species = null
 
 	proc/check_job_spawning(job)
 		if(restrict_job && !(job in restrict_job))
@@ -21,6 +23,15 @@ var/list/spawntypes = list()
 			return 0
 
 		return 1
+
+/*	proc/check_species(var/datum/species/spcs = "Vox")
+		if(restrict_species && !(spcs in restrict_species))
+			return 0
+
+		if(disallow_species && (spcs in disallow_species))
+			return 0
+
+		return 1*/
 
 /datum/spawnpoint/arrivals
 	display_name = "Arrivals Shuttle"
@@ -33,6 +44,7 @@ var/list/spawntypes = list()
 /datum/spawnpoint/gateway
 	display_name = "Gateway"
 	msg = "has completed translation from offsite gateway"
+	disallow_species = list("Vox")
 
 /datum/spawnpoint/gateway/New()
 	..()
@@ -42,6 +54,7 @@ var/list/spawntypes = list()
 	display_name = "Cryogenic Storage"
 	msg = "has completed cryogenic revival"
 	disallow_job = list("Cyborg")
+	disallow_species = list("Vox")
 
 /datum/spawnpoint/cryo/New()
 	..()
@@ -55,3 +68,12 @@ var/list/spawntypes = list()
 /datum/spawnpoint/cyborg/New()
 	..()
 	turfs = latejoin_cyborg
+
+/datum/spawnpoint/outpost
+	display_name = "Vox Employee Outpost"
+	msg = "has awoken from deep slumber"
+	//restrict_species = list("Vox")
+
+/datum/spawnpoint/outpost/New()
+	..()
+	turfs = latevox

@@ -11,7 +11,7 @@
 	var/projectile_type = /obj/item/projectile/beam/practice
 	var/modifystate
 	var/charge_meter = 1	//if set, the icon state will be chosen based on the current charge
-	
+
 	//self-recharging
 	var/self_recharge = 0	//if set, the weapon will recharge itself
 	var/use_external_power = 0 //if set, the weapon will look for an external power source to draw from, otherwise it recharges magically
@@ -41,15 +41,15 @@
 		charge_tick++
 		if(charge_tick < recharge_time) return 0
 		charge_tick = 0
-		
+
 		if(!power_supply || power_supply.charge >= power_supply.maxcharge)
 			return 0 // check if we actually need to recharge
-		
+
 		if(use_external_power)
 			var/obj/item/weapon/cell/external = get_external_power_supply()
 			if(!external || !external.use(charge_cost)) //Take power from the borg...
 				return 0
-		
+
 		power_supply.give(charge_cost) //... to recharge the shot
 		update_icon()
 	return 1
@@ -77,15 +77,41 @@
 /obj/item/weapon/gun/energy/update_icon()
 	if(charge_meter)
 		var/ratio = power_supply.charge / power_supply.maxcharge
-		
+
 		//make sure that rounding down will not give us the empty state even if we have charge for a shot left.
 		if(power_supply.charge < charge_cost)
 			ratio = 0
 		else
 			ratio = max(round(ratio, 0.25) * 100, 25)
-		
+
 		if(modifystate)
 			icon_state = "[modifystate][ratio]"
 		else
 			icon_state = "[initial(icon_state)][ratio]"
+
+/obj/item/weapon/gun/energy/attackby(obj/item/W, mob/user)
+
+	if(istype(W, /obj/item/weapon/screwdriver))
+		if(!user)
+			return
+		src.add_fingerprint(user)
+		if(power_supply)
+			user.put_in_hands(power_supply)
+			power_supply.add_fingerprint(user)
+			power_supply.update_icon()
+			src.power_supply = null
+			user.visible_message("\red [user.name] pries the power cell from [src.name].", "You pry the power cell from [src.name].")
+		else
+			user << "The [src.name] already lacks a power cell!"
+	if(istype(W, /obj/item/weapon/cell))
+		if(power_supply)
+			user << "There is already a power cell installed!"
+		else
+			user.drop_item()
+			W.loc = src
+			power_supply = W
+			user.visible_message(
+				"\red [user.name] has inserted the power cell to [src.name]!",
+				"You insert the power cell.")
+	update_icon()
 

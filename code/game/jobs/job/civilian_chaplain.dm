@@ -21,7 +21,7 @@
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/chaplain(H), slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/chaplain(H), slot_belt)
 		if(H.species.name == "Vox")
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
+			//H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/vox(H), slot_shoes)
 			var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/chaplain(H)
 			U.has_sensor = 2
 			U.sensor_mode = 3

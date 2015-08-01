@@ -18,6 +18,10 @@
 	id = "Mining Relay"
 	autolinkers = list("m_relay")
 
+/obj/machinery/telecomms/relay/preset/outpost
+	id = "Outpost Relay"
+	autolinkers = list("o_relay")
+
 /obj/machinery/telecomms/relay/preset/ruskie
 	id = "Ruskie Relay"
 	hide = 1
@@ -39,7 +43,7 @@
 /obj/machinery/telecomms/hub/preset
 	id = "Hub"
 	network = "tcommsat"
-	autolinkers = list("hub", "relay", "c_relay", "s_relay", "m_relay", "r_relay", "science", "medical",
+	autolinkers = list("hub", "relay", "c_relay", "s_relay", "o_relay", "m_relay", "r_relay", "science", "medical",
 	"supply", "service", "common", "command", "engineering", "security",
 	"receiverA", "receiverB", "broadcasterA", "broadcasterB")
 
@@ -47,7 +51,7 @@
 	id = "CentComm Hub"
 	network = "tcommsat"
 	produces_heat = 0
-	autolinkers = list("hub_cent", "c_relay", "s_relay", "m_relay", "r_relay",
+	autolinkers = list("hub_cent", "c_relay", "s_relay", "o_relay", "m_relay", "r_relay",
 	 "centcomm", "receiverCent", "broadcasterCent")
 
 //Receivers
@@ -169,7 +173,7 @@
 	id = "Supply Server"
 	freq_listening = list(SUP_FREQ)
 	autolinkers = list("supply")
-	
+
 /obj/machinery/telecomms/server/presets/service
 	id = "Service Server"
 	freq_listening = list(SRV_FREQ)

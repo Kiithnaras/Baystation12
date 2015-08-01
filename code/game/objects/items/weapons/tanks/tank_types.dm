@@ -154,25 +154,23 @@
 	volume = 12
 	slot_flags = SLOT_BELT
 	w_class = 2.0
-	flags =  FPRINT | TABLEPASS | CONDUCT
+	flags =  CONDUCT
 	force = 5.0
 	distribute_pressure = ONE_ATMOSPHERE*O2STANDARD
 
 	New()
 		..()
-		src.air_contents.nitrogen = (8*ONE_ATMOSPHERE)*volume/(R_IDEAL_GAS_EQUATION*T20C)
+		src.air_contents.adjust_gas("nitrogen", (8*ONE_ATMOSPHERE)*volume/(R_IDEAL_GAS_EQUATION*T20C))
 		//
 		src.air_contents.update_values()
 
 		return
 
 
-	examine()
-		set src in usr
-		..()
-		if(air_contents.nitrogen < 0.5 && loc==usr)
-			usr << text("\red <B>The meter on the [src.name] indicates you are almost out of air!</B>")
-			usr << sound('sound/effects/alert.ogg')
+	examine(mob/user)
+		if(..(user, 0) && air_contents.gas["nitrogen"] < 0.2 && loc==user)
+			user << text("\red <B>The meter on the [src.name] indicates you are almost out of air!</B>")
+			user << sound('sound/effects/alert.ogg')
 
 /obj/item/weapon/tank/nitrogen
 	name = "nitrogen tank"
