@@ -31,13 +31,6 @@ proc/explosion_rec(turf/epicenter, power)
 	playsound(epicenter, 'sound/effects/explosionfar.ogg', 100, 1, round(power*2,1) )
 	playsound(epicenter, "explosion", 100, 1, round(power,1) )
 
-	var/close = range(world.view+round(power,1), epicenter)
-	// to all distanced mobs play a different sound
-	for(var/mob/M in world) if(M.z == epicenter.z) if(!(M in close))
-		// check if the mob can hear
-		if(M.ear_deaf <= 0 || !M.ear_deaf) if(!istype(M.loc,/turf/space))
-			M << 'sound/effects/explosionfar.ogg'
-
 	explosion_in_progress = 1
 	explosion_turfs = list()
 
@@ -74,11 +67,20 @@ proc/explosion_rec(turf/epicenter, power)
 /turf/space
 	explosion_resistance = 10
 
-/turf/simulated
+/turf/simulated/floor
 	explosion_resistance = 1
 
 /turf/simulated/mineral
-	explosion_resistance = 3
+	explosion_resistance = 2
+
+/turf/simulated/shuttle/floor
+	explosion_resistance = 1
+
+/turf/simulated/shuttle/floor4
+	explosion_resistance = 1
+
+/turf/simulated/shuttle/plating
+	explosion_resistance = 1
 
 /turf/simulated/shuttle/wall
 	explosion_resistance = 5

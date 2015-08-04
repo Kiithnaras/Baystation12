@@ -1,7 +1,6 @@
 /*
 Add fingerprints to items when we put them in our hands.
 This saves us from having to call add_fingerprint() any time something is put in a human's hands programmatically.
-
 */
 /mob/living/carbon/human/put_in_l_hand(var/obj/item/W)
 	. = ..()
@@ -772,11 +771,15 @@ It can still be worn/put on as normal.
 	if(slot_to_process)
 		if(strip_item) //Stripping an item from the mob
 			var/obj/item/W = strip_item
-			target.unEquip(W)
+			if(W.canremove)
+				target.remove_from_mob(W)
 			W.add_fingerprint(source)
 			if(slot_to_process == slot_l_store) //pockets! Needs to process the other one too. Snowflake code, wooo! It's not like anyone will rewrite this anytime soon. If I'm wrong then... CONGRATULATIONS! ;)
 				if(target.r_store)
-					target.u_equip(target.r_store) //At this stage l_store is already processed by the code above, we only need to process r_store.
+					W = target.r_store
+					if(W.canremove)
+						target.remove_from_mob(W) //At this stage l_store is already processed by the code above, we only need to process r_store.
+					W.add_fingerprint(source)
 		else
 			if(item && target.has_organ_for_slot(slot_to_process)) //Placing an item on the mob
 				if(item.mob_can_equip(target, slot_to_process, 0))
