@@ -177,17 +177,6 @@ var/global/datum/shuttle_controller/shuttle_controller
 	shuttles["Research"] = shuttle
 	process_shuttles += shuttle
 
-	shuttle = new()
-	shuttle.location = 1
-	shuttle.warmup_time = 15
-	shuttle.area_offsite = locate(/area/shuttle/outpost/outpost)
-	shuttle.area_station = locate(/area/shuttle/outpost/station)
-	shuttle.docking_controller_tag = "outpost_shuttle"
-	shuttle.dock_target_station = "outpost_shuttle_station_dock"
-	shuttle.dock_target_offsite = "outpost_shuttle_outpost_dock"
-	shuttles["Outpost"] = shuttle
-	process_shuttles += shuttle
-
 	// ERT Shuttle
 	var/datum/shuttle/ferry/multidock/specops/ERT = new()
 	ERT.location = 0
@@ -214,7 +203,7 @@ var/global/datum/shuttle_controller/shuttle_controller
 		"Mining asteroid" = locate(/area/vox_station/mining)
 		)
 
-	VS.announcer = "NDV Icarus"
+	VS.announcer = "NSV Icarus"
 	VS.arrival_message = "Attention, Exodus, we just tracked a small target bypassing our defensive perimeter. Can't fire on it without hitting the station - you've got incoming visitors, like it or not."
 	VS.departure_message = "Your guests are pulling away, Exodus - moving too fast for us to draw a bead on them. Looks like they're heading out of the system at a rapid clip."
 	VS.interim = locate(/area/vox_station/transit)
@@ -238,7 +227,7 @@ var/global/datum/shuttle_controller/shuttle_controller
 		"Arrivals dock" = locate(/area/syndicate_station/arrivals_dock),
 		)
 
-	MS.announcer = "NDV Icarus"
+	MS.announcer = "NSV Icarus"
 	MS.arrival_message = "Attention, Exodus, you have a large signature approaching the station - looks unarmed to surface scans. We're too far out to intercept - brace for visitors."
 	MS.departure_message = "Your visitors are on their way out of the system, Exodus, burning delta-v like it's nothing. Good riddance."
 	MS.interim = locate(/area/syndicate_station/transit)
