@@ -177,3 +177,7 @@ var/list/beam_master = list()
 	taser_effect = 1
 	agony = 40
 	damage_type = HALLOSS
+
+/obj/item/projectile/beam/stun/heavy
+	icon_state = "stunh"
+	agony = 75
