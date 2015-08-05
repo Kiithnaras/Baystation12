@@ -20,7 +20,7 @@
 	//0 = not hacked
 	//1 = hacked
 	var/gibs_ready = 0
-	var/obj/crayon
+	//var/obj/crayon
 
 /obj/machinery/washing_machine/verb/start()
 	set name = "Start Washing"
@@ -53,7 +53,7 @@
 		del(HH)
 
 
-	if(crayon)
+	/*if(crayon)
 		var/wash_color
 		if(istype(crayon,/obj/item/toy/crayon))
 			var/obj/item/toy/crayon/CR = crayon
@@ -170,7 +170,7 @@
 					H.name = new_softcap_name
 					H.desc = new_desc
 		del(crayon)
-		crayon = null
+		crayon = null*/
 
 
 	if( locate(/mob,contents) )
@@ -199,12 +199,12 @@
 		user << "\blue you [panel ? "open" : "close"] the [src]'s maintenance panel"*/
 	if(istype(W,/obj/item/toy/crayon) ||istype(W,/obj/item/weapon/stamp))
 		if( state in list(	1, 3, 6 ) )
-			if(!crayon)
+		/*	if(!crayon)
 				user.drop_item()
 				crayon = W
 				crayon.loc = src
-			else
-				..()
+			else*/
+			..()
 		else
 			..()
 	else if(istype(W,/obj/item/weapon/grab))
@@ -290,7 +290,7 @@
 			state = 3
 			for(var/atom/movable/O in contents)
 				O.loc = src.loc
-			crayon = null
+			//crayon = null
 			state = 1
 		if(5)
 			user << "\red The [src] is busy."
@@ -304,7 +304,7 @@
 					M.gib()
 			for(var/atom/movable/O in contents)
 				O.loc = src.loc
-			crayon = null
+			//crayon = null
 			state = 1
 
 
