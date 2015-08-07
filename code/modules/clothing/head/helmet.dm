@@ -33,6 +33,7 @@
 	icon_state = "officercap"
 	flags_inv = 0
 	body_parts_covered = 0
+	w_class = 2.0
 
 /obj/item/clothing/head/helmet/riot
 	name = "riot helmet"
@@ -86,7 +87,7 @@
 		"Tajara" = 'icons/mob/species/tajaran/helmet.dmi',
 		"Unathi" = 'icons/mob/species/unathi/helmet.dmi',
 		)
-	
+
 	armor = list(melee = 62, bullet = 50, laser = 50,energy = 35, bomb = 10, bio = 2, rad = 0)
 	flags_inv = HIDEEARS
 	siemens_coefficient = 0.7

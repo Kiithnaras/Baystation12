@@ -148,8 +148,9 @@
 
 /datum/autolathe/recipe/cablecoil
 	name = "cable coil"
-	path = /obj/item/weapon/wire
+	path = /obj/item/stack/cable_coil
 	category = "Engineering"
+	is_stack = 1
 
 /datum/autolathe/recipe/rcd_ammo
 	name = "matter cartridge"
