@@ -11,7 +11,7 @@
 	throw_range = 5
 	w_class = 2.0
 	var/charge = 0	// note %age conveted to actual charge in New
-	var/maxcharge = 1000
+	var/maxcharge = 2500
 	var/rigged = 0		// true if rigged to explode
 	var/minor_fault = 0 //If not 100% reliable, it will build up faults.
 	var/construction_cost = list("metal"=750,"glass"=75)
@@ -36,7 +36,7 @@
 /obj/item/weapon/cell/secborg
 	name = "security borg rechargable D battery"
 	origin_tech = "powerstorage=0"
-	maxcharge = 600	//600 max charge / 100 charge per shot = six shots
+	maxcharge = 1000	//600 max charge / 100 charge per shot = six shots
 	matter = list("metal" = 700, "glass" = 40)
 
 /obj/item/weapon/cell/secborg/empty/New()
@@ -53,7 +53,7 @@
 	name = "high-capacity power cell"
 	origin_tech = "powerstorage=2"
 	icon_state = "hcell"
-	maxcharge = 10000
+	maxcharge = 15000
 	matter = list("metal" = 700, "glass" = 60)
 
 /obj/item/weapon/cell/high/empty/New()
@@ -64,7 +64,7 @@
 	name = "super-capacity power cell"
 	origin_tech = "powerstorage=5"
 	icon_state = "scell"
-	maxcharge = 20000
+	maxcharge = 30000
 	matter = list("metal" = 700, "glass" = 70)
 	construction_cost = list("metal"=750,"glass"=100)
 
@@ -76,7 +76,7 @@
 	name = "hyper-capacity power cell"
 	origin_tech = "powerstorage=6"
 	icon_state = "hpcell"
-	maxcharge = 30000
+	maxcharge = 50000
 	matter = list("metal" = 700, "glass" = 80)
 	construction_cost = list("metal"=500,"glass"=150,"gold"=200,"silver"=200)
 

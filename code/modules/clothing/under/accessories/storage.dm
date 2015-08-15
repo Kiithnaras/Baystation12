@@ -4,7 +4,7 @@
 	icon_state = "webbing"
 	item_color = "webbing"
 	slot = "utility"
-	var/slots = 3
+	var/slots = 4
 	var/obj/item/weapon/storage/internal/hold
 	w_class = 3.0
 
@@ -58,14 +58,14 @@
 	desc = "Robust black synthcotton vest with lots of pockets to hold whatever you need, but cannot hold in hands."
 	icon_state = "vest_black"
 	item_color = "vest_black"
-	slots = 5
+	slots = 8
 
 /obj/item/clothing/accessory/storage/brown_vest
 	name = "brown webbing vest"
 	desc = "Worn brownish synthcotton vest with lots of pockets to unload your hands."
 	icon_state = "vest_brown"
 	item_color = "vest_brown"
-	slots = 5
+	slots = 6
 
 /obj/item/clothing/accessory/storage/knifeharness
 	name = "decorated harness"
