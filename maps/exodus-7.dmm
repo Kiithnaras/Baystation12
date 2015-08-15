@@ -137,7 +137,7 @@
 "cG" = (/obj/machinery/door/airlock/glass_security{name = "Outpost Brig"; req_access_txt = "1"},/obj/machinery/door/firedoor,/turf/simulated/floor/vox{tag = "icon-dark"; icon_state = "dark"},/area/outpost/brig)
 "cH" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/wall/r_wall,/area/outpost/brig)
 "cI" = (/obj/structure/cable{d2 = 8; icon_state = "0-8"},/obj/structure/grille,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced,/turf/simulated/floor/plating/vox,/area/outpost/brig)
-"cJ" = (/obj/machinery/door/airlock/glass_security{name = "Outpost Brig"; req_access_txt = "1"},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/turf/space,/area/outpost/brig)
+"cJ" = (/obj/machinery/door/airlock/glass_security{name = "Outpost Brig"; req_access_txt = "1"},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/turf/simulated/floor/plating/vox,/area/outpost/brig)
 "cK" = (/obj/structure/table/woodentable,/turf/simulated/floor/vox,/area/outpost/common)
 "cL" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply,/obj/machinery/firealarm{dir = 4; pixel_x = 24},/turf/simulated/floor/vox,/area/outpost/common)
 "cM" = (/obj/structure/table/reinforced,/obj/random/toolbox,/turf/simulated/floor/vox,/area/outpost/common)
