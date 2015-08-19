@@ -15,6 +15,9 @@
 #define FILE_DIR "icons/misc"
 #define FILE_DIR "icons/mob"
 #define FILE_DIR "icons/mob/human_races"
+#define FILE_DIR "icons/mob/human_races/cyberlimbs"
+#define FILE_DIR "icons/mob/human_races/masks"
+#define FILE_DIR "icons/mob/human_races/monkeys"
 #define FILE_DIR "icons/mob/human_races/xenos"
 #define FILE_DIR "icons/mob/items"
 #define FILE_DIR "icons/mob/species"
@@ -63,9 +66,6 @@
 #define FILE_DIR "sound/voice"
 #define FILE_DIR "sound/voice/Serithi"
 #define FILE_DIR "sound/weapons"
-#define FILE_DIR "tools"
-#define FILE_DIR "tools/AddToChangelog"
-#define FILE_DIR "tools/AddToChangelog/AddToChangelog"
 // END_FILE_DIR
 // BEGIN_PREFERENCES
 #define DEBUG
