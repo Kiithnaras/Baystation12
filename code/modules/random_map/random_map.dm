@@ -1,4 +1,4 @@
-#define ORE_COUNT 1000
+#define ORE_COUNT 2000
 /*
 	This module is used to generate the debris fields/distribution maps/procedural stations.
 */
