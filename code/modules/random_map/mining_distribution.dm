@@ -31,7 +31,7 @@ Deep minerals:
 	iterations = 0        // We'll handle iterating on our end (recursive, with args).
 
 	var/chunk_size = 4              // Size each cell represents on map
-	var/random_variance_chance = 35 // % chance of applying random_element.
+	var/random_variance_chance = 25 // % chance of applying random_element.
 	var/random_element = 0.5        // Determines the variance when smoothing out cell values.
 	var/deep_val = 0.8              // Threshold for deep metals, set in new as percentage of cell_range.
 	var/rare_val = 0.7              // Threshold for rare metal, set in new as percentage of cell_range.

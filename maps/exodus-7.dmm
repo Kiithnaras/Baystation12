@@ -32,7 +32,7 @@
 "aF" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/access_button{command = "cycle_interior"; frequency = 1397; master_tag = "opeast_solar"; pixel_x = -26; req_one_access = list(13)},/obj/machinery/door/airlock/external{frequency = 1397; icon_state = "door_locked"; id_tag = "opeast_inner"; locked = 1; name = "Outpost Solar Access"},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aG" = (/obj/machinery/power/solar_control,/obj/structure/cable{icon_state = "0-4"; d2 = 4},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aH" = (/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"},/obj/structure/cable{d1 = 1; d2 = 8; icon_state = "1-8"},/turf/simulated/floor/plating/vox,/area/outpost/power)
-"aI" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/obj/machinery/atmospherics/pipe/simple/visible{tag = "icon-intact (NORTHEAST)"; icon_state = "intact"; dir = 5},/turf/simulated/floor/plating/vox,/area/outpost/power)
+"aI" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/obj/machinery/atmospherics/pipe/simple/visible{tag = "icon-intact (NORTHEAST)"; icon_state = "intact"; dir = 5},/obj/machinery/light{dir = 1},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aJ" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/obj/machinery/atmospherics/portables_connector{tag = "icon-map_connector (WEST)"; icon_state = "map_connector"; dir = 8},/obj/machinery/portable_atmospherics/canister/nitrogen,/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aK" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aL" = (/obj/machinery/power/terminal{dir = 4},/obj/structure/cable{d2 = 8; icon_state = "0-8"},/turf/simulated/floor/plating/vox,/area/outpost/power)
@@ -41,7 +41,7 @@
 "aO" = (/obj/structure/cable{d2 = 8; icon_state = "0-8"},/obj/machinery/power/smes/buildable{charge = 1e+006; input_attempt = 1},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aP" = (/obj/machinery/power/terminal{dir = 8},/obj/structure/cable{icon_state = "0-4"; d2 = 4},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aQ" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/obj/machinery/atmospherics/portables_connector{tag = "icon-map_connector (EAST)"; icon_state = "map_connector"; dir = 4},/obj/machinery/portable_atmospherics/canister/nitrogen,/turf/simulated/floor/plating/vox,/area/outpost/power)
-"aR" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/obj/machinery/atmospherics/pipe/simple/visible{tag = "icon-intact (NORTHWEST)"; icon_state = "intact"; dir = 9},/turf/simulated/floor/plating/vox,/area/outpost/power)
+"aR" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/obj/machinery/atmospherics/pipe/simple/visible{tag = "icon-intact (NORTHWEST)"; icon_state = "intact"; dir = 9},/obj/machinery/light{dir = 1},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aS" = (/obj/structure/cable{d1 = 1; d2 = 8; icon_state = "1-8"},/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aT" = (/obj/machinery/power/solar_control,/obj/structure/cable{d2 = 8; icon_state = "0-8"},/turf/simulated/floor/plating/vox,/area/outpost/power)
 "aU" = (/turf/simulated/floor/plating/vox,/area/outpost/power)
@@ -91,7 +91,7 @@
 "bM" = (/obj/structure/disposalpipe/segment{dir = 4; icon_state = "pipe-c"},/turf/simulated/wall/r_wall,/area/outpost/common)
 "bN" = (/obj/machinery/disposal,/obj/structure/disposalpipe/trunk{dir = 8},/turf/simulated/floor/vox,/area/outpost/common)
 "bO" = (/turf/simulated/floor/vox,/area/outpost/common)
-"bP" = (/obj/item/device/radio/intercom{dir = 8; name = "Outpost Intercom (General)"; pixel_x = 0; pixel_y = 28},/turf/simulated/floor/vox,/area/outpost/common)
+"bP" = (/obj/item/device/radio/intercom{dir = 8; name = "Outpost Intercom (General)"; pixel_x = 0; pixel_y = 28},/obj/machinery/light{tag = "icon-tube1 (NORTH)"; icon_state = "tube1"; dir = 1},/turf/simulated/floor/vox,/area/outpost/common)
 "bQ" = (/obj/machinery/vending/cigarette,/turf/simulated/floor/vox,/area/outpost/common)
 "bR" = (/obj/machinery/vending/coffee,/turf/simulated/floor/vox,/area/outpost/common)
 "bS" = (/turf/simulated/floor/vox{tag = "icon-yellow (NORTHWEST)"; icon_state = "yellow"; dir = 9},/area/outpost/common)
@@ -265,15 +265,15 @@
 "fe" = (/obj/structure/table/reinforced,/turf/simulated/floor/vox{tag = "icon-floorgrimecaution (SOUTHWEST)"; icon_state = "floorgrimecaution"; dir = 10},/area/outpost/brig)
 "ff" = (/obj/machinery/atmospherics/unary/vent_scrubber/vox{tag = "icon-map_scrubber_on (NORTH)"; icon_state = "map_scrubber_on"; dir = 1},/obj/structure/bed,/turf/simulated/floor/vox{tag = "icon-floorgrimecaution (SOUTHEAST)"; icon_state = "floorgrimecaution"; dir = 6},/area/outpost/brig)
 "fg" = (/obj/structure/disposalpipe/junction{icon_state = "pipe-j2"; dir = 2},/turf/simulated/wall/r_wall,/area/outpost/common)
-"fh" = (/obj/item/device/radio/intercom{dir = 8; name = "Outpost Intercom (General)"; pixel_x = 0; pixel_y = -28},/turf/simulated/floor/vox,/area/outpost/common)
-"fi" = (/obj/machinery/vending/snack,/turf/simulated/floor/vox,/area/outpost/common)
-"fj" = (/obj/machinery/vending/cola,/turf/simulated/floor/vox,/area/outpost/common)
-"fk" = (/turf/simulated/floor/vox{tag = "icon-green (SOUTHWEST)"; icon_state = "green"; dir = 10},/area/outpost/common)
-"fl" = (/obj/machinery/light,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/obj/machinery/atmospherics/pipe/simple/hidden/supply,/turf/simulated/floor/vox{tag = "icon-green"; icon_state = "green"},/area/outpost/common)
-"fm" = (/turf/simulated/floor/vox{tag = "icon-green (SOUTHEAST)"; icon_state = "green"; dir = 6},/area/outpost/common)
-"fn" = (/obj/machinery/vending/medical,/turf/simulated/floor/vox,/area/outpost/common)
-"fo" = (/obj/structure/sink{icon_state = "sink"; dir = 8; pixel_x = -12; pixel_y = 2},/turf/simulated/floor/vox,/area/outpost/common)
-"fp" = (/obj/machinery/light,/turf/simulated/floor/vox,/area/outpost/common)
+"fh" = (/obj/machinery/light,/turf/simulated/floor/vox,/area/outpost/common)
+"fi" = (/obj/item/device/radio/intercom{dir = 8; name = "Outpost Intercom (General)"; pixel_x = 0; pixel_y = -28},/turf/simulated/floor/vox,/area/outpost/common)
+"fj" = (/obj/machinery/vending/snack,/turf/simulated/floor/vox,/area/outpost/common)
+"fk" = (/obj/machinery/vending/cola,/turf/simulated/floor/vox,/area/outpost/common)
+"fl" = (/turf/simulated/floor/vox{tag = "icon-green (SOUTHWEST)"; icon_state = "green"; dir = 10},/area/outpost/common)
+"fm" = (/obj/machinery/light,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/obj/machinery/atmospherics/pipe/simple/hidden/supply,/turf/simulated/floor/vox{tag = "icon-green"; icon_state = "green"},/area/outpost/common)
+"fn" = (/turf/simulated/floor/vox{tag = "icon-green (SOUTHEAST)"; icon_state = "green"; dir = 6},/area/outpost/common)
+"fo" = (/obj/machinery/vending/medical,/turf/simulated/floor/vox,/area/outpost/common)
+"fp" = (/obj/structure/sink{icon_state = "sink"; dir = 8; pixel_x = -12; pixel_y = 2},/turf/simulated/floor/vox,/area/outpost/common)
 "fq" = (/obj/machinery/firealarm{dir = 1; pixel_x = 0; pixel_y = -24},/turf/simulated/floor/vox,/area/outpost/common)
 "fr" = (/obj/machinery/bodyscanner,/turf/simulated/floor/vox,/area/outpost/common)
 "fs" = (/obj/machinery/light,/obj/machinery/body_scanconsole{density = 0},/turf/simulated/floor/vox,/area/outpost/common)
@@ -459,7 +459,7 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabucVekcXcYelemeneoepcneqcocococoerbwbOesetbweuevewexeyezeAeBeCeCeCeDdjeEcicicicibBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabucEcFcGeFcIcJeFcIcJcnbOcKcKcKcKerbweGegeHbweIeJcvcveKeLeLeMcvcvcweNcQejcicicicibBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabubGbHbHeOePeQeOePeQcnbOdedededecPbweRegeHbweSeTeUeVeWbOeXeYbObOcPcxeZfacicicicifbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabubGbHfcfdfefffdfefffgbNbObOfhfifjbwfkflfmbwfnfofpbOfhfqeXeYfrfsftfncQfucicicicicjaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabubGbHfcfdfefffdfefffgbNbOfhfifjfkbwflfmfnbwfofpfhbOfifqeXeYfrfsftfocQfucicicicicjaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabubububububububububucnbwbwbwbwbwbwbwdxfvdxbwbwbwbwbwbwbwbwbwbwbwbwbwdjbBbCbDbDbDfwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafxfyfzfzfzfAfzfBfCfDfCfBfzfAfzfzfzfyaaaaaaaaaaaafxaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafEfCfCfCfCfCfFfCfDfCfFfCfCfCfCfCfEaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
