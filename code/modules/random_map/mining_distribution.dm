@@ -6,7 +6,7 @@
 #define RESOURCE_MID_MAX 4
 #define RESOURCE_MID_MIN 2
 #define RESOURCE_LOW_MAX 2
-#define RESOURCE_LOW_MIN 1
+#define RESOURCE_LOW_MIN 0
 
 /*
 Surface minerals:
