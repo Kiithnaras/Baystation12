@@ -479,8 +479,6 @@
 					user << "<span class='warning'>There is nothing to secure.</span>"
 					return
 				update_icon()
-		else if(emagged)
-			user << "The interface is broken."
 		else
 			wiresexposed = !wiresexposed
 			user << "The wires have been [wiresexposed ? "exposed" : "unexposed"]"
