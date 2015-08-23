@@ -447,7 +447,7 @@
 		if (stat & MAINT)
 			user << "<span class='warning'>There is no connector for your power cell.</span>"
 			return
-		if((W.w_class != 3) || (W.w_class != 2))
+		if((W.w_class > 3) || (W.w_class < 2))
 			user << "\The [W] is too [W.w_class < 2? "small" : "large"] to fit here."
 			return
 

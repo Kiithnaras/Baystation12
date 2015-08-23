@@ -1099,6 +1099,22 @@ datum/design/item/powercell/hyper
 	build_path = /obj/item/weapon/cell/hyper
 	category = "Misc"
 
+datum/design/item/sheet/AssembleDesignName()
+	..()
+	name = "Material Sheet ([item_name])"
+
+datum/design/item/sheet/phglass
+	desc = "A sheet of phoron glass."
+	id = "phglass1"
+	req_tech = list("materials" = 4, "phorontech" = 2)
+	materials = list ("$phoron" = 2000)
+	build_path = /obj/item/stack/material/glass/phoronglass
+	category = "Misc"
+
+
+//datum/design/item/sheet/phglass10
+
+
 /////////////////////////////////////////
 ////////////Medical Tools////////////////
 /////////////////////////////////////////
