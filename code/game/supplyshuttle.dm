@@ -174,6 +174,13 @@ var/list/mechtoys = list(
 
 		var/phoron_count = 0
 		var/plat_count = 0
+		var/silver_count = 0
+		var/uran_count = 0
+		var/gold_count = 0
+		var/diam_count = 0
+		var/mhyd_count = 0
+		var/trit_count = 0
+		var/os_count = 0
 
 		for(var/atom/movable/MA in area_shuttle)
 			if(MA.anchored)	continue
@@ -201,6 +208,13 @@ var/list/mechtoys = list(
 						switch(P.get_material_name())
 							if("phoron") phoron_count += P.get_amount()
 							if("platinum") plat_count += P.get_amount()
+							if("mhydrogen") mhyd_count += P.get_amount()
+							if("tritium") trit_count += P.get_amount()
+							if("gold") gold_count += P.get_amount()
+							if("silver") silver_count += P.get_amount()
+							if("uranium") uran_count += P.get_amount()
+							if("osmium") os_count += P.get_amount()
+							if("diamond") diam_count += P.get_amount()
 			qdel(MA)
 
 		if(phoron_count)
@@ -208,6 +222,27 @@ var/list/mechtoys = list(
 
 		if(plat_count)
 			points += plat_count * points_per_platinum
+
+		if(gold_count)
+			points += gold_count * 3
+
+		if(uran_count)
+			points += uran_count * 2
+
+		if(silver_count)
+			points += silver_count
+
+		if(mhyd_count)
+			points += mhyd_count * 8
+
+		if(os_count)
+			points += os_count * 6
+
+		if(trit_count)
+			points += trit_count * 12
+
+		if(diam_count)
+			points += diam_count * 20
 
 	//Buyin
 	proc/buy()
