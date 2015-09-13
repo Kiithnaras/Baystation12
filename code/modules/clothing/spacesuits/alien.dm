@@ -56,14 +56,14 @@
 	icon_state = "vox-pressure"
 	item_state = "vox-pressure"
 	desc = "Hey, wasn't this a prop in \'The Abyss\'?"
-	armor = list(melee = 40, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 100)
+	armor = list(melee = 25, bullet = 10, laser = 15, energy = 10, bomb = 30, bio = 100, rad = 100)
 
 /obj/item/clothing/suit/space/vox/pressure
 	name = "alien pressure suit"
 	icon_state = "vox-pressure"
 	item_state = "vox-pressure"
 	desc = "A huge, armoured, pressurized suit, designed for distinctly nonhuman proportions. Appears to be well-shielded and air-tight."
-	armor = list(melee = 40, bullet = 35, laser = 30, energy = 15, bomb = 30, bio = 100, rad = 100)
+	armor = list(melee = 25, bullet = 10, laser = 15, energy = 10, bomb = 30, bio = 100, rad = 100)
 	breach_threshold = 10
 
 /obj/item/clothing/head/helmet/space/vox/carapace
@@ -87,7 +87,7 @@
 	icon_state = "vox-stealth"
 	item_state = "vox-stealth"
 	desc = "A smoothly contoured, matte-black alien helmet."
-	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
+	armor = list(melee = 50, bullet = 35, laser = 30, energy = 45, bomb = 50, bio = 75, rad = 100)
 	max_heat_protection_temperature = 25000
 
 /obj/item/clothing/suit/space/vox/stealth
@@ -96,7 +96,7 @@
 	item_state = "vox-stealth"
 	desc = "A sleek black suit. It seems to have a tail, and is rather light and mobile-looking while appearing to have decent protection in the right places."
 	slowdown = 0
-	armor = list(melee = 60, bullet = 55, laser = 50, energy = 25, bomb = 50, bio = 75, rad = 100)
+	armor = list(melee = 50, bullet = 35, laser = 30, energy = 45, bomb = 50, bio = 75, rad = 100)
 	max_heat_protection_temperature = 25000
 	breach_threshold = 20
 
@@ -105,7 +105,7 @@
 	icon_state = "vox-medic"
 	item_state = "vox-medic"
 	desc = "An alien helmet with enormous goggled lenses."
-	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 40, bio = 100, rad = 75)
+	armor = list(melee = 35, bullet = 25, laser = 15, energy = 20, bomb = 40, bio = 100, rad = 75)
 
 /obj/item/clothing/suit/space/vox/medic
 	name = "alien armour"
@@ -113,7 +113,7 @@
 	item_state = "vox-medic"
 	desc = "An almost organic looking nonhuman pressure suit. It appears to be well-suited for toxic environments and has increased mobility."
 	slowdown = 1
-	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 40, bio = 100, rad = 75)
+	armor = list(melee = 35, bullet = 25, laser = 15, energy = 20, bomb = 40, bio = 100, rad = 75)
 	breach_threshold = 15
 
 /obj/item/clothing/under/vox
