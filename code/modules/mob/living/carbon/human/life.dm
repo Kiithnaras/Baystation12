@@ -49,7 +49,7 @@
 	//blinded get reset each cycle and then get activated later in the
 	//code. Very ugly. I dont care. Moving this stuff here so its easy
 	//to find it.
-	blinded = null
+	blinded = 0
 	fire_alert = 0 //Reset this here, because both breathe() and handle_environment() have a chance to set it.
 
 	//TODO: seperate this out
@@ -398,7 +398,7 @@
 				safe_pressure_min *= 1.25
 
 		var/safe_exhaled_max = 10
-		var/safe_toxins_max = 0.005
+		var/safe_toxins_max = 0.02
 		var/SA_para_min = 1
 		var/SA_sleep_min = 5
 		var/inhaled_gas_used = 0
@@ -1087,6 +1087,8 @@
 		return 1
 
 	proc/handle_regular_hud_updates()
+		eye_blind = 0
+		blinded = 0
 		if(!overlays_cache)
 			overlays_cache = list()
 			overlays_cache.len = 23
