@@ -1,4 +1,4 @@
-/obj/item/weapon/reagent_containers/food/snacks/breadslice/attackby(obj/item/W as obj, mob/user as mob)
+/obj/item/weapon/reagent_containers/food/snacks/slice/bread/attackby(obj/item/W as obj, mob/user as mob)
 
 	if(istype(W,/obj/item/weapon/material/shard) || istype(W,/obj/item/weapon/reagent_containers/food/snacks))
 		var/obj/item/weapon/reagent_containers/food/snacks/csandwich/S = new(get_turf(src))
@@ -19,24 +19,24 @@
 
 	var/sandwich_limit = 4
 	for(var/obj/item/O in ingredients)
-		if(istype(O,/obj/item/weapon/reagent_containers/food/snacks/breadslice))
+		if(istype(O,/obj/item/weapon/reagent_containers/food/snacks/slice/bread))
 			sandwich_limit += 4
 
 	if(src.contents.len > sandwich_limit)
-		user << "\red If you put anything else on \the [src] it's going to collapse."
+		to_chat(user, "<span class='wwarning'>If you put anything else on \the [src] it's going to collapse.</span>")
 		return
 	else if(istype(W,/obj/item/weapon/material/shard))
-		user << "\blue You hide [W] in \the [src]."
-		user.drop_item()
-		W.loc = src
+		if(!user.unEquip(W, src))
+			return
+		to_chat(user, "<span class='warning'>You hide [W] in \the [src].</span>")
 		update()
 		return
 	else if(istype(W,/obj/item/weapon/reagent_containers/food/snacks))
-		user << "\blue You layer [W] over \the [src]."
+		if(!user.unEquip(W, src))
+			return
+		to_chat(user, "<span class='warning'>You layer [W] over \the [src].</span>")
 		var/obj/item/weapon/reagent_containers/F = W
 		F.reagents.trans_to_obj(src, F.reagents.total_volume)
-		user.drop_item()
-		W.loc = src
 		ingredients += W
 		update()
 		return
@@ -69,9 +69,9 @@
 	T.pixel_y = (ingredients.len * 2)+1
 	overlays += T
 
-	name = lowertext("[fullname] sandwich")
-	if(length(name) > 80) name = "[pick(list("absurd","colossal","enormous","ridiculous"))] sandwich"
-	w_class = n_ceil(Clamp((ingredients.len/2),2,4))
+	SetName(lowertext("[fullname] sandwich"))
+	if(length(name) > 80) SetName("[pick(list("absurd","colossal","enormous","ridiculous"))] sandwich")
+	w_class = Ceiling(Clamp((ingredients.len/2),2,4))
 
 /obj/item/weapon/reagent_containers/food/snacks/csandwich/Destroy()
 	for(var/obj/item/O in ingredients)
@@ -79,9 +79,9 @@
 	..()
 
 /obj/item/weapon/reagent_containers/food/snacks/csandwich/examine(mob/user)
-	..(user)
+	. = ..(user)
 	var/obj/item/O = pick(contents)
-	user << "\blue You think you can see [O.name] in there."
+	to_chat(user, "<span class='warning'>You think you can see [O.name] in there.</span>")
 
 /obj/item/weapon/reagent_containers/food/snacks/csandwich/attack(mob/M as mob, mob/user as mob, def_zone)
 
@@ -96,6 +96,6 @@
 		H = M
 
 	if(H && shard && M == user) //This needs a check for feeding the food to other people, but that could be abusable.
-		H << "\red You lacerate your mouth on a [shard.name] in the sandwich!"
+		to_chat(H, "<span class='warning'>You lacerate your mouth on a [shard.name] in the sandwich!</span>")
 		H.adjustBruteLoss(5) //TODO: Target head if human.
 	..()

@@ -1,6 +1,8 @@
 /spell/aoe_turf/conjure/forcewall
 	name = "Forcewall"
 	desc = "Create a wall of pure energy at your location."
+	school = "conjuration"
+	feedback = "FW"
 	summon_type = list(/obj/effect/forcefield)
 	duration = 300
 	charge_max = 100
@@ -46,7 +48,5 @@
 	name = "invisible wall"
 	desc = "You have a bad feeling about this."
 
-/obj/effect/forcefield/cultify()
-	new /obj/effect/forcefield/cult(get_turf(src))
-	qdel(src)
-	return
+/spell/aoe_turf/conjure/forcewall/tower
+	charge_max = 3

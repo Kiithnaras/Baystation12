@@ -1,28 +1,65 @@
-//This list contains the z-level numbers which can be accessed via space travel and the percentile chances to get there.
-//(Exceptions: extended, sandbox and nuke) -Errorage
-var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" = 60)
-
 /turf/space
+	plane = SPACE_PLANE
 	icon = 'icons/turf/space.dmi'
-	name = "\proper space"
-	icon_state = "0"
-	dynamic_lighting = 0
 
+	name = "\proper space"
+	icon_state = "default"
+	dynamic_lighting = 0
 	temperature = T20C
 	thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
-//	heat_capacity = 700000 No.
+	var/static/list/dust_cache
 
-/turf/space/New()
-	if(!istype(src, /turf/space/transit))
-		icon_state = "[((x + y) ^ ~(x * y) + z) % 25]"
+/turf/space/proc/build_dust_cache()
+	LAZYINITLIST(dust_cache)
+	for (var/i in 0 to 25)
+		var/image/im = image('icons/turf/space_dust.dmi',"[i]")
+		im.plane = DUST_PLANE
+		im.alpha = 80
+		im.blend_mode = BLEND_ADD
+		dust_cache["[i]"] = im
+
+
+/turf/space/Initialize()
+	. = ..()
+	icon_state = "white"
 	update_starlight()
-	..()
+	if (!dust_cache)
+		build_dust_cache()
+	overlays += dust_cache["[((x + y) ^ ~(x * y) + z) % 25]"]
+
+	if(!HasBelow(z))
+		return
+	var/turf/below = GetBelow(src)
+
+	if(istype(below, /turf/space))
+		return
+	var/area/A = below.loc
+
+	if(!below.density && (A.area_flags & AREA_FLAG_EXTERNAL))
+		return
+
+	return INITIALIZE_HINT_LATELOAD // oh no! we need to switch to being a different kind of turf!
+
+/turf/space/LateInitialize()
+	// We alter area type before the turf to ensure the turf-change-event-propagation is handled as expected.
+	if(GLOB.using_map.base_floor_area)
+		var/area/new_area = locate(GLOB.using_map.base_floor_area) || new GLOB.using_map.base_floor_area
+		new_area.contents.Add(src)
+	ChangeTurf(GLOB.using_map.base_floor_type)
+
+// override for space turfs, since they should never hide anything
+/turf/space/levelupdate()
+	for(var/obj/O in src)
+		O.hide(0)
+
+/turf/space/is_solid_structure()
+	return locate(/obj/structure/lattice, src) //counts as solid structure if it has a lattice
 
 /turf/space/proc/update_starlight()
 	if(!config.starlight)
 		return
-	if(locate(/turf/simulated) in orange(src,1))
-		set_light(config.starlight)
+	if(locate(/turf/simulated) in orange(src,1)) //Let's make sure not to break everything if people use a crazy setting.
+		set_light(min(0.1*config.starlight, 1), 1, 3, l_color = SSskybox.BGcolor)
 	else
 		set_light(0)
 
@@ -31,113 +68,37 @@ var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" =
 	if (istype(C, /obj/item/stack/rods))
 		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 		if(L)
-			return
+			return L.attackby(C, user)
 		var/obj/item/stack/rods/R = C
 		if (R.use(1))
-			user << "\blue Constructing support lattice ..."
+			to_chat(user, "<span class='notice'>Constructing support lattice ...</span>")
 			playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
 			ReplaceWithLattice()
 		return
 
-	if (istype(C, /obj/item/stack/tile/steel))
+	if (istype(C, /obj/item/stack/tile/floor))
 		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 		if(L)
-			var/obj/item/stack/tile/steel/S = C
+			var/obj/item/stack/tile/floor/S = C
 			if (S.get_amount() < 1)
 				return
 			qdel(L)
 			playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
-			S.build(src)
 			S.use(1)
+			ChangeTurf(/turf/simulated/floor/airless)
 			return
 		else
-			user << "\red The plating is going to need some support."
+			to_chat(user, "<span class='warning'>The plating is going to need some support.</span>")
 	return
 
 
 // Ported from unstable r355
 
 /turf/space/Entered(atom/movable/A as mob|obj)
-	if(movement_disabled)
-		usr << "\red Movement is admin-disabled." //This is to identify lag problems
-		return
 	..()
-	if ((!(A) || src != A.loc))	return
-
-	inertial_drift(A)
-
-	if(ticker && ticker.mode)
-		if(A.z > 7 && !config.use_overmap) return
-		if (A.x <= TRANSITIONEDGE || A.x >= (world.maxx - TRANSITIONEDGE - 1) || A.y <= TRANSITIONEDGE || A.y >= (world.maxy - TRANSITIONEDGE - 1))
-			if(istype(A, /obj/effect/meteor)||istype(A, /obj/effect/space_dust))
-				qdel(A)
-				return
-
-			if(istype(A, /obj/item/weapon/disk/nuclear)) // Don't let nuke disks travel Z levels  ... And moving this shit down here so it only fires when they're actually trying to change z-level.
-				qdel(A) //The disk's Destroy() proc ensures a new one is created
-				return
-			if(config.use_overmap)
-				overmap_spacetravel(src,A)
-				return
-			var/list/disk_search = A.search_contents_for(/obj/item/weapon/disk/nuclear)
-			if(!isemptylist(disk_search))
-				if(istype(A, /mob/living))
-					var/mob/living/MM = A
-					if(MM.client && !MM.stat)
-						MM << "\red Something you are carrying is preventing you from leaving. Don't play stupid; you know exactly what it is."
-						if(MM.x <= TRANSITIONEDGE)
-							MM.inertia_dir = 4
-						else if(MM.x >= world.maxx -TRANSITIONEDGE)
-							MM.inertia_dir = 8
-						else if(MM.y <= TRANSITIONEDGE)
-							MM.inertia_dir = 1
-						else if(MM.y >= world.maxy -TRANSITIONEDGE)
-							MM.inertia_dir = 2
-					else
-						for(var/obj/item/weapon/disk/nuclear/N in disk_search)
-							qdel(N)//Make the disk respawn it is on a clientless mob or corpse
-				else
-					for(var/obj/item/weapon/disk/nuclear/N in disk_search)
-						qdel(N)//Make the disk respawn if it is floating on its own
-				return
-
-			var/move_to_z = src.z
-			var/safety = 1
-
-			while(move_to_z == src.z)
-				var/move_to_z_str = pickweight(accessible_z_levels)
-				move_to_z = text2num(move_to_z_str)
-				safety++
-				if(safety > 10)
-					break
-
-			if(!move_to_z)
-				return
-
-			A.z = move_to_z
-
-			if(src.x <= TRANSITIONEDGE)
-				A.x = world.maxx - TRANSITIONEDGE - 2
-				A.y = rand(TRANSITIONEDGE + 2, world.maxy - TRANSITIONEDGE - 2)
-
-			else if (A.x >= (world.maxx - TRANSITIONEDGE - 1))
-				A.x = TRANSITIONEDGE + 1
-				A.y = rand(TRANSITIONEDGE + 2, world.maxy - TRANSITIONEDGE - 2)
-
-			else if (src.y <= TRANSITIONEDGE)
-				A.y = world.maxy - TRANSITIONEDGE -2
-				A.x = rand(TRANSITIONEDGE + 2, world.maxx - TRANSITIONEDGE - 2)
-
-			else if (A.y >= (world.maxy - TRANSITIONEDGE - 1))
-				A.y = TRANSITIONEDGE + 1
-				A.x = rand(TRANSITIONEDGE + 2, world.maxx - TRANSITIONEDGE - 2)
-
-
-
-
-			spawn (0)
-				if ((A && A.loc))
-					A.loc.Entered(A)
+	if(A && A.loc == src)
+		if (A.x <= TRANSITIONEDGE || A.x >= (world.maxx - TRANSITIONEDGE + 1) || A.y <= TRANSITIONEDGE || A.y >= (world.maxy - TRANSITIONEDGE + 1))
+			A.touch_map_edge()
 
 /turf/space/proc/Sandbox_Spacemove(atom/movable/A as mob|obj)
 	var/cur_x
@@ -148,7 +109,7 @@ var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" =
 	var/list/y_arr
 
 	if(src.x <= 1)
-		if(istype(A, /obj/effect/meteor)||istype(A, /obj/effect/space_dust))
+		if(istype(A, /obj/effect/meteor))
 			qdel(A)
 			return
 
@@ -156,14 +117,15 @@ var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" =
 		if(!cur_pos) return
 		cur_x = cur_pos["x"]
 		cur_y = cur_pos["y"]
-		next_x = (--cur_x||global_map.len)
-		y_arr = global_map[next_x]
+		next_x = (--cur_x||GLOB.global_map.len)
+		y_arr = GLOB.global_map[next_x]
 		target_z = y_arr[cur_y]
 /*
 		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Target Z = [target_z]"
-		world << "Next X = [next_x]"
+		log_debug("Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]")
+		log_debug("Target Z = [target_z]")
+		log_debug("Next X = [next_x]")
+
 		//debug
 */
 		if(target_z)
@@ -181,14 +143,15 @@ var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" =
 		if(!cur_pos) return
 		cur_x = cur_pos["x"]
 		cur_y = cur_pos["y"]
-		next_x = (++cur_x > global_map.len ? 1 : cur_x)
-		y_arr = global_map[next_x]
+		next_x = (++cur_x > GLOB.global_map.len ? 1 : cur_x)
+		y_arr = GLOB.global_map[next_x]
 		target_z = y_arr[cur_y]
 /*
 		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Target Z = [target_z]"
-		world << "Next X = [next_x]"
+		log_debug("Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]")
+		log_debug("Target Z = [target_z]")
+		log_debug("Next X = [next_x]")
+
 		//debug
 */
 		if(target_z)
@@ -205,14 +168,15 @@ var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" =
 		if(!cur_pos) return
 		cur_x = cur_pos["x"]
 		cur_y = cur_pos["y"]
-		y_arr = global_map[cur_x]
+		y_arr = GLOB.global_map[cur_x]
 		next_y = (--cur_y||y_arr.len)
 		target_z = y_arr[next_y]
 /*
 		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Next Y = [next_y]"
-		world << "Target Z = [target_z]"
+		log_debug("Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]")
+		log_debug("Next Y = [next_y]")
+		log_debug("Target Z = [target_z]")
+
 		//debug
 */
 		if(target_z)
@@ -223,21 +187,22 @@ var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" =
 					A.loc.Entered(A)
 
 	else if (src.y >= world.maxy)
-		if(istype(A, /obj/effect/meteor)||istype(A, /obj/effect/space_dust))
+		if(istype(A, /obj/effect/meteor))
 			qdel(A)
 			return
 		var/list/cur_pos = src.get_global_map_pos()
 		if(!cur_pos) return
 		cur_x = cur_pos["x"]
 		cur_y = cur_pos["y"]
-		y_arr = global_map[cur_x]
+		y_arr = GLOB.global_map[cur_x]
 		next_y = (++cur_y > y_arr.len ? 1 : cur_y)
 		target_z = y_arr[next_y]
 /*
 		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Next Y = [next_y]"
-		world << "Target Z = [target_z]"
+		log_debug("Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]")
+		log_debug("Next Y = [next_y]")
+		log_debug("Target Z = [target_z]")
+
 		//debug
 */
 		if(target_z)
@@ -250,3 +215,8 @@ var/list/accessible_z_levels = list("1" = 5, "3" = 10, "4" = 15, "5" = 10, "6" =
 
 /turf/space/ChangeTurf(var/turf/N, var/tell_universe=1, var/force_lighting_update = 0)
 	return ..(N, tell_universe, 1)
+
+//Bluespace turfs for shuttles and possible future transit use
+/turf/space/bluespace
+	name = "bluespace"
+	icon_state = "bluespace"

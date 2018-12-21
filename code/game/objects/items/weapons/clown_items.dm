@@ -1,7 +1,6 @@
 /* Clown Items
  * Contains:
  * 		Banana Peels
- *		Soap
  *		Bike Horns
  */
 
@@ -13,45 +12,34 @@
 		var/mob/living/M = AM
 		M.slip("the [src.name]",4)
 /*
- * Soap
- */
-/obj/item/weapon/soap/Crossed(AM as mob|obj) //EXACTLY the same as bananapeel for now, so it makes sense to put it in the same dm -- Urist
-	if (istype(AM, /mob/living))
-		var/mob/living/M =	AM
-		M.slip("the [src.name]",3)
-
-/obj/item/weapon/soap/afterattack(atom/target, mob/user as mob, proximity)
-	if(!proximity) return
-	//I couldn't feasibly  fix the overlay bugs caused by cleaning items we are wearing.
-	//So this is a workaround. This also makes more sense from an IC standpoint. ~Carn
-	if(user.client && (target in user.client.screen))
-		user << "<span class='notice'>You need to take that [target.name] off before cleaning it.</span>"
-	else if(istype(target,/obj/effect/decal/cleanable))
-		user << "<span class='notice'>You scrub \the [target.name] out.</span>"
-		qdel(target)
-	else if(istype(target,/turf))
-		user << "<span class='notice'>You scrub \the [target.name] clean.</span>"
-		var/turf/T = target
-		T.clean(src)
-	else
-		user << "<span class='notice'>You clean \the [target.name].</span>"
-		target.clean_blood()
-	return
-
-/obj/item/weapon/soap/attack(mob/target as mob, mob/user as mob)
-	if(target && user && ishuman(target) && ishuman(user) && !target.stat && !user.stat && user.zone_sel &&user.zone_sel.selecting == "mouth" )
-		user.visible_message("\red \the [user] washes \the [target]'s mouth out with soap!")
-		return
-	..()
-
-/*
  * Bike Horns
  */
+/obj/item/weapon/bikehorn
+	name = "bike horn"
+	desc = "A horn off of a bicycle."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "bike_horn"
+	item_state = "bike_horn"
+	throwforce = 3
+	w_class = ITEM_SIZE_SMALL
+	throw_speed = 3
+	throw_range = 15
+	attack_verb = list("HONKED")
+	var/spam_flag = 0
+	var/audio_files = list("sound/items/bikehorn.ogg")
+
 /obj/item/weapon/bikehorn/attack_self(mob/user as mob)
 	if (spam_flag == 0)
 		spam_flag = 1
-		playsound(src.loc, 'sound/items/bikehorn.ogg', 50, 1)
+		playsound(src.loc, pick(src.audio_files), 50, 1)
 		src.add_fingerprint(user)
 		spawn(20)
 			spam_flag = 0
 	return
+
+/obj/item/weapon/bikehorn/airhorn
+	name = "air horn"
+	desc = "A can of compressed air hooked up to an obnoxiously loud horn. SPRING BREAK!"
+	icon_state = "air_horn"
+	item_state = "air_horn"
+	audio_files = list("sound/items/air_horn_1.ogg", "sound/items/air_horn_2.ogg")

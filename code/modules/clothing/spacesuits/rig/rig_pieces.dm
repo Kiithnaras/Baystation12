@@ -4,18 +4,21 @@
 
 /obj/item/clothing/head/helmet/space/rig
 	name = "helmet"
-	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | THICKMATERIAL
-	flags_inv = 		 HIDEEARS|HIDEEYES|HIDEFACE
+	item_flags = ITEM_FLAG_THICKMATERIAL
+	flags_inv = 		 HIDEEARS|HIDEEYES|HIDEFACE|BLOCKHAIR
 	body_parts_covered = HEAD|FACE|EYES
 	heat_protection =    HEAD|FACE|EYES
 	cold_protection =    HEAD|FACE|EYES
 	brightness_on = 4
-	sprite_sheets = list("Tajara" = 'icons/mob/species/tajaran/helmet.dmi',"Skrell" = 'icons/mob/species/skrell/helmet.dmi',"Unathi" = 'icons/mob/species/unathi/helmet.dmi')
+	sprite_sheets = list(
+		SPECIES_SKRELL = 'icons/mob/species/skrell/onmob_head_skrell.dmi',
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_head_helmet_unathi.dmi',
+		)
 	species_restricted = null
 
 /obj/item/clothing/gloves/rig
 	name = "gauntlets"
-	flags = THICKMATERIAL
+	item_flags = ITEM_FLAG_THICKMATERIAL
 	body_parts_covered = HANDS
 	heat_protection =    HANDS
 	cold_protection =    HANDS
@@ -37,19 +40,60 @@
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	heat_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	cold_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
-	flags_inv =          HIDEJUMPSUIT|HIDETAIL
-	flags =              STOPPRESSUREDAMAGE | THICKMATERIAL | AIRTIGHT
-	slowdown = 0
+	// HIDEJUMPSUIT no longer needed, see "hides_uniform" and "update_component_sealed()" in rig.dm
+	flags_inv =          HIDETAIL
+	item_flags =              ITEM_FLAG_STOPPRESSUREDAMAGE | ITEM_FLAG_THICKMATERIAL | ITEM_FLAG_AIRTIGHT
 	//will reach 10 breach damage after 25 laser carbine blasts, 3 revolver hits, or ~1 PTR hit. Completely immune to smg or sts hits.
 	breach_threshold = 38
 	resilience = 0.2
 	can_breach = 1
-	sprite_sheets = list("Tajara" = 'icons/mob/species/tajaran/suit.dmi',"Unathi" = 'icons/mob/species/unathi/suit.dmi')
-	supporting_limbs = list()
+	sprite_sheets = list(
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_suit_unathi.dmi',
+		)
+	var/list/supporting_limbs = list() //If not-null, automatically splints breaks. Checked when removing the suit.
 
-//TODO: move this to modules
-/obj/item/clothing/head/helmet/space/rig/proc/prevent_track()
-	return 0
+/obj/item/clothing/suit/space/rig/equipped(mob/M)
+	check_limb_support(M)
+	..()
+
+/obj/item/clothing/suit/space/rig/dropped(var/mob/user)
+	check_limb_support(user)
+	..()
+
+// Some space suits are equipped with reactive membranes that support broken limbs
+/obj/item/clothing/suit/space/rig/proc/can_support(var/mob/living/carbon/human/user)
+	if(user.wear_suit != src)
+		return 0 //not wearing the suit
+	var/obj/item/weapon/rig/rig = user.back
+	if(!istype(rig) || rig.offline || rig.canremove)
+		return 0 //not wearing a rig control unit or it's offline or unsealed
+	return 1
+
+/obj/item/clothing/suit/space/rig/proc/check_limb_support(var/mob/living/carbon/human/user)
+
+	// If this isn't set, then we don't need to care.
+	if(!istype(user) || isnull(supporting_limbs))
+		return
+
+	if(can_support(user))
+		for(var/obj/item/organ/external/E in user.bad_external_organs)
+			if((E.body_part & body_parts_covered) && E.is_broken() && E.apply_splint(src))
+				to_chat(user, "<span class='notice'>You feel [src] constrict about your [E.name], supporting it.</span>")
+				supporting_limbs |= E
+	else
+		// Otherwise, remove the splints.
+		for(var/obj/item/organ/external/E in supporting_limbs)
+			if(E.splinted == src && E.remove_splint(src))
+				to_chat(user, "<span class='notice'>\The [src] stops supporting your [E.name].</span>")
+		supporting_limbs.Cut()
+
+/obj/item/clothing/suit/space/rig/proc/handle_fracture(var/mob/living/carbon/human/user, var/obj/item/organ/external/E)
+	if(!istype(user) || isnull(supporting_limbs) || !can_support(user))
+		return
+	if((E.body_part & body_parts_covered) && E.is_broken() && E.apply_splint(src))
+		to_chat(user, "<span class='notice'>You feel [src] constrict about your [E.name], supporting it.</span>")
+		supporting_limbs |= E
+
 
 /obj/item/clothing/gloves/rig/Touch(var/atom/A, var/proximity)
 
@@ -68,7 +112,6 @@
 		if(module.active && module.activates_on_touch)
 			if(module.engage(A))
 				return 1
-
 	return 0
 
 //Rig pieces for non-spacesuit based rigs
@@ -78,7 +121,7 @@
 	body_parts_covered = HEAD|FACE|EYES
 	heat_protection =    HEAD|FACE|EYES
 	cold_protection =    HEAD|FACE|EYES
-	flags =              THICKMATERIAL|AIRTIGHT
+	item_flags =         ITEM_FLAG_THICKMATERIAL|ITEM_FLAG_AIRTIGHT
 
 /obj/item/clothing/suit/lightrig
 	name = "suit"
@@ -87,7 +130,7 @@
 	heat_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	cold_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	flags_inv =          HIDEJUMPSUIT
-	flags =              THICKMATERIAL
+	item_flags =         ITEM_FLAG_THICKMATERIAL
 
 /obj/item/clothing/shoes/lightrig
 	name = "boots"
@@ -99,7 +142,7 @@
 
 /obj/item/clothing/gloves/lightrig
 	name = "gloves"
-	flags = THICKMATERIAL
+	item_flags = ITEM_FLAG_THICKMATERIAL
 	body_parts_covered = HANDS
 	heat_protection =    HANDS
 	cold_protection =    HANDS

@@ -3,50 +3,39 @@
 	name = "breath mask"
 	icon_state = "breath"
 	item_state = "breath"
-	flags = MASKCOVERSMOUTH | AIRTIGHT
-	body_parts_covered = 0
-	w_class = 2
+	item_flags = ITEM_FLAG_AIRTIGHT|ITEM_FLAG_FLEXIBLEMATERIAL
+	body_parts_covered = FACE
+	w_class = ITEM_SIZE_SMALL
 	gas_transfer_coefficient = 0.10
 	permeability_coefficient = 0.50
-
+	down_gas_transfer_coefficient = 1
+	down_body_parts_covered = null
+	down_item_flags = ITEM_FLAG_THICKMATERIAL
+	down_icon_state = "breathdown"
+	pull_mask = 1
 	sprite_sheets = list(
-		"Vox" = 'icons/mob/species/vox/masks.dmi'
+		SPECIES_VOX = 'icons/mob/species/vox/onmob_mask_vox.dmi',
+		SPECIES_UNATHI = 'icons/mob/species/unathi/generated/onmob_mask_unathi.dmi',
 		)
 
-	var/hanging = 0
-
-/obj/item/clothing/mask/breath/proc/adjust_mask(mob/user)
-	if(user.canmove && !user.stat)
-		if(!src.hanging)
-			src.hanging = !src.hanging
-			gas_transfer_coefficient = 1 //gas is now escaping to the turf and vice versa
-			flags &= ~(MASKCOVERSMOUTH | AIRTIGHT)
-			body_parts_covered = 0
-			icon_state = "breathdown"
-			user << "Your mask is now hanging on your neck."
-
-		else
-			src.hanging = !src.hanging
-			gas_transfer_coefficient = initial(gas_transfer_coefficient)
-			flags |= MASKCOVERSMOUTH | AIRTIGHT
-			body_parts_covered = initial(body_parts_covered)
-			icon_state = "breath"
-			user << "You pull the mask up to cover your face."
-		update_clothing_icon()
-
-/obj/item/clothing/mask/breath/attack_self(mob/user)
-	adjust_mask(user)
-
-/obj/item/clothing/mask/breath/verb/toggle()
-		set category = "Object"
-		set name = "Adjust mask"
-		set src in usr
-
-		adjust_mask(usr)
-
 /obj/item/clothing/mask/breath/medical
-	desc = "A close-fitting sterile mask that can be connected to an air supply."
+	desc = "A close-fitting sterile mask that can be manually connected to an air supply for treatment."
 	name = "medical mask"
 	icon_state = "medical"
 	item_state = "medical"
 	permeability_coefficient = 0.01
+
+/obj/item/clothing/mask/breath/anesthetic
+	desc = "A close-fitting sterile mask that is used by the anesthetic wallmounted pump."
+	name = "anesthetic mask"
+	icon_state = "medical"
+	item_state = "medical"
+	permeability_coefficient = 0.01
+
+/obj/item/clothing/mask/breath/emergency
+	desc = "A close-fitting  mask that is used by the wallmounted emergency oxygen pump."
+	name = "emergency mask"
+	icon_state = "breath"
+	item_state = "breath"
+	permeability_coefficient = 0.50
+

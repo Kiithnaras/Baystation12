@@ -3,7 +3,7 @@
 /obj/machinery/computer/pod
 	name = "pod launch control console"
 	desc = "A control console for launching pods. Some people prefer firing Mechas."
-	icon_state = "computer_generic"
+	icon_screen = "mass_driver"
 	light_color = "#00b000"
 	circuit = /obj/item/weapon/circuitboard/pod
 	var/id = 1.0
@@ -29,7 +29,7 @@
 		return
 
 	if(!( connected ))
-		viewers(null, null) << "Cannot locate mass driver connector. Cancelling firing sequence!"
+		to_chat(viewers(null, null), "Cannot locate mass driver connector. Cancelling firing sequence!")
 		return
 
 	for(var/obj/machinery/door/blast/M in world)
@@ -56,7 +56,7 @@
 		playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
 		if(do_after(user, 20))
 			if(stat & BROKEN)
-				user << "\blue The broken glass falls out."
+				to_chat(user, "<span class='notice'>The broken glass falls out.</span>")
 				var/obj/structure/computerframe/A = new /obj/structure/computerframe( loc )
 				new /obj/item/weapon/material/shard( loc )
 
@@ -72,7 +72,7 @@
 					M = new /obj/item/weapon/circuitboard/pod( A )
 
 				for (var/obj/C in src)
-					C.loc = loc
+					C.dropInto(loc)
 				M.id = id
 				A.circuit = M
 				A.state = 3
@@ -80,7 +80,7 @@
 				A.anchored = 1
 				qdel(src)
 			else
-				user << "\blue You disconnect the monitor."
+				to_chat(user, "<span class='notice'>You disconnect the monitor.</span>")
 				var/obj/structure/computerframe/A = new /obj/structure/computerframe( loc )
 
 				//generate appropriate circuitboard. Accounts for /pod/old computer types
@@ -95,7 +95,7 @@
 					M = new /obj/item/weapon/circuitboard/pod( A )
 
 				for (var/obj/C in src)
-					C.loc = loc
+					C.dropInto(loc)
 				M.id = id
 				A.circuit = M
 				A.state = 4
@@ -138,12 +138,11 @@
 		dat += "<BR>\n<A href = '?src=\ref[src];door=1'>Toggle Outer Door</A><BR>"
 	dat += "<BR><BR><A href='?src=\ref[user];mach_close=computer'>Close</A></TT></BODY></HTML>"
 	user << browse(dat, "window=computer;size=400x500")
-	add_fingerprint(usr)
 	onclose(user, "computer")
 	return
 
 
-/obj/machinery/computer/pod/process()
+/obj/machinery/computer/pod/Process()
 	if(!..())
 		return
 	if(timing)
@@ -157,44 +156,46 @@
 	return
 
 
-/obj/machinery/computer/pod/Topic(href, href_list)
-	if(..())
-		return 1
-	if((usr.contents.Find(src) || (in_range(src, usr) && istype(loc, /turf))) || (istype(usr, /mob/living/silicon)))
-		usr.set_machine(src)
-		if(href_list["power"])
-			var/t = text2num(href_list["power"])
-			t = min(max(0.25, t), 16)
-			if(connected)
-				connected.power = t
-		if(href_list["alarm"])
-			alarm()
-		if(href_list["drive"])
-			for(var/obj/machinery/mass_driver/M in machines)
-				if(M.id == id)
-					M.power = connected.power
-					M.drive()
+/obj/machinery/computer/pod/OnTopic(user, href_list)
+	if(href_list["power"])
+		var/t = text2num(href_list["power"])
+		t = min(max(0.25, t), 16)
+		if(connected)
+			connected.power = t
+		. = TOPIC_REFRESH
+	else if(href_list["alarm"])
+		alarm()
+		. = TOPIC_REFRESH
+	else if(href_list["drive"])
+		for(var/obj/machinery/mass_driver/M in SSmachines.machinery)
+			if(M.id == id)
+				M.power = connected.power
+				M.drive()
+		. = TOPIC_REFRESH
+	else if(href_list["time"])
+		timing = text2num(href_list["time"])
+		. = TOPIC_REFRESH
+	else if(href_list["tp"])
+		var/tp = text2num(href_list["tp"])
+		time += tp
+		time = min(max(round(time), 0), 120)
+		. = TOPIC_REFRESH
+	else if(href_list["door"])
+		for(var/obj/machinery/door/blast/M in world)
+			if(M.id == id)
+				if(M.density)
+					M.open()
+				else
+					M.close()
+		. = TOPIC_REFRESH
 
-		if(href_list["time"])
-			timing = text2num(href_list["time"])
-		if(href_list["tp"])
-			var/tp = text2num(href_list["tp"])
-			time += tp
-			time = min(max(round(time), 0), 120)
-		if(href_list["door"])
-			for(var/obj/machinery/door/blast/M in world)
-				if(M.id == id)
-					if(M.density)
-						M.open()
-					else
-						M.close()
-		updateUsrDialog()
-	return
-
-
+	if(. == TOPIC_REFRESH)
+		attack_hand(user)
 
 /obj/machinery/computer/pod/old
-	icon_state = "old"
+	icon_state = "oldcomp"
+	icon_keyboard = null
+	icon_screen = "library"
 	name = "DoorMex Control Computer"
 	title = "Door Controls"
 
@@ -208,11 +209,11 @@
 
 /obj/machinery/computer/pod/old/syndicate/attack_hand(var/mob/user as mob)
 	if(!allowed(user))
-		user << "\red Access Denied"
+		to_chat(user, "<span class='warning'>Access Denied</span>")
 		return
 	else
 		..()
 
 /obj/machinery/computer/pod/old/swf
 	name = "Magix System IV"
-	desc = "An arcane artifact that holds much magic. Running E-Knock 2.2: Sorceror's Edition"
+	desc = "An arcane artifact that holds much magic. Running E-Knock 2.2: Sorceror's Edition."

@@ -2,7 +2,7 @@
 
 /spell/aoe_turf/conjure/construct
 	name = "Artificer"
-	desc = "This spell conjures a construct which may be controlled by Shades"
+	desc = "This spell conjures a construct which may be controlled by Shades."
 
 	school = "conjuration"
 	charge_max = 600
@@ -30,15 +30,9 @@
 	invocation = "none"
 	invocation_type = SpI_NONE
 	range = 0
-	summon_type = list(/turf/simulated/floor/engine/cult)
+	summon_type = list(/turf/simulated/floor/cult)
 
 	hud_state = "const_floor"
-
-/spell/aoe_turf/conjure/floor/conjure_animation(var/atom/movable/overlay/animation, var/turf/target)
-	animation.icon_state = "cultfloor"
-	flick("cultfloor",animation)
-	spawn(10)
-		qdel(animation)
 
 /spell/aoe_turf/conjure/wall
 	name = "Lesser Construction"
@@ -52,12 +46,6 @@
 	summon_type = list(/turf/simulated/wall/cult)
 
 	hud_state = "const_wall"
-
-/spell/aoe_turf/conjure/wall/conjure_animation(var/atom/movable/overlay/animation, var/turf/target)
-	animation.icon_state = "cultwall"
-	flick("cultwall",animation)
-	spawn(10)
-		qdel(animation)
 
 /spell/aoe_turf/conjure/wall/reinforced
 	name = "Greater Construction"
@@ -126,12 +114,9 @@
 
 //Code for the Juggernaut construct's forcefield, that seemed like a good place to put it.
 /obj/effect/forcefield/cult
-	desc = "That eerie looking obstacle seems to have been pulled from another dimension through sheer force"
+	desc = "That eerie looking obstacle seems to have been pulled from another dimension through sheer force."
 	name = "Juggerwall"
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "m_shield_cult"
-	light_color = "#B40000"
-	light_range = 2
-
-/obj/effect/forcefield/cult/cultify()
-	return
+	light_color = "#b40000"
+	light_outer_range = 2

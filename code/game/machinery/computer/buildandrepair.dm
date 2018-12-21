@@ -8,107 +8,122 @@
 	icon_state = "0"
 	var/state = 0
 	var/obj/item/weapon/circuitboard/circuit = null
+	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE
 //	weight = 1.0E8
 
 /obj/structure/computerframe/attackby(obj/item/P as obj, mob/user as mob)
 	switch(state)
 		if(0)
-			if(istype(P, /obj/item/weapon/wrench))
+			if(isWrench(P))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-				if(do_after(user, 20))
-					user << "\blue You wrench the frame into place."
+				if(do_after(user, 20, src))
+					to_chat(user, "<span class='notice'>You wrench the frame into place.</span>")
 					src.anchored = 1
 					src.state = 1
-			if(istype(P, /obj/item/weapon/weldingtool))
+			if(isWelder(P))
 				var/obj/item/weapon/weldingtool/WT = P
 				if(!WT.remove_fuel(0, user))
-					user << "The welding tool must be on to complete this task."
+					to_chat(user, "The welding tool must be on to complete this task.")
 					return
 				playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
-				if(do_after(user, 20))
+				if(do_after(user, 20, src))
 					if(!src || !WT.isOn()) return
-					user << "\blue You deconstruct the frame."
+					to_chat(user, "<span class='notice'>You deconstruct the frame.</span>")
 					new /obj/item/stack/material/steel( src.loc, 5 )
 					qdel(src)
 		if(1)
-			if(istype(P, /obj/item/weapon/wrench))
+			if(isWrench(P))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-				if(do_after(user, 20))
-					user << "\blue You unfasten the frame."
+				if(do_after(user, 20, src))
+					to_chat(user, "<span class='notice'>You unfasten the frame.</span>")
 					src.anchored = 0
 					src.state = 0
 			if(istype(P, /obj/item/weapon/circuitboard) && !circuit)
 				var/obj/item/weapon/circuitboard/B = P
 				if(B.board_type == "computer")
+					if(!user.unEquip(P, src))
+						return
 					playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
-					user << "\blue You place the circuit board inside the frame."
+					to_chat(user, "<span class='notice'>You place the circuit board inside the frame.</span>")
 					src.icon_state = "1"
 					src.circuit = P
-					user.drop_item()
-					P.loc = src
 				else
-					user << "\red This frame does not accept circuit boards of this type!"
-			if(istype(P, /obj/item/weapon/screwdriver) && circuit)
+					to_chat(user, "<span class='warning'>This frame does not accept circuit boards of this type!</span>")
+			if(isScrewdriver(P) && circuit)
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
-				user << "\blue You screw the circuit board into place."
+				to_chat(user, "<span class='notice'>You screw the circuit board into place.</span>")
 				src.state = 2
 				src.icon_state = "2"
-			if(istype(P, /obj/item/weapon/crowbar) && circuit)
+			if(isCrowbar(P) && circuit)
 				playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
-				user << "\blue You remove the circuit board."
+				to_chat(user, "<span class='notice'>You remove the circuit board.</span>")
 				src.state = 1
 				src.icon_state = "0"
-				circuit.loc = src.loc
+				circuit.dropInto(loc)
 				src.circuit = null
 		if(2)
-			if(istype(P, /obj/item/weapon/screwdriver) && circuit)
+			if(isScrewdriver(P) && circuit)
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
-				user << "\blue You unfasten the circuit board."
+				to_chat(user, "<span class='notice'>You unfasten the circuit board.</span>")
 				src.state = 1
 				src.icon_state = "1"
-			if(istype(P, /obj/item/stack/cable_coil))
+			if(isCoil(P))
 				var/obj/item/stack/cable_coil/C = P
 				if (C.get_amount() < 5)
-					user << "<span class='warning'>You need five coils of wire to add them to the frame.</span>"
+					to_chat(user, "<span class='warning'>You need five coils of wire to add them to the frame.</span>")
 					return
-				user << "<span class='notice'>You start to add cables to the frame.</span>"
+				to_chat(user, "<span class='notice'>You start to add cables to the frame.</span>")
 				playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
-				if(do_after(user, 20) && state == 2)
+				if(do_after(user, 20, src) && state == 2)
 					if (C.use(5))
-						user << "<span class='notice'>You add cables to the frame.</span>"
+						to_chat(user, "<span class='notice'>You add cables to the frame.</span>")
 						state = 3
 						icon_state = "3"
 		if(3)
-			if(istype(P, /obj/item/weapon/wirecutters))
+			if(isWirecutter(P))
 				playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
-				user << "\blue You remove the cables."
+				to_chat(user, "<span class='notice'>You remove the cables.</span>")
 				src.state = 2
 				src.icon_state = "2"
 				var/obj/item/stack/cable_coil/A = new /obj/item/stack/cable_coil( src.loc )
 				A.amount = 5
 
-			if(istype(P, /obj/item/stack/material) && P.get_material_name() == "glass")
+			if(istype(P, /obj/item/stack/material) && P.get_material_name() == MATERIAL_GLASS)
 				var/obj/item/stack/G = P
 				if (G.get_amount() < 2)
-					user << "<span class='warning'>You need two sheets of glass to put in the glass panel.</span>"
+					to_chat(user, "<span class='warning'>You need two sheets of glass to put in the glass panel.</span>")
 					return
 				playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
-				user << "<span class='notice'>You start to put in the glass panel.</span>"
-				if(do_after(user, 20) && state == 3)
+				to_chat(user, "<span class='notice'>You start to put in the glass panel.</span>")
+				if(do_after(user, 20, src) && state == 3)
 					if (G.use(2))
-						user << "<span class='notice'>You put in the glass panel.</span>"
+						to_chat(user, "<span class='notice'>You put in the glass panel.</span>")
 						src.state = 4
 						src.icon_state = "4"
 		if(4)
-			if(istype(P, /obj/item/weapon/crowbar))
+			if(isCrowbar(P))
 				playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
-				user << "\blue You remove the glass panel."
+				to_chat(user, "<span class='notice'>You remove the glass panel.</span>")
 				src.state = 3
 				src.icon_state = "3"
 				new /obj/item/stack/material/glass( src.loc, 2 )
-			if(istype(P, /obj/item/weapon/screwdriver))
+			if(isScrewdriver(P))
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
-				user << "\blue You connect the monitor."
-				var/B = new src.circuit.build_path ( src.loc )
+				to_chat(user, "<span class='notice'>You connect the monitor.</span>")
+				var/atom/B = new src.circuit.build_path ( src.loc )
 				src.circuit.construct(B)
+				B.set_dir(src.dir)
 				qdel(src)
+
+/obj/structure/computerframe/verb/rotate()
+	set category = "Object"
+	set name = "Rotate Computer Frame"
+	set src in oview(1)
+
+	if (!Adjacent(usr) || usr.incapacitated() || src.state != 0)
+		return
+
+	src.set_dir(turn(src.dir, 90))
+
+/obj/structure/computerframe/AltClick()
+	rotate()

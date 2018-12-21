@@ -6,6 +6,7 @@
 
 /obj/item/device/analyzer/plant_analyzer
 	name = "plant analyzer"
+	desc = "A hand-held botanical scanner used to analyze plants."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "hydro"
 	item_state = "analyzer"
@@ -29,19 +30,18 @@
 
 /obj/item/device/analyzer/plant_analyzer/proc/print_report(var/mob/living/user)
 	if(!last_data)
-		user << "There is no scan data to print."
+		to_chat(user, "There is no scan data to print.")
 		return
 	var/obj/item/weapon/paper/P = new /obj/item/weapon/paper(get_turf(src))
-	P.name = "paper - [form_title]"
+	P.SetName("paper - [form_title]")
 	P.info = "[last_data]"
 	if(istype(user,/mob/living/carbon/human) && !(user.l_hand && user.r_hand))
 		user.put_in_hands(P)
 	user.visible_message("\The [src] spits out a piece of paper.")
 	return
 
-/obj/item/device/analyzer/plant_analyzer/attack_self(mob/user as mob)
+/obj/item/device/analyzer/plant_analyzer/attack_self(mob/user)
 	print_report(user)
-	return 0
 
 /obj/item/device/analyzer/plant_analyzer/afterattack(obj/target, mob/user, flag)
 	if(!flag) return
@@ -53,13 +53,13 @@
 	else if(istype(target,/obj/item/weapon/reagent_containers/food/snacks/grown))
 
 		var/obj/item/weapon/reagent_containers/food/snacks/grown/G = target
-		grown_seed = plant_controller.seeds[G.plantname]
+		grown_seed = SSplants.seeds[G.plantname]
 		grown_reagents = G.reagents
 
 	else if(istype(target,/obj/item/weapon/grown))
 
 		var/obj/item/weapon/grown/G = target
-		grown_seed = plant_controller.seeds[G.plantname]
+		grown_seed = SSplants.seeds[G.plantname]
 		grown_reagents = G.reagents
 
 	else if(istype(target,/obj/item/seeds))
@@ -74,7 +74,7 @@
 		grown_reagents = H.reagents
 
 	if(!grown_seed)
-		user << "<span class='danger'>[src] can tell you nothing about \the [target].</span>"
+		to_chat(user, "<span class='danger'>[src] can tell you nothing about \the [target].</span>")
 		return
 
 	form_title = "[grown_seed.seed_name] (#[grown_seed.uid])"
@@ -96,7 +96,7 @@
 
 		dat += "<br>This sample contains: "
 		for(var/datum/reagent/R in grown_reagents.reagent_list)
-			dat += "<br>- [R.id], [grown_reagents.get_reagent_amount(R.id)] unit(s)"
+			dat += "<br>- [R.name], [grown_reagents.get_reagent_amount(R.type)] unit(s)"
 
 	dat += "<h2>Other Data</h2>"
 
@@ -197,6 +197,12 @@
 
 	if(grown_seed.get_trait(TRAIT_TELEPORTING))
 		dat += "<br>The fruit is temporal/spatially unstable."
+
+	if(grown_seed.get_trait(TRAIT_EXUDE_GASSES))
+		dat += "<br>It will release gas into the environment."
+
+	if(grown_seed.get_trait(TRAIT_CONSUME_GASSES))
+		dat += "<br>It will remove gas from the environment."
 
 	if(dat)
 		last_data = dat

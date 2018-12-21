@@ -3,19 +3,19 @@
 	icon = 'icons/obj/pda.dmi'
 	icon_state = "pai"
 	item_state = "electronic"
-	w_class = 2.0
+	w_class = ITEM_SIZE_SMALL
 	slot_flags = SLOT_BELT
-	origin_tech = "programming=2"
+	origin_tech = list(TECH_DATA = 2)
 	var/obj/item/device/radio/radio
 	var/looking_for_personality = 0
 	var/mob/living/silicon/pai/pai
 
-/*/obj/item/device/paicard/relaymove(var/mob/user, var/direction)
-	if(src.loc && istype(src.loc.loc, /obj/item/rig_module))
-		var/obj/item/rig_module/module = src.loc.loc
-		if(!module.holder || !direction)
-			return
-		module.holder.forced_move(direction)*/
+/obj/item/device/paicard/relaymove(var/mob/user, var/direction)
+	if(user.stat || user.stunned)
+		return
+	var/obj/item/weapon/rig/rig = src.get_rig()
+	if(istype(rig))
+		rig.forced_move(direction, user)
 
 /obj/item/device/paicard/New()
 	..()
@@ -25,7 +25,8 @@
 	//Will stop people throwing friend pAIs into the singularity so they can respawn
 	if(!isnull(pai))
 		pai.death(0)
-	..()
+	QDEL_NULL(radio)
+	return ..()
 
 /obj/item/device/paicard/attack_self(mob/user)
 	if (!in_range(src, user))
@@ -74,7 +75,7 @@
 					    color: white;
 					}
 					tr.d2 td {
-					    background-color: #00FF00;
+					    background-color: #00ff00;
 					    color: white;
 					    text-align:center;
 					}
@@ -89,7 +90,7 @@
 					}
 					td.button_red {
 					    border: 1px solid #161616;
-					    background-color: #B04040;
+					    background-color: #b04040;
 					    text-align: center;
 					}
 					td.download {
@@ -113,7 +114,7 @@
 					    vertical-align:top;
 					}
 					a {
-					    color:#4477E0;
+					    color:#4477e0;
 					}
 					a.button {
 					    color:white;
@@ -168,20 +169,20 @@
 				<table class="request">
 					<tr>
 						<td class="radio">Transmit:</td>
-						<td><a href='byond://?src=\ref[src];wires=4'>[radio.broadcasting ? "<font color=#55FF55>En" : "<font color=#FF5555>Dis" ]abled</font></a>
+						<td><a href='byond://?src=\ref[src];wires=4'>[radio.broadcasting ? "<font color=#55ff55>En" : "<font color=#ff5555>Dis" ]abled</font></a>
 
 						</td>
 					</tr>
 					<tr>
 						<td class="radio">Receive:</td>
-						<td><a href='byond://?src=\ref[src];wires=2'>[radio.listening ? "<font color=#55FF55>En" : "<font color=#FF5555>Dis" ]abled</font></a>
+						<td><a href='byond://?src=\ref[src];wires=2'>[radio.listening ? "<font color=#55ff55>En" : "<font color=#ff5555>Dis" ]abled</font></a>
 
 						</td>
 					</tr>
 				</table>
 				<br>
 			"}
-		else
+		else //</font></font>
 			dat += "<b>Radio Uplink</b><br>"
 			dat += "<font color=red><i>Radio firmware not loaded. Please install a pAI personality to load firmware.</i></font><br>"
 		dat += {"
@@ -233,12 +234,12 @@
 			return
 		var/mob/M = usr
 		if(!istype(M, /mob/living/carbon))
-			usr << "<font color=blue>You don't have any DNA, or your DNA is incompatible with this device.</font>"
+			to_chat(usr, "<span class='notice'>You don't have any DNA, or your DNA is incompatible with this device.</span>")
 		else
 			var/datum/dna/dna = usr.dna
 			pai.master = M.real_name
 			pai.master_dna = dna.unique_enzymes
-			pai << "<font color = red><h3>You have been bound to a new master.</h3></font>"
+			to_chat(pai, "<span class='warning'>You have been bound to a new master.</span>")
 	if(href_list["request"])
 		src.looking_for_personality = 1
 		paiController.findPAI(src, usr)
@@ -246,10 +247,10 @@
 		var/confirm = input("Are you CERTAIN you wish to delete the current personality? This action cannot be undone.", "Personality Wipe") in list("Yes", "No")
 		if(confirm == "Yes")
 			for(var/mob/M in src)
-				M << "<font color = #ff0000><h2>You feel yourself slipping away from reality.</h2></font>"
-				M << "<font color = #ff4d4d><h3>Byte by byte you lose your sense of self.</h3></font>"
-				M << "<font color = #ff8787><h4>Your mental faculties leave you.</h4></font>"
-				M << "<font color = #ffc4c4><h5>oblivion... </h5></font>"
+				to_chat(M, "<font color = #ff0000><h2>You feel yourself slipping away from reality.</h2></font>")
+				to_chat(M, "<font color = #ff4d4d><h3>Byte by byte you lose your sense of self.</h3></font>")
+				to_chat(M, "<font color = #ff8787><h4>Your mental faculties leave you.</h4></font>")
+				to_chat(M, "<font color = #ffc4c4><h5>oblivion... </h5></font>")
 				M.death(0)
 			removePersonality()
 	if(href_list["wires"])
@@ -263,9 +264,9 @@
 		var/newlaws = sanitize(input("Enter any additional directives you would like your pAI personality to follow. Note that these directives will not override the personality's allegiance to its imprinted master. Conflicting directives will be ignored.", "pAI Directive Configuration", pai.pai_laws) as message)
 		if(newlaws)
 			pai.pai_laws = newlaws
-			pai << "Your supplemental directives have been updated. Your new directives are:"
-			pai << "Prime Directive: <br>[pai.pai_law0]"
-			pai << "Supplemental Directives: <br>[pai.pai_laws]"
+			to_chat(pai, "Your supplemental directives have been updated. Your new directives are:")
+			to_chat(pai, "Prime Directive: <br>[pai.pai_law0]")
+			to_chat(pai, "Supplemental Directives: <br>[pai.pai_laws]")
 	attack_self(usr)
 
 // 		WIRE_SIGNAL = 1
@@ -307,7 +308,7 @@
 /obj/item/device/paicard/proc/alertUpdate()
 	var/turf/T = get_turf_or_move(src.loc)
 	for (var/mob/M in viewers(T))
-		M.show_message("\blue [src] flashes a message across its screen, \"Additional personalities available for download.\"", 3, "\blue [src] bleeps electronically.", 2)
+		M.show_message("<span class='notice'>\The [src] flashes a message across its screen, \"Additional personalities available for download.\"</span>", 3, "<span class='notice'>\The [src] bleeps electronically.</span>", 2)
 
 /obj/item/device/paicard/emp_act(severity)
 	for(var/mob/M in src)
@@ -320,7 +321,13 @@
 		qdel(src)
 
 /obj/item/device/paicard/see_emote(mob/living/M, text)
-	if(pai && pai.client)
+	if(pai && pai.client && pai.stat == CONSCIOUS)
 		var/rendered = "<span class='message'>[text]</span>"
 		pai.show_message(rendered, 2)
+	..()
+
+/obj/item/device/paicard/show_message(msg, type, alt, alt_type)
+	if(pai && pai.client)
+		var/rendered = "<span class='message'>[msg]</span>"
+		pai.show_message(rendered, type)
 	..()

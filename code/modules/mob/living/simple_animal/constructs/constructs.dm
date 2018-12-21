@@ -2,6 +2,7 @@
 	name = "Construct"
 	real_name = "Construct"
 	desc = ""
+	speak = list("Hsssssssszsht.", "Hsssssssss...", "Tcshsssssssszht!")
 	speak_emote = list("hisses")
 	emote_hear = list("wails","screeches")
 	response_help  = "thinks better of touching"
@@ -15,23 +16,20 @@
 	universal_speak = 0
 	universal_understand = 1
 	attack_sound = 'sound/weapons/spiderlunge.ogg'
-	min_oxy = 0
-	max_oxy = 0
-	min_tox = 0
-	max_tox = 0
-	min_co2 = 0
-	max_co2 = 0
-	min_n2 = 0
-	max_n2 = 0
+	min_gas = null
+	max_gas = null
 	minbodytemp = 0
 	show_stat_health = 1
 	faction = "cult"
 	supernatural = 1
-	see_invisible = SEE_INVISIBLE_OBSERVER_NOLIGHTING
+	see_in_dark = 8
+	see_invisible = SEE_INVISIBLE_NOLIGHTING
 	var/nullblock = 0
 
 	mob_swap_flags = HUMAN|SIMPLE_ANIMAL|SLIME|MONKEY
 	mob_push_flags = ALLMOBS
+
+	bleed_colour = "#331111"
 
 	var/list/construct_spells = list()
 
@@ -40,33 +38,37 @@
 
 /mob/living/simple_animal/construct/New()
 	..()
-	name = text("[initial(name)] ([rand(1, 1000)])")
+	name = text("[initial(name)] ([random_id(/mob/living/simple_animal/construct, 1000, 9999)])")
 	real_name = name
 	add_language("Cult")
-	add_language("Occult")
+	add_language(LANGUAGE_OCCULT)
 	for(var/spell in construct_spells)
 		src.add_spell(new spell, "const_spell_ready")
-	updateicon()
-	add_glow()
+	update_icon()
 
-/mob/living/simple_animal/construct/death()
+/mob/living/simple_animal/construct/death(gibbed, deathmessage, show_dead_message)
 	new /obj/item/weapon/ectoplasm (src.loc)
-	..(null,"collapses in a shattered heap.")
+	..(null,"collapses in a shattered heap.","The bonds tying you to this mortal plane have been severed.")
 	ghostize()
 	qdel(src)
+
+/mob/living/simple_animal/construct/on_update_icon()
+	overlays.Cut()
+	..()
+	add_glow()
 
 /mob/living/simple_animal/construct/attack_generic(var/mob/user)
 	if(istype(user, /mob/living/simple_animal/construct/builder))
 		if(health < maxHealth)
 			adjustBruteLoss(-5)
-			user.visible_message("<span class='notice'>\The [user]</b> mends some of \the [src]'s wounds.</span>")
+			user.visible_message("<span class='notice'>\The [user] mends some of \the [src]'s wounds.</span>")
 		else
-			user << "<span class='notice'>\The [src] is undamaged.</span>"
+			to_chat(user, "<span class='notice'>\The [src] is undamaged.</span>")
 		return
 	return ..()
 
 /mob/living/simple_animal/construct/examine(mob/user)
-	..(user)
+	. = ..(user)
 	var/msg = "<span cass='info'>*---------*\nThis is \icon[src] \a <EM>[src]</EM>!\n"
 	if (src.health < src.maxHealth)
 		msg += "<span class='warning'>"
@@ -77,8 +79,14 @@
 		msg += "</span>"
 	msg += "*---------*</span>"
 
-	user << msg
+	to_chat(user, msg)
 
+/obj/item/weapon/ectoplasm
+	name = "ectoplasm"
+	desc = "Spooky."
+	gender = PLURAL
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "ectoplasm"
 
 /////////////////Juggernaut///////////////
 
@@ -93,22 +101,25 @@
 	icon_living = "behemoth"
 	maxHealth = 250
 	health = 250
+	speak_emote = list("rumbles")
 	response_harm   = "harmlessly punches"
 	harm_intent_damage = 0
 	melee_damage_lower = 30
 	melee_damage_upper = 30
 	attacktext = "smashed their armoured gauntlet into"
-	mob_size = 20
+	mob_size = MOB_LARGE
 	speed = 3
 	environment_smash = 2
 	attack_sound = 'sound/weapons/heavysmash.ogg'
 	status_flags = 0
 	resistance = 10
 	construct_spells = list(/spell/aoe_turf/conjure/forcewall/lesser)
+	can_escape = 1
 
 /mob/living/simple_animal/construct/armoured/Life()
 	weakened = 0
-	..()
+	if ((. = ..()))
+		return 
 
 /mob/living/simple_animal/construct/armoured/bullet_act(var/obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/energy) || istype(P, /obj/item/projectile/beam))
@@ -144,6 +155,7 @@
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "floating"
 	icon_living = "floating"
+	icon_dead = "floating_dead"
 	maxHealth = 75
 	health = 75
 	melee_damage_lower = 25
@@ -210,6 +222,7 @@
 	var/energy = 0
 	var/max_energy = 1000
 	construct_spells = list(/spell/aoe_turf/conjure/forcewall/lesser)
+	can_escape = 1
 
 ////////////////////////Harvester////////////////////////////////
 
@@ -218,10 +231,11 @@
 /mob/living/simple_animal/construct/harvester
 	name = "Harvester"
 	real_name = "Harvester"
-	desc = "The promised reward of the livings who follow narsie. Obtained by offering their bodies to the geometer of blood"
+	desc = "The promised reward of the livings who follow Nar-Sie. Obtained by offering their bodies to the geometer of blood"
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "harvester"
 	icon_living = "harvester"
+	icon_dead = "harvester_dead"
 	maxHealth = 150
 	health = 150
 	melee_damage_lower = 25
@@ -233,20 +247,16 @@
 	attack_sound = 'sound/weapons/pierce.ogg'
 
 	construct_spells = list(
-			/spell/targeted/harvest,
-			/spell/aoe_turf/knock/harvester,
-			/spell/rune_write
+			/spell/targeted/harvest
 		)
 
 ////////////////Glow//////////////////
 /mob/living/simple_animal/construct/proc/add_glow()
-	overlays = 0
-	var/overlay_layer = LIGHTING_LAYER+0.1
-	if(layer != MOB_LAYER)
-		overlay_layer=TURF_LAYER+0.2
-
-	overlays += image(icon,"glow-[icon_state]",overlay_layer)
-	set_light(2, -2, l_color = "#FFFFFF")
+	var/image/eye_glow = image(icon,"glow-[icon_state]")
+	eye_glow.plane = EFFECTS_ABOVE_LIGHTING_PLANE
+	eye_glow.layer = EYE_GLOW_LAYER
+	overlays += eye_glow
+	set_light(-10, 0.1, 3, l_color = "#ffffff")
 
 ////////////////HUD//////////////////////
 
@@ -267,7 +277,7 @@
 		silence_spells(purge)
 
 /mob/living/simple_animal/construct/armoured/Life()
-	..()
+	. = ..()
 	if(healths)
 		switch(health)
 			if(250 to INFINITY)		healths.icon_state = "juggernaut_health0"
@@ -281,7 +291,7 @@
 
 
 /mob/living/simple_animal/construct/behemoth/Life()
-	..()
+	. = ..()
 	if(healths)
 		switch(health)
 			if(750 to INFINITY)		healths.icon_state = "juggernaut_health0"
@@ -294,7 +304,7 @@
 			else					healths.icon_state = "juggernaut_health7"
 
 /mob/living/simple_animal/construct/builder/Life()
-	..()
+	. = ..()
 	if(healths)
 		switch(health)
 			if(50 to INFINITY)		healths.icon_state = "artificer_health0"
@@ -309,7 +319,7 @@
 
 
 /mob/living/simple_animal/construct/wraith/Life()
-	..()
+	. = ..()
 	if(healths)
 		switch(health)
 			if(75 to INFINITY)		healths.icon_state = "wraith_health0"
@@ -323,7 +333,7 @@
 
 
 /mob/living/simple_animal/construct/harvester/Life()
-	..()
+	. = ..()
 	if(healths)
 		switch(health)
 			if(150 to INFINITY)		healths.icon_state = "harvester_health0"

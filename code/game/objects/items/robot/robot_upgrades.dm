@@ -2,19 +2,17 @@
 // Contains various borg upgrades.
 
 /obj/item/borg/upgrade
-	name = "borg upgrade module."
+	name = "robot upgrade module"
 	desc = "Protected by FRM."
 	icon = 'icons/obj/module.dmi'
 	icon_state = "cyborg_upgrade"
-	var/construction_time = 120
-	var/construction_cost = list(DEFAULT_WALL_MATERIAL=10000)
 	var/locked = 0
 	var/require_module = 0
 	var/installed = 0
 
 /obj/item/borg/upgrade/proc/action(var/mob/living/silicon/robot/R)
 	if(R.stat == DEAD)
-		usr << "\red The [src] will not function on a deceased robot."
+		to_chat(usr, "<span class='warning'>The [src] will not function on a deceased robot.</span>")
 		return 1
 	return 0
 
@@ -26,24 +24,43 @@
 	require_module = 1
 
 /obj/item/borg/upgrade/reset/action(var/mob/living/silicon/robot/R)
-	if(..()) return 0
-	R.uneq_all()
-	R.modtype = initial(R.modtype)
-	R.hands.icon_state = initial(R.hands.icon_state)
+	if((. = ..())) return 0
 
-	R.choose_icon(1, R.set_module_sprites(list("Default" = "robot")))
-
-	R.notify_ai(ROBOT_NOTIFICATION_MODULE_RESET, R.module.name)
-	R.module.Reset(R)
-	R.updatename("Default")
-
+	R.reset_module()
 	return 1
+
+/obj/item/borg/upgrade/uncertified
+	name = "uncertified robotic module"
+	desc = "You shouldn't be seeing this!"
+	icon_state = "cyborg_upgrade5"
+	require_module = 0
+	var/new_module = null
+
+/obj/item/borg/upgrade/uncertified/action(var/mob/living/silicon/robot/R)
+	if((. = ..())) return 0
+	if(!new_module)
+		to_chat(usr, "<span class='warning'>[R]'s error lights strobe repeatedly - something seems to be wrong with the chip.</span>")
+		return 0
+
+	// Suppress the alert so the AI doesn't see a reset message.
+	R.reset_module(TRUE)
+	R.pick_module(new_module)
+	return 1
+
+/obj/item/borg/upgrade/uncertified/party
+	name = "\improper Madhouse Productions Official Party Module"
+	desc = "A weird-looking chip with third-party additions crudely soldered in. It feels cheap and chintzy in the hand. Inscribed into the cheap-feeling circuit is the logo of Madhouse Productions, a group that arranges parties and entertainment venues."
+	new_module = "Party"
+
+/obj/item/borg/upgrade/uncertified/combat
+	name = "ancient module"
+	desc = "A well-made but somewhat archaic looking bit of circuitry. The chip is stamped with an insignia: a gun protruding from a stylized fist."
+	new_module = "Combat"
 
 /obj/item/borg/upgrade/rename
 	name = "robot reclassification board"
 	desc = "Used to rename a cyborg."
 	icon_state = "cyborg_upgrade1"
-	construction_cost = list(DEFAULT_WALL_MATERIAL=35000)
 	var/heldname = "default name"
 
 /obj/item/borg/upgrade/rename/attack_self(mob/user as mob)
@@ -52,32 +69,47 @@
 /obj/item/borg/upgrade/rename/action(var/mob/living/silicon/robot/R)
 	if(..()) return 0
 	R.notify_ai(ROBOT_NOTIFICATION_NEW_NAME, R.name, heldname)
-	R.name = heldname
+	R.SetName(heldname)
 	R.custom_name = heldname
 	R.real_name = heldname
 
 	return 1
 
+/obj/item/borg/upgrade/floodlight
+	name = "robot floodlight module"
+	desc = "Used to boost cyborg's light intensity."
+	icon_state = "cyborg_upgrade1"
+
+/obj/item/borg/upgrade/floodlight/action(var/mob/living/silicon/robot/R)
+	if(..()) return 0
+
+	if(R.intenselight)
+		to_chat(usr, "This cyborg's light was already upgraded")
+		return 0
+	else
+		R.intenselight = 1
+		R.update_robot_light()
+		to_chat(R, "Lighting systems upgrade detected.")
+	return 1
+
 /obj/item/borg/upgrade/restart
 	name = "robot emergency restart module"
 	desc = "Used to force a restart of a disabled-but-repaired robot, bringing it back online."
-	construction_cost = list(DEFAULT_WALL_MATERIAL=60000 , "glass"=5000)
 	icon_state = "cyborg_upgrade1"
 
 
 /obj/item/borg/upgrade/restart/action(var/mob/living/silicon/robot/R)
 	if(R.health < 0)
-		usr << "You have to repair the robot before using this module!"
+		to_chat(usr, "You have to repair the robot before using this module!")
 		return 0
 
 	if(!R.key)
-		for(var/mob/dead/observer/ghost in player_list)
+		for(var/mob/observer/ghost/ghost in GLOB.player_list)
 			if(ghost.mind && ghost.mind.current == R)
 				R.key = ghost.key
 
-	R.stat = CONSCIOUS
-	dead_mob_list -= R
-	living_mob_list |= R
+	R.set_stat(CONSCIOUS)
+	R.switch_from_dead_to_living_mob_list()
 	R.notify_ai(ROBOT_NOTIFICATION_NEW_UNIT)
 	return 1
 
@@ -85,7 +117,6 @@
 /obj/item/borg/upgrade/vtec
 	name = "robotic VTEC Module"
 	desc = "Used to kick in a robot's VTEC systems, increasing their speed."
-	construction_cost = list(DEFAULT_WALL_MATERIAL=80000 , "glass"=6000 , "gold"= 5000)
 	icon_state = "cyborg_upgrade2"
 	require_module = 1
 
@@ -99,34 +130,31 @@
 	return 1
 
 
-/obj/item/borg/upgrade/tasercooler
-	name = "robotic Rapid Taser Cooling Module"
-	desc = "Used to cool a mounted taser, increasing the potential current in it and thus its recharge rate."
-	construction_cost = list(DEFAULT_WALL_MATERIAL=80000 , "glass"=6000 , "gold"= 2000, "diamond" = 500)
+/obj/item/borg/upgrade/weaponcooler
+	name = "robotic Rapid Weapon Cooling Module"
+	desc = "Used to cool a mounted energy gun, increasing the potential current in it and thus its recharge rate."
 	icon_state = "cyborg_upgrade3"
 	require_module = 1
 
 
-/obj/item/borg/upgrade/tasercooler/action(var/mob/living/silicon/robot/R)
+/obj/item/borg/upgrade/weaponcooler/action(var/mob/living/silicon/robot/R)
 	if(..()) return 0
 
-	if(!R.module || !(src in R.module.supported_upgrades))
-		R << "Upgrade mounting error!  No suitable hardpoint detected!"
-		usr << "There's no mounting point for the module!"
+	if(!R.module || !(type in R.module.supported_upgrades))
+		to_chat(R, "Upgrade mounting error!  No suitable hardpoint detected!")
+		to_chat(usr, "There's no mounting point for the module!")
 		return 0
 
-	var/obj/item/weapon/gun/energy/taser/mounted/cyborg/T = locate() in R.module
-	if(!T)
-		T = locate() in R.module.contents
+	var/obj/item/weapon/gun/energy/gun/secure/mounted/T = locate() in R.module
 	if(!T)
 		T = locate() in R.module.modules
 	if(!T)
-		usr << "This robot has had its taser removed!"
+		to_chat(usr, "This robot has had its energy gun removed!")
 		return 0
 
 	if(T.recharge_time <= 2)
-		R << "Maximum cooling achieved for this hardpoint!"
-		usr << "There's no room for another cooling unit!"
+		to_chat(R, "Maximum cooling achieved for this hardpoint!")
+		to_chat(usr, "There's no room for another cooling unit!")
 		return 0
 
 	else
@@ -137,16 +165,15 @@
 /obj/item/borg/upgrade/jetpack
 	name = "mining robot jetpack"
 	desc = "A carbon dioxide jetpack suitable for low-gravity mining operations."
-	construction_cost = list(DEFAULT_WALL_MATERIAL=10000,"phoron"=15000,"uranium" = 20000)
 	icon_state = "cyborg_upgrade3"
 	require_module = 1
 
 /obj/item/borg/upgrade/jetpack/action(var/mob/living/silicon/robot/R)
 	if(..()) return 0
 
-	if(!R.module || !(src in R.module.supported_upgrades))
-		R << "Upgrade mounting error!  No suitable hardpoint detected!"
-		usr << "There's no mounting point for the module!"
+	if(!R.module || !(type in R.module.supported_upgrades))
+		to_chat(R, "Upgrade mounting error!  No suitable hardpoint detected!")
+		to_chat(usr, "There's no mounting point for the module!")
 		return 0
 	else
 		R.module.modules += new/obj/item/weapon/tank/jetpack/carbondioxide
@@ -155,11 +182,26 @@
 		//R.icon_state="Miner+j"
 		return 1
 
+/obj/item/borg/upgrade/rcd
+	name = "engineering robot RCD"
+	desc = "A rapid construction device module for use during construction operations."
+	icon_state = "cyborg_upgrade3"
+	require_module = 1
+
+/obj/item/borg/upgrade/rcd/action(var/mob/living/silicon/robot/R)
+	if(..()) return 0
+
+	if(!R.module || !(type in R.module.supported_upgrades))
+		to_chat(R, "Upgrade mounting error!  No suitable hardpoint detected!")
+		to_chat(usr, "There's no mounting point for the module!")
+		return 0
+	else
+		R.module.modules += new/obj/item/weapon/rcd/borg(R.module)
+		return 1
 
 /obj/item/borg/upgrade/syndicate/
 	name = "illegal equipment module"
-	desc = "Unlocks the hidden, deadlier functions of a robot"
-	construction_cost = list(DEFAULT_WALL_MATERIAL=10000,"glass"=15000,"diamond" = 10000)
+	desc = "Unlocks the hidden, deadlier functions of a robot."
 	icon_state = "cyborg_upgrade3"
 	require_module = 1
 

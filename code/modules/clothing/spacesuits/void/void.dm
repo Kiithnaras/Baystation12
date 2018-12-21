@@ -3,23 +3,21 @@
 	name = "void helmet"
 	desc = "A high-tech dark red space suit helmet. Used for AI satellite maintenance."
 	icon_state = "void"
-	item_state = "void"
 
 	heat_protection = HEAD
 	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 20)
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
+	siemens_coefficient = 0.4
 
 	//Species-specific stuff.
-	species_restricted = list("exclude","Unathi","Tajara","Skrell","Diona","Vox", "Xenomorph", "Xenomorph Drone", "Xenomorph Hunter", "Xenomorph Sentinel", "Xenomorph Queen")
-	sprite_sheets_refit = list(
-		"Unathi" = 'icons/mob/species/unathi/helmet.dmi',
-		"Tajara" = 'icons/mob/species/tajaran/helmet.dmi',
-		"Skrell" = 'icons/mob/species/skrell/helmet.dmi',
+	species_restricted = list(SPECIES_HUMAN, SPECIES_IPC)
+	sprite_sheets = list(
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_head_helmet_unathi.dmi',
+		SPECIES_SKRELL = 'icons/mob/species/skrell/onmob_head_skrell.dmi',
 		)
 	sprite_sheets_obj = list(
-		"Unathi" = 'icons/obj/clothing/species/unathi/hats.dmi',
-		"Tajara" = 'icons/obj/clothing/species/tajaran/hats.dmi',
-		"Skrell" = 'icons/obj/clothing/species/skrell/hats.dmi',
+		SPECIES_UNATHI = 'icons/obj/clothing/species/unathi/obj_head_unathi.dmi',
+		SPECIES_SKRELL = 'icons/obj/clothing/species/skrell/obj_head_skrell.dmi',
 		)
 
 	light_overlay = "helmet_light"
@@ -27,24 +25,23 @@
 /obj/item/clothing/suit/space/void
 	name = "voidsuit"
 	icon_state = "void"
-	item_state = "void"
+	//item_state = "syndie_hardsuit"
+	w_class = ITEM_SIZE_HUGE//bulky item
 	desc = "A high-tech dark red space suit. Used for AI satellite maintenance."
-	slowdown = 1
 	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 20)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit)
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
+	siemens_coefficient = 0.4
 
-	species_restricted = list("exclude","Unathi","Tajara","Diona","Vox", "Xenomorph", "Xenomorph Drone", "Xenomorph Hunter", "Xenomorph Sentinel", "Xenomorph Queen")
-	sprite_sheets_refit = list(
-		"Unathi" = 'icons/mob/species/unathi/suit.dmi',
-		"Tajara" = 'icons/mob/species/tajaran/suit.dmi',
-		"Skrell" = 'icons/mob/species/skrell/suit.dmi',
+	species_restricted = list(SPECIES_HUMAN, SPECIES_SKRELL, SPECIES_IPC)
+	sprite_sheets = list(
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_suit_unathi.dmi',
+		SPECIES_SKRELL = 'icons/mob/species/skrell/onmob_suit_skrell.dmi',
 		)
 	sprite_sheets_obj = list(
-		"Unathi" = 'icons/obj/clothing/species/unathi/suits.dmi',
-		"Tajara" = 'icons/obj/clothing/species/tajaran/suits.dmi',
-		"Skrell" = 'icons/obj/clothing/species/skrell/suits.dmi',
+		SPECIES_UNATHI = 'icons/obj/clothing/species/unathi/obj_suit_unathi.dmi',
+		SPECIES_SKRELL = 'icons/obj/clothing/species/skrell/obj_suit_skrell.dmi',
 		)
 
 	//Breach thresholds, should ideally be inherited by most (if not all) voidsuits.
@@ -57,14 +54,38 @@
 	var/obj/item/clothing/head/helmet/helmet = null   // Deployable helmet, if any.
 	var/obj/item/weapon/tank/tank = null              // Deployable tank, if any.
 
+	action_button_name = "Toggle Helmet"
+
+#define VOIDSUIT_INIT_EQUIPMENT(equipment_var, expected_path) \
+if(ispath(##equipment_var, ##expected_path )){\
+	##equipment_var = new equipment_var (src);\
+}\
+else if(##equipment_var) {\
+	CRASH("[log_info_line(src)] has an invalid [#equipment_var] type: [log_info_line(##equipment_var)]");\
+}
+
+/obj/item/clothing/suit/space/void/Initialize()
+	. = ..()
+	VOIDSUIT_INIT_EQUIPMENT(boots,  /obj/item/clothing/shoes/magboots)
+	VOIDSUIT_INIT_EQUIPMENT(helmet, /obj/item/clothing/head/helmet)
+	VOIDSUIT_INIT_EQUIPMENT(tank,   /obj/item/weapon/tank)
+
+#undef VOIDSUIT_INIT_EQUIPMENT
+
+/obj/item/clothing/suit/space/void/Destroy()
+	. = ..()
+	QDEL_NULL(boots)
+	QDEL_NULL(helmet)
+	QDEL_NULL(tank)
+
 /obj/item/clothing/suit/space/void/examine(user)
-	..(user)
+	. = ..(user)
 	var/list/part_list = new
 	for(var/obj/item/I in list(helmet,boots,tank))
 		part_list += "\a [I]"
-	user << "\The [src] has [english_list(part_list)] installed."
+	to_chat(user, "\The [src] has [english_list(part_list)] installed.")
 	if(tank && in_range(src,user))
-		user << "<span class='notice'>The wrist-mounted pressure gauge reads [max(round(tank.air_contents.return_pressure()),0)] kPa remaining in \the [tank].</span>"
+		to_chat(user, "<span class='notice'>The wrist-mounted pressure gauge reads [max(round(tank.air_contents.return_pressure()),0)] kPa remaining in \the [tank].</span>")
 
 /obj/item/clothing/suit/space/void/refit_for_species(var/target_species)
 	..()
@@ -89,16 +110,16 @@
 
 	if(helmet)
 		if(H.head)
-			M << "You are unable to deploy your suit's helmet as \the [H.head] is in the way."
+			to_chat(M, "You are unable to deploy your suit's helmet as \the [H.head] is in the way.")
 		else if (H.equip_to_slot_if_possible(helmet, slot_head))
-			M << "Your suit's helmet deploys with a hiss."
+			to_chat(M, "Your suit's helmet deploys with a hiss.")
 			helmet.canremove = 0
 
 	if(tank)
 		if(H.s_store) //In case someone finds a way.
-			M << "Alarmingly, the valve on your suit's installed tank fails to engage."
+			to_chat(M, "Alarmingly, the valve on your suit's installed tank fails to engage.")
 		else if (H.equip_to_slot_if_possible(tank, slot_s_store))
-			M << "The valve on your suit's installed tank safely engages."
+			to_chat(M, "The valve on your suit's installed tank safely engages.")
 			tank.canremove = 0
 
 
@@ -112,20 +133,18 @@
 		H = helmet.loc
 		if(istype(H))
 			if(helmet && H.head == helmet)
-				H.drop_from_inventory(helmet)
-				helmet.loc = src
+				H.drop_from_inventory(helmet, src)
 
 	if(boots)
 		boots.canremove = 1
 		H = boots.loc
 		if(istype(H))
 			if(boots && H.shoes == boots)
-				H.drop_from_inventory(boots)
-				boots.loc = src
+				H.drop_from_inventory(boots, src)
 
 	if(tank)
 		tank.canremove = 1
-		tank.loc = src
+		tank.forceMove(src)
 
 /obj/item/clothing/suit/space/void/verb/toggle_helmet()
 
@@ -136,28 +155,27 @@
 	if(!istype(src.loc,/mob/living)) return
 
 	if(!helmet)
-		usr << "There is no helmet installed."
+		to_chat(usr, "There is no helmet installed.")
 		return
 
 	var/mob/living/carbon/human/H = usr
 
 	if(!istype(H)) return
-	if(H.stat) return
+	if(H.incapacitated()) return
 	if(H.wear_suit != src) return
 
 	if(H.head == helmet)
-		H << "<span class='notice'>You retract your suit helmet.</span>"
+		to_chat(H, "<span class='notice'>You retract your suit helmet.</span>")
 		helmet.canremove = 1
-		H.drop_from_inventory(helmet)
-		helmet.loc = src
+		H.drop_from_inventory(helmet, src)
 	else
 		if(H.head)
-			H << "<span class='danger'>You cannot deploy your helmet while wearing \the [H.head].</span>"
+			to_chat(H, "<span class='danger'>You cannot deploy your helmet while wearing \the [H.head].</span>")
 			return
 		if(H.equip_to_slot_if_possible(helmet, slot_head))
 			helmet.pickup(H)
 			helmet.canremove = 0
-			H << "<span class='info'>You deploy your suit helmet, sealing you off from the world.</span>"
+			to_chat(H, "<span class='info'>You deploy your suit helmet, sealing you off from the world.</span>")
 	helmet.update_light(H)
 
 /obj/item/clothing/suit/space/void/verb/eject_tank()
@@ -169,16 +187,16 @@
 	if(!istype(src.loc,/mob/living)) return
 
 	if(!tank)
-		usr << "There is no tank inserted."
+		to_chat(usr, "There is no tank inserted.")
 		return
 
 	var/mob/living/carbon/human/H = usr
 
 	if(!istype(H)) return
-	if(H.stat) return
+	if(H.incapacitated()) return
 	if(H.wear_suit != src) return
 
-	H << "<span class='info'>You press the emergency release, ejecting \the [tank] from your suit.</span>"
+	to_chat(H, "<span class='info'>You press the emergency release, ejecting \the [tank] from your suit.</span>")
 	tank.canremove = 1
 	H.drop_from_inventory(tank)
 	src.tank = null
@@ -187,8 +205,11 @@
 
 	if(!istype(user,/mob/living)) return
 
-	if(istype(src.loc,/mob/living))
-		user << "<span class='danger'>How do you propose to modify a voidsuit while it is being worn?</span>"
+	if(istype(W,/obj/item/clothing/accessory) || istype(W, /obj/item/weapon/hand_labeler))
+		return ..()
+
+	if(user.get_inventory_slot(src) == slot_wear_suit)
+		to_chat(user, "<span class='warning'>You cannot modify \the [src] while it is being worn.</span>")
 		return
 
 	if(istype(W,/obj/item/weapon/screwdriver))
@@ -197,48 +218,51 @@
 			if(!choice) return
 
 			if(choice == tank)	//No, a switch doesn't work here. Sorry. ~Techhead
-				user << "You pop \the [tank] out of \the [src]'s storage compartment."
-				tank.loc = get_turf(src)
+				to_chat(user, "You pop \the [tank] out of \the [src]'s storage compartment.")
+				tank.dropInto(loc)
 				src.tank = null
 			else if(choice == helmet)
-				user << "You detatch \the [helmet] from \the [src]'s helmet mount."
-				helmet.loc = get_turf(src)
+				to_chat(user, "You detatch \the [helmet] from \the [src]'s helmet mount.")
+				helmet.dropInto(loc)
 				src.helmet = null
 			else if(choice == boots)
-				user << "You detatch \the [boots] from \the [src]'s boot mounts."
-				boots.loc = get_turf(src)
+				to_chat(user, "You detatch \the [boots] from \the [src]'s boot mounts.")
+				boots.dropInto(loc)
 				src.boots = null
 		else
-			user << "\The [src] does not have anything installed."
+			to_chat(user, "\The [src] does not have anything installed.")
 		return
 	else if(istype(W,/obj/item/clothing/head/helmet/space))
 		if(helmet)
-			user << "\The [src] already has a helmet installed."
+			to_chat(user, "\The [src] already has a helmet installed.")
 		else
-			user << "You attach \the [W] to \the [src]'s helmet mount."
-			user.drop_item()
-			W.loc = src
+			if(!user.unEquip(W, src))
+				return
+			to_chat(user, "You attach \the [W] to \the [src]'s helmet mount.")
 			src.helmet = W
 		return
 	else if(istype(W,/obj/item/clothing/shoes/magboots))
 		if(boots)
-			user << "\The [src] already has magboots installed."
+			to_chat(user, "\The [src] already has magboots installed.")
 		else
-			user << "You attach \the [W] to \the [src]'s boot mounts."
-			user.drop_item()
-			W.loc = src
+			if(!user.unEquip(W, src))
+				return
+			to_chat(user, "You attach \the [W] to \the [src]'s boot mounts.")
 			boots = W
 		return
 	else if(istype(W,/obj/item/weapon/tank))
 		if(tank)
-			user << "\The [src] already has an airtank installed."
+			to_chat(user, "\The [src] already has an airtank installed.")
 		else if(istype(W,/obj/item/weapon/tank/phoron))
-			user << "\The [W] cannot be inserted into \the [src]'s storage compartment."
+			to_chat(user, "\The [W] cannot be inserted into \the [src]'s storage compartment.")
 		else
-			user << "You insert \the [W] into \the [src]'s storage compartment."
-			user.drop_item()
-			W.loc = src
+			if(!user.unEquip(W, src))
+				return
+			to_chat(user, "You insert \the [W] into \the [src]'s storage compartment.")
 			tank = W
 		return
 
 	..()
+
+/obj/item/clothing/suit/space/void/attack_self() //sole purpose of existence is to toggle the helmet
+	toggle_helmet()

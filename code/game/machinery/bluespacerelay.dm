@@ -6,20 +6,17 @@
 
 	anchored = 1
 	density = 1
-	use_power = 1
 	var/on = 1
 
 	idle_power_usage = 15000
 	active_power_usage = 15000
 
-/obj/machinery/bluespacerelay/process()
-
+/obj/machinery/bluespacerelay/Process()
 	update_power()
-
 	update_icon()
 
 
-/obj/machinery/bluespacerelay/update_icon()
+/obj/machinery/bluespacerelay/on_update_icon()
 	if(on)
 		icon_state = initial(icon_state)
 	else

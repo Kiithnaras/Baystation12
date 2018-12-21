@@ -127,21 +127,21 @@ var/global/Holiday = null
 
 	Holiday = T
 	//get a new station name
-	station_name = null
+	GLOB.using_map.station_name = null
 	station_name()
 	//update our hub status
 	world.update_status()
 	Holiday_Game_Start()
 
-	message_admins("\blue ADMIN: Event: [key_name(src)] force-set Holiday to \"[Holiday]\"")
+	message_admins("<span class='notice'>ADMIN: Event: [key_name(src)] force-set Holiday to \"[Holiday]\"</span>")
 	log_admin("[key_name(src)] force-set Holiday to \"[Holiday]\"")
 
 
 //Run at the  start of a round
 /proc/Holiday_Game_Start()
 	if(Holiday)
-		world << "<font color='blue'>and...</font>"
-		world << "<h4>Happy [Holiday] Everybody!</h4>"
+		to_world("<font color='blue'>and...</font>")
+		to_world("<h4>Happy [Holiday] Everybody!</h4>")
 		switch(Holiday)			//special holidays
 			if("Easter")
 				//do easter stuff
@@ -174,7 +174,7 @@ var/global/Holiday = null
 				if(isNotStationLevel(S.z))	continue
 				containers += S
 
-			message_admins("\blue DEBUG: Event: Egg spawned at [Egg.loc] ([Egg.x],[Egg.y],[Egg.z])")*/
+			message_admins("<span class='notice'>DEBUG: Event: Egg spawned at [Egg.loc] ([Egg.x],[Egg.y],[Egg.z])</span>")*/
 		if("End of the World")
 			if(prob(eventchance))	GameOver()
 

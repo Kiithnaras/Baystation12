@@ -3,20 +3,6 @@
 
 var/global/list/obj/machinery/message_server/message_servers = list()
 
-/datum/data_pda_msg
-	var/recipient = "Unspecified" //name of the person
-	var/sender = "Unspecified" //name of the sender
-	var/message = "Blank" //transferred message
-
-/datum/data_pda_msg/New(var/param_rec = "",var/param_sender = "",var/param_message = "")
-
-	if(param_rec)
-		recipient = param_rec
-	if(param_sender)
-		sender = param_sender
-	if(param_message)
-		message = param_message
-
 /datum/data_rc_msg
 	var/rec_dpt = "Unspecified" //name of the person
 	var/send_dpt = "Unspecified" //name of the sender
@@ -53,13 +39,12 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 	name = "Messaging Server"
 	density = 1
 	anchored = 1.0
-	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 100
 
-	var/list/datum/data_pda_msg/pda_msgs = list()
 	var/list/datum/data_rc_msg/rc_msgs = list()
 	var/active = 1
+	var/power_failure = 0 // Reboot timer after power outage
 	var/decryptkey = "password"
 
 	//Spam filtering stuff
@@ -71,48 +56,61 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 /obj/machinery/message_server/New()
 	message_servers += src
 	decryptkey = GenerateKey()
-	send_pda_message("System Administrator", "system", "This is an automated message. The messaging system is functioning correctly.")
 	..()
-	return
 
 /obj/machinery/message_server/Destroy()
 	message_servers -= src
-	..()
-	return
+	return ..()
 
-/obj/machinery/message_server/proc/GenerateKey()
-	//Feel free to move to Helpers.
-	var/newKey
-	newKey += pick("the", "if", "of", "as", "in", "a", "you", "from", "to", "an", "too", "little", "snow", "dead", "drunk", "rosebud", "duck", "al", "le")
-	newKey += pick("diamond", "beer", "mushroom", "assistant", "clown", "captain", "twinkie", "security", "nuke", "small", "big", "escape", "yellow", "gloves", "monkey", "engine", "nuclear", "ai")
-	newKey += pick("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
-	return newKey
-
-/obj/machinery/message_server/process()
-	//if(decryptkey == "password")
-	//	decryptkey = generateKey()
+/obj/machinery/message_server/Process()
 	if(active && (stat & (BROKEN|NOPOWER)))
 		active = 0
+		power_failure = 10
+		update_icon()
 		return
-	update_icon()
-	return
-
-/obj/machinery/message_server/proc/send_pda_message(var/recipient = "",var/sender = "",var/message = "")
-	var/result
-	for (var/token in spamfilter)
-		if (findtextEx(message,token))
-			message = "<font color=\"red\">[message]</font>"	//Rejected messages will be indicated by red color.
-			result = token										//Token caused rejection (if there are multiple, last will be chosen>.
-	pda_msgs += new/datum/data_pda_msg(recipient,sender,message)
-	return result
+	else if(stat & (BROKEN|NOPOWER))
+		return
+	else if(power_failure > 0)
+		if(!(--power_failure))
+			active = 1
+			update_icon()
 
 /obj/machinery/message_server/proc/send_rc_message(var/recipient = "",var/sender = "",var/message = "",var/stamp = "", var/id_auth = "", var/priority = 1)
 	rc_msgs += new/datum/data_rc_msg(recipient,sender,message,stamp,id_auth)
+	var/authmsg = "[message]<br>"
+	if (id_auth)
+		authmsg += "[id_auth]<br>"
+	if (stamp)
+		authmsg += "[stamp]<br>"
+	. = FALSE
+	var/list/good_z = GetConnectedZlevels(z)
+	for (var/obj/machinery/requests_console/Console in allConsoles)
+		if(!(Console.z in good_z))
+			continue
+		if (ckey(Console.department) == ckey(recipient))
+			if(Console.inoperable())
+				Console.message_log += "<B>Message lost due to console failure.</B><BR>Please contact [station_name()] system administrator or AI for technical assistance.<BR>"
+				continue
+			. = TRUE
+			if(Console.newmessagepriority < priority)
+				Console.newmessagepriority = priority
+				Console.icon_state = "req_comp[priority]"
+			if(priority > 1)
+				playsound(Console.loc, 'sound/machines/chime.ogg', 80, 1)
+				Console.audible_message("\icon[Console]<span class='warning'>\The [Console] announces: 'High priority message received from [sender]!'</span>", hearing_distance = 8)
+				Console.message_log += "<FONT color='red'>High Priority message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></FONT><BR>[authmsg]"
+			else
+				if(!Console.silent)
+					playsound(Console.loc, 'sound/machines/twobeep.ogg', 50, 1)
+					Console.audible_message("\icon[Console]<span class='notice'>\The [Console] announces: 'Message received from [sender].'</span>", hearing_distance = 5)
+				Console.message_log += "<B>Message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></B><BR>[authmsg]"
+			Console.set_light(0.3, 0.1, 2)
+
 
 /obj/machinery/message_server/attack_hand(user as mob)
-//	user << "\blue There seem to be some parts missing from this server. They should arrive on the station in a few days, give or take a few CentCom delays."
-	user << "You toggle PDA message passing from [active ? "On" : "Off"] to [active ? "Off" : "On"]"
+	to_chat(user, "You toggle PDA message passing from [active ? "On" : "Off"] to [active ? "Off" : "On"]")
 	active = !active
+	power_failure = 0
 	update_icon()
 
 	return
@@ -121,13 +119,12 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 	if (active && !(stat & (BROKEN|NOPOWER)) && (spamfilter_limit < MESSAGE_SERVER_DEFAULT_SPAM_LIMIT*2) && \
 		istype(O,/obj/item/weapon/circuitboard/message_monitor))
 		spamfilter_limit += round(MESSAGE_SERVER_DEFAULT_SPAM_LIMIT / 2)
-		user.drop_item()
 		qdel(O)
-		user << "You install additional memory and processors into message server. Its filtering capabilities been enhanced."
+		to_chat(user, "You install additional memory and processors into message server. Its filtering capabilities been enhanced.")
 	else
 		..(O, user)
 
-/obj/machinery/message_server/update_icon()
+/obj/machinery/message_server/on_update_icon()
 	if((stat & (BROKEN|NOPOWER)))
 		icon_state = "server-nopower"
 	else if (!active)
@@ -137,6 +134,23 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 
 	return
 
+/obj/machinery/message_server/proc/send_to_department(var/department, var/message, var/tone)
+	var/reached = 0
+
+	for(var/mob/living/carbon/human/H in GLOB.human_mob_list)
+		var/obj/item/modular_computer/pda/pda = locate() in H
+		if(!pda)
+			continue
+
+		var/datum/job/J = job_master.GetJob(H.get_authentification_rank())
+		if(!J)
+			continue
+
+		if(J.department_flag & department)
+			to_chat(H, "<span class='notice'>Your [pda.name] alerts you to the fact that somebody is requesting your presence at your department.</span>")
+			reached++
+
+	return reached
 
 /datum/feedback_variable
 	var/variable
@@ -202,7 +216,6 @@ var/obj/machinery/blackbox_recorder/blackbox
 	name = "Blackbox Recorder"
 	density = 1
 	anchored = 1.0
-	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 100
 	var/list/messages = list()		//Stores messages of non-standard frequencies
@@ -216,8 +229,10 @@ var/obj/machinery/blackbox_recorder/blackbox
 	var/list/msg_security = list()
 	var/list/msg_deathsquad = list()
 	var/list/msg_syndicate = list()
+	var/list/msg_raider = list()
 	var/list/msg_cargo = list()
 	var/list/msg_service = list()
+	var/list/msg_exploration = list()
 
 	var/list/datum/feedback_variable/feedback = new()
 
@@ -266,9 +281,7 @@ var/obj/machinery/blackbox_recorder/blackbox
 	var/pda_msg_amt = 0
 	var/rc_msg_amt = 0
 
-	for(var/obj/machinery/message_server/MS in machines)
-		if(MS.pda_msgs.len > pda_msg_amt)
-			pda_msg_amt = MS.pda_msgs.len
+	for(var/obj/machinery/message_server/MS in SSmachines.machinery)
 		if(MS.rc_msgs.len > rc_msg_amt)
 			rc_msg_amt = MS.rc_msgs.len
 

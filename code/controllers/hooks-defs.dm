@@ -1,4 +1,10 @@
 /**
+ * Global init hook.
+ * Called in global_init.dm when the server is initialized.
+ */
+/hook/global_init
+
+/**
  * Startup hook.
  * Called in world.dm when the server starts.
  */
@@ -6,15 +12,21 @@
 
 /**
  * Roundstart hook.
- * Called in gameticker.dm when a round starts.
+ * Called in ticker.dm when a round starts.
  */
 /hook/roundstart
 
 /**
  * Roundend hook.
- * Called in gameticker.dm when a round ends.
+ * Called in ticker.dm when a round ends.
  */
 /hook/roundend
+
+/**
+ * Shutdown hook.
+ * Called in world.dm when world/Del is called.
+ */
+/hook/shutdown
 
 /**
  * Death hook.
@@ -33,7 +45,7 @@
 /**
  * Debrained hook.
  * Called in brain_item.dm when someone gets debrained.
- * Parameters: var/obj/item/organ/brain
+ * Parameters: var/obj/item/organ/internal/brain
  */
 /hook/debrain
 

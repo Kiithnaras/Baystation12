@@ -5,10 +5,14 @@
 	item_state = null
 	hitsound = null
 	var/active = 0
-	w_class = 2
+	w_class = ITEM_SIZE_SMALL
 	attack_verb = list("patted", "tapped")
+	force = 3
+	edge = 0
+	sharp = 0
 	force_divisor = 0.25 // 15 when wielded with hardness 60 (steel)
 	thrown_force_divisor = 0.25 // 5 when thrown with weight 20 (steel)
+	attack_cooldown_modifier = -1
 
 /obj/item/weapon/material/butterfly/update_force()
 	if(active)
@@ -18,16 +22,22 @@
 		throwforce = max(3,force-3)
 		hitsound = 'sound/weapons/bladeslice.ogg'
 		icon_state += "_open"
-		w_class = 3
+		w_class = ITEM_SIZE_NORMAL
 		attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	else
-		force = 3
-		edge = 0
-		sharp = 0
+		force = initial(force)
+		edge = initial(edge)
+		sharp = initial(sharp)
 		hitsound = initial(hitsound)
 		icon_state = initial(icon_state)
 		w_class = initial(w_class)
 		attack_verb = initial(attack_verb)
+
+/obj/item/weapon/material/butterfly/attack(mob/living/M, mob/user, var/target_zone)
+	..()
+	if(ismob(M))
+		backstab(M, user, 60, BRUTE, DAM_SHARP, target_zone, TRUE)
+
 
 /obj/item/weapon/material/butterfly/switchblade
 	name = "switchblade"
@@ -38,10 +48,10 @@
 /obj/item/weapon/material/butterfly/attack_self(mob/user)
 	active = !active
 	if(active)
-		user << "<span class='notice'>You flip out \the [src].</span>"
+		to_chat(user, "<span class='notice'>You flip out \the [src].</span>")
 		playsound(user, 'sound/weapons/flipblade.ogg', 15, 1)
 	else
-		user << "<span class='notice'>\The [src] can now be concealed.</span>"
+		to_chat(user, "<span class='notice'>\The [src] can now be concealed.</span>")
 	update_force()
 	add_fingerprint(user)
 
@@ -51,22 +61,17 @@
 /obj/item/weapon/material/knife
 	name = "kitchen knife"
 	icon = 'icons/obj/kitchen.dmi'
-	icon_state = "knife"
+	icon_state = "kitchenknife"
+	item_state = "knife"
 	desc = "A general purpose Chef's Knife made by SpaceCook Incorporated. Guaranteed to stay sharp for years to come."
-	flags = CONDUCT
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	sharp = 1
 	edge = 1
 	force_divisor = 0.15 // 9 when wielded with hardness 60 (steel)
-	matter = list(DEFAULT_WALL_MATERIAL = 12000)
-	origin_tech = "materials=1"
+	matter = list(MATERIAL_STEEL = 12000)
+	origin_tech = list(TECH_MATERIAL = 1)
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	unbreakable = 1
-
-/obj/item/weapon/material/knife/suicide_act(mob/user)
-	viewers(user) << pick("\red <b>[user] is slitting \his wrists with the [src.name]! It looks like \he's trying to commit suicide.</b>", \
-						"\red <b>[user] is slitting \his throat with the [src.name]! It looks like \he's trying to commit suicide.</b>", \
-						"\red <b>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</b>")
-	return (BRUTELOSS)
 
 /obj/item/weapon/material/knife/hook
 	name = "meat hook"

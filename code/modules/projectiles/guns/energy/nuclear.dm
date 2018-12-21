@@ -1,131 +1,123 @@
 /obj/item/weapon/gun/energy/gun
 	name = "energy gun"
-	desc = "An energy-based gun with two settings: Stun and kill."
+	desc = "Another bestseller of Lawson Arms and the FTU, the LAEP90 Perun is a versatile energy based sidearm, capable of switching between low, medium and high power projectile settings. In other words: stun, shock or kill."
 	icon_state = "energystun100"
 	item_state = null	//so the human update icon uses the icon_state instead.
-	fire_sound = 'sound/weapons/Taser.ogg'
-	cell_type = "/obj/item/weapon/cell"
 	max_shots = 10
+	fire_delay = 10 // To balance for the fact that it is a pistol and can be used one-handed without penalty
 
 	projectile_type = /obj/item/projectile/beam/stun
-	origin_tech = "combat=3;magnets=2"
+	origin_tech = list(TECH_COMBAT = 3, TECH_MAGNET = 2)
 	modifystate = "energystun"
-	charge_cost = 100
 
 	firemodes = list(
-		list(name="stun", charge_cost=100, projectile_type=/obj/item/projectile/beam/stun, modifystate="energystun", fire_sound='sound/weapons/Taser.ogg'),
-		list(name="lethal", charge_cost=250, projectile_type=/obj/item/projectile/beam, modifystate="energykill", fire_sound='sound/weapons/Laser.ogg'),
+		list(mode_name="stun", projectile_type=/obj/item/projectile/beam/stun, modifystate="energystun"),
+		list(mode_name="shock", projectile_type=/obj/item/projectile/beam/stun/shock, modifystate="energyshock"),
+		list(mode_name="kill", projectile_type=/obj/item/projectile/beam, modifystate="energykill"),
+		)
+
+/obj/item/weapon/gun/energy/gun/small
+	name = "small energy gun"
+	desc = "A smaller model of the versatile LAEP90 Perun, the LAEP90-C packs considerable utility in a smaller package. Best used in situations where full-sized sidearms are inappropriate."
+	icon_state = "smallgunstun"
+	max_shots = 5
+	w_class = ITEM_SIZE_SMALL
+	force = 2 //it's the size of a car key, what did you expect?
+	modifystate = "smallgunstun"
+
+	firemodes = list(
+		list(mode_name="stun", projectile_type=/obj/item/projectile/beam/stun, modifystate="smallgunstun"),
+		list(mode_name="shock", projectile_type=/obj/item/projectile/beam/stun/shock, modifystate="smallgunshock"),
+		list(mode_name="kill", projectile_type=/obj/item/projectile/beam/smalllaser, modifystate="smallgunkill"),
 		)
 
 /obj/item/weapon/gun/energy/gun/captain
 	name = "Bolt 2411"
-	desc = "A true classic. Powerful and deadly, this chromed energy pistol is as much a fine-tuned personal defense weapon as it is a collector's item. Comes with a polished walnut stock."
+	desc = "A true classic. Powerful and deadly, this chromed compact energy pistol is as much a fine-tuned personal defense weapon as it is a collector's item. Comes with a polished walnut stock."
 	cell_type = "/obj/item/weapon/cell/apc"
 	icon_state = "capenergystun100"
-	item_state = null	//so the human update icon uses the icon_state instead.
 	fire_sound = 'sound/weapons/Taser.ogg'
 
-	charge_cost = 50 //How much energy is needed to fire.
+	charge_cost = 5 //How much energy is needed to fire.
 	projectile_type = /obj/item/projectile/beam/stun/heavy
-	origin_tech = "combat=4;magnets=3"
+	origin_tech =  list(TECH_COMBAT = 4, TECH_MAGNET = 3)
 	modifystate = "capenergystun"
-	w_class = 2.0
+	w_class = ITEM_SIZE_SMALL
 
 	firemodes = list(
-		list(name="stun", charge_cost=50, projectile_type=/obj/item/projectile/beam/stun, modifystate="capenergystun", fire_sound='sound/weapons/Taser.ogg'),
-		list(name="super stun", charge_cost=200, projectile_type=/obj/item/projectile/beam/stun/heavy, modifystate="capenergystun", fire_sound='sound/weapons/Taser.ogg'),
-		list(name="lethal", charge_cost=100, projectile_type=/obj/item/projectile/beam, modifystate="capenergykill", fire_sound='sound/weapons/Laser.ogg'),
-		list(name="very lethal", charge_cost=500, projectile_type=/obj/item/projectile/beam/heavylaser , modifystate="capenergykill", fire_sound='sound/weapons/lasercannonfire.ogg'),
+		list(name="stun", charge_cost=50, projectile_type=/obj/item/projectile/beam/stun, modifystate="capenergystun"),
+		list(name="super stun", charge_cost=200, projectile_type=/obj/item/projectile/beam/stun/heavy, modifystate="capenergystun"),
+		list(name="lethal", charge_cost=100, projectile_type=/obj/item/projectile/beam/smalllaser, modifystate="capenergykill"),
+		list(name="very lethal", charge_cost=500, projectile_type=/obj/item/projectile/beam/heavylaser , modifystate="capenergykill"),
 		)
 
 /obj/item/weapon/gun/energy/gun/mounted
 	name = "mounted energy gun"
 	self_recharge = 1
 	use_external_power = 1
+	has_safety = FALSE
 
 /obj/item/weapon/gun/energy/gun/nuclear
 	name = "advanced energy gun"
 	desc = "An energy gun with an experimental miniaturized reactor."
 	icon_state = "nucgun"
-	origin_tech = "combat=3;materials=5;powerstorage=3"
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 5, TECH_POWER = 3)
 	slot_flags = SLOT_BELT
+	w_class = ITEM_SIZE_LARGE
 	force = 8 //looks heavier than a pistol
 	self_recharge = 1
 	modifystate = null
+	one_hand_penalty = 1 //bulkier than an e-gun, but not quite the size of a carbine
 
 	firemodes = list(
-		list(name="stun", projectile_type=/obj/item/projectile/beam/stun, fire_sound='sound/weapons/Taser.ogg'),
-		list(name="lethal", projectile_type=/obj/item/projectile/beam, fire_sound='sound/weapons/Laser.ogg'),
+		list(mode_name="stun", projectile_type=/obj/item/projectile/beam/stun),
+		list(mode_name="shock", projectile_type=/obj/item/projectile/beam/stun/shock),
+		list(mode_name="kill", projectile_type=/obj/item/projectile/beam),
 		)
 
-	var/lightfail = 0
+	var/fail_counter = 0
 
 //override for failcheck behaviour
-/obj/item/weapon/gun/energy/gun/nuclear/process()
-	charge_tick++
-	if(charge_tick < 4) return 0
-	charge_tick = 0
-	if(!power_supply) return 0
-	if((power_supply.charge / power_supply.maxcharge) != 1)
-		if(!failcheck())	return 0
-		power_supply.give(charge_cost)
-		update_icon()
-	return 1
+/obj/item/weapon/gun/energy/gun/nuclear/Process()
+	if(fail_counter > 0)
+		SSradiation.radiate(src, fail_counter--)
 
-/obj/item/weapon/gun/energy/gun/nuclear/proc/failcheck()
-	lightfail = 0
-	if (prob(src.reliability)) return 1 //No failure
-	if (prob(src.reliability))
-		for (var/mob/living/M in range(0,src)) //Only a minor failure, enjoy your radiation if you're in the same tile or carrying it
-			if (src in M.contents)
-				M << "<span class='warning'>Your gun feels pleasantly warm for a moment.</span>"
-			else
-				M << "<span class='warning'>You feel a warm sensation.</span>"
-			M.apply_effect(rand(3,120), IRRADIATE)
-		lightfail = 1
-	else
-		for (var/mob/living/M in range(rand(1,4),src)) //Big failure, TIME FOR RADIATION BITCHES
-			if (src in M.contents)
-				M << "<span class='danger'>Your gun's reactor overloads!</span>"
-			M << "<span class='warning'>You feel a wave of heat wash over you.</span>"
-			M.apply_effect(300, IRRADIATE)
-		crit_fail = 1 //break the gun so it stops recharging
-		processing_objects.Remove(src)
-		update_icon()
-	return 0
-
-
-/obj/item/weapon/gun/energy/gun/nuclear/proc/update_charge()
-	if (crit_fail)
-		overlays += "nucgun-whee"
-		return
-	var/ratio = power_supply.charge / power_supply.maxcharge
-	ratio = round(ratio, 0.25) * 100
-	overlays += "nucgun-[ratio]"
-
-/obj/item/weapon/gun/energy/gun/nuclear/proc/update_reactor()
-	if(crit_fail)
-		overlays += "nucgun-crit"
-		return
-	if(lightfail)
-		overlays += "nucgun-medium"
-	else if ((power_supply.charge/power_supply.maxcharge) <= 0.5)
-		overlays += "nucgun-light"
-	else
-		overlays += "nucgun-clean"
-
-/obj/item/weapon/gun/energy/gun/nuclear/proc/update_mode()
-	var/datum/firemode/current_mode = firemodes[sel_mode]
-	switch(current_mode.name)
-		if("stun") overlays += "nucgun-stun"
-		if("lethal") overlays += "nucgun-kill"
+	return ..()
 
 /obj/item/weapon/gun/energy/gun/nuclear/emp_act(severity)
 	..()
-	reliability -= round(15/severity)
+	switch(severity)
+		if(1)
+			fail_counter = max(fail_counter, 30)
+			visible_message("\The [src]'s reactor overloads!")
+		if(2)
+			fail_counter = max(fail_counter, 10)
+			if(ismob(loc))
+				to_chat(loc, "<span class='warning'>\The [src] feels pleasantly warm.</span>")
 
-/obj/item/weapon/gun/energy/gun/nuclear/update_icon()
-	overlays.Cut()
-	update_charge()
-	update_reactor()
-	update_mode()
+/obj/item/weapon/gun/energy/gun/nuclear/proc/get_charge_overlay()
+	var/ratio = power_supply.percent()
+	ratio = round(ratio, 25)
+	return "nucgun-[ratio]"
+
+/obj/item/weapon/gun/energy/gun/nuclear/proc/get_reactor_overlay()
+	if(fail_counter)
+		return "nucgun-medium"
+	if (power_supply.percent() <= 50)
+		return "nucgun-light"
+	return "nucgun-clean"
+
+/obj/item/weapon/gun/energy/gun/nuclear/proc/get_mode_overlay()
+	var/datum/firemode/current_mode = firemodes[sel_mode]
+	switch(current_mode.name)
+		if("stun") return "nucgun-stun"
+		if("kill") return "nucgun-kill"
+
+/obj/item/weapon/gun/energy/gun/nuclear/on_update_icon()
+	var/list/new_overlays = list()
+
+	new_overlays += get_charge_overlay()
+	new_overlays += get_reactor_overlay()
+	new_overlays += get_mode_overlay()
+
+	overlays = new_overlays

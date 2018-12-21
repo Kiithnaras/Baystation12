@@ -9,10 +9,10 @@
 
 /obj/machinery/power/sensor
 	name = "Powernet Sensor"
-	desc = "Small machine which transmits data about specific powernet"
+	desc = "Small machine which transmits data about specific powernet."
 	anchored = 1
 	density = 0
-	layer = 2.46 // Above cables, but should be below floors.
+	level = 1
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "floor_beacon" // If anyone wants to make better sprite, feel free to do so without asking me.
 
@@ -45,7 +45,7 @@
 // Proc: process()
 // Parameters: None
 // Description: This has to be here because we need sensors to remain in Machines list.
-/obj/machinery/power/sensor/process()
+/obj/machinery/power/sensor/Process()
 	return 1
 
 // Proc: reading_to_text()
@@ -151,7 +151,7 @@
 	var/list/APC_data = list()
 	if(L.len > 0)
 		// These lists are used as replacement for number based APC settings
-		var/list/S = list("M-OFF","A-OFF","M-ON", "A-ON")
+		var/list/S = list("M-OFF", "DC-OFF","A-OFF","M-ON", "A-ON")
 		var/list/chg = list("N","C","F")
 
 		for(var/obj/machinery/power/apc/A in L)

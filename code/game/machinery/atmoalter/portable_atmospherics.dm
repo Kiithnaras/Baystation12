@@ -1,6 +1,6 @@
 /obj/machinery/portable_atmospherics
 	name = "atmoalter"
-	use_power = 0
+	use_power = POWER_USE_OFF
 	var/datum/gas_mixture/air_contents = new
 
 	var/obj/machinery/atmospherics/portables_connector/connected_port
@@ -11,6 +11,7 @@
 
 	var/start_pressure = ONE_ATMOSPHERE
 	var/maximum_pressure = 90 * ONE_ATMOSPHERE
+	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE
 
 /obj/machinery/portable_atmospherics/New()
 	..()
@@ -21,11 +22,11 @@
 	return 1
 
 /obj/machinery/portable_atmospherics/Destroy()
-	qdel(air_contents)
-	qdel(holding)
-	..()
+	QDEL_NULL(air_contents)
+	QDEL_NULL(holding)
+	. = ..()
 
-/obj/machinery/portable_atmospherics/initialize()
+/obj/machinery/portable_atmospherics/Initialize()
 	. = ..()
 	spawn()
 		var/obj/machinery/atmospherics/portables_connector/port = locate() in loc
@@ -33,17 +34,12 @@
 			connect(port)
 			update_icon()
 
-/obj/machinery/portable_atmospherics/process()
+/obj/machinery/portable_atmospherics/Process()
 	if(!connected_port) //only react when pipe_network will ont it do it for you
 		//Allow for reactions
 		air_contents.react()
 	else
 		update_icon()
-
-/obj/machinery/portable_atmospherics/Destroy()
-	qdel(air_contents)
-
-	..()
 
 /obj/machinery/portable_atmospherics/proc/StandardAirMix()
 	return list(
@@ -53,7 +49,7 @@
 /obj/machinery/portable_atmospherics/proc/MolesForPressure(var/target_pressure = start_pressure)
 	return (target_pressure * air_contents.volume) / (R_IDEAL_GAS_EQUATION * air_contents.temperature)
 
-/obj/machinery/portable_atmospherics/update_icon()
+/obj/machinery/portable_atmospherics/on_update_icon()
 	return null
 
 /obj/machinery/portable_atmospherics/proc/connect(obj/machinery/atmospherics/portables_connector/new_port)
@@ -104,58 +100,42 @@
 		network.update = 1
 
 /obj/machinery/portable_atmospherics/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
-	var/obj/icon = src
 	if ((istype(W, /obj/item/weapon/tank) && !( src.destroyed )))
 		if (src.holding)
 			return
-		var/obj/item/weapon/tank/T = W
-		user.drop_item()
-		T.loc = src
-		src.holding = T
+		if(!user.unEquip(W, src))
+			return
+		src.holding = W
 		update_icon()
 		return
 
-	else if (istype(W, /obj/item/weapon/wrench))
+	else if(isWrench(W))
 		if(connected_port)
 			disconnect()
-			user << "\blue You disconnect [name] from the port."
+			to_chat(user, "<span class='notice'>You disconnect \the [src] from the port.</span>")
 			update_icon()
 			return
 		else
 			var/obj/machinery/atmospherics/portables_connector/possible_port = locate(/obj/machinery/atmospherics/portables_connector/) in loc
 			if(possible_port)
 				if(connect(possible_port))
-					user << "\blue You connect [name] to the port."
+					to_chat(user, "<span class='notice'>You connect \the [src] to the port.</span>")
 					update_icon()
 					return
 				else
-					user << "\blue [name] failed to connect to the port."
+					to_chat(user, "<span class='notice'>\The [src] failed to connect to the port.</span>")
 					return
 			else
-				user << "\blue Nothing happens."
+				to_chat(user, "<span class='notice'>Nothing happens.</span>")
 				return
 
-	else if ((istype(W, /obj/item/device/analyzer)) && Adjacent(user))
-		visible_message("\red [user] has used [W] on \icon[icon]")
-		if(air_contents)
-			var/pressure = air_contents.return_pressure()
-			var/total_moles = air_contents.total_moles
-
-			user << "\blue Results of analysis of \icon[icon]"
-			if (total_moles>0)
-				user << "\blue Pressure: [round(pressure,0.1)] kPa"
-				for(var/g in air_contents.gas)
-					user << "\blue [gas_data.name[g]]: [round((air_contents.gas[g] / total_moles) * 100)]%"
-				user << "\blue Temperature: [round(air_contents.temperature-T0C)]&deg;C"
-			else
-				user << "\blue Tank is empty!"
-		else
-			user << "\blue Tank is empty!"
+	else if (istype(W, /obj/item/device/analyzer))
 		return
 
 	return
 
-
+/obj/machinery/portable_atmospherics/return_air()
+	return air_contents
 
 /obj/machinery/portable_atmospherics/powered
 	var/power_rating
@@ -173,27 +153,23 @@
 /obj/machinery/portable_atmospherics/powered/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/weapon/cell))
 		if(cell)
-			user << "There is already a power cell installed."
+			to_chat(user, "There is already a power cell installed.")
 			return
-
-		var/obj/item/weapon/cell/C = I
-
-		user.drop_item()
-		C.add_fingerprint(user)
-		cell = C
-		C.loc = src
-		user.visible_message("\blue [user] opens the panel on [src] and inserts [C].", "\blue You open the panel on [src] and insert [C].")
+		if(!user.unEquip(I, src))
+			return
+		cell = I
+		user.visible_message("<span class='notice'>[user] opens the panel on \the [src] and inserts \the [I].</span>", "<span class='notice'>You open the panel on \the [src] and insert \the [I].</span>")
 		power_change()
 		return
 
-	if(istype(I, /obj/item/weapon/screwdriver))
+	if(isScrewdriver(I))
 		if(!cell)
-			user << "\red There is no power cell installed."
+			to_chat(user, "<span class='warning'>There is no power cell installed.</span>")
 			return
 
-		user.visible_message("\blue [user] opens the panel on [src] and removes [cell].", "\blue You open the panel on [src] and remove [cell].")
+		user.visible_message("<span class='notice'>[user] opens the panel on \the [src] and removes \the [cell].</span>", "<span class='notice'>You open the panel on \the [src] and remove \the [cell].</span>")
 		cell.add_fingerprint(user)
-		cell.loc = src.loc
+		cell.dropInto(loc)
 		cell = null
 		power_change()
 		return
@@ -209,5 +185,4 @@
 			gases += ", [gas]"
 		else
 			gases = gas
-	log_admin("[usr] ([usr.ckey]) opened '[src.name]' containing [gases].")
-	message_admins("[usr] ([usr.ckey]) opened '[src.name]' containing [gases].")
+	log_and_message_admins("opened [src.name], containing [gases].")

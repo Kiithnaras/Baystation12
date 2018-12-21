@@ -29,6 +29,8 @@
 	var/turf/T0 = get_turf(neighbor)
 	if(T0 == src)
 		return 1
+	if(!T0 || T0.z != z)
+		return 0
 	if(get_dist(src,T0) > 1)
 		return 0
 
@@ -114,14 +116,14 @@ Quick adjacency (to turf):
 
 /*
 	This checks if you there is uninterrupted airspace between that turf and this one.
-	This is defined as any dense ON_BORDER object, or any dense object without throwpass.
+	This is defined as any dense ATOM_FLAG_CHECKS_BORDER object, or any dense object without throwpass.
 	The border_only flag allows you to not objects (for source and destination squares)
 */
 /turf/proc/ClickCross(var/target_dir, var/border_only, var/target_atom = null)
 	for(var/obj/O in src)
 		if( !O.density || O == target_atom || O.throwpass) continue // throwpass is used for anything you can click through
 
-		if( O.flags&ON_BORDER) // windows have throwpass but are on border, check them first
+		if(O.atom_flags & ATOM_FLAG_CHECKS_BORDER) // windows have throwpass but are on border, check them first
 			if( O.dir & target_dir || O.dir&(O.dir-1) ) // full tile windows are just diagonals mechanically
 				var/obj/structure/window/W = target_atom
 				if(istype(W))

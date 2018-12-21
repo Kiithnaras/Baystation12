@@ -13,7 +13,7 @@
 	var/max_metal = 50
 	var/metal = 10
 	var/obj/item/weapon/wrench/W
-	var/list/Pipes = list("regular pipes"=0,"scrubbers pipes"=31,"supply pipes"=29,"heat exchange pipes"=2)
+	var/list/Pipes = list("regular pipes"=0,"scrubbers pipes"=31,"supply pipes"=29,"heat exchange pipes"=2, "fuel pipes"=45)
 
 /obj/machinery/pipelayer/New()
 	W = new(src)
@@ -31,7 +31,7 @@
 
 /obj/machinery/pipelayer/attack_hand(mob/user as mob)
 	if(!metal&&!on)
-		user << "<span class='warning'>\The [src] doesn't work without metal.</span>"
+		to_chat(user, "<span class='warning'>\The [src] doesn't work without metal.</span>")
 		return
 	on=!on
 	user.visible_message("<span class='notice'>[user] has [!on?"de":""]activated \the [src].</span>", "<span class='notice'>You [!on?"de":""]activate \the [src].</span>")
@@ -39,30 +39,30 @@
 
 /obj/machinery/pipelayer/attackby(var/obj/item/W as obj, var/mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/wrench))
+	if(isWrench(W))
 		P_type_t = input("Choose pipe type", "Pipe type") as null|anything in Pipes
 		P_type = Pipes[P_type_t]
 		user.visible_message("<span class='notice'>[user] has set \the [src] to manufacture [P_type_t].</span>", "<span class='notice'>You set \the [src] to manufacture [P_type_t].</span>")
 		return
 
-	if(istype(W, /obj/item/weapon/crowbar))
+	if(isCrowbar(W))
 		a_dis=!a_dis
 		user.visible_message("<span class='notice'>[user] has [!a_dis?"de":""]activated auto-dismantling.</span>", "<span class='notice'>You [!a_dis?"de":""]activate auto-dismantling.</span>")
 		return
 
-	if(istype(W, /obj/item/stack/material) && W.get_material_name() == DEFAULT_WALL_MATERIAL)
+	if(istype(W, /obj/item/stack/material) && W.get_material_name() == MATERIAL_STEEL)
 
 		var/result = load_metal(W)
 		if(isnull(result))
-			user << "<span class='warning'>Unable to load [W] - no metal found.</span>"
+			to_chat(user, "<span class='warning'>Unable to load [W] - no metal found.</span>")
 		else if(!result)
-			user << "<span class='notice'>\The [src] is full.</span>"
+			to_chat(user, "<span class='notice'>\The [src] is full.</span>")
 		else
 			user.visible_message("<span class='notice'>[user] has loaded metal into \the [src].</span>", "<span class='notice'>You load metal into \the [src]</span>")
 
 		return
 
-	if(istype(W, /obj/item/weapon/screwdriver))
+	if(isScrewdriver(W))
 		if(metal)
 			var/m = round(input(usr,"Please specify the amount of metal to remove","Remove metal",min(round(metal),50)) as num, 1)
 			m = min(m, 50)
@@ -74,13 +74,13 @@
 				MM.amount = m
 				user.visible_message("<span class='notice'>[user] removes [m] sheet\s of metal from the \the [src].</span>", "<span class='notice'>You remove [m] sheet\s of metal from \the [src]</span>")
 		else
-			user << "\The [src] is empty."
+			to_chat(user, "\The [src] is empty.")
 		return
 	..()
 
 /obj/machinery/pipelayer/examine(mob/user)
-	..()
-	user << "\The [src] has [metal] sheet\s, is set to produce [P_type_t], and auto-dismantling is [!a_dis?"de":""]activated."
+	. = ..()
+	to_chat(user, "\The [src] has [metal] sheet\s, is set to produce [P_type_t], and auto-dismantling is [!a_dis?"de":""]activated.")
 
 /obj/machinery/pipelayer/proc/reset()
 	on=0
@@ -110,10 +110,8 @@
 	if(istype(new_turf, /turf/simulated/floor))
 		var/turf/simulated/floor/T = new_turf
 		if(!T.is_plating())
-			if(!T.broken && !T.burnt)
-				new T.floor_type(T)
-			T.make_plating()
-	return !new_turf.intact
+			T.make_plating(!(T.broken || T.burnt))
+	return new_turf.is_plating()
 
 /obj/machinery/pipelayer/proc/layPipe(var/turf/w_turf,var/M_Dir,var/old_dir)
 	if(!on || !(M_Dir in list(1, 2, 4, 8)) || M_Dir==old_dir)

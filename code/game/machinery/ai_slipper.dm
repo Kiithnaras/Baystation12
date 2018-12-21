@@ -2,9 +2,7 @@
 	name = "\improper AI Liquid Dispenser"
 	icon = 'icons/obj/device.dmi'
 	icon_state = "motion0"
-	layer = 3
 	anchored = 1.0
-	use_power = 1
 	idle_power_usage = 10
 	var/uses = 20
 	var/disabled = 1
@@ -20,11 +18,7 @@
 	..()
 	update_icon()
 
-/obj/machinery/ai_slipper/power_change()
-	..()
-	update_icon()
-
-/obj/machinery/ai_slipper/update_icon()
+/obj/machinery/ai_slipper/on_update_icon()
 	if (stat & NOPOWER || stat & BROKEN)
 		icon_state = "motion0"
 	else
@@ -43,7 +37,7 @@
 	else // trying to unlock the interface
 		if (src.allowed(usr))
 			locked = !locked
-			user << "You [ locked ? "lock" : "unlock"] the device."
+			to_chat(user, "You [ locked ? "lock" : "unlock"] the device.")
 			if (locked)
 				if (user.machine==src)
 					user.unset_machine()
@@ -52,7 +46,7 @@
 				if (user.machine==src)
 					src.attack_hand(usr)
 		else
-			user << "\red Access denied."
+			to_chat(user, "<span class='warning'>Access denied.</span>")
 			return
 	return
 
@@ -64,7 +58,7 @@
 		return
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/living/silicon))
-			user << text("Too far away.")
+			to_chat(user, text("Too far away."))
 			user.unset_machine()
 			user << browse(null, "window=ai_slipper")
 			return
@@ -74,7 +68,7 @@
 	if (istype(loc, /turf))
 		loc = loc:loc
 	if (!istype(loc, /area))
-		user << text("Turret badly positioned - loc.loc is [].", loc)
+		to_chat(user, text("Turret badly positioned - loc.loc is [].", loc))
 		return
 	var/area/area = loc
 	var/t = "<TT><B>AI Liquid Dispenser</B> ([area.name])<HR>"
@@ -89,28 +83,28 @@
 	onclose(user, "computer")
 	return
 
-/obj/machinery/ai_slipper/Topic(href, href_list)
-	..()
-	if (src.locked)
-		if (!istype(usr, /mob/living/silicon))
-			usr << "Control panel is locked!"
-			return
+/obj/machinery/ai_slipper/CanUseTopic(user)
+	if(locked && !issilicon(user))
+		to_chat(user, "<span class='warning'>The control panel is locked!</span>")
+		return min(..(), STATUS_UPDATE)
+	return ..()
+
+/obj/machinery/ai_slipper/OnTopic(user, href_list)
 	if (href_list["toggleOn"])
 		src.disabled = !src.disabled
 		update_icon()
+		. = TOPIC_REFRESH
 	if (href_list["toggleUse"])
-		if(cooldown_on || disabled)
-			return
-		else
+		if(!(cooldown_on || disabled))
 			new /obj/effect/effect/foam(src.loc)
 			src.uses--
 			cooldown_on = 1
 			cooldown_time = world.timeofday + 100
 			slip_process()
-			return
+		. = TOPIC_REFRESH
 
-	src.attack_hand(usr)
-	return
+	if(. == TOPIC_REFRESH)
+		attack_hand(user)
 
 /obj/machinery/ai_slipper/proc/slip_process()
 	while(cooldown_time - world.timeofday > 0)

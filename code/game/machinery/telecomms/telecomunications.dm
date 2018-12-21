@@ -24,6 +24,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	var/network = "NULL" // the network of the machinery
 
 	var/list/freq_listening = list() // list of frequencies to tune into: if none, will listen to all
+	var/list/channel_tags = list() // a list specifying what to tag packets on different frequencies
 
 	var/machinetype = 0 // just a hacky way of preventing alike machines from pairing
 	var/toggled = 1 	// Is it toggled on
@@ -34,15 +35,18 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	var/long_range_link = 0	// Can you link it across Z levels or on the otherside of the map? (Relay & Hub)
 	var/circuitboard = null // string pointing to a circuitboard type
 	var/hide = 0				// Is it a hidden machine?
-	var/listening_level = 0	// 0 = auto set in New() - this is the z level that the machine is listening to.
+	var/listening_levels = null	// null = auto set in Initialize() - these are the z levels that the machine is listening to.
+	var/overloaded_for = 0
+	var/outage_probability = 75			// Probability of failing during a ionospheric storm
 
 
 /obj/machinery/telecomms/proc/relay_information(datum/signal/signal, filter, copysig, amount = 20)
 	// relay signal to all linked machinery that are of type [filter]. If signal has been sent [amount] times, stop sending
 
-	if(!on)
+	if(!on || overloaded_for)
 		return
-	//world << "[src] ([src.id]) - [signal.debug_print()]"
+//	log_debug("[src] ([src.id]) - [signal.debug_print()]")
+
 	var/send_count = 0
 
 	signal.data["slow"] += rand(0, round((100-integrity))) // apply some lag based on integrity
@@ -56,13 +60,13 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	*/
 // Loop through all linked machines and send the signal or copy.
 	for(var/obj/machinery/telecomms/machine in links)
-		if(filter && !istype( machine, text2path(filter) ))
+		if(filter && !istype( machine, filter ))
 			continue
 		if(!machine.on)
 			continue
 		if(amount && send_count >= amount)
 			break
-		if(machine.loc.z != listening_level)
+		if(!(machine.loc.z in listening_levels))
 			if(long_range_link == 0 && machine.long_range_link == 0)
 				continue
 		// If we're sending a copy, be sure to create the copy for EACH machine and paste the data
@@ -116,13 +120,13 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	telecomms_list += src
 	..()
 
-	//Set the listening_level if there's none.
-	if(!listening_level)
+/obj/machinery/telecomms/Initialize()
+	//Set the listening_levels if there's none.
+	if(!listening_levels)
 		//Defaults to our Z level!
 		var/turf/position = get_turf(src)
-		listening_level = position.z
+		listening_levels = GetConnectedZlevels(position.z)
 
-/obj/machinery/telecomms/initialize()
 	if(autolinkers.len)
 		// Links nearby machines
 		if(!long_range_link)
@@ -131,6 +135,8 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 		else
 			for(var/obj/machinery/telecomms/T in telecomms_list)
 				add_link(T)
+	. = ..()
+	update_power()
 
 /obj/machinery/telecomms/Destroy()
 	telecomms_list -= src
@@ -149,14 +155,13 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 				if(src != T)
 					links |= T
 
-/obj/machinery/telecomms/update_icon()
-	if(on)
+/obj/machinery/telecomms/on_update_icon()
+	if(on && !overloaded_for)
 		icon_state = initial(icon_state)
 	else
 		icon_state = "[initial(icon_state)]_off"
 
 /obj/machinery/telecomms/proc/update_power()
-
 	if(toggled)
 		if(stat & (BROKEN|NOPOWER|EMPED) || integrity <= 0) // if powered, on. if not powered, off. if too damaged, off
 			on = 0
@@ -164,9 +169,13 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 			on = 1
 	else
 		on = 0
+	update_use_power(on)
 
-/obj/machinery/telecomms/process()
+/obj/machinery/telecomms/Process()
 	update_power()
+
+	if(overloaded_for)
+		overloaded_for--
 
 	// Check heat and generate some
 	checkheat()
@@ -179,11 +188,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 
 /obj/machinery/telecomms/emp_act(severity)
 	if(prob(100/severity))
-		if(!(stat & EMPED))
-			stat |= EMPED
-			var/duration = (300 * 10)/severity
-			spawn(rand(duration - 20, duration + 20)) // Takes a long time for the machines to reboot.
-				stat &= ~EMPED
+		overloaded_for = max(round(150 / severity), overloaded_for)
 	..()
 
 /obj/machinery/telecomms/proc/checkheat()
@@ -251,11 +256,11 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	desc = "This machine has a dish-like shape and green lights. It is designed to detect and process subspace radio activity."
 	density = 1
 	anchored = 1
-	use_power = 1
 	idle_power_usage = 600
 	machinetype = 1
 	produces_heat = 0
-	circuitboard = "/obj/item/weapon/circuitboard/telecomms/receiver"
+	circuitboard = /obj/item/weapon/circuitboard/telecomms/receiver
+	outage_probability = 10
 
 /obj/machinery/telecomms/receiver/receive_signal(datum/signal/signal)
 
@@ -273,18 +278,18 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 			//Remove the level and then start adding levels that it is being broadcasted in.
 			signal.data["level"] = list()
 
-			var/can_send = relay_information(signal, "/obj/machinery/telecomms/hub") // ideally relay the copied information to relays
+			var/can_send = relay_information(signal, /obj/machinery/telecomms/hub) // ideally relay the copied information to relays
 			if(!can_send)
-				relay_information(signal, "/obj/machinery/telecomms/bus") // Send it to a bus instead, if it's linked to one
+				relay_information(signal, /obj/machinery/telecomms/bus) // Send it to a bus instead, if it's linked to one
 
 /obj/machinery/telecomms/receiver/proc/check_receive_level(datum/signal/signal)
 
-	if(signal.data["level"] != listening_level)
+	if(!(signal.data["level"] in listening_levels))
 		for(var/obj/machinery/telecomms/hub/H in links)
 			var/list/connected_levels = list()
 			for(var/obj/machinery/telecomms/relay/R in H.links)
 				if(R.can_receive(signal))
-					connected_levels |= R.listening_level
+					connected_levels |= R.listening_levels
 			if(signal.data["level"] in connected_levels)
 				return 1
 		return 0
@@ -308,23 +313,22 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	desc = "A mighty piece of hardware used to send/receive massive amounts of data."
 	density = 1
 	anchored = 1
-	use_power = 1
 	idle_power_usage = 1600
 	machinetype = 7
-	circuitboard = "/obj/item/weapon/circuitboard/telecomms/hub"
+	circuitboard = /obj/item/weapon/circuitboard/telecomms/hub
 	long_range_link = 1
 	netspeed = 40
-
+	outage_probability = 10
 
 /obj/machinery/telecomms/hub/receive_information(datum/signal/signal, obj/machinery/telecomms/machine_from)
 	if(is_freq_listening(signal))
 		if(istype(machine_from, /obj/machinery/telecomms/receiver))
 			//If the signal is compressed, send it to the bus.
-			relay_information(signal, "/obj/machinery/telecomms/bus", 1) // ideally relay the copied information to bus units
+			relay_information(signal, /obj/machinery/telecomms/bus, 1) // ideally relay the copied information to bus units
 		else
 			// Get a list of relays that we're linked to, then send the signal to their levels.
-			relay_information(signal, "/obj/machinery/telecomms/relay", 1)
-			relay_information(signal, "/obj/machinery/telecomms/broadcaster", 1) // Send it to a broadcaster.
+			relay_information(signal, /obj/machinery/telecomms/relay, 1)
+			relay_information(signal, /obj/machinery/telecomms/broadcaster, 1) // Send it to a broadcaster.
 
 
 /*
@@ -342,21 +346,32 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	desc = "A mighty piece of hardware used to send massive amounts of data far away."
 	density = 1
 	anchored = 1
-	use_power = 1
-	idle_power_usage = 600
 	machinetype = 8
 	produces_heat = 0
-	circuitboard = "/obj/item/weapon/circuitboard/telecomms/relay"
+	circuitboard = /obj/item/weapon/circuitboard/telecomms/relay
 	netspeed = 5
 	long_range_link = 1
 	var/broadcasting = 1
 	var/receiving = 1
 
+/obj/machinery/telecomms/relay/forceMove(var/newloc)
+	. = ..(newloc)
+	listening_levels = GetConnectedZlevels(z)
+	update_power()
+
+// Relays on ship's Z levels use less power as they don't have to transmit over such large distances.
+/obj/machinery/telecomms/relay/update_power()
+	..()
+	if(z in GLOB.using_map.station_levels)
+		change_power_consumption(2.5 KILOWATTS, POWER_USE_IDLE)
+	else
+		change_power_consumption(100 KILOWATTS, POWER_USE_IDLE)
+
 /obj/machinery/telecomms/relay/receive_information(datum/signal/signal, obj/machinery/telecomms/machine_from)
 
 	// Add our level and send it back
 	if(can_send(signal))
-		signal.data["level"] |= listening_level
+		signal.data["level"] |= listening_levels
 
 // Checks to see if it can send/receive.
 
@@ -394,10 +409,9 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	desc = "A mighty piece of hardware used to send massive amounts of data quickly."
 	density = 1
 	anchored = 1
-	use_power = 1
 	idle_power_usage = 1000
 	machinetype = 2
-	circuitboard = "/obj/item/weapon/circuitboard/telecomms/bus"
+	circuitboard = /obj/item/weapon/circuitboard/telecomms/bus
 	netspeed = 40
 	var/change_frequency = 0
 
@@ -410,7 +424,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 
 		if(!istype(machine_from, /obj/machinery/telecomms/processor) && machine_from != src) // Signal must be ready (stupid assuming machine), let's send it
 			// send to one linked processor unit
-			var/send_to_processor = relay_information(signal, "/obj/machinery/telecomms/processor")
+			var/send_to_processor = relay_information(signal, /obj/machinery/telecomms/processor)
 
 			if(send_to_processor)
 				return
@@ -419,7 +433,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 			src.receive_information(signal, src)
 
 		// Try sending it!
-		var/list/try_send = list("/obj/machinery/telecomms/server", "/obj/machinery/telecomms/hub", "/obj/machinery/telecomms/broadcaster", "/obj/machinery/telecomms/bus")
+		var/list/try_send = list(/obj/machinery/telecomms/server, /obj/machinery/telecomms/hub, /obj/machinery/telecomms/broadcaster, /obj/machinery/telecomms/bus)
 		var/i = 0
 		for(var/send in try_send)
 			if(i)
@@ -446,27 +460,26 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	desc = "This machine is used to process large quantities of information."
 	density = 1
 	anchored = 1
-	use_power = 1
 	idle_power_usage = 600
 	machinetype = 3
 	delay = 5
-	circuitboard = "/obj/item/weapon/circuitboard/telecomms/processor"
+	circuitboard = /obj/item/weapon/circuitboard/telecomms/processor
 	var/process_mode = 1 // 1 = Uncompress Signals, 0 = Compress Signals
 
-	receive_information(datum/signal/signal, obj/machinery/telecomms/machine_from)
+/obj/machinery/telecomms/processor/receive_information(datum/signal/signal, obj/machinery/telecomms/machine_from)
+	if(!is_freq_listening(signal))
+		return
 
-		if(is_freq_listening(signal))
+	if(process_mode)
+		signal.data["compression"] = 0 // uncompress subspace signal
+	else
+		signal.data["compression"] = 100 // even more compressed signal
 
-			if(process_mode)
-				signal.data["compression"] = 0 // uncompress subspace signal
-			else
-				signal.data["compression"] = 100 // even more compressed signal
-
-			if(istype(machine_from, /obj/machinery/telecomms/bus))
-				relay_direct_information(signal, machine_from) // send the signal back to the machine
-			else // no bus detected - send the signal to servers instead
-				signal.data["slow"] += rand(5, 10) // slow the signal down
-				relay_information(signal, "/obj/machinery/telecomms/server")
+	if(istype(machine_from, /obj/machinery/telecomms/bus))
+		relay_direct_information(signal, machine_from) // send the signal back to the machine
+	else // no bus detected - send the signal to servers instead
+		signal.data["slow"] += rand(5, 10) // slow the signal down
+		relay_information(signal, /obj/machinery/telecomms/server)
 
 
 /*
@@ -484,10 +497,9 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	desc = "A machine used to store data and network statistics."
 	density = 1
 	anchored = 1
-	use_power = 1
 	idle_power_usage = 300
 	machinetype = 4
-	circuitboard = "/obj/item/weapon/circuitboard/telecomms/server"
+	circuitboard = /obj/item/weapon/circuitboard/telecomms/server
 	var/list/log_entries = list()
 	var/list/stored_names = list()
 	var/list/TrafficActions = list()
@@ -495,10 +507,6 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	var/totaltraffic = 0 // gigabytes (if > 1024, divide by 1024 -> terrabytes)
 
 	var/list/memory = list()	// stored memory
-	var/rawcode = ""	// the code to compile (raw text)
-	var/datum/TCS_Compiler/Compiler	// the compiler that compiles and runs the code
-	var/autoruncode = 0		// 1 if the code is set to run every time a signal is picked up
-
 	var/encryption = "null" // encryption key: ie "password"
 	var/salt = "null"		// encryption salt: ie "123comsat"
 							// would add up to md5("password123comsat")
@@ -507,8 +515,6 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 
 /obj/machinery/telecomms/server/New()
 	..()
-	Compiler = new()
-	Compiler.Holder = src
 	server_radio = new()
 
 /obj/machinery/telecomms/server/receive_information(datum/signal/signal, obj/machinery/telecomms/machine_from)
@@ -519,6 +525,11 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 
 			if(traffic > 0)
 				totaltraffic += traffic // add current traffic to total traffic
+
+			// channel tag the signal
+			var/list/data = get_channel_info(signal.frequency)
+			signal.data["channel_tag"] = data[1]
+			signal.data["channel_color"] = data[2]
 
 			//Is this a test signal? Bypass logging
 			if(signal.data["type"] != 4)
@@ -541,18 +552,13 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 				log.parameters["realname"] = signal.data["realname"]
 				log.parameters["language"] = signal.data["language"]
 
-				var/race = "unknown"
-				if(ishuman(M))
-					var/mob/living/carbon/human/H = M
-					race = "[H.species.name]"
-					log.parameters["intelligible"] = 1
-				else if(isbrain(M))
-					var/mob/living/carbon/brain/B = M
-					race = "[B.species.name]"
+				var/race = "Unknown"
+				if(ishuman(M) || isbrain(M))
+					race = "Sapient Race"
 					log.parameters["intelligible"] = 1
 				else if(M.isMonkey())
 					race = "Monkey"
-				else if(M.isSilicon())
+				else if(issilicon(M))
 					race = "Artificial Life"
 					log.parameters["intelligible"] = 1
 				else if(isslime(M))
@@ -587,22 +593,9 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 				var/identifier = num2text( rand(-1000,1000) + world.time )
 				log.name = "data packet ([md5(identifier)])"
 
-				if(Compiler && autoruncode)
-					Compiler.Run(signal)	// execute the code
-
-			var/can_send = relay_information(signal, "/obj/machinery/telecomms/hub")
+			var/can_send = relay_information(signal, /obj/machinery/telecomms/hub)
 			if(!can_send)
-				relay_information(signal, "/obj/machinery/telecomms/broadcaster")
-
-
-/obj/machinery/telecomms/server/proc/setcode(var/t)
-	if(t)
-		if(istext(t))
-			rawcode = t
-
-/obj/machinery/telecomms/server/proc/compile()
-	if(Compiler)
-		return Compiler.Compile(rawcode)
+				relay_information(signal, /obj/machinery/telecomms/broadcaster)
 
 /obj/machinery/telecomms/server/proc/update_logs()
 	// start deleting the very first log entry
@@ -623,7 +616,11 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	log_entries.Add(log)
 	update_logs()
 
-
+/obj/machinery/telecomms/server/proc/get_channel_info(var/freq)
+	for(var/list/rule in channel_tags)
+		if(rule[1] == freq)
+			return list(rule[2], rule[3])
+	return list(format_frequency(freq), channel_color_presets["Global Green"])
 
 
 // Simple log entry datum

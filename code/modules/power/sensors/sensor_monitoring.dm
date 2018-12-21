@@ -5,9 +5,10 @@
 
 /obj/machinery/computer/power_monitor
 	name = "Power Monitoring Console"
-	desc = "Computer designed to remotely monitor power levels around the station"
+	desc = "Computer designed to remotely monitor power levels."
 	icon = 'icons/obj/computer.dmi'
-	icon_state = "power"
+	icon_keyboard = "power_key"
+	icon_screen = "power"
 	light_color = "#ffcc33"
 
 	//computer stuff
@@ -15,20 +16,19 @@
 	anchored = 1.0
 	circuit = /obj/item/weapon/circuitboard/powermonitor
 	var/alerting = 0
-	use_power = 1
 	idle_power_usage = 300
 	active_power_usage = 300
-	var/obj/nano_module/power_monitor/power_monitor
+	var/datum/nano_module/power_monitor/power_monitor
 
 // Checks the sensors for alerts. If change (alerts cleared or detected) occurs, calls for icon update.
-/obj/machinery/computer/power_monitor/process()
+/obj/machinery/computer/power_monitor/Process()
 	var/alert = check_warnings()
 	if(alert != alerting)
 		alerting = !alerting
 		update_icon()
 
 // Updates icon of this computer according to current status.
-/obj/machinery/computer/power_monitor/update_icon()
+/obj/machinery/computer/power_monitor/on_update_icon()
 	if(stat & BROKEN)
 		icon_state = "powerb"
 		return

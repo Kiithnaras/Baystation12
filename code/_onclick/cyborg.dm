@@ -11,10 +11,6 @@
 		return
 	next_click = world.time + 1
 
-	if(client.buildmode) // comes after object.Click to allow buildmode gui objects to be clicked
-		build_click(src, client.buildmode, params, A)
-		return
-
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"] && modifiers["ctrl"])
 		CtrlShiftClickOn(A)
@@ -32,20 +28,20 @@
 		CtrlClickOn(A)
 		return
 
-	if(stat || lockcharge || weakened || stunned || paralysis)
+	if(incapacitated())
 		return
 
-	if(next_move >= world.time)
+	if(!canClick())
 		return
 
 	face_atom(A) // change direction to face what you clicked on
 
-	if(aiCamera.in_camera_mode)
-		aiCamera.camera_mode_off()
+	if(silicon_camera.in_camera_mode)
+		silicon_camera.camera_mode_off()
 		if(is_component_functioning("camera"))
-			aiCamera.captureimage(A, usr)
+			silicon_camera.captureimage(A, usr)
 		else
-			src << "<span class='userdanger'>Your camera isn't functional.</span>"
+			to_chat(src, "<span class='userdanger'>Your camera isn't functional.</span>")
 		return
 
 	/*
@@ -68,9 +64,6 @@
 		return
 
 	if(W == A)
-		next_move = world.time + 8
-		if(W.flags&USEDELAY)
-			next_move += 5
 
 		W.attack_self(src)
 		return
@@ -78,31 +71,24 @@
 	// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc in contents)
 	if(A == loc || (A in loc) || (A in contents))
 		// No adjacency checks
-		next_move = world.time + 8
-		if(W.flags&USEDELAY)
-			next_move += 5
 
-		var/resolved = A.attackby(W,src)
+		var/resolved = W.resolve_attackby(A, src, params)
 		if(!resolved && A && W)
-			W.afterattack(A,src,1,params)
+			W.afterattack(A, src, 1, params) // 1 indicates adjacency
 		return
 
 	if(!isturf(loc))
 		return
 
-	// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc && isturf(A.loc.loc))
-	if(isturf(A) || isturf(A.loc))
+	var/sdepth = A.storage_depth_turf()
+	if(isturf(A) || isturf(A.loc) || (sdepth != -1 && sdepth <= 1))
 		if(A.Adjacent(src)) // see adjacent.dm
-			next_move = world.time + 10
-			if(W.flags&USEDELAY)
-				next_move += 5
 
-			var/resolved = A.attackby(W, src)
+			var/resolved = W.resolve_attackby(A, src, params)
 			if(!resolved && A && W)
-				W.afterattack(A, src, 1, params)
+				W.afterattack(A, src, 1, params) // 1 indicates adjacency
 			return
 		else
-			next_move = world.time + 10
 			W.afterattack(A, src, 0, params)
 			return
 	return
@@ -138,7 +124,6 @@
 /obj/machinery/door/airlock/BorgShiftClick()  // Opens and closes doors! Forwards to AI code.
 	AIShiftClick()
 
-
 /atom/proc/BorgCtrlClick(var/mob/living/silicon/robot/user) //forward to human click if not overriden
 	CtrlClick(user)
 
@@ -156,10 +141,13 @@
 	return
 
 /obj/machinery/door/airlock/BorgAltClick() // Eletrifies doors. Forwards to AI code.
-	AIAltClick()
+	AICtrlAltClick()
 
 /obj/machinery/turretid/BorgAltClick() //turret lethal on/off. Forwards to AI code.
 	AIAltClick()
+
+/obj/machinery/atmospherics/binary/pump/BorgAltClick()
+	return AltClick()
 
 /*
 	As with AI, these are not used in click code,

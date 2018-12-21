@@ -18,7 +18,7 @@ var/global/list/image/fluidtrack_cache=list()
 
 /datum/fluidtrack
 	var/direction=0
-	var/basecolor="#A10808"
+	var/basecolor=COLOR_BLOOD_HUMAN
 	var/wet=0
 	var/fresh=1
 	var/crusty=0
@@ -28,6 +28,13 @@ var/global/list/image/fluidtrack_cache=list()
 		src.direction=_direction
 		src.basecolor=_color
 		src.wet=_wet
+
+/obj/effect/decal/cleanable/blood/tracks/reveal_blood()
+	if(!fluorescent)
+		if(stack && stack.len)
+			for(var/datum/fluidtrack/track in stack)
+				track.basecolor = COLOR_LUMINOL
+		..()
 
 // Footprints, tire trails...
 /obj/effect/decal/cleanable/blood/tracks
@@ -63,7 +70,7 @@ var/global/list/image/fluidtrack_cache=list()
 	* @param goingdir Direction tracks are going to (or 0).
 	* @param bloodcolor Color of the blood when wet.
 	*/
-	proc/AddTracks(var/list/DNA, var/comingdir, var/goingdir, var/bloodcolor="#A10808")
+	proc/AddTracks(var/list/DNA, var/comingdir, var/goingdir, var/bloodcolor=COLOR_BLOOD_HUMAN)
 		var/updated=0
 		// Shift our goingdir 4 spaces to the left so it's in the GOING bitblock.
 		var/realgoing=goingdir<<4
@@ -114,13 +121,14 @@ var/global/list/image/fluidtrack_cache=list()
 				updated=1
 
 		dirs |= comingdir|realgoing
-		blood_DNA |= DNA.Copy()
+		if(islist(blood_DNA))
+			blood_DNA |= DNA.Copy()
 		if(updated)
 			update_icon()
 
 	update_icon()
 		overlays.Cut()
-		color = "#FFFFFF"
+		color = "#ffffff"
 		var/truedir=0
 
 		// Update ONLY the overlays that have changed.
@@ -146,20 +154,58 @@ var/global/list/image/fluidtrack_cache=list()
 /obj/effect/decal/cleanable/blood/tracks/footprints
 	name = "wet footprints"
 	dryname = "dried footprints"
-	desc = "Whoops..."
-	drydesc = "Whoops..."
+	desc = "They look like still wet tracks left by footwear."
+	drydesc = "They look like dried tracks left by footwear."
 	coming_state = "human1"
 	going_state  = "human2"
+	amount = 0
+
+/obj/effect/decal/cleanable/blood/tracks/footprints/reversed
+	coming_state = "human2"
+	going_state = "human1"
+
+/obj/effect/decal/cleanable/blood/tracks/footprints/reversed/AddTracks(var/list/DNA, var/comingdir, var/goingdir, var/bloodcolor=COLOR_BLOOD_HUMAN)
+	comingdir = reverse_direction(comingdir)
+	goingdir = reverse_direction(goingdir)
+	..(DNA, comingdir, goingdir, bloodcolor)
+
+/obj/effect/decal/cleanable/blood/tracks/snake
+	name = "wet tracks"
+	dryname = "dried tracks"
+	desc = "They look like still wet tracks left by a giant snake."
+	drydesc = "They look like dried tracks left by a giant snake."
+	coming_state = "snake1"
+	going_state  = "snake2"
+	random_icon_states = null
+	amount = 0
+
+/obj/effect/decal/cleanable/blood/tracks/paw
+	name = "wet tracks"
+	dryname = "dried tracks"
+	desc = "They look like still wet tracks left by a mammal."
+	drydesc = "They look like dried tracks left by a mammal."
+	coming_state = "paw1"
+	going_state  = "paw2"
+	random_icon_states = null
+	amount = 0
+
+/obj/effect/decal/cleanable/blood/tracks/claw
+	name = "wet tracks"
+	dryname = "dried tracks"
+	desc = "They look like still wet tracks left by a reptile."
+	drydesc = "They look like dried tracks left by a reptile."
+	coming_state = "claw1"
+	going_state  = "claw2"
+	random_icon_states = null
 	amount = 0
 
 /obj/effect/decal/cleanable/blood/tracks/wheels
 	name = "wet tracks"
 	dryname = "dried tracks"
-	desc = "Whoops..."
-	drydesc = "Whoops..."
+	desc = "They look like still wet tracks left by wheels."
+	drydesc = "They look like dried tracks left by wheels."
 	coming_state = "wheels"
 	going_state  = ""
-	desc = "They look like tracks left by wheels."
 	gender = PLURAL
 	random_icon_states = null
 	amount = 0

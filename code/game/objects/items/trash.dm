@@ -4,16 +4,34 @@
 //Added by Jack Rost
 /obj/item/trash
 	icon = 'icons/obj/trash.dmi'
-	w_class = 2.0
+	w_class = ITEM_SIZE_SMALL
 	desc = "This is rubbish."
+	var/age = 0
+
+/obj/item/trash/New(var/newloc, var/_age)
+	..(newloc)
+	if(!isnull(_age))
+		age = _age
+
+/obj/item/trash/Initialize()
+	SSpersistence.track_value(src, /datum/persistent/filth/trash)
+	. = ..()
+
+/obj/item/trash/Destroy()
+	SSpersistence.forget_value(src, /datum/persistent/filth/trash)
+	. = ..()
 
 /obj/item/trash/raisins
 	name = "\improper 4no raisins"
-	icon_state= "4no_raisins"
+	icon_state = "4no_raisins"
 
 /obj/item/trash/candy
 	name = "candy"
-	icon_state= "candy"
+	icon_state = "candy"
+
+/obj/item/trash/candy/proteinbar
+	name = "protein bar"
+	icon_state = "proteinbar"
 
 /obj/item/trash/cheesie
 	name = "\improper Cheesie Honkers"
@@ -55,6 +73,26 @@
 	name = "semki pack"
 	icon_state = "semki_pack"
 
+/obj/item/trash/caviar
+	name = "caviar can"
+	icon_state = "fisheggs_can"
+
+/obj/item/trash/salo
+	name = "salo pack"
+	icon_state = "salo"
+
+/obj/item/trash/croutons
+	name = "suhariki pack"
+	icon_state = "croutons"
+
+/obj/item/trash/squid
+	name = "calamari pack"
+	icon_state = "squid"
+
+/obj/item/trash/driedfish
+	name = "vobla pack"
+	icon_state = "driedfish"
+
 /obj/item/trash/tray
 	name = "tray"
 	icon_state = "tray"
@@ -65,7 +103,7 @@
 	icon_state = "candle4"
 
 /obj/item/trash/liquidfood
-	name = "\improper \"LiquidFood\" ration"
+	name = "\improper \"LiquidFood\" MRE"
 	icon_state = "liquidfood"
 
 /obj/item/trash/tastybread

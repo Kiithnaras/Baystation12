@@ -22,6 +22,7 @@
 	var/area/last_area				//The last acquired area, used should origin be lost (for example a destroyed borg containing an alarming camera).
 	var/area/last_name				//The last acquired name, used should origin be lost
 	var/area/last_camera_area		//The last area in which cameras where fetched, used to see if the camera list should be updated.
+	var/last_z_level				//The last acquired z-level, used should origin be lost
 	var/end_time					//Used to set when this alarm should clear, in case the origin is lost.
 
 /datum/alarm/New(var/atom/origin, var/atom/source, var/duration, var/severity)
@@ -60,6 +61,11 @@
 	sources -= AS
 	sources_assoc -= source
 
+/datum/alarm/proc/alarm_z()
+	if(origin)
+		last_z_level = origin.get_alarm_z(origin)
+	return last_z_level
+
 /datum/alarm/proc/alarm_area()
 	if(!origin)
 		return last_area
@@ -76,9 +82,9 @@
 
 /datum/alarm/proc/cameras()
 	// reset camera cache
-	if(camera_cache_id != cache_id)
+	if(camera_repository.camera_cache_id != cache_id)
 		cameras = null
-		cache_id = camera_cache_id
+		cache_id = camera_repository.camera_cache_id
 	// If the alarm origin has changed area, for example a borg containing an alarming camera, reset the list of cameras
 	else if(cameras && (last_camera_area != alarm_area()))
 		cameras = null
@@ -100,6 +106,12 @@
 /******************
 * Assisting procs *
 ******************/
+/atom/proc/get_alarm_z()
+	return get_z(src)
+
+area/get_alarm_z()
+	return contents.len ? get_z(contents[1]) : 0
+
 /atom/proc/get_alarm_area()
 	return get_area(src)
 
@@ -139,4 +151,4 @@
 /mob/living/silicon/robot/syndicate/get_alarm_cameras()
 	return list()
 
-#undef ALARM_LOSS_DELAY
+#undef ALARM_RESET_DELAY

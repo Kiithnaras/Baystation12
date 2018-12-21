@@ -3,15 +3,7 @@
 	return
 
 /turf/simulated/floor/cultify()
-	cultify_floor()
-
-/turf/simulated/floor/carpet/cultify()
-	return
-
-/turf/simulated/shuttle/floor/cultify()
-	cultify_floor()
-
-/turf/simulated/shuttle/floor4/cultify()
+	//todo: flooring datum cultify check
 	cultify_floor()
 
 /turf/simulated/shuttle/wall/cultify()
@@ -29,18 +21,20 @@
 /turf/unsimulated/beach/cultify()
 	return
 
-/turf/unsimulated/floor/cultify()
-	cultify_floor()
-
 /turf/unsimulated/wall/cultify()
 	cultify_wall()
 
-/turf/proc/cultify_floor()
-	if((icon_state != "cult")&&(icon_state != "cult-narsie"))
-		name = "engraved floor"
-		icon_state = "cult"
-		turf_animation('icons/effects/effects.dmi',"cultfloor",0,0,MOB_LAYER-1)
+/turf/simulated/floor/proc/cultify_floor()
+	set_flooring(get_flooring_data(/decl/flooring/reinforced/cult))
+	GLOB.cult.add_cultiness(CULTINESS_PER_TURF)
+
 
 /turf/proc/cultify_wall()
-	ChangeTurf(/turf/unsimulated/wall/cult)
-	turf_animation('icons/effects/effects.dmi',"cultwall",0,0,MOB_LAYER-1)
+	var/turf/simulated/wall/wall = src
+	if(!istype(wall))
+		return
+	if(wall.reinf_material)
+		ChangeTurf(/turf/simulated/wall/cult/reinf)
+	else
+		ChangeTurf(/turf/simulated/wall/cult)
+	GLOB.cult.add_cultiness(CULTINESS_PER_TURF)

@@ -19,10 +19,11 @@
 	response_harm   = "kicks"
 	see_in_dark = 5
 	mob_size = 8
-
+	possession_candidate = 1
+	holder_type = /obj/item/weapon/holder/corgi
 	var/obj/item/inventory_head
 	var/obj/item/inventory_back
-	var/facehugger
+	pass_flags = PASS_FLAG_TABLE
 
 //IAN! SQUEEEEEEEEE~
 /mob/living/simple_animal/corgi/Ian
@@ -37,10 +38,12 @@
 	response_harm   = "kicks"
 
 /mob/living/simple_animal/corgi/Ian/Life()
-	..()
+	. = ..()
+	if(!.)
+		return FALSE
 
 	//Feeding, chasing food, FOOOOODDDD
-	if(!stat && !resting && !buckled)
+	if(!resting && !buckled)
 		turns_since_scan++
 		if(turns_since_scan > 5)
 			turns_since_scan = 0
@@ -80,7 +83,7 @@
 						visible_emote("stares at the [movement_target] that [movement_target.loc] has with sad puppy eyes.")
 
 		if(prob(1))
-			visible_emote(pick("dances around","chases their tail"))
+			visible_emote(pick("dances around.","chases their tail."))
 			spawn(0)
 				for(var/i in list(1,2,4,8,4,2,1,2,4,8,4,2,1,2,4,8,4,2))
 					set_dir(i)
@@ -95,7 +98,7 @@
 		if(!stat)
 			for(var/mob/M in viewers(user, null))
 				if ((M.client && !( M.blinded )))
-					M.show_message("\blue [user] baps [name] on the nose with the rolled up [O]")
+					M.show_message("<span class='notice'>[user] baps [name] on the nose with the rolled up [O]</span>")
 			spawn(0)
 				for(var/i in list(1,2,4,8,4,2,1,2))
 					set_dir(i)
@@ -123,13 +126,6 @@
 		var/icon/back_icon = image('icons/mob/corgi_back.dmi',back_icon_state)
 		if(back_icon)
 			overlays += back_icon
-
-	if(facehugger)
-		if(istype(src, /mob/living/simple_animal/corgi/puppy))
-			overlays += image('icons/mob/mask.dmi',"facehugger_corgipuppy")
-		else
-			overlays += image('icons/mob/mask.dmi',"facehugger_corgi")
-
 	return
 
 
@@ -144,10 +140,9 @@
 //pupplies cannot wear anything.
 /mob/living/simple_animal/corgi/puppy/Topic(href, href_list)
 	if(href_list["remove_inv"] || href_list["add_inv"])
-		usr << "\red You can't fit this on [src]"
+		to_chat(usr, "<span class='warning'>You can't fit this on [src]</span>")
 		return
 	..()
-
 
 //LISA! SQUEEEEEEEEE~
 /mob/living/simple_animal/corgi/Lisa
@@ -167,14 +162,16 @@
 //Lisa already has a cute bow!
 /mob/living/simple_animal/corgi/Lisa/Topic(href, href_list)
 	if(href_list["remove_inv"] || href_list["add_inv"])
-		usr << "\red [src] already has a cute bow!"
+		to_chat(usr, "<span class='warning'>[src] already has a cute bow!</span>")
 		return
 	..()
 
 /mob/living/simple_animal/corgi/Lisa/Life()
-	..()
+	. = ..()
+	if(!.)
+		return FALSE
 
-	if(!stat && !resting && !buckled)
+	if(!resting && !buckled)
 		turns_since_scan++
 		if(turns_since_scan > 15)
 			turns_since_scan = 0

@@ -8,13 +8,13 @@
 	var/active = 0
 
 
-/obj/machinery/gateway/initialize()
+/obj/machinery/gateway/Initialize()
 	update_icon()
-	if(dir == 2)
-		density = 0
+	if(dir == SOUTH)
+		set_density(0)
+	. = ..()
 
-
-/obj/machinery/gateway/update_icon()
+/obj/machinery/gateway/on_update_icon()
 	if(active)
 		icon_state = "on"
 		return
@@ -26,7 +26,6 @@
 /obj/machinery/gateway/centerstation
 	density = 1
 	icon_state = "offcenter"
-	use_power = 1
 
 	//warping vars
 	var/list/linked = list()
@@ -34,13 +33,13 @@
 	var/wait = 0				//this just grabs world.time at world start
 	var/obj/machinery/gateway/centeraway/awaygate = null
 
-/obj/machinery/gateway/centerstation/initialize()
+/obj/machinery/gateway/centerstation/Initialize()
 	update_icon()
 	wait = world.time + config.gateway_delay	//+ thirty minutes default
 	awaygate = locate(/obj/machinery/gateway/centeraway)
+	. = ..()
 
-
-/obj/machinery/gateway/centerstation/update_icon()
+/obj/machinery/gateway/centerstation/on_update_icon()
 	if(active)
 		icon_state = "oncenter"
 		return
@@ -48,20 +47,20 @@
 
 
 
-obj/machinery/gateway/centerstation/process()
+obj/machinery/gateway/centerstation/Process()
 	if(stat & (NOPOWER))
 		if(active) toggleoff()
 		return
 
 	if(active)
-		use_power(5000)
+		use_power_oneoff(5000)
 
 
 /obj/machinery/gateway/centerstation/proc/detect()
 	linked = list()	//clear the list
 	var/turf/T = loc
 
-	for(var/i in alldirs)
+	for(var/i in GLOB.alldirs)
 		T = get_step(loc, i)
 		var/obj/machinery/gateway/G = locate(/obj/machinery/gateway) in T
 		if(G)
@@ -82,10 +81,10 @@ obj/machinery/gateway/centerstation/process()
 	if(linked.len != 8)	return
 	if(!powered())		return
 	if(!awaygate)
-		user << "<span class='notice'>Error: No destination found.</span>"
+		to_chat(user, "<span class='notice'>Error: No destination found.</span>")
 		return
 	if(world.time < wait)
-		user << "<span class='notice'>Error: Warpspace triangulation in progress. Estimated time to completion: [round(((wait - world.time) / 10) / 60)] minutes.</span>"
+		to_chat(user, "<span class='notice'>Error: Warpspace triangulation in progress. Estimated time to completion: [round(((wait - world.time) / 10) / 60)] minutes.</span>")
 		return
 
 	for(var/obj/machinery/gateway/G in linked)
@@ -119,21 +118,19 @@ obj/machinery/gateway/centerstation/process()
 	if(!active)		return
 	if(!awaygate)	return
 	if(awaygate.calibrated)
-		M.loc = get_step(awaygate.loc, SOUTH)
+		M.forceMove(get_step(awaygate.loc, SOUTH))
 		M.set_dir(SOUTH)
 		return
 	else
-		var/obj/effect/landmark/dest = pick(awaydestinations)
+		var/obj/effect/landmark/dest = pick(GLOB.awaydestinations)
 		if(dest)
-			M.loc = dest.loc
+			M.forceMove(dest.loc)
 			M.set_dir(SOUTH)
-			use_power(5000)
-		return
-
+			use_power_oneoff(5000)
 
 /obj/machinery/gateway/centerstation/attackby(obj/item/device/W as obj, mob/user as mob)
-	if(istype(W,/obj/item/device/multitool))
-		user << "\black The gate is already calibrated, there is no work for you to do here."
+	if(isMultitool(W))
+		to_chat(user, "The gate is already calibrated, there is no work for you to do here.")
 		return
 
 /////////////////////////////////////Away////////////////////////
@@ -142,19 +139,19 @@ obj/machinery/gateway/centerstation/process()
 /obj/machinery/gateway/centeraway
 	density = 1
 	icon_state = "offcenter"
-	use_power = 0
+	use_power = POWER_USE_OFF
 	var/calibrated = 1
 	var/list/linked = list()	//a list of the connected gateway chunks
 	var/ready = 0
 	var/obj/machinery/gateway/centeraway/stationgate = null
 
 
-/obj/machinery/gateway/centeraway/initialize()
+/obj/machinery/gateway/centeraway/Initialize()
 	update_icon()
 	stationgate = locate(/obj/machinery/gateway/centerstation)
+	. = ..()
 
-
-/obj/machinery/gateway/centeraway/update_icon()
+/obj/machinery/gateway/centeraway/on_update_icon()
 	if(active)
 		icon_state = "oncenter"
 		return
@@ -165,7 +162,7 @@ obj/machinery/gateway/centerstation/process()
 	linked = list()	//clear the list
 	var/turf/T = loc
 
-	for(var/i in alldirs)
+	for(var/i in GLOB.alldirs)
 		T = get_step(loc, i)
 		var/obj/machinery/gateway/G = locate(/obj/machinery/gateway) in T
 		if(G)
@@ -185,7 +182,7 @@ obj/machinery/gateway/centerstation/process()
 	if(!ready)			return
 	if(linked.len != 8)	return
 	if(!stationgate)
-		user << "<span class='notice'>Error: No destination found.</span>"
+		to_chat(user, "<span class='notice'>Error: No destination found.</span>")
 		return
 
 	for(var/obj/machinery/gateway/G in linked)
@@ -212,25 +209,23 @@ obj/machinery/gateway/centerstation/process()
 		return
 	toggleoff()
 
-
 /obj/machinery/gateway/centeraway/Bumped(atom/movable/M as mob|obj)
 	if(!ready)	return
 	if(!active)	return
 	if(istype(M, /mob/living/carbon))
 		for(var/obj/item/weapon/implant/exile/E in M)//Checking that there is an exile implant in the contents
 			if(E.imp_in == M)//Checking that it's actually implanted vs just in their pocket
-				M << "\black The station gate has detected your exile implant and is blocking your entry."
+				to_chat(M, "The remote gate has detected your exile implant and is blocking your entry.")
 				return
-	M.loc = get_step(stationgate.loc, SOUTH)
+	M.forceMove(get_step(stationgate.loc, SOUTH))
 	M.set_dir(SOUTH)
 
-
 /obj/machinery/gateway/centeraway/attackby(obj/item/device/W as obj, mob/user as mob)
-	if(istype(W,/obj/item/device/multitool))
+	if(isMultitool(W))
 		if(calibrated)
-			user << "\black The gate is already calibrated, there is no work for you to do here."
+			to_chat(user, "The gate is already calibrated, there is no work for you to do here.")
 			return
 		else
-			user << "\blue <b>Recalibration successful!</b>: \black This gate's systems have been fine tuned.  Travel to this gate will now be on target."
+			to_chat(user, "<span class='notice'><b>Recalibration successful!</b></span>: This gate's systems have been fine tuned.  Travel to this gate will now be on target.")
 			calibrated = 1
 			return

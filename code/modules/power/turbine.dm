@@ -27,9 +27,10 @@
 
 /obj/machinery/computer/turbine_computer
 	name = "Gas turbine control computer"
-	desc = "A computer to remotely control a gas turbine"
+	desc = "A computer to remotely control a gas turbine."
 	icon = 'icons/obj/computer.dmi'
-	icon_state = "turbinecomp"
+	icon_keyboard = "tech_key"
+	icon_screen = "turbinecomp"
 	circuit = /obj/item/weapon/circuitboard/turbine_control
 	anchored = 1
 	density = 1
@@ -58,7 +59,7 @@
 #define COMPFRICTION 5e5
 #define COMPSTARTERLOAD 2800
 
-/obj/machinery/compressor/process()
+/obj/machinery/compressor/Process()
 	if(!starter)
 		return
 	overlays.Cut()
@@ -78,7 +79,7 @@
 
 
 	if(starter && !(stat & NOPOWER))
-		use_power(2800)
+		use_power_oneoff(2800)
 		if(rpm<1000)
 			rpmtarget = 1000
 	else
@@ -116,7 +117,7 @@
 #define TURBGENQ 20000
 #define TURBGENG 0.8
 
-/obj/machinery/power/turbine/process()
+/obj/machinery/power/turbine/Process()
 	if(!compressor.starter)
 		return
 	overlays.Cut()
@@ -173,41 +174,23 @@
 
 	return
 
-/obj/machinery/power/turbine/Topic(href, href_list)
-	..()
-	if(stat & BROKEN)
-		return
-	if (usr.stat || usr.restrained() )
-		return
-	if (!(istype(usr, /mob/living/carbon/human) || ticker) && ticker.mode.name != "monkey")
-		if(!istype(usr, /mob/living/silicon/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+/obj/machinery/power/turbine/CanUseTopic(var/mob/user, href_list)
+	if(!user.IsAdvancedToolUser())
+		to_chat(user, FEEDBACK_YOU_LACK_DEXTERITY)
+		return min(..(), STATUS_UPDATE)
+	return ..()
 
-	if (( usr.machine==src && ((get_dist(src, usr) <= 1) && istype(src.loc, /turf))) || (istype(usr, /mob/living/silicon/ai)))
-
-
-		if( href_list["close"] )
-			usr << browse(null, "window=turbine")
-			usr.machine = null
-			return
-
-		else if( href_list["str"] )
-			compressor.starter = !compressor.starter
-
-		spawn(0)
-			for(var/mob/M in viewers(1, src))
-				if ((M.client && M.machine == src))
-					src.interact(M)
-
-	else
+/obj/machinery/power/turbine/OnTopic(user, href_list)
+	if(href_list["close"])
 		usr << browse(null, "window=turbine")
-		usr.machine = null
+		return TOPIC_HANDLED
 
-	return
+	if(href_list["str"])
+		compressor.starter = !compressor.starter
+		. = TOPIC_REFRESH
 
-
-
+	if(. == TOPIC_REFRESH)
+		interact(user)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -215,16 +198,15 @@
 
 
 
-/obj/machinery/computer/turbine_computer/New()
-	..()
-	spawn(5)
-		for(var/obj/machinery/compressor/C in machines)
-			if(id == C.comp_id)
-				compressor = C
-		doors = new /list()
-		for(var/obj/machinery/door/blast/P in machines)
-			if(P.id == id)
-				doors += P
+/obj/machinery/computer/turbine_computer/Initialize()
+	. = ..()
+	for(var/obj/machinery/compressor/C in SSmachines.machinery)
+		if(id == C.comp_id)
+			compressor = C
+	doors = new /list()
+	for(var/obj/machinery/door/blast/P in SSmachines.machinery)
+		if(P.id == id)
+			doors += P
 
 /*
 /obj/machinery/computer/turbine_computer/attackby(I as obj, user as mob)
@@ -232,7 +214,7 @@
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 		if(do_after(user, 20))
 			if (src.stat & BROKEN)
-				user << "\blue The broken glass falls out."
+				to_chat(user, "<span class='notice'>The broken glass falls out.</span>")
 				var/obj/structure/computerframe/A = new /obj/structure/computerframe( src.loc )
 				new /obj/item/weapon/material/shard( src.loc )
 				var/obj/item/weapon/circuitboard/turbine_control/M = new /obj/item/weapon/circuitboard/turbine_control( A )
@@ -245,7 +227,7 @@
 				A.anchored = 1
 				qdel(src)
 			else
-				user << "\blue You disconnect the monitor."
+				to_chat(user, "<span class='notice'>You disconnect the monitor.</span>")
 				var/obj/structure/computerframe/A = new /obj/structure/computerframe( src.loc )
 				var/obj/item/weapon/circuitboard/turbine_control/M = new /obj/item/weapon/circuitboard/turbine_control( A )
 				for (var/obj/C in src)
@@ -277,7 +259,7 @@
 		\n<BR>
 		\n"}
 	else
-		dat += "\red<B>No compatible attached compressor found."
+		dat += "<span class='danger'>No compatible attached compressor found.</span>"
 
 	user << browse(dat, "window=computer;size=400x500")
 	onclose(user, "computer")
@@ -285,35 +267,31 @@
 
 
 
-/obj/machinery/computer/turbine_computer/Topic(href, href_list)
-	if(..())
-		return
-	if ((usr.contents.Find(src) || (in_range(src, usr) && istype(src.loc, /turf))) || (istype(usr, /mob/living/silicon)))
-		usr.machine = src
+/obj/machinery/computer/turbine_computer/OnTopic(user, href_list)
+	if( href_list["view"] )
+		usr.client.eye = src.compressor
+		. = TOPIC_HANDLED
+	else if( href_list["str"] )
+		src.compressor.starter = !src.compressor.starter
+		. = TOPIC_REFRESH
+	else if (href_list["doors"])
+		for(var/obj/machinery/door/blast/D in src.doors)
+			if (door_status == 0)
+				spawn( 0 )
+					D.open()
+					door_status = 1
+			else
+				spawn( 0 )
+					D.close()
+					door_status = 0
+		. = TOPIC_REFRESH
+	else if( href_list["close"] )
+		user << browse(null, "window=computer")
+		return TOPIC_HANDLED
 
-		if( href_list["view"] )
-			usr.client.eye = src.compressor
-		else if( href_list["str"] )
-			src.compressor.starter = !src.compressor.starter
-		else if (href_list["doors"])
-			for(var/obj/machinery/door/blast/D in src.doors)
-				if (door_status == 0)
-					spawn( 0 )
-						D.open()
-						door_status = 1
-				else
-					spawn( 0 )
-						D.close()
-						door_status = 0
-		else if( href_list["close"] )
-			usr << browse(null, "window=computer")
-			usr.machine = null
-			return
+	if(. == TOPIC_REFRESH)
+		interact(user)
 
-		src.add_fingerprint(usr)
-	src.updateUsrDialog()
-	return
-
-/obj/machinery/computer/turbine_computer/process()
+/obj/machinery/computer/turbine_computer/Process()
 	src.updateDialog()
 	return

@@ -3,51 +3,51 @@
 ////////////////////////////////
 
 /datum/construction/mecha/custom_action(step, atom/used_atom, mob/user)
-	if(istype(used_atom, /obj/item/weapon/weldingtool))
+	if(isWelder(used_atom))
 		var/obj/item/weapon/weldingtool/W = used_atom
 		if (W.remove_fuel(0, user))
 			playsound(holder, 'sound/items/Welder2.ogg', 50, 1)
 		else
 			return 0
-	else if(istype(used_atom, /obj/item/weapon/wrench))
+	else if(isWrench(used_atom))
 		playsound(holder, 'sound/items/Ratchet.ogg', 50, 1)
 
-	else if(istype(used_atom, /obj/item/weapon/screwdriver))
+	else if(isScrewdriver(used_atom))
 		playsound(holder, 'sound/items/Screwdriver.ogg', 50, 1)
 
-	else if(istype(used_atom, /obj/item/weapon/wirecutters))
+	else if(isWirecutter(used_atom))
 		playsound(holder, 'sound/items/Wirecutter.ogg', 50, 1)
 
-	else if(istype(used_atom, /obj/item/stack/cable_coil))
+	else if(isCoil(used_atom))
 		var/obj/item/stack/cable_coil/C = used_atom
 		if(C.use(4))
 			playsound(holder, 'sound/items/Deconstruct.ogg', 50, 1)
 		else
-			user << ("There's not enough cable to finish the task.")
+			to_chat(user, ("There's not enough cable to finish the task."))
 			return 0
 	else if(istype(used_atom, /obj/item/stack))
 		var/obj/item/stack/S = used_atom
 		if(S.get_amount() < 5)
-			user << ("There's not enough material in this stack.")
+			to_chat(user, ("There's not enough material in this stack."))
 			return 0
 		else
 			S.use(5)
 	return 1
 
 /datum/construction/reversible/mecha/custom_action(index as num, diff as num, atom/used_atom, mob/user as mob)
-	if(istype(used_atom, /obj/item/weapon/weldingtool))
+	if(isWelder(used_atom))
 		var/obj/item/weapon/weldingtool/W = used_atom
 		if (W.remove_fuel(0, user))
 			playsound(holder, 'sound/items/Welder2.ogg', 50, 1)
 		else
 			return 0
-	else if(istype(used_atom, /obj/item/weapon/wrench))
+	else if(isWrench(used_atom))
 		playsound(holder, 'sound/items/Ratchet.ogg', 50, 1)
 
-	else if(istype(used_atom, /obj/item/weapon/screwdriver))
+	else if(isScrewdriver(used_atom))
 		playsound(holder, 'sound/items/Screwdriver.ogg', 50, 1)
 
-	else if(istype(used_atom, /obj/item/weapon/wirecutters))
+	else if(isWirecutter(used_atom))
 		playsound(holder, 'sound/items/Wirecutter.ogg', 50, 1)
 
 	else if(istype(used_atom, /obj/item/stack/cable_coil))
@@ -55,12 +55,12 @@
 		if(C.use(4))
 			playsound(holder, 'sound/items/Deconstruct.ogg', 50, 1)
 		else
-			user << ("There's not enough cable to finish the task.")
+			to_chat(user, ("There's not enough cable to finish the task."))
 			return 0
 	else if(istype(used_atom, /obj/item/stack))
 		var/obj/item/stack/S = used_atom
 		if(S.get_amount() < 5)
-			user << ("There's not enough material in this stack.")
+			to_chat(user, ("There's not enough material in this stack."))
 			return 0
 		else
 			S.use(5)
@@ -89,7 +89,7 @@
 		const_holder.construct = new /datum/construction/reversible/mecha/ripley(const_holder)
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "ripley0"
-		const_holder.density = 1
+		const_holder.set_density(1)
 		const_holder.overlays.len = 0
 		spawn()
 			qdel(src)
@@ -97,7 +97,7 @@
 
 
 /datum/construction/reversible/mecha/ripley
-	result = "/obj/mecha/working/ripley"
+	result = /obj/mecha/working/ripley
 	steps = list(
 					//1
 					list("key"=/obj/item/weapon/weldingtool,
@@ -300,14 +300,14 @@
 		const_holder.construct = new /datum/construction/reversible/mecha/gygax(const_holder)
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "gygax0"
-		const_holder.density = 1
+		const_holder.set_density(1)
 		spawn()
 			qdel(src)
 		return
 
 
 /datum/construction/reversible/mecha/gygax
-	result = "/obj/mecha/combat/gygax"
+	result = /obj/mecha/combat/gygax
 	steps = list(
 					//1
 					list("key"=/obj/item/weapon/weldingtool,
@@ -569,7 +569,6 @@
 	custom_action(step, atom/used_atom, mob/user)
 		user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
 		holder.overlays += used_atom.icon_state+"+o"
-		user.drop_item()
 		qdel(used_atom)
 		return 1
 
@@ -581,14 +580,14 @@
 		const_holder.construct = new /datum/construction/reversible/mecha/firefighter(const_holder)
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "fireripley0"
-		const_holder.density = 1
+		const_holder.set_density(1)
 		spawn()
 			qdel(src)
 		return
 
 
 /datum/construction/reversible/mecha/firefighter
-	result = "/obj/mecha/working/ripley/firefighter"
+	result = /obj/mecha/working/ripley/firefighter
 	steps = list(
 					//1
 					list("key"=/obj/item/weapon/weldingtool,
@@ -804,13 +803,13 @@
 		const_holder.construct = new /datum/construction/reversible/mecha/durand(const_holder)
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "durand0"
-		const_holder.density = 1
+		const_holder.set_density(1)
 		spawn()
 			qdel(src)
 		return
 
 /datum/construction/reversible/mecha/durand
-	result = "/obj/mecha/combat/durand"
+	result = /obj/mecha/combat/durand
 	steps = list(
 					//1
 					list("key"=/obj/item/weapon/weldingtool,
@@ -1063,7 +1062,7 @@
 
 
 /datum/construction/mecha/phazon_chassis
-	result = "/obj/mecha/combat/phazon"
+	result = /obj/mecha/combat/phazon
 	steps = list(list("key"=/obj/item/mecha_parts/part/phazon_torso),//1
 					 list("key"=/obj/item/mecha_parts/part/phazon_left_arm),//2
 					 list("key"=/obj/item/mecha_parts/part/phazon_right_arm),//3
@@ -1107,14 +1106,14 @@
 		const_holder.construct = new /datum/construction/reversible/mecha/odysseus(const_holder)
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "odysseus0"
-		const_holder.density = 1
+		const_holder.set_density(1)
 		spawn()
 			qdel(src)
 		return
 
 
 /datum/construction/reversible/mecha/odysseus
-	result = "/obj/mecha/medical/odysseus"
+	result = /obj/mecha/medical/odysseus
 	steps = list(
 					//1
 					list("key"=/obj/item/weapon/weldingtool,

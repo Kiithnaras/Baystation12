@@ -16,7 +16,8 @@
 	create_objectives(target)
 	update_icons_added(target)
 	greet(target)
-	announce_antagonist_spawn()
+	if(!gag_announcement)
+		announce_antagonist_spawn()
 
 /datum/antagonist/proc/create_default(var/mob/source)
 	var/mob/living/M
@@ -24,8 +25,6 @@
 		M = new mob_path(get_turf(source))
 	else
 		M = new /mob/living/carbon/human(get_turf(source))
-	M.real_name = source.real_name
-	M.name = M.real_name
 	M.ckey = source.ckey
 	add_antagonist(M.mind, 1, 0, 1) // Equip them and move them to spawn.
 	return M
@@ -34,22 +33,24 @@
 
 	var/obj/item/weapon/card/id/W = new id_type(player)
 	if(!W) return
-	W.name = "[player.real_name]'s ID Card"
 	W.access |= default_access
 	W.assignment = "[assignment]"
-	W.registered_name = player.real_name
+	player.set_id_info(W)
 	if(equip) player.equip_to_slot_or_del(W, slot_wear_id)
 	return W
 
 /datum/antagonist/proc/create_radio(var/freq, var/mob/living/carbon/human/player)
 	var/obj/item/device/radio/R
 
-	if(freq == SYND_FREQ)
-		R = new/obj/item/device/radio/headset/syndicate(player)
-	else
-		R = new/obj/item/device/radio/headset(player)
+	switch(freq)
+		if(SYND_FREQ)
+			R = new/obj/item/device/radio/headset/syndicate(player)
+		if(RAID_FREQ)
+			R = new/obj/item/device/radio/headset/raider(player)
+		else
+			R = new/obj/item/device/radio/headset(player)
+			R.set_frequency(freq)
 
-	R.set_frequency(freq)
 	player.equip_to_slot_or_del(R, slot_l_ear)
 	return R
 
@@ -75,7 +76,7 @@
 			// Create and pass on the bomb code paper.
 			var/obj/item/weapon/paper/P = new(paper_spawn_loc)
 			P.info = "The nuclear authorization code is: <b>[code]</b>"
-			P.name = "nuclear bomb code"
+			P.SetName("nuclear bomb code")
 			if(leader && leader.current)
 				if(get_turf(P) == get_turf(leader.current) && !(leader.current.l_hand && leader.current.r_hand))
 					leader.current.put_in_hands(P)
@@ -84,7 +85,7 @@
 			code_owner = leader
 		if(code_owner)
 			code_owner.store_memory("<B>Nuclear Bomb Code</B>: [code]", 0, 0)
-			code_owner.current << "The nuclear authorization code is: <B>[code]</B>"
+			to_chat(code_owner.current, "The nuclear authorization code is: <B>[code]</B>")
 	else
 		message_admins("<span class='danger'>Could not spawn nuclear bomb. Contact a developer.</span>")
 		return
@@ -95,22 +96,18 @@
 /datum/antagonist/proc/greet(var/datum/mind/player)
 
 	// Basic intro text.
-	player.current << "<span class='danger'><font size=3>You are a [role_text]!</font></span>"
+	to_chat(player.current, "<span class='danger'><font size=3>You are a [role_text]!</font></span>")
 	if(leader_welcome_text && player == leader)
-		player.current << "<span class='notice'>[leader_welcome_text]</span>"
+		to_chat(player.current, "<span class='notice'>[leader_welcome_text]</span>")
 	else
-		player.current << "<span class='notice'>[welcome_text]</span>"
+		to_chat(player.current, "<span class='notice'>[welcome_text]</span>")
+	if (config.objectives_disabled == CONFIG_OBJECTIVE_NONE || !player.objectives.len)
+		to_chat(player.current, "<span class='notice'>[antag_text]</span>")
 
 	if((flags & ANTAG_HAS_NUKE) && !spawned_nuke)
 		create_nuke()
 
-	show_objectives(player)
-
-	// Clown clumsiness check, I guess downstream might use it.
-	if (player.current.mind)
-		if (player.current.mind.assigned_role == "Clown")
-			player.current << "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself."
-			player.current.mutations.Remove(CLUMSY)
+	src.show_objectives_at_creation(player)
 	return 1
 
 /datum/antagonist/proc/set_antag_name(var/mob/living/player)
@@ -118,8 +115,9 @@
 	var/newname = sanitize(input(player, "You are a [role_text]. Would you like to change your name to something else?", "Name change") as null|text, MAX_NAME_LEN)
 	if (newname)
 		player.real_name = newname
-		player.name = player.real_name
-		player.dna.real_name = newname
+		player.SetName(player.real_name)
+		if(player.dna)
+			player.dna.real_name = newname
 	if(player.mind) player.mind.name = player.name
 	// Update any ID cards.
 	update_access(player)

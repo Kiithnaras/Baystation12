@@ -4,9 +4,9 @@
 	icon_state = "marauder"
 	initial_icon = "marauder"
 	step_in = 5
-	health = 1000
+	health = 500
 	deflect_chance = 25
-	damage_absorption = list("brute"=0.5,"fire"=0.45,"bullet"=0.45,"laser"=0.6,"energy"=0.7,"bomb"=0.7)
+	damage_absorption = list("brute"=0.5,"fire"=0.7,"bullet"=0.45,"laser"=0.6,"energy"=0.7,"bomb"=0.7)
 	max_temperature = 60000
 	infra_luminosity = 3
 	var/zoom = 0
@@ -20,7 +20,7 @@
 	add_req_access = 0
 	internal_damage_threshold = 25
 	force = 45
-	max_equip = 5
+	max_equip = 4
 
 /obj/mecha/combat/marauder/seraph
 	desc = "Heavy-duty, command-type exosuit. This is a custom model, utilized only by high-ranking military personnel."
@@ -29,11 +29,11 @@
 	initial_icon = "seraph"
 	operation_req_access = list(access_cent_creed)
 	step_in = 3
-	health = 1200
+	health = 550
 	wreckage = /obj/effect/decal/mecha_wreckage/seraph
 	internal_damage_threshold = 20
 	force = 55
-	max_equip = 6
+	max_equip = 5
 
 /obj/mecha/combat/marauder/mauler
 	desc = "Heavy-duty, combat exosuit, developed off of the existing Marauder model."
@@ -51,7 +51,7 @@
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/tesla_energy_relay(src)
 	ME.attach(src)
-	ME = new /obj/item/mecha_parts/mecha_equipment/antiproj_armor_booster(src)
+	ME = new /obj/item/mecha_parts/mecha_equipment/armor_booster/antiproj_armor_booster(src)
 	ME.attach(src)
 	src.smoke_system.set_up(3, 0, src)
 	src.smoke_system.attach(src)
@@ -62,7 +62,7 @@
 	var/obj/item/mecha_parts/mecha_equipment/ME
 	if(equipment.len)//Now to remove it and equip anew.
 		for(ME in equipment)
-			equipment -= ME
+			ME.detach(src)
 			qdel(ME)
 	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/scattershot(src)
 	ME.attach(src)
@@ -72,7 +72,7 @@
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/tesla_energy_relay(src)
 	ME.attach(src)
-	ME = new /obj/item/mecha_parts/mecha_equipment/antiproj_armor_booster(src)
+	ME = new /obj/item/mecha_parts/mecha_equipment/armor_booster/antiproj_armor_booster(src)
 	ME.attach(src)
 	return
 
@@ -82,8 +82,8 @@
 
 /obj/mecha/combat/marauder/relaymove(mob/user,direction)
 	if(user != src.occupant) //While not "realistic", this piece is player friendly.
-		user.loc = get_turf(src)
-		user << "You climb out from [src]"
+		user.dropInto(loc)
+		to_chat(user, "You climb out from [src]")
 		return 0
 	if(!can_move)
 		return 0
@@ -136,7 +136,7 @@
 		if(get_charge() > 0)
 			thrusters = !thrusters
 			src.log_message("Toggled thrusters.")
-			src.occupant_message("<font color='[src.thrusters?"blue":"red"]'>Thrusters [thrusters?"en":"dis"]abled.")
+			src.occupant_message("<font color='[src.thrusters?"blue":"red"]'>Thrusters [thrusters?"en":"dis"]abled.</font>")
 	return
 
 
@@ -169,7 +169,7 @@
 		src.occupant_message("<font color='[src.zoom?"blue":"red"]'>Zoom mode [zoom?"en":"dis"]abled.</font>")
 		if(zoom)
 			src.occupant.client.view = 12
-			src.occupant << sound('sound/mecha/imag_enh.ogg',volume=50)
+			sound_to(src.occupant, sound('sound/mecha/imag_enh.ogg',volume=50))
 		else
 			src.occupant.client.view = world.view//world.view - default mob view size
 	return
@@ -212,5 +212,5 @@
 	if (href_list["smoke"])
 		src.smoke()
 	if (href_list["toggle_zoom"])
-		src.zoom()
+		src.zoom(usr)
 	return

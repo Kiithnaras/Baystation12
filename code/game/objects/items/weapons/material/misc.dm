@@ -15,28 +15,44 @@
 	icon_state = "hatchet"
 	force_divisor = 0.2 // 12 with hardness 60 (steel)
 	thrown_force_divisor = 0.75 // 15 with weight 20 (steel)
-	w_class = 2
+	w_class = ITEM_SIZE_SMALL
 	sharp = 1
 	edge = 1
-	origin_tech = "materials=2;combat=1"
+	origin_tech = list(TECH_MATERIAL = 2, TECH_COMBAT = 1)
 	attack_verb = list("chopped", "torn", "cut")
 	applies_material_colour = 0
-
-/obj/item/weapon/material/hatchet/unathiknife
-	name = "duelling knife"
-	desc = "A length of leather-bound wood studded with razor-sharp teeth. How crude."
-	icon = 'icons/obj/weapons.dmi'
-	icon_state = "unathiknife"
-	attack_verb = list("ripped", "torn", "cut")
+	hitsound = "chop"
 
 /obj/item/weapon/material/hatchet/tacknife
 	name = "tactical knife"
-	desc = "You'd be killing loads of people if this was Medal of Valor: Heroes of Nyx."
+	desc = "You'd be killing loads of people if this was Medal of Valor: Heroes of Space."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "tacknife"
 	item_state = "knife"
 	attack_verb = list("stabbed", "chopped", "cut")
 	applies_material_colour = 1
+
+/obj/item/weapon/material/hatchet/machete
+	name = "machete"
+	desc = "A long, sturdy blade with a rugged handle. Leading the way to cursed treasures since before space travel."
+	item_state = "machete"
+	w_class = ITEM_SIZE_NORMAL
+	slot_flags = SLOT_BELT
+	default_material = MATERIAL_TITANIUM
+	base_parry_chance = 50
+	attack_cooldown_modifier = 1
+
+/obj/item/weapon/material/hatchet/machete/Initialize()
+	icon_state = "machete[pick("","_red","_blue", "_black", "_olive")]"
+	. = ..()
+
+/obj/item/weapon/material/hatchet/machete/deluxe
+	name = "deluxe machete"
+	desc = "A fine example of a machete, with a polished blade, wooden handle and a leather cord loop."
+
+/obj/item/weapon/material/hatchet/machete/deluxe/Initialize()
+	. = ..()
+	icon_state = "machetedx"
 
 /obj/item/weapon/material/minihoe // -- Numbers
 	name = "mini hoe"
@@ -44,10 +60,9 @@
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "hoe"
 	item_state = "hoe"
-	flags = CONDUCT | NOBLUDGEON
 	force_divisor = 0.25 // 5 with weight 20 (steel)
 	thrown_force_divisor = 0.25 // as above
-	w_class = 2
+	w_class = ITEM_SIZE_SMALL
 	attack_verb = list("slashed", "sliced", "cut", "clawed")
 
 /obj/item/weapon/material/scythe
@@ -60,8 +75,9 @@
 	edge = 1
 	throw_speed = 1
 	throw_range = 3
-	w_class = 4
-	flags = NOSHIELD
+	w_class = ITEM_SIZE_HUGE
 	slot_flags = SLOT_BACK
-	origin_tech = "materials=2;combat=2"
+	origin_tech = list(TECH_MATERIAL = 2, TECH_COMBAT = 2)
 	attack_verb = list("chopped", "sliced", "cut", "reaped")
+
+

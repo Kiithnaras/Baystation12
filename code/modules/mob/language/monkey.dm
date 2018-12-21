@@ -4,19 +4,23 @@
 	speech_verb = "chimpers"
 	ask_verb = "chimpers"
 	exclaim_verb = "screeches"
-	key = "6"
-
-/datum/language/skrell/monkey
-	name = "Neara"
-	desc = "Squik squik squik."
-	key = "8"
+	key = "m"
+	shorthand = "HM"
 
 /datum/language/unathi/monkey
 	name = "Stok"
 	desc = "Hiss hiss hiss."
 	key = "7"
+	shorthand = "UM"
 
-/datum/language/tajaran/monkey
+/datum/language/skrell/monkey
+	name = "Neaera"
+	desc = "Squik squik squik."
+	key = "8"
+	shorthand = "SM"
+
+/datum/language/xenos/monkey
 	name = "Farwa"
 	desc = "Meow meow meow."
 	key = "9"
+	shorthand = "TM"

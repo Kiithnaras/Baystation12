@@ -1,124 +1,130 @@
-
 //===================================================================================
-//Hook for building overmap
+//Overmap object representing zlevel(s)
 //===================================================================================
-var/global/list/map_sectors = list()
-
-/hook/startup/proc/build_map()
-	if(!config.use_overmap)
-		return 1
-	testing("Building overmap...")
-	var/obj/effect/mapinfo/data
-	for(var/level in 1 to world.maxz)
-		data = locate("sector[level]")
-		if (data)
-			testing("Located sector \"[data.name]\" at [data.mapx],[data.mapy] corresponding to zlevel [level]")
-			map_sectors["[level]"] = new data.obj_type(data)
-	return 1
-
-//===================================================================================
-//Metaobject for storing information about sector this zlevel is representing.
-//Should be placed only once on every zlevel.
-//===================================================================================
-/obj/effect/mapinfo/
-	name = "map info metaobject"
-	icon = 'icons/mob/screen1.dmi'
-	icon_state = "x2"
-	invisibility = 101
-	var/obj_type		//type of overmap object it spawns
-	var/landing_area 	//type of area used as inbound shuttle landing, null if no shuttle landing area
-	var/zlevel
-	var/mapx			//coordinates on the
-	var/mapy			//overmap zlevel
-	var/known = 1
-
-/obj/effect/mapinfo/New()
-	tag = "sector[z]"
-	zlevel = z
-	loc = null
-
-/obj/effect/mapinfo/sector
-	name = "generic sector"
-	obj_type = /obj/effect/map/sector
-
-/obj/effect/mapinfo/ship
-	name = "generic ship"
-	obj_type = /obj/effect/map/ship
-
-
-//===================================================================================
-//Overmap object representing zlevel
-//===================================================================================
-
-/obj/effect/map
+/obj/effect/overmap
 	name = "map object"
-	icon = 'icons/obj/items.dmi'
-	icon_state = "sheet-plasteel"
-	var/map_z = 0
-	var/area/shuttle/shuttle_landing
-	var/always_known = 1
+	icon = 'icons/obj/overmap.dmi'
+	icon_state = "object"
+	var/list/map_z = list()
 
-/obj/effect/map/New(var/obj/effect/mapinfo/data)
-	map_z = data.zlevel
-	name = data.name
-	always_known = data.known
-	if (data.icon != 'icons/mob/screen1.dmi')
-		icon = data.icon
-		icon_state = data.icon_state
-	if(data.desc)
-		desc = data.desc
-	var/new_x = data.mapx ? data.mapx : rand(OVERMAP_EDGE, world.maxx - OVERMAP_EDGE)
-	var/new_y = data.mapy ? data.mapy : rand(OVERMAP_EDGE, world.maxy - OVERMAP_EDGE)
-	loc = locate(new_x, new_y, OVERMAP_ZLEVEL)
+	var/list/initial_generic_waypoints //store landmark_tag of landmarks that should be added to the actual lists below on init.
+	var/list/initial_restricted_waypoints //For use with non-automatic landmarks (automatic ones add themselves).
 
-	if(data.landing_area)
-		shuttle_landing = locate(data.landing_area)
+	var/list/generic_waypoints = list()    //waypoints that any shuttle can use
+	var/list/restricted_waypoints = list() //waypoints for specific shuttles
+	var/docking_codes
 
-/obj/effect/map/CanPass(atom/movable/A)
-	testing("[A] attempts to enter sector\"[name]\"")
-	return 1
+	var/start_x			//coordinates on the
+	var/start_y			//overmap zlevel
 
-/obj/effect/map/Crossed(atom/movable/A)
-	testing("[A] has entered sector\"[name]\"")
-	if (istype(A,/obj/effect/map/ship))
-		var/obj/effect/map/ship/S = A
-		S.current_sector = src
+	var/base = 0		//starting sector, counts as station_levels
+	var/known = 1		//shows up on nav computers automatically
+	var/in_space = 1	//can be accessed via lucky EVA
 
-/obj/effect/map/Uncrossed(atom/movable/A)
-	testing("[A] has left sector\"[name]\"")
-	if (istype(A,/obj/effect/map/ship))
-		var/obj/effect/map/ship/S = A
-		S.current_sector = null
+	var/has_distress_beacon
 
-/obj/effect/map/sector
+/obj/effect/overmap/Initialize()
+	. = ..()
+	if(!GLOB.using_map.use_overmap)
+		return INITIALIZE_HINT_QDEL
+
+	if(!GLOB.using_map.overmap_z)
+		build_overmap()
+	find_z_levels()     // This populates map_z and assigns z levels to the ship.
+	register_z_levels() // This makes external calls to update global z level information.
+
+	docking_codes = "[ascii2text(rand(65,90))][ascii2text(rand(65,90))][ascii2text(rand(65,90))][ascii2text(rand(65,90))]"
+
+	start_x = start_x || rand(OVERMAP_EDGE, GLOB.using_map.overmap_size - OVERMAP_EDGE)
+	start_y = start_y || rand(OVERMAP_EDGE, GLOB.using_map.overmap_size - OVERMAP_EDGE)
+
+	forceMove(locate(start_x, start_y, GLOB.using_map.overmap_z))
+	testing("Located sector \"[name]\" at [start_x],[start_y], containing Z [english_list(map_z)]")
+
+	LAZYADD(SSshuttle.sectors_to_initialize, src) //Queued for further init. Will populate the waypoint lists; waypoints not spawned yet will be added in as they spawn.
+
+//This is called later in the init order by SSshuttle to populate sector objects. Importantly for subtypes, shuttles will be created by then.
+/obj/effect/overmap/proc/populate_sector_objects()
+
+/obj/effect/overmap/proc/get_areas()
+
+/obj/effect/overmap/proc/find_z_levels()
+	map_z = GetConnectedZlevels(z)
+
+/obj/effect/overmap/proc/register_z_levels()
+	for(var/zlevel in map_z)
+		map_sectors["[zlevel]"] = src
+
+	GLOB.using_map.player_levels |= map_z
+	if(!in_space)
+		GLOB.using_map.sealed_levels |= map_z
+	if(base)
+		GLOB.using_map.station_levels |= map_z
+		GLOB.using_map.contact_levels |= map_z
+		GLOB.using_map.map_levels |= map_z
+
+//Helper for init.
+/obj/effect/overmap/proc/check_ownership(obj/object)
+	if((object.z in map_z) && !(get_area(object) in SSshuttle.shuttle_areas))
+		return 1
+
+//If shuttle_name is false, will add to generic waypoints; otherwise will add to restricted. Does not do checks.
+/obj/effect/overmap/proc/add_landmark(obj/effect/shuttle_landmark/landmark, shuttle_name)
+	landmark.sector_set(src)
+	if(shuttle_name)
+		LAZYADD(restricted_waypoints[shuttle_name], landmark)
+	else
+		generic_waypoints += landmark
+
+/obj/effect/overmap/proc/remove_landmark(obj/effect/shuttle_landmark/landmark, shuttle_name)
+	if(shuttle_name)
+		var/list/shuttles = restricted_waypoints[shuttle_name]
+		LAZYREMOVE(shuttles, landmark)
+	else
+		generic_waypoints -= landmark
+
+/obj/effect/overmap/proc/get_waypoints(var/shuttle_name)
+	. = generic_waypoints.Copy()
+	if(shuttle_name in restricted_waypoints)
+		. += restricted_waypoints[shuttle_name]
+
+/obj/effect/overmap/sector
 	name = "generic sector"
 	desc = "Sector with some stuff in it."
+	icon_state = "sector"
 	anchored = 1
 
-//Space stragglers go here
+/obj/effect/overmap/sector/Initialize()
+	. = ..()
+	if(known)
+		layer = ABOVE_LIGHTING_LAYER
+		plane = EFFECTS_ABOVE_LIGHTING_PLANE
+		for(var/obj/machinery/computer/ship/helm/H in SSmachines.machinery)
+			H.get_known_sectors()
 
-/obj/effect/map/sector/temporary
-	name = "Deep Space"
-	icon_state = ""
-	always_known = 0
+/obj/effect/overmap/sector/get_areas()
+	return get_filtered_areas(list(/proc/area_belongs_to_zlevels = map_z))
 
-/obj/effect/map/sector/temporary/New(var/nx, var/ny, var/nz)
-	loc = locate(nx, ny, OVERMAP_ZLEVEL)
-	map_z = nz
-	map_sectors["[map_z]"] = src
-	testing("Temporary sector at [x],[y] was created, corresponding zlevel is [map_z].")
+/proc/build_overmap()
+	if(!GLOB.using_map.use_overmap)
+		return 1
 
-/obj/effect/map/sector/temporary/Destroy()
-	map_sectors["[map_z]"] = null
-	testing("Temporary sector at [x],[y] was deleted.")
-	if (can_die())
-		testing("Associated zlevel disappeared.")
-		world.maxz--
+	testing("Building overmap...")
+	world.maxz++
+	GLOB.using_map.overmap_z = world.maxz
+	var/list/turfs = list()
+	for (var/square in block(locate(1,1,GLOB.using_map.overmap_z), locate(GLOB.using_map.overmap_size,GLOB.using_map.overmap_size,GLOB.using_map.overmap_z)))
+		var/turf/T = square
+		if(T.x == GLOB.using_map.overmap_size || T.y == GLOB.using_map.overmap_size)
+			T = T.ChangeTurf(/turf/unsimulated/map/edge)
+		else
+			T = T.ChangeTurf(/turf/unsimulated/map/)
+		turfs += T
 
-/obj/effect/map/sector/temporary/proc/can_die(var/mob/observer)
-	testing("Checking if sector at [map_z] can die.")
-	for(var/mob/M in player_list)
-		if(M != observer && M.z == map_z)
-			testing("There are people on it.")
-			return 0
+	var/area/overmap/A = new
+	A.contents.Add(turfs)
+
+	GLOB.using_map.sealed_levels |= GLOB.using_map.overmap_z
+
+	testing("Overmap build complete.")
 	return 1

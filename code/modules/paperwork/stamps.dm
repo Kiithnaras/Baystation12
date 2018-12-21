@@ -5,11 +5,10 @@
 	icon_state = "stamp-qm"
 	item_state = "stamp"
 	throwforce = 0
-	w_class = 1.0
+	w_class = ITEM_SIZE_TINY
 	throw_speed = 7
 	throw_range = 15
-	matter = list(DEFAULT_WALL_MATERIAL = 60)
-	pressure_resistance = 2
+	matter = list(MATERIAL_STEEL = 60)
 	attack_verb = list("stamped")
 
 /obj/item/weapon/stamp/captain
@@ -23,6 +22,10 @@
 /obj/item/weapon/stamp/hos
 	name = "head of security's rubber stamp"
 	icon_state = "stamp-hos"
+
+/obj/item/weapon/stamp/ward
+	name = "warden's rubber stamp"
+	icon_state = "stamp-ward"
 
 /obj/item/weapon/stamp/ce
 	name = "chief engineer's rubber stamp"
@@ -52,6 +55,14 @@
 	name = "centcomm rubber stamp"
 	icon_state = "stamp-cent"
 
+/obj/item/weapon/stamp/qm
+	name = "quartermaster's rubber stamp"
+	icon_state = "stamp-qm"
+
+/obj/item/weapon/stamp/cargo
+	name = "cargo rubber stamp"
+	icon_state = "stamp-cargo"
+
 // Syndicate stamp to forge documents.
 /obj/item/weapon/stamp/chameleon/attack_self(mob/user as mob)
 
@@ -72,5 +83,5 @@
 		var/obj/item/weapon/stamp/chosen_stamp = stamps[capitalize(input_stamp)]
 
 		if(chosen_stamp)
-			name = chosen_stamp.name
+			SetName(chosen_stamp.name)
 			icon_state = chosen_stamp.icon_state

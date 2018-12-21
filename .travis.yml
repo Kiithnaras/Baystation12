@@ -1,15 +1,33 @@
-#pretending we're C because otherwise ruby will initialize, even with "language: dm".
-language: c
+language: generic
 sudo: false
+dist: trusty
 
 env:
-  BYOND_MAJOR="508"
-  BYOND_MINOR="1293"
-  
+  global:
+    BYOND_MAJOR="512"
+    BYOND_MINOR="1454"
+
+# ALL MAPS MUST BE PRESENT HERE
+# IF THEY ARE NOT, YOUR BUILD WILL FAIL
+  matrix:
+    - TEST=CODE
+    - TEST=WEB
+    - TEST=MAP MAP_PATH=example
+    - TEST=MAP MAP_PATH=torch
+    - TEST=MAP MAP_PATH=overmap_example
+    - TEST=MAP MAP_PATH=away_sites_testing
+
 cache:
   directories:
+    - tgui/node_modules
     - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
-  
+
+before_script:
+  - jdk_switcher use openjdk8
+
+before_install:
+  - unset _JAVA_OPTIONS
+
 addons:
   apt:
     packages:
@@ -18,22 +36,6 @@ addons:
       - libstdc++6:i386
       - python
       - python-pip
-  
-install:
-  - pip install --user PyYaml -q
-  - pip install --user beautifulsoup4 -q
-
-before_script:
-  - chmod +x ./install-byond.sh
-  - ./install-byond.sh
 
 script:
-  - shopt -s globstar
-  - (! grep 'step_[xy]' maps/**/*.dmm)
-  - (! find nano/templates/ -type f -exec md5sum {} + | sort | uniq -D -w 32 | grep nano)
-  - md5sum -c - <<< "0af969f671fba6cf9696c78cd175a14a *baystation12.int"
-  - md5sum -c - <<< "88490b460c26947f5ec1ab1bb9fa9f17 *html/changelogs/example.yml"
-  - python tools/GenerateChangelog/ss13_genchangelog.py html/changelog.html html/changelogs
-  - source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
-  - DreamMaker baystation12.dme
-
+  - test/run-test.sh

@@ -4,8 +4,9 @@
 	icon_state = "coffin"
 	icon_closed = "coffin"
 	icon_opened = "coffin_open"
+	setup = 0
 
-/obj/structure/closet/coffin/update_icon()
+/obj/structure/closet/coffin/on_update_icon()
 	if(!opened)
 		icon_state = icon_closed
 	else

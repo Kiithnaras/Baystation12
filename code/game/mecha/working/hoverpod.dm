@@ -5,19 +5,19 @@
 	initial_icon = "engineering_pod"
 	internal_damage_threshold = 80
 	step_in = 4
-	step_energy_drain = 10
+	step_energy_drain = 400
 	max_temperature = 20000
 	health = 150
 	infra_luminosity = 6
 	wreckage = /obj/effect/decal/mecha_wreckage/hoverpod
 	cargo_capacity = 5
 	max_equip = 3
-	var/datum/effect/effect/system/ion_trail_follow/ion_trail
+	var/datum/effect/effect/system/trail/ion_trail
 	var/stabilization_enabled = 1
 
 /obj/mecha/working/hoverpod/New()
 	..()
-	ion_trail = new /datum/effect/effect/system/ion_trail_follow()
+	ion_trail = new /datum/effect/effect/system/trail/ion()
 	ion_trail.set_up(src)
 	ion_trail.start()
 
@@ -27,7 +27,7 @@
 	if (href_list["toggle_stabilization"])
 		stabilization_enabled = !stabilization_enabled
 		send_byjax(src.occupant,"exosuit.browser","stabilization_command","[stabilization_enabled?"Dis":"En"]able thruster stabilization")
-		src.occupant_message("\blue Thruster stabilization [stabilization_enabled? "enabled" : "disabled"].")
+		src.occupant_message("<span class='notice'>Thruster stabilization [stabilization_enabled? "enabled" : "disabled"].</span>")
 		return
 
 /obj/mecha/working/hoverpod/get_commands()
@@ -51,7 +51,7 @@
 			ion_trail.start()
 		if (stabilization_enabled)
 			return 1
-	
+
 	return ..()
 
 //these three procs overriden to play different sounds
@@ -100,3 +100,6 @@
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/tool/passenger
 	ME.attach(src)
+
+/obj/mecha/working/hoverpod/is_burnable()
+	return FALSE

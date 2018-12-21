@@ -3,14 +3,16 @@
 	desc = "A pre-fabricated security camera kit, ready to be assembled and mounted to a surface."
 	icon = 'icons/obj/monitors.dmi'
 	icon_state = "cameracase"
-	w_class = 2
+	w_class = ITEM_SIZE_SMALL
 	anchored = 0
 
-	matter = list(DEFAULT_WALL_MATERIAL = 700,"glass" = 300)
+	matter = list(MATERIAL_STEEL = 700,MATERIAL_GLASS = 300)
 
 	//	Motion, EMP-Proof, X-Ray
 	var/list/obj/item/possible_upgrades = list(/obj/item/device/assembly/prox_sensor, /obj/item/stack/material/osmium, /obj/item/weapon/stock_parts/scanning_module)
 	var/list/upgrades = list()
+	var/camera_name
+	var/camera_network
 	var/state = 0
 	var/busy = 0
 	/*
@@ -27,9 +29,9 @@
 
 		if(0)
 			// State 0
-			if(iswrench(W) && isturf(src.loc))
+			if(isWrench(W) && isturf(src.loc))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-				user << "You wrench the assembly into place."
+				to_chat(user, "You wrench the assembly into place.")
 				anchored = 1
 				state = 1
 				update_icon()
@@ -38,16 +40,16 @@
 
 		if(1)
 			// State 1
-			if(iswelder(W))
+			if(isWelder(W))
 				if(weld(W, user))
-					user << "You weld the assembly securely into place."
+					to_chat(user, "You weld the assembly securely into place.")
 					anchored = 1
 					state = 2
 				return
 
-			else if(iswrench(W))
+			else if(isWrench(W))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-				user << "You unattach the assembly from it's place."
+				to_chat(user, "You unattach the assembly from its place.")
 				anchored = 0
 				update_icon()
 				state = 0
@@ -55,19 +57,19 @@
 
 		if(2)
 			// State 2
-			if(iscoil(W))
+			if(isCoil(W))
 				var/obj/item/stack/cable_coil/C = W
 				if(C.use(2))
-					user << "<span class='notice'>You add wires to the assembly.</span>"
+					to_chat(user, "<span class='notice'>You add wires to the assembly.</span>")
 					state = 3
 				else
-					user << "<span class='warning'>You need 2 coils of wire to wire the assembly.</span>"
+					to_chat(user, "<span class='warning'>You need 2 coils of wire to wire the assembly.</span>")
 				return
 
-			else if(iswelder(W))
+			else if(isWelder(W))
 
 				if(weld(W, user))
-					user << "You unweld the assembly from it's place."
+					to_chat(user, "You unweld the assembly from its place.")
 					state = 1
 					anchored = 1
 				return
@@ -75,26 +77,26 @@
 
 		if(3)
 			// State 3
-			if(isscrewdriver(W))
+			if(isScrewdriver(W))
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 
-				var/input = sanitize(input(usr, "Which networks would you like to connect this camera to? Separate networks with a comma. No Spaces!\nFor example: Exodus,Security,Secret ", "Set Network", "Exodus"))
+				var/input = sanitize(input(usr, "Which networks would you like to connect this camera to? Separate networks with a comma. No Spaces!\nFor example: Exodus,Security,Secret", "Set Network", camera_network ? camera_network : NETWORK_EXODUS))
 				if(!input)
-					usr << "No input found please hang up and try your call again."
+					to_chat(usr, "No input found please hang up and try your call again.")
 					return
 
-				var/list/tempnetwork = text2list(input, ",")
+				var/list/tempnetwork = splittext(input, ",")
 				if(tempnetwork.len < 1)
-					usr << "No network found please hang up and try your call again."
+					to_chat(usr, "No network found please hang up and try your call again.")
 					return
 
 				var/area/camera_area = get_area(src)
 				var/temptag = "[sanitize(camera_area.name)] ([rand(1, 999)])"
-				input = sanitizeSafe(input(usr, "How would you like to name the camera?", "Set Camera Name", temptag), MAX_NAME_LEN)
+				input = sanitizeSafe(input(usr, "How would you like to name the camera?", "Set Camera Name", camera_name ? camera_name : temptag), MAX_LNAME_LEN)
 
 				state = 4
 				var/obj/machinery/camera/C = new(src.loc)
-				src.loc = C
+				src.forceMove(C)
 				C.assembly = src
 
 				C.auto_turn()
@@ -110,38 +112,37 @@
 					if(i != 0)
 						var/confirm = alert(user, "Is this what you want? Chances Remaining: [i]", "Confirmation", "Yes", "No")
 						if(confirm == "Yes")
+							C.update_icon()
 							break
 				return
 
-			else if(iswirecutter(W))
+			else if(isWirecutter(W))
 
 				new/obj/item/stack/cable_coil(get_turf(src), 2)
 				playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
-				user << "You cut the wires from the circuits."
+				to_chat(user, "You cut the wires from the circuits.")
 				state = 2
 				return
 
 	// Upgrades!
-	if(is_type_in_list(W, possible_upgrades) && !is_type_in_list(W, upgrades)) // Is a possible upgrade and isn't in the camera already.
-		user << "You attach \the [W] into the assembly inner circuits."
+	if(is_type_in_list(W, possible_upgrades) && !is_type_in_list(W, upgrades) && user.unEquip(W, src)) // Is a possible upgrade and isn't in the camera already.
+		to_chat(user, "You attach \the [W] into the assembly inner circuits.")
 		upgrades += W
-		user.remove_from_mob(W)
-		W.loc = src
 		return
 
 	// Taking out upgrades
-	else if(iscrowbar(W) && upgrades.len)
+	else if(isCrowbar(W) && upgrades.len)
 		var/obj/U = locate(/obj) in upgrades
 		if(U)
-			user << "You unattach an upgrade from the assembly."
+			to_chat(user, "You unattach an upgrade from the assembly.")
 			playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
-			U.loc = get_turf(src)
+			U.dropInto(loc)
 			upgrades -= U
 		return
 
 	..()
 
-/obj/item/weapon/camera_assembly/update_icon()
+/obj/item/weapon/camera_assembly/on_update_icon()
 	if(anchored)
 		icon_state = "camera1"
 	else
@@ -158,11 +159,11 @@
 	if(!WT.isOn())
 		return 0
 
-	user << "<span class='notice'>You start to weld the [src]..</span>"
+	to_chat(user, "<span class='notice'>You start to weld \the [src]..</span>")
 	playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
 	WT.eyecheck(user)
 	busy = 1
-	if(do_after(user, 20))
+	if(do_after(user, 20, src))
 		busy = 0
 		if(!WT.isOn())
 			return 0

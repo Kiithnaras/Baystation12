@@ -16,11 +16,10 @@
 	if(isrobot(user))
 		return
 	if(istype(O, /obj/item/weapon/extinguisher))
-		if(!has_extinguisher && opened)
-			user.remove_from_mob(O)
-			contents += O
+		if(!has_extinguisher && opened && user.unEquip(O, src))
 			has_extinguisher = O
-			user << "<span class='notice'>You place [O] in [src].</span>"
+			to_chat(user, "<span class='notice'>You place [O] in [src].</span>")
+			playsound(src.loc, 'sound/effects/extin.ogg', 50, 0)
 		else
 			opened = !opened
 	else
@@ -33,15 +32,16 @@
 		return
 	if (ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+		var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 		if (user.hand)
-			temp = H.organs_by_name["l_hand"]
+			temp = H.organs_by_name[BP_L_HAND]
 		if(temp && !temp.is_usable())
-			user << "<span class='notice'>You try to move your [temp.name], but cannot!"
+			to_chat(user, "<span class='notice'>You try to move your [temp.name], but cannot!</span>")
 			return
 	if(has_extinguisher)
 		user.put_in_hands(has_extinguisher)
-		user << "<span class='notice'>You take [has_extinguisher] from [src].</span>"
+		to_chat(user, "<span class='notice'>You take [has_extinguisher] from [src].</span>")
+		playsound(src.loc, 'sound/effects/extout.ogg', 50, 0)
 		has_extinguisher = null
 		opened = 1
 	else
@@ -50,15 +50,15 @@
 
 /obj/structure/extinguisher_cabinet/attack_tk(mob/user)
 	if(has_extinguisher)
-		has_extinguisher.loc = loc
-		user << "<span class='notice'>You telekinetically remove [has_extinguisher] from [src].</span>"
+		has_extinguisher.dropInto(loc)
+		to_chat(user, "<span class='notice'>You telekinetically remove [has_extinguisher] from [src].</span>")
 		has_extinguisher = null
 		opened = 1
 	else
 		opened = !opened
 	update_icon()
 
-/obj/structure/extinguisher_cabinet/update_icon()
+/obj/structure/extinguisher_cabinet/on_update_icon()
 	if(!opened)
 		icon_state = "extinguisher_closed"
 		return
@@ -69,3 +69,9 @@
 			icon_state = "extinguisher_full"
 	else
 		icon_state = "extinguisher_empty"
+
+/obj/structure/extinguisher_cabinet/AltClick(var/mob/user)
+	if(CanPhysicallyInteract(user))
+		opened = !opened
+		update_icon()
+

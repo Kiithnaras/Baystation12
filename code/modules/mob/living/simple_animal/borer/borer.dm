@@ -8,6 +8,7 @@
 	response_disarm = "prods"
 	response_harm   = "stomps on"
 	icon_state = "brainslug"
+	item_state = "voxslug" // For the lack of a better sprite...
 	icon_living = "brainslug"
 	icon_dead = "brainslug_dead"
 	speed = 5
@@ -17,54 +18,71 @@
 	attacktext = "nipped"
 	friendly = "prods"
 	wander = 0
-	pass_flags = PASSTABLE
+	pass_flags = PASS_FLAG_TABLE
 	universal_understand = 1
 	holder_type = /obj/item/weapon/holder/borer
+	mob_size = MOB_SMALL
+	can_escape = 1
+
+	bleed_colour = "#816e12"
+
+	var/generation = 1
+	var/static/list/borer_names = list(
+		"Primary", "Secondary", "Tertiary", "Quaternary", "Quinary", "Senary",
+		"Septenary", "Octonary", "Novenary", "Decenary", "Undenary", "Duodenary",
+		)
 
 	var/used_dominate
-	var/chemicals = 10                      // Chemicals used for reproduction and spitting neurotoxin.
-	var/mob/living/carbon/human/host        // Human host for the brain worm.
-	var/truename                            // Name used for brainworm-speak.
+	var/chemicals = 10					  // Chemicals used for reproduction and spitting neurotoxin.
+	var/mob/living/carbon/human/host		// Human host for the brain worm.
+	var/truename							// Name used for brainworm-speak.
 	var/mob/living/captive_brain/host_brain // Used for swapping control of the body back and forth.
-	var/controlling                         // Used in human death check.
-	var/docile = 0                          // Sugar can stop borers from acting.
+	var/controlling						 // Used in human death check.
+	var/docile = 0						  // Sugar can stop borers from acting.
 	var/has_reproduced
 	var/roundstart
 
 /mob/living/simple_animal/borer/roundstart
 	roundstart = 1
 
-/mob/living/simple_animal/borer/New()
+/mob/living/simple_animal/borer/Login()
 	..()
+	if(mind)
+		GLOB.borers.add_antagonist(mind)
+
+/mob/living/simple_animal/borer/New(atom/newloc, var/gen=1)
+	..(newloc)
 
 	add_language("Cortical Link")
 	verbs += /mob/living/proc/ventcrawl
 	verbs += /mob/living/proc/hide
 
-	truename = "[pick("Primary","Secondary","Tertiary","Quaternary")] [rand(1000,9999)]"
+	generation = gen
+	truename = "[borer_names[min(generation, borer_names.len)]] [random_id("borer[generation]", 1000, 9999)]"
 	if(!roundstart) request_player()
 
 /mob/living/simple_animal/borer/Life()
-
-	..()
+	. = ..()
+	if(!.)
+		return FALSE
 
 	if(host)
 
 		if(!stat && !host.stat)
 
-			if(host.reagents.has_reagent("sugar"))
+			if(host.reagents.has_reagent(/datum/reagent/sugar))
 				if(!docile)
 					if(controlling)
-						host << "\blue You feel the soporific flow of sugar in your host's blood, lulling you into docility."
+						to_chat(host, "<span class='notice'>You feel the soporific flow of sugar in your host's blood, lulling you into docility.</span>")
 					else
-						src << "\blue You feel the soporific flow of sugar in your host's blood, lulling you into docility."
+						to_chat(src, "<span class='notice'>You feel the soporific flow of sugar in your host's blood, lulling you into docility.</span>")
 					docile = 1
 			else
 				if(docile)
 					if(controlling)
-						host << "\blue You shake off your lethargy as the sugar leaves your host's blood."
+						to_chat(host, "<span class='notice'>You shake off your lethargy as the sugar leaves your host's blood.</span>")
 					else
-						src << "\blue You shake off your lethargy as the sugar leaves your host's blood."
+						to_chat(src, "<span class='notice'>You shake off your lethargy as the sugar leaves your host's blood.</span>")
 					docile = 0
 
 			if(chemicals < 250)
@@ -72,22 +90,22 @@
 			if(controlling)
 
 				if(docile)
-					host << "\blue You are feeling far too docile to continue controlling your host..."
+					to_chat(host, "<span class='notice'>You are feeling far too docile to continue controlling your host...</span>")
 					host.release_control()
 					return
 
 				if(prob(5))
-					host.adjustBrainLoss(rand(1,2))
+					host.adjustBrainLoss(0.1)
 
-				if(prob(host.brainloss/20))
-					host.say("*[pick(list("blink","blink_r","choke","aflap","drool","twitch","twitch_s","gasp"))]")
+				if(prob(host.getBrainLoss()/20))
+					host.say("*[pick(list("blink","blink_r","choke","aflap","drool","twitch","twitch_v","gasp"))]")
 
 /mob/living/simple_animal/borer/Stat()
-	..()
+	. = ..()
 	statpanel("Status")
 
-	if(emergency_shuttle)
-		var/eta_status = emergency_shuttle.get_status_panel_eta()
+	if(evacuation_controller)
+		var/eta_status = evacuation_controller.get_status_panel_eta()
 		if(eta_status)
 			stat(null, eta_status)
 
@@ -100,7 +118,7 @@
 
 	if(istype(host,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = host
-		var/obj/item/organ/external/head = H.get_organ("head")
+		var/obj/item/organ/external/head = H.get_organ(BP_HEAD)
 		head.implants -= src
 
 	controlling = 0
@@ -150,13 +168,9 @@
 	if(!host) return
 
 	if(host.mind)
-		//If they're not a proper traitor, reset their antag status.
-		if(host.mind.special_role == "Borer Thrall")
-			host << "<span class ='danger'>You are no longer an antagonist.</span>"
-			borers.hosts -= host.mind
-			host.mind.special_role = null
+		GLOB.borers.remove_antagonist(host.mind)
 
-	src.loc = get_turf(host)
+	dropInto(host.loc)
 
 	reset_view(null)
 	machine = null
@@ -171,41 +185,5 @@
 
 //Procs for grabbing players.
 /mob/living/simple_animal/borer/proc/request_player()
-	for(var/mob/dead/observer/O in player_list)
-		if(jobban_isbanned(O, "Borer"))
-			continue
-		if(O.client)
-			if(O.client.prefs.be_special & BE_ALIEN)
-				question(O.client)
-
-/mob/living/simple_animal/borer/proc/question(var/client/C)
-	spawn(0)
-		if(!C)	return
-		var/response = alert(C, "A cortical borer needs a player. Are you interested?", "Cortical borer request", "Yes", "No", "Never for this round")
-		if(!C || ckey)
-			return
-		if(response == "Yes")
-			transfer_personality(C)
-		else if (response == "Never for this round")
-			C.prefs.be_special ^= BE_ALIEN
-
-/mob/living/simple_animal/borer/proc/transfer_personality(var/client/candidate)
-
-	if(!candidate || !candidate.mob || !candidate.mob.mind)
-		return
-
-	src.mind = candidate.mob.mind
-	candidate.mob.mind.current = src
-	src.ckey = candidate.ckey
-
-	if(src.mind)
-		src.mind.assigned_role = "Cortical Borer"
-		src.mind.special_role = "Cortical Borer"
-
-	src << "<span class='notice'>You are a cortical borer!</span> You are a brain slug that worms its way \
-	into the head of its victim. Use stealth, persuasion and your powers of mind control to keep you, \
-	your host and your eventual spawn safe and warm."
-	src << "You can speak to your victim with <b>say</b>, to other borers with <b>say :x</b>, and use your Abilities tab to access powers."
-
-/mob/living/simple_animal/borer/cannot_use_vents()
-	return
+	var/datum/ghosttrap/G = get_ghost_trap("cortical borer")
+	G.request_player(src, "A cortical borer needs a player.")

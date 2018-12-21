@@ -34,9 +34,9 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 		if(istype(card,/obj/item/device/paicard) && istype(candidate,/datum/paiCandidate))
 			var/mob/living/silicon/pai/pai = new(card)
 			if(!candidate.name)
-				pai.name = pick(ninja_names)
+				pai.SetName(pick(GLOB.ninja_names))
 			else
-				pai.name = candidate.name
+				pai.SetName(candidate.name)
 			pai.real_name = pai.name
 			pai.key = candidate.key
 
@@ -139,7 +139,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 				}
 				tr.d0 th {
 					background-color: none;
-					color: #4477E0;
+					color: #4477e0;
 					text-align:right;
 					vertical-align:top;
 					width:120px;
@@ -157,7 +157,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 					font-weight:bold;
 				}
 				a {
-					color:#4477E0;
+					color:#4477e0;
 				}
 				a.button {
 					color:white;
@@ -177,7 +177,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 				<td class="desc">[candidate.name]&nbsp;</td>
 			</tr>
 			<tr class="d1">
-				<td>What you plan to call yourself. Suggestions: Any character name you would choose for a station character OR an AI.</td>
+				<td>What you plan to call yourself. Suggestions: Any character name that would be suitable for a living character OR an AI.</td>
 			</tr>
 			<tr class="d0">
 				<th rowspan="2"><a href='byond://?src=\ref[src];option=desc;new=1;allow_submit=[allowSubmit];candidate=\ref[candidate]'>Description</a>:</th>
@@ -191,7 +191,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 				<td class="desc">[candidate.role]&nbsp;</td>
 			</tr>
 			<tr class="d1">
-				<td>Do you like to partner with sneaky social ninjas? Like to help security hunt down thugs? Enjoy watching an engineer's back while he saves the station yet again? This doesn't have to be limited to just station jobs. Pretty much any general descriptor for what you'd like to be doing works here.</td>
+				<td>Do you like to partner with sneaky social ninjas? Like to help security hunt down thugs? Enjoy watching an engineer's back while he saves the day yet again? This doesn't have to be limited to just actually-existing-in-game jobs. Pretty much any general descriptor for what you'd like to be doing works here.</td>
 			</tr>
 			<tr class="d0">
 				<th rowspan="2"><a href='byond://?src=\ref[src];option=ooc;new=1;allow_submit=[allowSubmit];candidate=\ref[candidate]'>OOC Comments</a>:</th>
@@ -233,7 +233,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 	for(var/datum/paiCandidate/c in paiController.pai_candidates)
 		if(c.ready)
 			var/found = 0
-			for(var/mob/dead/observer/o in player_list)
+			for(var/mob/observer/ghost/o in GLOB.player_list)
 				if(o.key == c.key && o.MayRespawn())
 					found = 1
 			if(found)
@@ -279,7 +279,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 						color: white;
 					}
 					tr.d2 td {
-						background-color: #00FF00;
+						background-color: #00ff00;
 						color: white;
 						text-align:center;
 					}
@@ -346,7 +346,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 
 /datum/paiController/proc/requestRecruits(var/mob/user)
 	inquirer = user
-	for(var/mob/dead/observer/O in player_list)
+	for(var/mob/observer/ghost/O in GLOB.player_list)
 		if(!O.MayRespawn())
 			continue
 		if(jobban_isbanned(O, "pAI"))
@@ -357,7 +357,7 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 			else
 				asked.Remove(O.key)
 		if(O.client)
-			if(O.client.prefs.be_special & BE_PAI)
+			if(BE_PAI in O.client.prefs.be_special_role)
 				question(O.client)
 
 /datum/paiController/proc/question(var/client/C)
@@ -370,4 +370,4 @@ var/datum/paiController/paiController			// Global handler for pAI candidates
 		if(response == "Yes")
 			recruitWindow(C.mob)
 		else if (response == "Never for this round")
-			C.prefs.be_special ^= BE_PAI
+			C.prefs.be_special_role -= BE_PAI

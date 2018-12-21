@@ -1,7 +1,7 @@
 /obj/effect/bhole
 	name = "black hole"
 	icon = 'icons/obj/objects.dmi'
-	desc = "FUCK FUCK FUCK AAAHHH"
+	desc = "FUCK FUCK FUCK AAAHHH!"
 	icon_state = "bhole3"
 	opacity = 1
 	unacidable = 1
@@ -24,8 +24,11 @@
 			qdel(M)
 		for(var/obj/O in orange(1,src))
 			qdel(O)
+		var/base_turf = get_base_turf_by_area(src)
 		for(var/turf/simulated/ST in orange(1,src))
-			ST.ChangeTurf(/turf/space)
+			if(ST.type == base_turf)
+				continue
+			ST.ChangeTurf(base_turf)
 
 		sleep(6)
 		grav(10, 4, 10, 0 )
@@ -52,7 +55,7 @@
 		//MOVEMENT
 		if( prob(50) )
 			src.anchored = 0
-			step(src,pick(alldirs))
+			step(src,pick(GLOB.alldirs))
 			src.anchored = 1
 
 /obj/effect/bhole/proc/grav(var/r, var/ex_act_force, var/pull_chance, var/turf_removal_chance)
@@ -84,5 +87,6 @@
 	//Destroying the turf
 	if( T && istype(T,/turf/simulated) && prob(turf_removal_chance) )
 		var/turf/simulated/ST = T
-		ST.ChangeTurf(/turf/space)
-	return
+		var/base_turf = get_base_turf_by_area(src)
+		if(ST.type != base_turf)
+			ST.ChangeTurf(base_turf)

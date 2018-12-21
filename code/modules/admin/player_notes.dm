@@ -91,9 +91,12 @@ datum/admins/proc/notes_gethtml(var/ckey)
 	var/day_loc = findtext(full_date, time2text(world.timeofday, "DD"))
 
 	var/datum/player_info/P = new
-	if (user)
+	if (ismob(user))
 		P.author = user.key
 		P.rank = user.client.holder.rank
+	else if (istext(user))
+		P.author = user
+		P.rank = "Bot"
 	else
 		P.author = "Adminbot"
 		P.rank = "Friendly Robot"
@@ -103,10 +106,10 @@ datum/admins/proc/notes_gethtml(var/ckey)
 	infos += P
 	info << infos
 
-	message_admins("\blue [key_name_admin(user)] has edited [key]'s notes.")
-	log_admin("[key_name(user)] has edited [key]'s notes.")
+	message_staff("<span class='notice'>[P.author] has edited [key]'s notes.</span>")
+	log_admin("[P.author] has edited [key]'s notes.")
 
-	qdel(info)
+	del(info) // savefile, so NOT qdel
 
 	//Updating list of keys with notes on them
 	var/savefile/note_list = new("data/player_notes.sav")
@@ -115,7 +118,7 @@ datum/admins/proc/notes_gethtml(var/ckey)
 	if(!note_keys) note_keys = list()
 	if(!note_keys.Find(key)) note_keys += key
 	note_list << note_keys
-	qdel(note_list)
+	del(note_list) // savefile, so NOT qdel
 
 
 /proc/notes_del(var/key, var/index)
@@ -128,10 +131,10 @@ datum/admins/proc/notes_gethtml(var/ckey)
 	infos.Remove(item)
 	info << infos
 
-	message_admins("\blue [key_name_admin(usr)] deleted one of [key]'s notes.")
+	message_staff("<span class='notice'>[key_name_admin(usr)] deleted one of [key]'s notes.</span>")
 	log_admin("[key_name(usr)] deleted one of [key]'s notes.")
 
-	qdel(info)
+	del(info) // savefile, so NOT qdel
 
 /proc/show_player_info_irc(var/key as text)
 	var/dat = "          Info on [key]\n"

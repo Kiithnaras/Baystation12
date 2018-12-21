@@ -5,7 +5,7 @@
 	icon_state = "crab"
 	icon_living = "crab"
 	icon_dead = "crab_dead"
-	small = 1
+	mob_size = MOB_SMALL
 	speak_emote = list("clicks")
 	emote_hear = list("clicks")
 	emote_see = list("clacks")
@@ -20,9 +20,14 @@
 	mob_size = 5
 	var/obj/item/inventory_head
 	var/obj/item/inventory_mask
+	possession_candidate = 1
+	can_escape = 1 //snip snip
+	pass_flags = PASS_FLAG_TABLE
 
 /mob/living/simple_animal/crab/Life()
-	..()
+	. = ..()
+	if(!.)
+		return FALSE
 	//CRAB movement
 	if(!ckey && !stat)
 		if(isturf(src.loc) && !resting && !buckled)		//This is so it only moves if it's not inside a closet, gentics machine, etc.

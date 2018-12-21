@@ -9,14 +9,16 @@
 /obj/screen
 	name = ""
 	icon = 'icons/mob/screen1.dmi'
-	layer = 20.0
+	plane = HUD_PLANE
+	layer = HUD_BASE_LAYER
+	appearance_flags = NO_CLIENT_COLOR
 	unacidable = 1
-	var/obj/master = null	//A reference to the object in the slot. Grabs or items, generally.
-	var/gun_click_time = -100 //I'm lazy.
+	var/obj/master = null    //A reference to the object in the slot. Grabs or items, generally.
+	var/globalscreen = FALSE //Global screens are not qdeled when the holding mob is destroyed.
 
 /obj/screen/Destroy()
 	master = null
-	..()
+	return ..()
 
 /obj/screen/text
 	icon = null
@@ -52,9 +54,8 @@
 /obj/screen/item_action/Click()
 	if(!usr || !owner)
 		return 1
-	if(usr.next_move >= world.time)
+	if(!usr.canClick())
 		return
-	usr.next_move = world.time + 6
 
 	if(usr.stat || usr.restrained() || usr.stunned || usr.lying)
 		return 1
@@ -65,31 +66,11 @@
 	owner.ui_action_click()
 	return 1
 
-//This is the proc used to update all the action buttons. It just returns for all mob types except humans.
-/mob/proc/update_action_buttons()
-	return
-
-
-/obj/screen/grab
-	name = "grab"
-
-/obj/screen/grab/Click()
-	var/obj/item/weapon/grab/G = master
-	G.s_click(src)
-	return 1
-
-/obj/screen/grab/attack_hand()
-	return
-
-/obj/screen/grab/attackby()
-	return
-
-
 /obj/screen/storage
 	name = "storage"
 
 /obj/screen/storage/Click()
-	if(world.time <= usr.next_move)
+	if(!usr.canClick())
 		return 1
 	if(usr.stat || usr.paralysis || usr.stunned || usr.weakened)
 		return 1
@@ -99,116 +80,112 @@
 		var/obj/item/I = usr.get_active_hand()
 		if(I)
 			usr.ClickOn(master)
-			usr.next_move = world.time+2
 	return 1
-
-/obj/screen/gun
-	name = "gun"
-	icon = 'icons/mob/screen1.dmi'
-	master = null
-	dir = 2
-
-	move
-		name = "Allow Walking"
-		icon_state = "no_walk0"
-		screen_loc = ui_gun2
-
-	run
-		name = "Allow Running"
-		icon_state = "no_run0"
-		screen_loc = ui_gun3
-
-	item
-		name = "Allow Item Use"
-		icon_state = "no_item0"
-		screen_loc = ui_gun1
-
-	mode
-		name = "Toggle Gun Mode"
-		icon_state = "gun0"
-		screen_loc = ui_gun_select
-		//dir = 1
-
-	radio
-		name = "Allow Radio Use"
-		icon_state = "no_radio0"
-		screen_loc = ui_gun4
 
 /obj/screen/zone_sel
 	name = "damage zone"
 	icon_state = "zone_sel"
 	screen_loc = ui_zonesel
-	var/selecting = "chest"
+	var/selecting = BP_CHEST
 
 /obj/screen/zone_sel/Click(location, control,params)
 	var/list/PL = params2list(params)
 	var/icon_x = text2num(PL["icon-x"])
 	var/icon_y = text2num(PL["icon-y"])
-	var/old_selecting = selecting //We're only going to update_icon() if there's been a change
+	var/new_selecting
 
 	switch(icon_y)
 		if(1 to 3) //Feet
 			switch(icon_x)
 				if(10 to 15)
-					selecting = "r_foot"
+					new_selecting = BP_R_FOOT
 				if(17 to 22)
-					selecting = "l_foot"
+					new_selecting = BP_L_FOOT
 				else
 					return 1
 		if(4 to 9) //Legs
 			switch(icon_x)
 				if(10 to 15)
-					selecting = "r_leg"
+					new_selecting = BP_R_LEG
 				if(17 to 22)
-					selecting = "l_leg"
+					new_selecting = BP_L_LEG
 				else
 					return 1
 		if(10 to 13) //Hands and groin
 			switch(icon_x)
 				if(8 to 11)
-					selecting = "r_hand"
+					new_selecting = BP_R_HAND
 				if(12 to 20)
-					selecting = "groin"
+					new_selecting = BP_GROIN
 				if(21 to 24)
-					selecting = "l_hand"
+					new_selecting = BP_L_HAND
 				else
 					return 1
 		if(14 to 22) //Chest and arms to shoulders
 			switch(icon_x)
 				if(8 to 11)
-					selecting = "r_arm"
+					new_selecting = BP_R_ARM
 				if(12 to 20)
-					selecting = "chest"
+					new_selecting = BP_CHEST
 				if(21 to 24)
-					selecting = "l_arm"
+					new_selecting = BP_L_ARM
 				else
 					return 1
 		if(23 to 30) //Head, but we need to check for eye or mouth
 			if(icon_x in 12 to 20)
-				selecting = "head"
+				new_selecting = BP_HEAD
 				switch(icon_y)
 					if(23 to 24)
 						if(icon_x in 15 to 17)
-							selecting = "mouth"
+							new_selecting = BP_MOUTH
 					if(26) //Eyeline, eyes are on 15 and 17
 						if(icon_x in 14 to 18)
-							selecting = "eyes"
+							new_selecting = BP_EYES
 					if(25 to 27)
 						if(icon_x in 15 to 17)
-							selecting = "eyes"
+							new_selecting = BP_EYES
 
-	if(old_selecting != selecting)
-		update_icon()
+	set_selected_zone(new_selecting)
 	return 1
 
-/obj/screen/zone_sel/update_icon()
+/obj/screen/zone_sel/proc/set_selected_zone(bodypart)
+	var/old_selecting = selecting
+	selecting = bodypart
+	if(old_selecting != selecting)
+		update_icon()
+		return TRUE
+
+/obj/screen/zone_sel/on_update_icon()
 	overlays.Cut()
 	overlays += image('icons/mob/zone_sel.dmi', "[selecting]")
 
+/obj/screen/intent
+	name = "intent"
+	icon = 'icons/mob/screen1_White.dmi'
+	icon_state = "intent_help"
+	screen_loc = ui_acti
+	var/intent = I_HELP
+
+/obj/screen/intent/Click(var/location, var/control, var/params)
+	var/list/P = params2list(params)
+	var/icon_x = text2num(P["icon-x"])
+	var/icon_y = text2num(P["icon-y"])
+	intent = I_DISARM
+	if(icon_x <= world.icon_size/2)
+		if(icon_y <= world.icon_size/2)
+			intent = I_HURT
+		else
+			intent = I_HELP
+	else if(icon_y <= world.icon_size/2)
+		intent = I_GRAB
+	update_icon()
+	usr.a_intent = intent
+
+/obj/screen/intent/on_update_icon()
+	icon_state = "intent_[intent]"
 
 /obj/screen/Click(location, control, params)
 	if(!usr)	return 1
-
 	switch(name)
 		if("toggle")
 			if(usr.hud_used.inventory_shown)
@@ -233,40 +210,10 @@
 				L.resist()
 
 		if("mov_intent")
-			if(iscarbon(usr))
-				var/mob/living/carbon/C = usr
-				if(C.legcuffed)
-					C << "<span class='notice'>You are legcuffed! You cannot run until you get [C.legcuffed] removed!</span>"
-					C.m_intent = "walk"	//Just incase
-					C.hud_used.move_intent.icon_state = "walking"
-					return 1
-				switch(usr.m_intent)
-					if("run")
-						usr.m_intent = "walk"
-						usr.hud_used.move_intent.icon_state = "walking"
-					if("walk")
-						usr.m_intent = "run"
-						usr.hud_used.move_intent.icon_state = "running"
-		if("m_intent")
-			if(!usr.m_int)
-				switch(usr.m_intent)
-					if("run")
-						usr.m_int = "13,14"
-					if("walk")
-						usr.m_int = "14,14"
-					if("face")
-						usr.m_int = "15,14"
-			else
-				usr.m_int = null
-		if("walk")
-			usr.m_intent = "walk"
-			usr.m_int = "14,14"
-		if("face")
-			usr.m_intent = "face"
-			usr.m_int = "15,14"
-		if("run")
-			usr.m_intent = "run"
-			usr.m_int = "13,14"
+			var/move_intent_type = next_in_list(usr.move_intent.type, usr.move_intents)
+			usr.move_intent = decls_repository.get_decl(move_intent_type)
+			usr.hud_used.move_intent.icon_state = usr.move_intent.hud_icon_state
+
 		if("Reset Machine")
 			usr.unset_machine()
 		if("internal")
@@ -275,19 +222,19 @@
 				if(!C.stat && !C.stunned && !C.paralysis && !C.restrained())
 					if(C.internal)
 						C.internal = null
-						C << "<span class='notice'>No longer running on internals.</span>"
+						to_chat(C, "<span class='notice'>No longer running on internals.</span>")
 						if(C.internals)
 							C.internals.icon_state = "internal0"
 					else
 
 						var/no_mask
-						if(!(C.wear_mask && C.wear_mask.flags & AIRTIGHT))
+						if(!(C.wear_mask && C.wear_mask.item_flags & ITEM_FLAG_AIRTIGHT))
 							var/mob/living/carbon/human/H = C
-							if(!(H.head && H.head.flags & AIRTIGHT))
+							if(!(H.head && H.head.item_flags & ITEM_FLAG_AIRTIGHT))
 								no_mask = 1
 
 						if(no_mask)
-							C << "<span class='notice'>You are not wearing a suitable mask or helmet.</span>"
+							to_chat(C, "<span class='notice'>You are not wearing a suitable mask or helmet.</span>")
 							return 1
 						else
 							var/list/nicename = null
@@ -361,7 +308,8 @@
 							//We've determined the best container now we set it as our internals
 
 							if(best)
-								C << "<span class='notice'>You are now running on internals from [tankcheck[best]] [from] your [nicename[best]].</span>"
+								to_chat(C, "<span class='notice'>You are now running on internals from [tankcheck[best]] [from] your [nicename[best]].</span>")
+								playsound(usr, 'sound/effects/internals.ogg', 50, 0)
 								C.internal = tankcheck[best]
 
 
@@ -369,21 +317,9 @@
 								if(C.internals)
 									C.internals.icon_state = "internal1"
 							else
-								C << "<span class='notice'>You don't have a[breathes=="oxygen" ? "n oxygen" : addtext(" ",breathes)] tank.</span>"
+								to_chat(C, "<span class='notice'>You don't have a[breathes=="oxygen" ? "n oxygen" : addtext(" ",breathes)] tank.</span>")
 		if("act_intent")
 			usr.a_intent_change("right")
-		if(I_HELP)
-			usr.a_intent = I_HELP
-			usr.hud_used.action_intent.icon_state = "intent_help"
-		if(I_HURT)
-			usr.a_intent = I_HURT
-			usr.hud_used.action_intent.icon_state = "intent_harm"
-		if(I_GRAB)
-			usr.a_intent = I_GRAB
-			usr.hud_used.action_intent.icon_state = "intent_grab"
-		if(I_DISARM)
-			usr.a_intent = I_DISARM
-			usr.hud_used.action_intent.icon_state = "intent_disarm"
 
 		if("pull")
 			usr.stop_pulling()
@@ -409,7 +345,7 @@
 					R.hud_used.toggle_show_robot_modules()
 					return 1
 				else
-					R << "You haven't selected a module yet."
+					to_chat(R, "You haven't selected a module yet.")
 
 		if("radio")
 			if(issilicon(usr))
@@ -425,7 +361,7 @@
 					R.uneq_active()
 					R.hud_used.update_robot_modules_display()
 				else
-					R << "You haven't selected a module yet."
+					to_chat(R, "You haven't selected a module yet.")
 
 		if("module1")
 			if(istype(usr, /mob/living/silicon/robot))
@@ -438,46 +374,6 @@
 		if("module3")
 			if(istype(usr, /mob/living/silicon/robot))
 				usr:toggle_module(3)
-
-		if("Allow Walking", "Disallow Walking")
-			if(gun_click_time > world.time - 30)	//give them 3 seconds between mode changes.
-				return
-			if(!istype(usr.get_active_hand(),/obj/item/weapon/gun))
-				usr << "You need your gun in your active hand to do that!"
-				return
-			usr.client.AllowTargetMove()
-			gun_click_time = world.time
-
-		if("Allow Running", "Disallow Running")
-			if(gun_click_time > world.time - 30)	//give them 3 seconds between mode changes.
-				return
-			if(!istype(usr.get_active_hand(),/obj/item/weapon/gun))
-				usr << "You need your gun in your active hand to do that!"
-				return
-			usr.client.AllowTargetRun()
-			gun_click_time = world.time
-
-		if("Allow Item Use", "Disallow Item Use")
-			if(gun_click_time > world.time - 30)	//give them 3 seconds between mode changes.
-				return
-			if(!istype(usr.get_active_hand(),/obj/item/weapon/gun))
-				usr << "You need your gun in your active hand to do that!"
-				return
-			usr.client.AllowTargetClick()
-			gun_click_time = world.time
-
-		if("Toggle Gun Mode")
-			usr.client.ToggleGunMode()
-
-		if("Allow Radio Use", "Disallow Radio Use")
-			if(gun_click_time > world.time - 30)	//give them 3 seconds between mode changes.
-				return
-			if(!istype(usr.get_active_hand(),/obj/item/weapon/gun))
-				usr << "You need your gun in your active hand to do that!"
-				return
-			usr.client.AllowTargetRadio()
-			gun_click_time = world.time
-
 		else
 			return 0
 	return 1
@@ -485,7 +381,7 @@
 /obj/screen/inventory/Click()
 	// At this point in client Click() code we have passed the 1/10 sec check and little else
 	// We don't even know if it's a middle click
-	if(world.time <= usr.next_move)
+	if(!usr.canClick())
 		return 1
 	if(usr.stat || usr.paralysis || usr.stunned || usr.weakened)
 		return 1
@@ -496,12 +392,10 @@
 			if(iscarbon(usr))
 				var/mob/living/carbon/C = usr
 				C.activate_hand("r")
-				usr.next_move = world.time+2
 		if("l_hand")
 			if(iscarbon(usr))
 				var/mob/living/carbon/C = usr
 				C.activate_hand("l")
-				usr.next_move = world.time+2
 		if("swap")
 			usr:swap_hand()
 		if("hand")
@@ -510,5 +404,4 @@
 			if(usr.attack_ui(slot_id))
 				usr.update_inv_l_hand(0)
 				usr.update_inv_r_hand(0)
-				usr.next_move = world.time+6
 	return 1

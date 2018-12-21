@@ -76,7 +76,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	construction_state = 0
 	if(master)
 		master.part_scan()
-	..()
+	. = ..()
 
 /obj/structure/particle_accelerator/end_cap
 	name = "Alpha Particle Generation Array"
@@ -84,7 +84,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	icon_state = "end_cap"
 	reference = "end_cap"
 
-/obj/structure/particle_accelerator/update_icon()
+/obj/structure/particle_accelerator/on_update_icon()
 	..()
 	return
 
@@ -95,7 +95,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	set src in oview(1)
 
 	if (src.anchored || usr:stat)
-		usr << "It is fastened to the floor!"
+		to_chat(usr, "It is fastened to the floor!")
 		return 0
 	src.set_dir(turn(src.dir, 270))
 	return 1
@@ -106,7 +106,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	set src in oview(1)
 
 	if (src.anchored || usr:stat)
-		usr << "It is fastened to the floor!"
+		to_chat(usr, "It is fastened to the floor!")
 		return 0
 	src.set_dir(turn(src.dir, 90))
 	return 1
@@ -157,19 +157,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 		else
 	return
 
-
-/obj/structure/particle_accelerator/blob_act()
-	if(prob(50))
-		qdel(src)
-	return
-
-
-/obj/structure/particle_accelerator/meteorhit()
-	if(prob(50))
-		qdel(src)
-	return
-
-/obj/structure/particle_accelerator/update_icon()
+/obj/structure/particle_accelerator/on_update_icon()
 	switch(construction_state)
 		if(0,1)
 			icon_state="[reference]"
@@ -218,35 +206,35 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 
 	switch(src.construction_state)//TODO:Might be more interesting to have it need several parts rather than a single list of steps
 		if(0)
-			if(iswrench(O))
+			if(isWrench(O))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 				src.anchored = 1
 				user.visible_message("[user.name] secures the [src.name] to the floor.", \
 					"You secure the external bolts.")
 				temp_state++
 		if(1)
-			if(iswrench(O))
+			if(isWrench(O))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 				src.anchored = 0
 				user.visible_message("[user.name] detaches the [src.name] from the floor.", \
 					"You remove the external bolts.")
 				temp_state--
-			else if(iscoil(O))
+			else if(isCoil(O))
 				if(O:use(1,user))
 					user.visible_message("[user.name] adds wires to the [src.name].", \
 						"You add some wires.")
 					temp_state++
 		if(2)
-			if(iswirecutter(O))//TODO:Shock user if its on?
+			if(isWirecutter(O))//TODO:Shock user if its on?
 				user.visible_message("[user.name] removes some wires from the [src.name].", \
 					"You remove some wires.")
 				temp_state--
-			else if(isscrewdriver(O))
+			else if(isScrewdriver(O))
 				user.visible_message("[user.name] closes the [src.name]'s access panel.", \
 					"You close the access panel.")
 				temp_state++
 		if(3)
-			if(isscrewdriver(O))
+			if(isScrewdriver(O))
 				user.visible_message("[user.name] opens the [src.name]'s access panel.", \
 					"You open the access panel.")
 				temp_state--
@@ -269,7 +257,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	icon_state = "none"
 	anchored = 0
 	density = 1
-	use_power = 0
+	use_power = POWER_USE_OFF
 	idle_power_usage = 0
 	active_power_usage = 0
 	var/construction_state = 0
@@ -286,7 +274,7 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	set src in oview(1)
 
 	if (src.anchored || usr:stat)
-		usr << "It is fastened to the floor!"
+		to_chat(usr, "It is fastened to the floor!")
 		return 0
 	src.set_dir(turn(src.dir, 270))
 	return 1
@@ -297,12 +285,12 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	set src in oview(1)
 
 	if (src.anchored || usr:stat)
-		usr << "It is fastened to the floor!"
+		to_chat(usr, "It is fastened to the floor!")
 		return 0
 	src.set_dir(turn(src.dir, 90))
 	return 1
 
-/obj/machinery/particle_accelerator/update_icon()
+/obj/machinery/particle_accelerator/on_update_icon()
 	return
 
 /obj/machinery/particle_accelerator/examine(mob/user)
@@ -345,18 +333,6 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	return
 
 
-/obj/machinery/particle_accelerator/blob_act()
-	if(prob(50))
-		qdel(src)
-	return
-
-
-/obj/machinery/particle_accelerator/meteorhit()
-	if(prob(50))
-		qdel(src)
-	return
-
-
 /obj/machinery/particle_accelerator/proc/update_state()
 	return 0
 
@@ -369,35 +345,35 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	var/temp_state = src.construction_state
 	switch(src.construction_state)//TODO:Might be more interesting to have it need several parts rather than a single list of steps
 		if(0)
-			if(iswrench(O))
+			if(isWrench(O))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 				src.anchored = 1
 				user.visible_message("[user.name] secures the [src.name] to the floor.", \
 					"You secure the external bolts.")
 				temp_state++
 		if(1)
-			if(iswrench(O))
+			if(isWrench(O))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 				src.anchored = 0
 				user.visible_message("[user.name] detaches the [src.name] from the floor.", \
 					"You remove the external bolts.")
 				temp_state--
-			else if(iscoil(O))
+			else if(isCoil(O))
 				if(O:use(1))
 					user.visible_message("[user.name] adds wires to the [src.name].", \
 						"You add some wires.")
 					temp_state++
 		if(2)
-			if(iswirecutter(O))//TODO:Shock user if its on?
+			if(isWirecutter(O))//TODO:Shock user if its on?
 				user.visible_message("[user.name] removes some wires from the [src.name].", \
 					"You remove some wires.")
 				temp_state--
-			else if(isscrewdriver(O))
+			else if(isScrewdriver(O))
 				user.visible_message("[user.name] closes the [src.name]'s access panel.", \
 					"You close the access panel.")
 				temp_state++
 		if(3)
-			if(isscrewdriver(O))
+			if(isScrewdriver(O))
 				user.visible_message("[user.name] opens the [src.name]'s access panel.", \
 					"You open the access panel.")
 				temp_state--
@@ -408,10 +384,10 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 		if(src.construction_state < 3)//Was taken apart, update state
 			update_state()
 			if(use_power)
-				use_power = 0
+				update_use_power(POWER_USE_OFF)
 		src.construction_state = temp_state
 		if(src.construction_state >= 3)
-			use_power = 1
+			update_use_power(POWER_USE_IDLE)
 		update_icon()
 		return 1
 	return 0

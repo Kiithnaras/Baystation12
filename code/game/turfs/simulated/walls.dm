@@ -1,5 +1,3 @@
-var/list/global/wall_cache = list()
-
 /turf/simulated/wall
 	name = "wall"
 	desc = "A huge chunk of metal used to seperate rooms."
@@ -20,28 +18,56 @@ var/list/global/wall_cache = list()
 	var/material/reinf_material
 	var/last_state
 	var/construction_stage
+	var/hitsound = 'sound/weapons/Genhit.ogg'
+	var/list/wall_connections = list("0", "0", "0", "0")
+	var/list/other_connections = list("0", "0", "0", "0")
+	var/floor_type = /turf/simulated/floor/plating //turf it leaves after destruction
+	var/paint_color
+	var/stripe_color
+	var/global/list/wall_stripe_cache = list()
+	var/list/blend_turfs = list(/turf/simulated/wall/cult)
+	var/list/blend_objects = list(/obj/machinery/door, /obj/structure/wall_frame, /obj/structure/grille, /obj/structure/window/reinforced/full, /obj/structure/window/reinforced/polarized/full, /obj/structure/window/shuttle, ,/obj/structure/window/phoronbasic/full, /obj/structure/window/phoronreinforced/full) // Objects which to blend with
+	var/list/noblend_objects = list(/obj/machinery/door/window) //Objects to avoid blending with (such as children of listed blend objects.
 
 /turf/simulated/wall/New(var/newloc, var/materialtype, var/rmaterialtype)
 	..(newloc)
 	icon_state = "blank"
 	if(!materialtype)
 		materialtype = DEFAULT_WALL_MATERIAL
-	material = get_material_by_name(materialtype)
+	material = SSmaterials.get_material_by_name(materialtype)
 	if(!isnull(rmaterialtype))
-		reinf_material = get_material_by_name(rmaterialtype)
+		reinf_material = SSmaterials.get_material_by_name(rmaterialtype)
 	update_material()
+	hitsound = material.hitsound
 
-	processing_turfs |= src
+/turf/simulated/wall/Initialize()
+	set_extension(src, /datum/extension/penetration, /datum/extension/penetration/proc_call, .proc/CheckPenetration)
+	START_PROCESSING(SSturf, src) //Used for radiation.
+	. = ..()
 
 /turf/simulated/wall/Destroy()
-	processing_turfs -= src
+	STOP_PROCESSING(SSturf, src)
 	dismantle_wall(null,null,1)
-	..()
+	. = ..()
 
-/turf/simulated/wall/process()
-	// Calling parent will kill processing
+// Walls always hide the stuff below them.
+/turf/simulated/wall/levelupdate()
+	for(var/obj/O in src)
+		O.hide(1)
+
+/turf/simulated/wall/protects_atom(var/atom/A)
+	var/obj/O = A
+	return (istype(O) && O.hides_under_flooring()) || ..()
+
+/turf/simulated/wall/Process(wait, times_fired)
+	var/how_often = max(round(2 SECONDS/wait), 1)
+	if(times_fired % how_often)
+		return //We only work about every 2 seconds
 	if(!radiate())
 		return PROCESS_KILL
+
+/turf/simulated/wall/proc/get_material()
+	return material
 
 /turf/simulated/wall/bullet_act(var/obj/item/projectile/Proj)
 	if(istype(Proj,/obj/item/projectile/beam))
@@ -49,12 +75,16 @@ var/list/global/wall_cache = list()
 	else if(istype(Proj,/obj/item/projectile/ion))
 		burn(500)
 
-	// Tasers and stuff? No thanks. Also no clone or tox damage crap.
-	if(!(Proj.damage_type == BRUTE || Proj.damage_type == BURN))
-		return
+	var/proj_damage = Proj.get_structure_damage()
+
+	if(reinf_material)
+		if(Proj.damage_type == BURN)
+			proj_damage /= reinf_material.burn_armor
+		else if(Proj.damage_type == BRUTE)
+			proj_damage /= reinf_material.brute_armor
 
 	//cap the amount of damage, so that things like emitters can't destroy walls in one hit.
-	var/damage = min(Proj.damage, 100)
+	var/damage = min(proj_damage, 100)
 
 	take_damage(damage)
 	return
@@ -64,7 +94,8 @@ var/list/global/wall_cache = list()
 	if(ismob(AM))
 		return
 
-	var/tforce = AM:throwforce * (speed/THROWFORCE_SPEED_DIVISOR)
+	var/obj/O = AM
+	var/tforce = O.throwforce * (speed/THROWFORCE_SPEED_DIVISOR)
 	if (tforce < 15)
 		return
 
@@ -73,7 +104,7 @@ var/list/global/wall_cache = list()
 /turf/simulated/wall/proc/clear_plants()
 	for(var/obj/effect/overlay/wallrot/WR in src)
 		qdel(WR)
-	for(var/obj/effect/plant/plant in range(src, 1))
+	for(var/obj/effect/vine/plant in range(src, 1))
 		if(!plant.floor) //shrooms drop to the floor
 			plant.floor = 1
 			plant.update_icon()
@@ -83,25 +114,29 @@ var/list/global/wall_cache = list()
 
 /turf/simulated/wall/ChangeTurf(var/newtype)
 	clear_plants()
-	..(newtype)
+	return ..(newtype)
 
 //Appearance
 /turf/simulated/wall/examine(mob/user)
 	. = ..(user)
 
+	if(!.)
+		return
+
 	if(!damage)
-		user << "<span class='notice'>It looks fully intact.</span>"
+		to_chat(user, "<span class='notice'>It looks fully intact.</span>")
 	else
 		var/dam = damage / material.integrity
 		if(dam <= 0.3)
-			user << "<span class='warning'>It looks slightly damaged.</span>"
+			to_chat(user, "<span class='warning'>It looks slightly damaged.</span>")
 		else if(dam <= 0.6)
-			user << "<span class='warning'>It looks moderately damaged.</span>"
+			to_chat(user, "<span class='warning'>It looks moderately damaged.</span>")
 		else
-			user << "<span class='danger'>It looks heavily damaged.</span>"
-
+			to_chat(user, "<span class='danger'>It looks heavily damaged.</span>")
+	if(paint_color)
+		to_chat(user, "<span class='notice'>It has a coat of paint applied.</span>")
 	if(locate(/obj/effect/overlay/wallrot) in src)
-		user << "<span class='warning'>There is fungus growing on [src].</span>"
+		to_chat(user, "<span class='warning'>There is fungus growing on [src].</span>")
 
 //Damage
 
@@ -166,19 +201,19 @@ var/list/global/wall_cache = list()
 			var/obj/structure/sign/poster/P = O
 			P.roll_and_drop(src)
 		else
-			O.loc = src
+			O.forceMove(src)
 
 	clear_plants()
-	material = get_material_by_name("placeholder")
+	material = SSmaterials.get_material_by_name("placeholder")
 	reinf_material = null
-	check_relatives()
+	update_connections(1)
 
-	ChangeTurf(/turf/simulated/floor/plating)
+	ChangeTurf(floor_type)
 
 /turf/simulated/wall/ex_act(severity)
 	switch(severity)
 		if(1.0)
-			src.ChangeTurf(/turf/space)
+			src.ChangeTurf(get_base_turf(src.z))
 			return
 		if(2.0)
 			if(prob(75))
@@ -188,10 +223,6 @@ var/list/global/wall_cache = list()
 		if(3.0)
 			take_damage(rand(0, 250))
 		else
-	return
-
-/turf/simulated/wall/blob_act()
-	take_damage(rand(75, 125))
 	return
 
 // Wall-rot effect, a nasty fungus that destroys walls.
@@ -211,20 +242,21 @@ var/list/global/wall_cache = list()
 	if(!can_melt())
 		return
 	var/obj/effect/overlay/O = new/obj/effect/overlay( src )
-	O.name = "Thermite"
+	O.SetName("Thermite")
 	O.desc = "Looks hot."
 	O.icon = 'icons/effects/fire.dmi'
 	O.icon_state = "2"
 	O.anchored = 1
-	O.density = 1
-	O.layer = 5
+	O.set_density(1)
+	O.plane = LIGHTING_PLANE
+	O.layer = FIRE_LAYER
 
 	src.ChangeTurf(/turf/simulated/floor/plating)
 
 	var/turf/simulated/floor/F = src
 	F.burn_tile()
 	F.icon_state = "wall_thermite"
-	user << "<span class='warning'>The thermite starts melting through the wall.</span>"
+	to_chat(user, "<span class='warning'>The thermite starts melting through the wall.</span>")
 
 	spawn(100)
 		if(O)
@@ -232,23 +264,12 @@ var/list/global/wall_cache = list()
 //	F.sd_LumReset()		//TODO: ~Carn
 	return
 
-/turf/simulated/wall/meteorhit(obj/M as obj)
-	var/rotting = (locate(/obj/effect/overlay/wallrot) in src)
-	if (prob(15) && !rotting)
-		dismantle_wall()
-	else if(prob(70) && !rotting)
-		ChangeTurf(/turf/simulated/floor/plating)
-	else
-		ReplaceWithLattice()
-	return 0
-
 /turf/simulated/wall/proc/radiate()
 	var/total_radiation = material.radioactivity + (reinf_material ? reinf_material.radioactivity / 2 : 0)
 	if(!total_radiation)
 		return
 
-	for(var/mob/living/L in range(3,src))
-		L.apply_effect(total_radiation, IRRADIATE,0)
+	SSradiation.radiate(src, total_radiation)
 	return total_radiation
 
 /turf/simulated/wall/proc/burn(temperature)
@@ -260,3 +281,12 @@ var/list/global/wall_cache = list()
 				W.burn((temperature/4))
 			for(var/obj/machinery/door/airlock/phoron/D in range(3,src))
 				D.ignite(temperature/4)
+
+/turf/simulated/wall/get_color()
+	return paint_color
+
+/turf/simulated/wall/proc/CheckPenetration(var/base_chance, var/damage)
+	return round(damage/material.integrity*180)
+
+/turf/simulated/wall/can_engrave()
+	return (material && material.hardness >= 10 && material.hardness <= 100)

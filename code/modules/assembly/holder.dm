@@ -3,9 +3,10 @@
 	icon = 'icons/obj/assemblies/new_assemblies.dmi'
 	icon_state = "holder"
 	item_state = "assembly"
-	flags = CONDUCT
+	movable_flags = MOVABLE_FLAG_PROXMOVE
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	throwforce = 5
-	w_class = 2.0
+	w_class = ITEM_SIZE_SMALL
 	throw_speed = 3
 	throw_range = 10
 
@@ -31,20 +32,23 @@
 		return 1
 
 
-	attach(var/obj/item/device/D, var/obj/item/device/D2, var/mob/user)
-		if((!D)||(!D2))	return 0
-		if((!isassembly(D))||(!isassembly(D2)))	return 0
-		if((D:secured)||(D2:secured))	return 0
+	attach(var/obj/item/device/assembly/D, var/obj/item/device/assembly/D2, var/mob/user)
+		if((!D)||(!D2))
+			return 0
+		if((!istype(D))||(!istype(D2)))
+			return 0
+		if((D.secured)||(D2.secured))
+			return 0
 		if(user)
-			user.remove_from_mob(D)
-			user.remove_from_mob(D2)
-		D:holder = src
-		D2:holder = src
-		D.loc = src
-		D2.loc = src
+			user.drop_from_inventory(D)
+			user.drop_from_inventory(D2)
+		D.holder = src
+		D2.holder = src
+		D.forceMove(src)
+		D2.forceMove(src)
 		a_left = D
 		a_right = D2
-		name = "[D.name]-[D2.name] assembly"
+		SetName("[D.name]-[D2.name] assembly")
 		update_icon()
 		usr.put_in_hands(src)
 
@@ -58,7 +62,7 @@
 /*		if(O:Attach_Holder())
 			special_assembly = O
 			update_icon()
-			src.name = "[a_left.name] [a_right.name] [special_assembly.name] assembly"
+			src.SetName("[a_left.name] [a_right.name] [special_assembly.name] assembly")
 */
 		return
 
@@ -85,12 +89,12 @@
 */
 
 	examine(mob/user)
-		..(user)
+		. = ..(user)
 		if ((in_range(src, user) || src.loc == user))
 			if (src.secured)
-				user << "\The [src] is ready!"
+				to_chat(user, "\The [src] is ready!")
 			else
-				user << "\The [src] can be attached!"
+				to_chat(user, "\The [src] can be attached!")
 		return
 
 
@@ -144,17 +148,17 @@
 
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		if(isscrewdriver(W))
+		if(isScrewdriver(W))
 			if(!a_left || !a_right)
-				user << "\red BUG:Assembly part missing, please report this!"
+				to_chat(user, "<span class='warning'>BUG:Assembly part missing, please report this!</span>")
 				return
 			a_left.toggle_secure()
 			a_right.toggle_secure()
 			secured = !secured
 			if(secured)
-				user << "\blue \The [src] is ready!"
+				to_chat(user, "<span class='notice'>\The [src] is ready!</span>")
 			else
-				user << "\blue \The [src] can now be taken apart!"
+				to_chat(user, "<span class='notice'>\The [src] can now be taken apart!</span>")
 			update_icon()
 			return
 		else if(W.IsSpecialAssembly())
@@ -168,7 +172,7 @@
 		src.add_fingerprint(user)
 		if(src.secured)
 			if(!a_left || !a_right)
-				user << "\red Assembly part missing!"
+				to_chat(user, "<span class='warning'>Assembly part missing!</span>")
 				return
 			if(istype(a_left,a_right.type))//If they are the same type it causes issues due to window code
 				switch(alert("Which side would you like to use?",,"Left","Right"))
@@ -184,11 +188,11 @@
 			var/turf/T = get_turf(src)
 			if(!T)	return 0
 			if(a_left)
-				a_left:holder = null
-				a_left.loc = T
+				a_left.holder = null
+				a_left.forceMove(T)
 			if(a_right)
-				a_right:holder = null
-				a_right.loc = T
+				a_right.holder = null
+				a_right.forceMove(T)
 			spawn(0)
 				qdel(src)
 		return
@@ -209,6 +213,15 @@
 //			if(!special_assembly == D)
 //				special_assembly.dothings()
 		return 1
+
+
+/obj/item/device/assembly_holder/New()
+	..()
+	GLOB.listening_objects += src
+
+/obj/item/device/assembly_holder/Destroy()
+	GLOB.listening_objects -= src
+	return ..()
 
 
 /obj/item/device/assembly_holder/hear_talk(mob/living/M as mob, msg, verb, datum/language/speaking)
@@ -233,12 +246,12 @@
 		tmr.time=5
 		tmr.secured = 1
 		tmr.holder = src
-		processing_objects.Add(tmr)
+		START_PROCESSING(SSobj, tmr)
 		a_left = tmr
 		a_right = ign
 		secured = 1
 		update_icon()
-		name = initial(name) + " ([tmr.time] secs)"
+		SetName(initial(name) + " ([tmr.time] secs)")
 
 		loc.verbs += /obj/item/device/assembly_holder/timer_igniter/verb/configure
 
@@ -260,18 +273,18 @@
 			if(!istype(tmr,/obj/item/device/assembly/timer))
 				tmr = holder.a_right
 			if(!istype(tmr,/obj/item/device/assembly/timer))
-				usr << "<span class='notice'>This detonator has no timer.</span>"
+				to_chat(usr, "<span class='notice'>This detonator has no timer.</span>")
 				return
 
 			if(tmr.timing)
-				usr << "<span class='notice'>Clock is ticking already.</span>"
+				to_chat(usr, "<span class='notice'>Clock is ticking already.</span>")
 			else
 				var/ntime = input("Enter desired time in seconds", "Time", "5") as num
 				if (ntime>0 && ntime<1000)
 					tmr.time = ntime
-					name = initial(name) + "([tmr.time] secs)"
-					usr << "<span class='notice'>Timer set to [tmr.time] seconds.</span>"
+					SetName(initial(name) + "([tmr.time] secs)")
+					to_chat(usr, "<span class='notice'>Timer set to [tmr.time] seconds.</span>")
 				else
-					usr << "<span class='notice'>Timer can't be [ntime<=0?"negative":"more than 1000 seconds"].</span>"
+					to_chat(usr, "<span class='notice'>Timer can't be [ntime<=0?"negative":"more than 1000 seconds"].</span>")
 		else
-			usr << "<span class='notice'>You cannot do this while [usr.stat?"unconscious/dead":"restrained"].</span>"
+			to_chat(usr, "<span class='notice'>You cannot do this while [usr.stat?"unconscious/dead":"restrained"].</span>")

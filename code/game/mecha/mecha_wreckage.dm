@@ -10,15 +10,14 @@
 	density = 1
 	anchored = 0
 	opacity = 0
+
+	plane = OBJ_PLANE
+	layer = BELOW_OBJ_LAYER
+
 	var/list/welder_salvage = list(/obj/item/stack/material/plasteel,/obj/item/stack/material/steel,/obj/item/stack/rods)
 	var/list/wirecutters_salvage = list(/obj/item/stack/cable_coil)
-	var/list/crowbar_salvage
+	var/list/crowbar_salvage = list()
 	var/salvage_num = 5
-
-	New()
-		..()
-		crowbar_salvage = new
-		return
 
 /obj/effect/decal/mecha_wreckage/ex_act(severity)
 	if(severity < 2)
@@ -31,10 +30,10 @@
 
 
 /obj/effect/decal/mecha_wreckage/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(istype(W, /obj/item/weapon/weldingtool))
+	if(isWelder(W))
 		var/obj/item/weapon/weldingtool/WT = W
 		if(salvage_num <= 0)
-			user << "You don't see anything that can be cut with [W]."
+			to_chat(user, "You don't see anything that can be cut with [W].")
 			return
 		if (!isemptylist(welder_salvage) && WT.remove_fuel(0,user))
 			var/type = prob(70)?pick(welder_salvage):null
@@ -45,13 +44,13 @@
 					welder_salvage -= type
 				salvage_num--
 			else
-				user << "You failed to salvage anything valuable from [src]."
+				to_chat(user, "You failed to salvage anything valuable from [src].")
 		else
-			user << "\blue You need more welding fuel to complete this task."
+			to_chat(user, "<span class='notice'>You need more welding fuel to complete this task.</span>")
 			return
-	if(istype(W, /obj/item/weapon/wirecutters))
+	if(isWirecutter(W))
 		if(salvage_num <= 0)
-			user << "You don't see anything that can be cut with [W]."
+			to_chat(user, "You don't see anything that can be cut with [W].")
 			return
 		else if(!isemptylist(wirecutters_salvage))
 			var/type = prob(70)?pick(wirecutters_salvage):null
@@ -60,17 +59,17 @@
 				user.visible_message("[user] cuts [N] from [src].", "You cut [N] from [src].")
 				salvage_num--
 			else
-				user << "You failed to salvage anything valuable from [src]."
-	if(istype(W, /obj/item/weapon/crowbar))
+				to_chat(user, "You failed to salvage anything valuable from [src].")
+	if(isCrowbar(W))
 		if(!isemptylist(crowbar_salvage))
 			var/obj/S = pick(crowbar_salvage)
 			if(S)
-				S.loc = get_turf(user)
+				S.forceMove(get_turf(user))
 				crowbar_salvage -= S
 				user.visible_message("[user] pries [S] from [src].", "You pry [S] from [src].")
 			return
 		else
-			user << "You don't see anything that can be pried with [W]."
+			to_chat(user, "You don't see anything that can be pried with [W].")
 	else
 		..()
 	return

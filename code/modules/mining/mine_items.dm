@@ -16,17 +16,17 @@
 	if(prob(50))
 		new /obj/item/weapon/storage/backpack/industrial(src)
 	else
-		new /obj/item/weapon/storage/backpack/satchel_eng(src)
+		new /obj/item/weapon/storage/backpack/satchel/eng(src)
 	new /obj/item/device/radio/headset/headset_cargo(src)
 	new /obj/item/clothing/under/rank/miner(src)
-	new /obj/item/clothing/gloves/black(src)
+	new /obj/item/clothing/gloves/thick(src)
 	new /obj/item/clothing/shoes/black(src)
 	new /obj/item/device/analyzer(src)
-	new /obj/item/weapon/storage/bag/ore(src)
+	new /obj/item/weapon/storage/ore(src)
 	new /obj/item/device/flashlight/lantern(src)
 	new /obj/item/weapon/shovel(src)
 	new /obj/item/weapon/pickaxe(src)
-	new /obj/item/clothing/glasses/material(src)
+	new /obj/item/clothing/glasses/meson(src)
 
 /obj/structure/closet/secure_closet/miner/vox
 	name = "Vox mining EVA gear"
@@ -45,36 +45,28 @@
 		new /obj/item/weapon/tank/nitrogen(src)
 
 
-/******************************Lantern*******************************/
-
-/obj/item/device/flashlight/lantern
-	name = "lantern"
-	icon_state = "lantern"
-	desc = "A mining lantern."
-	brightness_on = 6			// luminosity when on
-
 /*****************************Pickaxe********************************/
 
 /obj/item/weapon/pickaxe
 	name = "mining drill"
 	desc = "The most basic of mining drills, for short excavations and small mineral extractions."
-	icon = 'icons/obj/items.dmi'
-	flags = CONDUCT
+	icon = 'icons/obj/tools.dmi'
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
 	force = 15.0
 	throwforce = 4.0
 	icon_state = "pickaxe"
 	item_state = "jackhammer"
-	w_class = 4.0
-	matter = list(DEFAULT_WALL_MATERIAL = 3750)
+	w_class = ITEM_SIZE_HUGE
+	matter = list(MATERIAL_STEEL = 3750)
 	var/digspeed = 40 //moving the delay to an item var so R&D can make improved picks. --NEO
-	origin_tech = "materials=1;engineering=1"
+	origin_tech = list(TECH_MATERIAL = 1, TECH_ENGINEERING = 1)
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
 	var/drill_sound = 'sound/weapons/Genhit.ogg'
 	var/drill_verb = "drilling"
-	sharp = 1
+	sharp = 0
 
-	var/excavation_amount = 100
+	var/excavation_amount = 200
 
 /obj/item/weapon/pickaxe/hammer
 	name = "sledgehammer"
@@ -86,15 +78,16 @@
 	icon_state = "spickaxe"
 	item_state = "spickaxe"
 	digspeed = 30
-	origin_tech = "materials=3"
+	origin_tech = list(TECH_MATERIAL = 3)
 	desc = "This makes no metallurgic sense."
+	sharp = 1
 
 /obj/item/weapon/pickaxe/drill
 	name = "advanced mining drill" // Can dig sand as well!
 	icon_state = "handdrill"
 	item_state = "jackhammer"
 	digspeed = 30
-	origin_tech = "materials=2;powerstorage=3;engineering=2"
+	origin_tech = list(TECH_MATERIAL = 2, TECH_POWER = 3, TECH_ENGINEERING = 2)
 	desc = "Yours is the drill that will pierce through the rock walls."
 	drill_verb = "drilling"
 
@@ -103,7 +96,7 @@
 	icon_state = "jackhammer"
 	item_state = "jackhammer"
 	digspeed = 20 //faster than drill, but cannot dig
-	origin_tech = "materials=3;powerstorage=2;engineering=2"
+	origin_tech = list(TECH_MATERIAL = 3, TECH_POWER = 2, TECH_ENGINEERING = 2)
 	desc = "Cracks rocks with sonic blasts, perfect for killing cave lizards."
 	drill_verb = "hammering"
 
@@ -112,39 +105,27 @@
 	icon_state = "gpickaxe"
 	item_state = "gpickaxe"
 	digspeed = 20
-	origin_tech = "materials=4"
+	origin_tech = list(TECH_MATERIAL = 4)
 	desc = "This makes no metallurgic sense."
 	drill_verb = "picking"
-
-/obj/item/weapon/pickaxe/plasmacutter
-	name = "plasma cutter"
-	icon_state = "plasmacutter"
-	item_state = "gun"
-	w_class = 3.0 //it is smaller than the pickaxe
-	damtype = "fire"
-	digspeed = 20 //Can slice though normal walls, all girders, or be used in reinforced wall deconstruction/ light thermite on fire
-	origin_tech = "materials=4;phorontech=3;engineering=3"
-	desc = "A rock cutter that uses bursts of hot plasma. You could use it to cut limbs off of xenos! Or, you know, mine stuff."
-	drill_verb = "cutting"
-	drill_sound = 'sound/items/Welder.ogg'
 	sharp = 1
-	edge = 1
 
 /obj/item/weapon/pickaxe/diamond
 	name = "diamond pickaxe"
 	icon_state = "dpickaxe"
 	item_state = "dpickaxe"
 	digspeed = 10
-	origin_tech = "materials=6;engineering=4"
+	origin_tech = list(TECH_MATERIAL = 6, TECH_ENGINEERING = 4)
 	desc = "A pickaxe with a diamond pick head."
 	drill_verb = "picking"
+	sharp = 1
 
 /obj/item/weapon/pickaxe/diamonddrill //When people ask about the badass leader of the mining tools, they are talking about ME!
 	name = "diamond mining drill"
 	icon_state = "diamonddrill"
 	item_state = "jackhammer"
 	digspeed = 5 //Digs through walls, girders, and can dig up sand
-	origin_tech = "materials=6;powerstorage=4;engineering=5"
+	origin_tech = list(TECH_MATERIAL = 6, TECH_POWER = 4, TECH_ENGINEERING = 5)
 	desc = "Yours is the drill that will pierce the heavens!"
 	drill_verb = "drilling"
 
@@ -161,16 +142,16 @@
 /obj/item/weapon/shovel
 	name = "shovel"
 	desc = "A large tool for digging and moving dirt."
-	icon = 'icons/obj/items.dmi'
+	icon = 'icons/obj/tools.dmi'
 	icon_state = "shovel"
-	flags = CONDUCT
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
 	force = 8.0
 	throwforce = 4.0
 	item_state = "shovel"
-	w_class = 3.0
-	matter = list(DEFAULT_WALL_MATERIAL = 50)
-	origin_tech = "materials=1;engineering=1"
+	w_class = ITEM_SIZE_HUGE
+	origin_tech = list(TECH_MATERIAL = 1, TECH_ENGINEERING = 1)
+	matter = list(MATERIAL_STEEL = 50)
 	attack_verb = list("bashed", "bludgeoned", "thrashed", "whacked")
 	sharp = 0
 	edge = 1
@@ -182,7 +163,7 @@
 	item_state = "spade"
 	force = 5.0
 	throwforce = 7.0
-	w_class = 2.0
+	w_class = ITEM_SIZE_SMALL
 
 
 /**********************Mining car (Crate like thing, not the rail car)**************************/
@@ -205,61 +186,90 @@
 	amount = 10
 	max_amount = 10
 	icon = 'icons/obj/mining.dmi'
-	var/upright = 0
-	var/base_state
 
-/obj/item/stack/flag/New()
-	..()
-	base_state = icon_state
+	var/upright = 0
+	var/fringe = null
 
 /obj/item/stack/flag/red
 	name = "red flags"
 	singular_name = "red flag"
 	icon_state = "redflag"
+	fringe = "redflag_fringe"
+	light_color = COLOR_RED
 
 /obj/item/stack/flag/yellow
 	name = "yellow flags"
 	singular_name = "yellow flag"
 	icon_state = "yellowflag"
+	fringe = "yellowflag_fringe"
+	light_color = COLOR_YELLOW
 
 /obj/item/stack/flag/green
 	name = "green flags"
 	singular_name = "green flag"
 	icon_state = "greenflag"
+	fringe = "greenflag_fringe"
+	light_color = COLOR_LIME
 
-/obj/item/stack/flag/attackby(obj/item/W as obj, mob/user as mob)
-	if(upright && istype(W,src.type))
-		src.attack_hand(user)
-	else
-		..()
+/obj/item/stack/flag/solgov
+	name = "sol gov flags"
+	singular_name = "sol gov flag"
+	icon_state = "solgovflag"
+	fringe = "solgovflag_fringe"
+	desc = "A portable flag with the Sol Government symbol on it. I claim this land for Sol!"
+	light_color = COLOR_BLUE
 
-/obj/item/stack/flag/attack_hand(user as mob)
+/obj/item/stack/flag/attackby(var/obj/item/W, var/mob/user)
 	if(upright)
-		upright = 0
-		icon_state = base_state
-		anchored = 0
-		src.visible_message("<b>[user]</b> knocks down [src].")
-	else
-		..()
+		attack_hand(user)
+		return
+	return ..()
 
-/obj/item/stack/flag/attack_self(mob/user as mob)
+/obj/item/stack/flag/attack_hand(var/mob/user)
+	if(upright)
+		knock_down()
+		user.visible_message("\The [user] knocks down \the [singular_name].")
+		return
+	return ..()
 
-	var/obj/item/stack/flag/F = locate() in get_turf(src)
-
+/obj/item/stack/flag/attack_self(var/mob/user)
 	var/turf/T = get_turf(src)
-	if(!T || !istype(T,/turf/simulated/floor/plating/airless/asteroid))
-		user << "The flag won't stand up in this terrain."
+
+	if(istype(T, /turf/space) || istype(T, /turf/simulated/open))
+		to_chat(user, "<span class='warning'>There's no solid surface to plant the flag on.</span>")
 		return
 
-	if(F && F.upright)
-		user << "There is already a flag here."
-		return
+	for(var/obj/item/stack/flag/F in T)
+		if(F.upright)
+			to_chat(user, "<span class='warning'>\The [F] is already planted here.</span>")
+			return
 
-	var/obj/item/stack/flag/newflag = new src.type(T)
-	newflag.amount = 1
-	newflag.upright = 1
+	if(use(1)) // Don't skip use() checks even if you only need one! Stacks with the amount of 0 are possible, e.g. on synthetics!
+		var/obj/item/stack/flag/newflag = new src.type(T, 1)
+		newflag.set_up()
+		if(istype(T, /turf/simulated/floor/asteroid) || istype(T, /turf/simulated/floor/exoplanet))
+			user.visible_message("\The [user] plants \the [newflag.singular_name] firmly in the ground.")
+		else
+			user.visible_message("\The [user] attaches \the [newflag.singular_name] firmly to the ground.")
+
+/obj/item/stack/flag/proc/set_up()
+	pixel_x = 0
+	pixel_y = 0
+	upright = 1
 	anchored = 1
-	newflag.name = newflag.singular_name
-	newflag.icon_state = "[newflag.base_state]_open"
-	newflag.visible_message("<b>[user]</b> plants [newflag] firmly in the ground.")
-	src.use(1)
+	icon_state = "[initial(icon_state)]_open"
+	if(fringe)
+		set_light(0.2, 0.1, 1) // Very dim so the rest of the flag is barely visible - if the turf is completely dark, you can't see anything on it, no matter what
+		var/image/addon = image(icon = src.icon, icon_state = fringe) // Bright fringe
+		addon.layer = ABOVE_LIGHTING_LAYER
+		addon.plane = EFFECTS_ABOVE_LIGHTING_PLANE
+		overlays += addon
+
+/obj/item/stack/flag/proc/knock_down()
+	pixel_x = rand(-randpixel, randpixel)
+	pixel_y = rand(-randpixel, randpixel)
+	upright = 0
+	anchored = 0
+	icon_state = initial(icon_state)
+	overlays.Cut()
+	set_light(0)

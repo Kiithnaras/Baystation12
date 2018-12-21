@@ -7,7 +7,6 @@
 	icon = "ICON FILENAME" 			(defaults to areas.dmi)
 	icon_state = "NAME OF ICON" 	(defaults to "unknown" (blank))
 	requires_power = 0 				(defaults to 1)
-	music = "music/music.ogg"		(defaults to "music/music.ogg")
 
 NOTE: there are two lists of areas in the end of this file: centcom and station itself. Please maintain these lists valid. --rastaf0
 
@@ -25,7 +24,8 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Unknown"
 	icon = 'icons/turf/areas.dmi'
 	icon_state = "unknown"
-	layer = 10
+	plane = BASE_PLANE
+	layer = BASE_AREA_LAYER
 	luminosity = 0
 	mouse_opacity = 0
 	var/lightswitch = 1
@@ -36,23 +36,26 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/requires_power = 1
 	var/always_unpowered = 0	//this gets overriden to 1 for space in area/New()
 
-	var/power_equip = 1
+	var/power_equip = 1 // Status
 	var/power_light = 1
 	var/power_environ = 1
-	var/music = null
-	var/used_equip = 0
+	var/used_equip = 0  // Continuous drain; don't mess with these directly.
 	var/used_light = 0
 	var/used_environ = 0
+	var/oneoff_equip   = 0 //Used once and cleared each tick.
+	var/oneoff_light   = 0
+	var/oneoff_environ = 0
 
 	var/has_gravity = 1
 	var/obj/machinery/power/apc/apc = null
 	var/no_air = null
 //	var/list/lights				// list of all lights on this area
-	var/list/all_doors = list()		//Added by Strumpetplaya - Alarm Change - Contains a list of doors adjacent to this area
+	var/list/all_doors = null		//Added by Strumpetplaya - Alarm Change - Contains a list of doors adjacent to this area
 	var/air_doors_activated = 0
 	var/list/ambience = list('sound/ambience/ambigen1.ogg','sound/ambience/ambigen3.ogg','sound/ambience/ambigen4.ogg','sound/ambience/ambigen5.ogg','sound/ambience/ambigen6.ogg','sound/ambience/ambigen7.ogg','sound/ambience/ambigen8.ogg','sound/ambience/ambigen9.ogg','sound/ambience/ambigen10.ogg','sound/ambience/ambigen11.ogg','sound/ambience/ambigen12.ogg','sound/ambience/ambigen14.ogg')
 	var/list/forced_ambience = null
-	var/sound_env = 2	//reverb preset for sounds played in this area, see sound datum reference for more
+	var/sound_env = STANDARD_STATION
+	var/turf/base_turf //The base turf type of the area, which can be used to override the z-level's base turf
 /*Adding a wizard area teleport list because motherfucking lag -- Urist*/
 /*I am far too lazy to make it a proper list of areas so I'll just make it run the usual telepot routine at the start of the game*/
 var/list/teleportlocs = list()
@@ -98,9 +101,12 @@ var/list/ghostteleportlocs = list()
 	icon_state = "space"
 	requires_power = 1
 	always_unpowered = 1
+	dynamic_lighting = 1
 	power_light = 0
 	power_equip = 0
 	power_environ = 0
+	has_gravity = 0
+	area_flags = AREA_FLAG_EXTERNAL | AREA_FLAG_IS_NOT_PERSISTENT
 	ambience = list('sound/ambience/ambispace.ogg','sound/music/title2.ogg','sound/music/space.ogg','sound/music/main.ogg','sound/music/traitor.ogg')
 
 area/space/atmosalert()
@@ -154,7 +160,7 @@ area/space/atmosalert()
 
 /area/shuttle/escape
 	name = "\improper Emergency Shuttle"
-	music = "music/escape.ogg"
+	sound_env = SMALL_ENCLOSED
 
 /area/shuttle/escape/station
 	name = "\improper Emergency Shuttle Station"
@@ -170,7 +176,7 @@ area/space/atmosalert()
 
 /area/shuttle/escape_pod1
 	name = "\improper Escape Pod One"
-	music = "music/escape.ogg"
+	sound_env = SMALL_ENCLOSED
 
 /area/shuttle/escape_pod1/station
 	icon_state = "shuttle2"
@@ -183,7 +189,6 @@ area/space/atmosalert()
 
 /area/shuttle/escape_pod2
 	name = "\improper Escape Pod Two"
-	music = "music/escape.ogg"
 
 /area/shuttle/escape_pod2/station
 	icon_state = "shuttle2"
@@ -196,7 +201,6 @@ area/space/atmosalert()
 
 /area/shuttle/escape_pod3
 	name = "\improper Escape Pod Three"
-	music = "music/escape.ogg"
 
 /area/shuttle/escape_pod3/station
 	icon_state = "shuttle2"
@@ -209,7 +213,6 @@ area/space/atmosalert()
 
 /area/shuttle/escape_pod5 //Pod 4 was lost to meteors
 	name = "\improper Escape Pod Five"
-	music = "music/escape.ogg"
 
 /area/shuttle/escape_pod5/station
 	icon_state = "shuttle2"
@@ -222,7 +225,6 @@ area/space/atmosalert()
 
 /area/shuttle/mining
 	name = "\improper Mining Shuttle"
-	music = "music/escape.ogg"
 
 /area/shuttle/mining/station
 	icon_state = "shuttle2"
@@ -311,7 +313,6 @@ area/space/atmosalert()
 
 /area/shuttle/research
 	name = "\improper Research Shuttle"
-	music = "music/escape.ogg"
 
 /area/shuttle/research/station
 	icon_state = "shuttle2"
@@ -343,7 +344,7 @@ area/space/atmosalert()
 	name = "\improper Centcom"
 	icon_state = "centcom"
 	requires_power = 0
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 
 /area/centcom/control
 	name = "\improper Centcom Control"
@@ -476,7 +477,7 @@ area/space/atmosalert()
 	name = "\improper Independant Station"
 	icon_state = "yellow"
 	requires_power = 0
-	flags = RAD_SHIELDED
+	area_flags = AREA_FLAG_RAD_SHIELDED
 
 /area/syndicate_station/start
 	name = "\improper Mercenary Forward Operating Base"
@@ -655,7 +656,10 @@ area/space/atmosalert()
 //Maintenance
 
 /area/maintenance
-	flags = RAD_SHIELDED
+	area_flags = AREA_FLAG_RAD_SHIELDED
+	sound_env = TUNNEL_ENCLOSED
+	turf_initializer = /decl/turf_initializer/maintenance
+	forced_ambience = list('sound/ambience/maintambience.ogg')
 
 /area/maintenance/aft
 	name = "Aft Maintenance"
@@ -881,12 +885,10 @@ area/space/atmosalert()
 /area/bridge
 	name = "\improper Bridge"
 	icon_state = "bridge"
-	music = "signal"
 
 /area/bridge/meeting_room
 	name = "\improper Heads of Staff Meeting Room"
 	icon_state = "bridge"
-	music = null
 
 /area/crew_quarters/captain
 	name = "\improper Command - Captain's Office"
@@ -933,7 +935,7 @@ area/space/atmosalert()
 /area/crew_quarters
 	name = "\improper Dormitories"
 	icon_state = "Sleep"
-	flags = RAD_SHIELDED
+	area_flags = AREA_FLAG_RAD_SHIELDED
 
 /area/crew_quarters/toilet
 	name = "\improper Dormitory Toilets"
@@ -1221,17 +1223,14 @@ area/space/atmosalert()
 /area/teleporter
 	name = "\improper Teleporter"
 	icon_state = "teleporter"
-	music = "signal"
 
 /area/gateway
 	name = "\improper Gateway"
 	icon_state = "teleporter"
-	music = "signal"
 
 /area/AIsattele
 	name = "\improper AI Satellite Teleporter Room"
 	icon_state = "teleporter"
-	music = "signal"
 	ambience = list('sound/ambience/ambimalf.ogg')
 
 //MedBay
@@ -1239,43 +1238,35 @@ area/space/atmosalert()
 /area/medical/medbay
 	name = "\improper Medbay Hallway - Port"
 	icon_state = "medbay"
-	music = 'sound/ambience/signal.ogg'
 
 //Medbay is a large area, these additional areas help level out APC load.
 /area/medical/medbay2
 	name = "\improper Medbay Hallway - Starboard"
 	icon_state = "medbay2"
-	music = 'sound/ambience/signal.ogg'
 
 /area/medical/medbay3
 	name = "\improper Medbay Hallway - Fore"
 	icon_state = "medbay3"
-	music = 'sound/ambience/signal.ogg'
 
 /area/medical/medbay4
 	name = "\improper Medbay Hallway - Aft"
 	icon_state = "medbay4"
-	music = 'sound/ambience/signal.ogg'
 
 /area/medical/biostorage
 	name = "\improper Secondary Storage"
 	icon_state = "medbay2"
-	music = 'sound/ambience/signal.ogg'
 
 /area/medical/reception
 	name = "\improper Medbay Reception"
 	icon_state = "medbay"
-	music = 'sound/ambience/signal.ogg'
 
 /area/medical/psych
 	name = "\improper Psych Room"
 	icon_state = "medbay3"
-	music = 'sound/ambience/signal.ogg'
 
 /area/crew_quarters/medbreak
 	name = "\improper Break Room"
 	icon_state = "medbay3"
-	music = 'sound/ambience/signal.ogg'
 
 /area/medical/patients_rooms
 	name = "\improper Patient's Rooms"
@@ -2152,54 +2143,53 @@ var/list/the_station_areas = list (
 	name = "Keelin's private beach"
 	icon_state = "null"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 	requires_power = 0
 	var/sound/mysound = null
 
-	New()
-		..()
-		var/sound/S = new/sound()
-		mysound = S
-		S.file = 'sound/ambience/shore.ogg'
-		S.repeat = 1
-		S.wait = 0
-		S.channel = 123
-		S.volume = 100
-		S.priority = 255
-		S.status = SOUND_UPDATE
-		process()
+/area/beach/New()
+	..()
+	var/sound/S = new/sound()
+	mysound = S
+	S.file = 'sound/ambience/shore.ogg'
+	S.repeat = 1
+	S.wait = 0
+	S.channel = GLOB.sound_channels.RequestChannel(/area/beach)
+	S.volume = 100
+	S.priority = 255
+	S.status = SOUND_UPDATE
+	process()
 
-	Entered(atom/movable/Obj,atom/OldLoc)
-		if(ismob(Obj))
-			if(Obj:client)
-				mysound.status = SOUND_UPDATE
-				Obj << mysound
-		return
+/area/beach/Entered(atom/movable/Obj,atom/OldLoc)
+	if(ismob(Obj))
+		var/mob/M = Obj
+		if(M.client)
+			mysound.status = SOUND_UPDATE
+			sound_to(M, mysound)
 
-	Exited(atom/movable/Obj)
-		if(ismob(Obj))
-			if(Obj:client)
-				mysound.status = SOUND_PAUSED | SOUND_UPDATE
-				Obj << mysound
+/area/beach/Exited(atom/movable/Obj)
+	. = ..()
+	if(ismob(Obj))
+		var/mob/M = Obj
+		if(M.client)
+			mysound.status = SOUND_PAUSED | SOUND_UPDATE
+			sound_to(M, mysound)
 
-	proc/process()
-		set background = 1
+/area/beach/proc/process()
+	set background = 1
 
-		var/sound/S = null
-		var/sound_delay = 0
-		if(prob(25))
-			S = sound(file=pick('sound/ambience/seag1.ogg','sound/ambience/seag2.ogg','sound/ambience/seag3.ogg'), volume=100)
-			sound_delay = rand(0, 50)
+	var/sound/S = null
+	var/sound_delay = 0
+	if(prob(25))
+		S = sound(file=pick('sound/ambience/seag1.ogg','sound/ambience/seag2.ogg','sound/ambience/seag3.ogg'), volume=100)
+		sound_delay = rand(0, 50)
 
-		for(var/mob/living/carbon/human/H in src)
-//			if(H.s_tone > -55)	//ugh...nice/novel idea but please no.
-//				H.s_tone--
-//				H.update_body()
-			if(H.client)
-				mysound.status = SOUND_UPDATE
-				H << mysound
-				if(S)
-					spawn(sound_delay)
-						H << S
+	for(var/mob/living/carbon/human/H in src)
+		if(H.client)
+			mysound.status = SOUND_UPDATE
+			to_chat(H, mysound)
+			if(S)
+				spawn(sound_delay)
+					sound_to(H, S)
 
-		spawn(60) .()
+	spawn(60) .()

@@ -19,7 +19,7 @@ mob
 	var/datum/hSB/sandbox = null
 	proc
 		CanBuild()
-			if(master_mode == "sandbox")
+			if(SSticker.master_mode == "sandbox")
 				sandbox = new/datum/hSB
 				sandbox.owner = src.ckey
 				if(src.client.holder)
@@ -52,50 +52,48 @@ datum/hSB
 				if("hsbtobj")
 					if(!admin) return
 					if(hsboxspawn)
-						world << "<b>Sandbox:  [usr.key] has disabled object spawning!</b>"
+						to_world("<b>Sandbox:  [usr.key] has disabled object spawning!</b>")
 						hsboxspawn = 0
 						return
 					if(!hsboxspawn)
-						world << "<b>Sandbox:  [usr.key] has enabled object spawning!</b>"
+						to_world"<b>Sandbox:  [usr.key] has enabled object spawning!</b>")
 						hsboxspawn = 1
 						return
 				if("hsbsuit")
 					var/mob/living/carbon/human/P = usr
 					if(P.wear_suit)
-						P.wear_suit.loc = P.loc
-						P.wear_suit.layer = initial(P.wear_suit.layer)
+						P.wear_suit.forceMove(P.loc)
+						P.wear_suit.reset_plane_and_layer()
 						P.wear_suit = null
 					P.wear_suit = new/obj/item/clothing/suit/space(P)
-					P.wear_suit.layer = 20
+					P.wear_suit.hud_layerise()
 					if(P.head)
-						P.head.loc = P.loc
-						P.head.layer = initial(P.head.layer)
+						P.head.forceMove(P.loc)
+						P.head.reset_plane_and_layer()
 						P.head = null
 					P.head = new/obj/item/clothing/head/helmet/space(P)
-					P.head.layer = 20
+					P.head.hud_layerise()
 					if(P.wear_mask)
-						P.wear_mask.loc = P.loc
-						P.wear_mask.layer = initial(P.wear_mask.layer)
+						P.wear_mask.forceMove(P.loc)
+						P.wear_mask.reset_plane_and_layer()
 						P.wear_mask = null
 					P.wear_mask = new/obj/item/clothing/mask/gas(P)
-					P.wear_mask.layer = 20
+					P.wear_mask.hud_layerise()
 					if(P.back)
-						P.back.loc = P.loc
-						P.back.layer = initial(P.back.layer)
+						P.back.forceMove(P.loc)
+						P.back.reset_plane_and_layer()
 						P.back = null
 					P.back = new/obj/item/weapon/tank/jetpack(P)
-					P.back.layer = 20
+					P.back.hud_layerise()
 					P.internal = P.back
 				if("hsbmetal")
-					var/obj/item/stack/sheet/hsb = new/obj/item/stack/sheet/metal
+					var/obj/item/stack/sheet/hsb = new/obj/item/stack/sheet/metal(get_turf(usr))
 					hsb.amount = 50
-					hsb.loc = usr.loc
 				if("hsbglass")
-					var/obj/item/stack/sheet/hsb = new/obj/item/stack/sheet/glass
+					var/obj/item/stack/sheet/hsb = new/obj/item/stack/sheet/glass(get_turf(usr))
 					hsb.amount = 50
-					hsb.loc = usr.loc
 				if("hsbairlock")
-					var/obj/machinery/door/hsb = new/obj/machinery/door/airlock
+					var/obj/machinery/door/hsb = new/obj/machinery/door/airlock(get_turf(usr))
 
 					//TODO: DEFERRED make this better, with an HTML window or something instead of 15 popups
 					hsb.req_access = list()
@@ -103,9 +101,7 @@ datum/hSB
 					for(var/A in accesses)
 						if(alert(usr, "Will this airlock require [get_access_desc(A)] access?", "Sandbox:", "Yes", "No") == "Yes")
 							hsb.req_access += A
-
-					hsb.loc = usr.loc
-					usr << "<b>Sandbox:  Created an airlock."
+					to_chat(usr, "<b>Sandbox:  Created an airlock.</b>")
 				if("hsbcanister")
 					var/list/hsbcanisters = typesof(/obj/machinery/portable_atmospherics/canister/) - /obj/machinery/portable_atmospherics/canister/
 					var/hsbcanister = input(usr, "Choose a canister to spawn.", "Sandbox:") in hsbcanisters + "Cancel"
@@ -118,14 +114,12 @@ datum/hSB
 					//var/obj/hsb = new/obj/watertank
 					//hsb.loc = usr.loc
 				if("hsbtoolbox")
-					var/obj/item/weapon/storage/hsb = new/obj/item/weapon/storage/toolbox/mechanical
+					var/obj/item/weapon/storage/hsb = new/obj/item/weapon/storage/toolbox/mechanical(get_turf(usr))
 					for(var/obj/item/device/radio/T in hsb)
 						qdel(T)
 					new/obj/item/weapon/crowbar (hsb)
-					hsb.loc = usr.loc
 				if("hsbmedkit")
-					var/obj/item/weapon/storage/firstaid/hsb = new/obj/item/weapon/storage/firstaid/regular
-					hsb.loc = usr.loc
+					var/obj/item/weapon/storage/firstaid/hsb = new/obj/item/weapon/storage/firstaid/regular(get_turf(usr))
 				if("hsbobj")
 					if(!hsboxspawn) return
 
@@ -137,8 +131,6 @@ datum/hSB
 						if(istype(O, /obj/item/assembly))
 							continue
 						if(istype(O, /obj/item/device/camera))
-							continue
-						if(istype(O, /obj/item/weapon/cloaking_device))
 							continue
 						if(istype(O, /obj/item/weapon/dummy))
 							continue

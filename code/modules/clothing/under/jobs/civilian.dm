@@ -87,10 +87,21 @@
 	icon_state = "internalaffairs"
 	item_state = "ba_suit"
 	worn_state = "internalaffairs"
+	starting_accessories = list(/obj/item/clothing/accessory/black)
+
+/obj/item/clothing/under/rank/internalaffairs/plain
+	desc = "A plain shirt and pair of pressed black pants."
+	name = "formal outfit"
+	starting_accessories = null
+
+/obj/item/clothing/under/rank/internalaffairs/plain/nt
+	desc = "A plain shirt and pair of pressed black pants."
+	name = "formal outfit"
+	starting_accessories = list(/obj/item/clothing/accessory/red_long)
 
 
 /obj/item/clothing/under/rank/janitor
-	desc = "It's the official uniform of the station's janitor. It has minor protection from biohazards."
+	desc = "It's the official uniform of the janitor. It has minor protection from biohazards."
 	name = "janitor's jumpsuit"
 	icon_state = "janitor"
 	worn_state = "janitor"
@@ -133,10 +144,11 @@
 
 /obj/item/clothing/under/lawyer/bluesuit
 	name = "Blue Suit"
-	desc = "A classy suit and tie"
+	desc = "A classy suit."
 	icon_state = "bluesuit"
 	item_state = "ba_suit"
 	worn_state = "bluesuit"
+	starting_accessories = list(/obj/item/clothing/accessory/red)
 
 
 /obj/item/clothing/under/lawyer/purpsuit

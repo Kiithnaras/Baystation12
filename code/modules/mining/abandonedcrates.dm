@@ -16,6 +16,7 @@
 
 	for(var/i in 1 to codelen)
 		code += pick(digits)
+		digits -= code[code.len]
 
 	generate_loot()
 
@@ -62,7 +63,7 @@
 			var/newitem = pick(typesof(/obj/item/toy/prize) - /obj/item/toy/prize)
 			new newitem(src)
 		if(57 to 58)
-			new/obj/item/toy/syndicateballoon(src)
+			new/obj/item/toy/balloon(src)
 		if(59 to 60)
 			new/obj/item/weapon/rig(src)
 		if(61 to 62)
@@ -71,7 +72,7 @@
 		if(63 to 64)
 			var/t = rand(4,7)
 			for(var/i = 0, i < t, ++i)
-				var/newcoin = pick(/obj/item/weapon/coin/silver, /obj/item/weapon/coin/silver, /obj/item/weapon/coin/silver, /obj/item/weapon/coin/iron, /obj/item/weapon/coin/iron, /obj/item/weapon/coin/iron, /obj/item/weapon/coin/gold, /obj/item/weapon/coin/diamond, /obj/item/weapon/coin/phoron, /obj/item/weapon/coin/uranium, /obj/item/weapon/coin/platinum)
+				var/newcoin = pick(/obj/item/weapon/material/coin/silver, /obj/item/weapon/material/coin/silver, /obj/item/weapon/material/coin/silver, /obj/item/weapon/material/coin/iron, /obj/item/weapon/material/coin/iron, /obj/item/weapon/material/coin/iron, /obj/item/weapon/material/coin/gold, /obj/item/weapon/material/coin/diamond, /obj/item/weapon/material/coin/phoron, /obj/item/weapon/material/coin/uranium, /obj/item/weapon/material/coin/platinum)
 				new newcoin(src)
 		if(65 to 66)
 			new/obj/item/clothing/suit/ianshirt(src)
@@ -93,7 +94,7 @@
 		if(79 to 80)
 			new/obj/item/weapon/pickaxe/gold(src)
 		if(81 to 82)
-			new/obj/item/weapon/pickaxe/plasmacutter(src)
+			new/obj/item/weapon/gun/energy/plasmacutter(src)
 		if(83 to 84)
 			new/obj/item/toy/katana(src)
 		if(85 to 86)
@@ -103,33 +104,30 @@
 		if(88)
 			new/obj/item/xenos_claw(src)
 		if(89)
-			new/obj/item/organ/xenos/plasmavessel(src)
+			new/obj/item/organ/internal/xeno/plasmavessel(src)
 		if(90)
-			new/obj/item/organ/heart(src)
+			new/obj/item/organ/internal/heart(src)
 		if(91)
 			new/obj/item/device/soulstone(src)
 		if(92)
 			new/obj/item/weapon/material/sword/katana(src)
 		if(93)
-			new/obj/item/weapon/dnainjector/xraymut(src) // Probably the least OP
+			new/obj/item/weapon/storage/firstaid/combat(src) // Probably the least OP
 		if(94) // Why the hell not
 			new/obj/item/weapon/storage/backpack/clown(src)
 			new/obj/item/clothing/under/rank/clown(src)
 			new/obj/item/clothing/shoes/clown_shoes(src)
-			new/obj/item/device/pda/clown(src)
 			new/obj/item/clothing/mask/gas/clown_hat(src)
 			new/obj/item/weapon/bikehorn(src)
-			//new/obj/item/weapon/stamp/clown(src) I'd add it, but only clowns can use it
 			new/obj/item/weapon/pen/crayon/rainbow(src)
-			new/obj/item/toy/waterflower(src)
+			new/obj/item/weapon/reagent_containers/spray/waterflower(src)
 		if(95)
 			new/obj/item/clothing/under/mime(src)
 			new/obj/item/clothing/shoes/black(src)
-			new/obj/item/device/pda/mime(src)
 			new/obj/item/clothing/gloves/white(src)
 			new/obj/item/clothing/mask/gas/mime(src)
 			new/obj/item/clothing/head/beret(src)
-			new/obj/item/clothing/suit/suspenders(src)
+			new/obj/item/clothing/accessory/suspenders(src)
 			new/obj/item/weapon/pen/crayon/mime(src)
 			new/obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing(src)
 		if(96)
@@ -148,30 +146,35 @@
 	if(!locked)
 		return
 
-	user << "<span class='notice'>The crate is locked with a Deca-code lock.</span>"
+	to_chat(user, "<span class='notice'>The crate is locked with a Deca-code lock.</span>")
 	var/input = input(user, "Enter [codelen] digits.", "Deca-Code Lock", "") as text
 	if(!Adjacent(user))
 		return
 
 	if(input == null || length(input) != codelen)
-		user << "<span class='notice'>You leave the crate alone.</span>"
-	else if(check_input(input))
-		user << "<span class='notice'>The crate unlocks!</span>"
+		to_chat(user, "<span class='notice'>You leave the crate alone.</span>")
+	else if(check_input(input) && locked)
+		to_chat(user, "<span class='notice'>The crate unlocks!</span>")
 		playsound(user, 'sound/machines/lockreset.ogg', 50, 1)
-		set_locked(0)
+		..()
 	else
 		visible_message("<span class='warning'>A red light on \the [src]'s control panel flashes briefly.</span>")
 		attempts--
 		if (attempts == 0)
-			user << "<span class='danger'>The crate's anti-tamper system activates!</span>"
+			to_chat(user, "<span class='danger'>The crate's anti-tamper system activates!</span>")
 			var/turf/T = get_turf(src.loc)
 			explosion(T, 0, 0, 1, 2)
-			del(src)
+			qdel(src)
+
+/obj/structure/closet/crate/secure/loot/emag_act(var/remaining_charges, var/mob/user)
+	if (locked)
+		to_chat(user, "<span class='notice'>The crate unlocks!</span>")
+		locked = 0
 
 /obj/structure/closet/crate/secure/loot/proc/check_input(var/input)
 	if(length(input) != codelen)
 		return 0
-	
+
 	. = 1
 	lastattempt.Cut()
 	for(var/i in 1 to codelen)
@@ -183,15 +186,15 @@
 /obj/structure/closet/crate/secure/loot/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(locked)
 		if (istype(W, /obj/item/device/multitool)) // Greetings Urist McProfessor, how about a nice game of cows and bulls?
-			user << "<span class='notice'>DECA-CODE LOCK ANALYSIS:</span>"
+			to_chat(user, "<span class='notice'>DECA-CODE LOCK ANALYSIS:</span>")
 			if (attempts == 1)
-				user << "<span class='warning'>* Anti-Tamper system will activate on the next failed access attempt.</span>"
+				to_chat(user, "<span class='warning'>* Anti-Tamper system will activate on the next failed access attempt.</span>")
 			else
-				user << "<span class='notice'>* Anti-Tamper system will activate after [src.attempts] failed access attempts.</span>"
+				to_chat(user, "<span class='notice'>* Anti-Tamper system will activate after [src.attempts] failed access attempts.</span>")
 			if(lastattempt.len)
 				var/bulls = 0
 				var/cows = 0
-				
+
 				var/list/code_contents = code.Copy()
 				for(var/i in 1 to codelen)
 					if(lastattempt[i] == code[i])
@@ -199,6 +202,6 @@
 					else if(lastattempt[i] in code_contents)
 						++cows
 					code_contents -= lastattempt[i]
-				user << "<span class='notice'>Last code attempt had [bulls] correct digits at correct positions and [cows] correct digits at incorrect positions.</span>"
+				to_chat(user, "<span class='notice'>Last code attempt had [bulls] correct digits at correct positions and [cows] correct digits at incorrect positions.</span>")
 			return
 	..()

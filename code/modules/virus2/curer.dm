@@ -1,8 +1,10 @@
 /obj/machinery/computer/curer
 	name = "cure research machine"
 	icon = 'icons/obj/computer.dmi'
-	icon_state = "dna"
+	icon_keyboard = "med_key"
+	icon_screen = "dna"
 	circuit = /obj/item/weapon/circuitboard/curefab
+	idle_power_usage = 500
 	var/curing
 	var/virusing
 
@@ -10,21 +12,20 @@
 
 /obj/machinery/computer/curer/attackby(var/obj/I as obj, var/mob/user as mob)
 	if(istype(I,/obj/item/weapon/reagent_containers))
-		var/mob/living/carbon/C = user
 		if(!container)
+			if(!user.unEquip(I, src))
+				return
 			container = I
-			C.drop_item()
-			I.loc = src
 		return
 	if(istype(I,/obj/item/weapon/virusdish))
 		if(virusing)
-			user << "<b>The pathogen materializer is still recharging.."
+			to_chat(user, "<b>The pathogen materializer is still recharging..</b>")
 			return
 		var/obj/item/weapon/reagent_containers/glass/beaker/product = new(src.loc)
 
-		var/list/data = list("donor"=null,"viruses"=null,"blood_DNA"=null,"blood_type"=null,"resistances"=null,"trace_chem"=null,"virus2"=list(),"antibodies"=list())
+		var/list/data = list("donor" = null, "blood_DNA" = null, "blood_type" = null, "trace_chem" = null, "virus2" = list(), "antibodies" = list())
 		data["virus2"] |= I:virus2
-		product.reagents.add_reagent("blood",30,data)
+		product.reagents.add_reagent(/datum/reagent/blood,30,data)
 
 		virusing = 1
 		spawn(1200) virusing = 0
@@ -64,12 +65,11 @@
 	onclose(user, "computer")
 	return
 
-/obj/machinery/computer/curer/process()
+/obj/machinery/computer/curer/Process()
 	..()
 
 	if(stat & (NOPOWER|BROKEN))
 		return
-	use_power(500)
 
 	if(curing)
 		curing -= 1
@@ -78,20 +78,17 @@
 				createcure(container)
 	return
 
-/obj/machinery/computer/curer/Topic(href, href_list)
-	if(..())
-		return 1
-	usr.machine = src
-
+/obj/machinery/computer/curer/OnTopic(user, href_list)
 	if (href_list["antibody"])
 		curing = 10
+		. = TOPIC_REFRESH
 	else if(href_list["eject"])
-		container.loc = src.loc
+		container.dropInto(loc)
 		container = null
+		. = TOPIC_REFRESH
 
-	src.add_fingerprint(usr)
-	src.updateUsrDialog()
-
+	if(. == TOPIC_REFRESH)
+		attack_hand(user)
 
 /obj/machinery/computer/curer/proc/createcure(var/obj/item/weapon/reagent_containers/container)
 	var/obj/item/weapon/reagent_containers/glass/beaker/product = new(src.loc)
@@ -100,6 +97,6 @@
 
 	var/list/data = list()
 	data["antibodies"] = B.data["antibodies"]
-	product.reagents.add_reagent("antibodies",30,data)
+	product.reagents.add_reagent(/datum/reagent/antibodies,30,data)
 
 	state("\The [src.name] buzzes", "blue")

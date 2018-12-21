@@ -9,13 +9,13 @@ var/global/universe_has_ended = 0
 
 /datum/universal_state/supermatter_cascade/OnShuttleCall(var/mob/user)
 	if(user)
-		user << "<span class='sinister'>All you hear on the frequency is static and panicked screaming. There will be no shuttle call today.</span>"
+		to_chat(user, "<span class='sinister'>All you hear on the frequency is static and panicked screaming. There will be no shuttle call today.</span>")
 	return 0
 
 /datum/universal_state/supermatter_cascade/OnTurfChange(var/turf/T)
 	var/turf/space/S = T
 	if(istype(S))
-		S.color = "#0066FF"
+		S.color = "#0066ff"
 	else
 		S.color = initial(S.color)
 
@@ -37,17 +37,14 @@ var/global/universe_has_ended = 0
 // Apply changes when entering state
 /datum/universal_state/supermatter_cascade/OnEnter()
 	set background = 1
-	garbage_collector.garbage_collect = 0
-	world << "<span class='sinister' style='font-size:22pt'>You are blinded by a brilliant flash of energy.</span>"
+	to_world("<span class='sinister' style='font-size:22pt'>You are blinded by a brilliant flash of energy.</span>")
+	sound_to(world, sound('sound/effects/cascade.ogg'))
 
-	world << sound('sound/effects/cascade.ogg')
+	for(var/mob/M in GLOB.player_list)
+		M.flash_eyes()
 
-	for(var/mob/M in player_list)
-		flick("e_flash", M.flash)
-
-	if(emergency_shuttle.can_recall())
-		priority_announcement.Announce("The emergency shuttle has returned due to bluespace distortion.")
-		emergency_shuttle.recall()
+	if(evacuation_controller.cancel_evacuation())
+		priority_announcement.Announce("The evacuation has been aborted due to bluespace distortion.")
 
 	AreaSet()
 	MiscSet()
@@ -55,60 +52,57 @@ var/global/universe_has_ended = 0
 	OverlayAndAmbientSet()
 
 	// Disable Nar-Sie.
-	cult.allow_narsie = 0
+	GLOB.cult.allow_narsie = 0
 
 	PlayerSet()
+	SSskybox.reinstate_skyboxes("cascade", FALSE)
 
 	new /obj/singularity/narsie/large/exit(pick(endgame_exits))
 	spawn(rand(30,60) SECONDS)
 		var/txt = {"
-There's been a galaxy-wide electromagnetic pulse.  All of our systems are heavily damaged and many personnel are dead or dying. We are seeing increasing indications of the universe itself beginning to unravel.
+A galaxy-wide electromagnetic pulse has been detected. All systems across space are heavily damaged and many personnel have died or are dying. We are currently detecting increasing indications that the universe itself is beginning to unravel.
 
-[station_name()], you are the only facility nearby a bluespace rift, which is near your research outpost. You are hereby directed to enter the rift using all means necessary, quite possibly as the last of your species alive.
+[station_name()], the largest source of disturbances has been pinpointed directly to you. We estimate you have five minutes until a bluespace rift opens within your facilities.
 
-You have five minutes before the universe collapses. Good l\[\[###!!!-
+There is no known way to stop the formation of the rift, nor any way to escape it. You are entirely alone.
+
+God help your s\[\[###!!!-
 
 AUTOMATED ALERT: Link to [command_name()] lost.
 
-The access requirements on the Asteroid Shuttles' consoles have now been revoked.
 "}
 		priority_announcement.Announce(txt,"SUPERMATTER CASCADE DETECTED")
 
-		for(var/obj/machinery/computer/shuttle_control/C in machines)
-			if(istype(C, /obj/machinery/computer/shuttle_control/research) || istype(C, /obj/machinery/computer/shuttle_control/mining))
-				C.req_access = list()
-				C.req_one_access = list()
-
 		spawn(5 MINUTES)
-			ticker.station_explosion_cinematic(0,null) // TODO: Custom cinematic
+			GLOB.cinematic.station_explosion_cinematic(0,null) // TODO: Custom cinematic
 			universe_has_ended = 1
 		return
 
 /datum/universal_state/supermatter_cascade/proc/AreaSet()
-	for(var/area/A in all_areas)
+	for(var/area/A)
 		if(!istype(A,/area) || istype(A, /area/space) || istype(A,/area/beach))
 			continue
 
-		A.updateicon()
+		A.update_icon()
 
 /datum/universal_state/supermatter_cascade/OverlayAndAmbientSet()
 	spawn(0)
-		for(var/atom/movable/lighting_overlay/L in world)
-			if(L.z in config.admin_levels)
+		for(var/datum/lighting_corner/L in world)
+			if(L.z in GLOB.using_map.admin_levels)
 				L.update_lumcount(1,1,1)
 			else
 				L.update_lumcount(0.0, 0.4, 1)
 
-		for(var/turf/space/T in turfs)
+		for(var/turf/space/T)
 			OnTurfChange(T)
 
 /datum/universal_state/supermatter_cascade/proc/MiscSet()
-	for (var/obj/machinery/firealarm/alm in machines)
+	for (var/obj/machinery/firealarm/alm in SSmachines.machinery)
 		if (!(alm.stat & BROKEN))
 			alm.ex_act(2)
 
 /datum/universal_state/supermatter_cascade/proc/APCSet()
-	for (var/obj/machinery/power/apc/APC in machines)
+	for (var/obj/machinery/power/apc/APC in SSmachines.machinery)
 		if (!(APC.stat & BROKEN) && !APC.is_critical)
 			APC.chargemode = 0
 			if(APC.cell)
@@ -117,11 +111,11 @@ The access requirements on the Asteroid Shuttles' consoles have now been revoked
 			APC.queue_icon_update()
 
 /datum/universal_state/supermatter_cascade/proc/PlayerSet()
-	for(var/datum/mind/M in player_list)
+	for(var/datum/mind/M in GLOB.player_list)
 		if(!istype(M.current,/mob/living))
 			continue
 		if(M.current.stat!=2)
 			M.current.Weaken(10)
-			flick("e_flash", M.current.flash)
+			M.current.flash_eyes()
 
 		clear_antag_roles(M)

@@ -4,19 +4,21 @@
 	icon_state = "claymore"
 	item_state = "claymore"
 	slot_flags = SLOT_BELT
-	force_divisor = 0.7 // 42 when wielded with hardnes 60 (steel)
+	w_class = ITEM_SIZE_LARGE
+	force_divisor = 0.5 // 30 when wielded with hardnes 60 (steel)
 	thrown_force_divisor = 0.5 // 10 when thrown with weight 20 (steel)
 	sharp = 1
 	edge = 1
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	base_parry_chance = 50
+	melee_accuracy_bonus = 10
 
-/obj/item/weapon/material/sword/IsShield()
-	return 1
-
-/obj/item/weapon/material/sword/suicide_act(mob/user)
-	viewers(user) << "<span class='danger'>[user] is falling on the [src.name]! It looks like \he's trying to commit suicide.</span>"
-	return(BRUTELOSS)
+/obj/item/weapon/material/sword/replica
+	edge = 0
+	sharp = 0
+	force_divisor = 0.2
+	thrown_force_divisor = 0.2
 
 /obj/item/weapon/material/sword/katana
 	name = "katana"
@@ -25,6 +27,8 @@
 	item_state = "katana"
 	slot_flags = SLOT_BELT | SLOT_BACK
 
-/obj/item/weapon/material/sword/katana/suicide_act(mob/user)
-	viewers(user) << "<span class='danger'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>"
-	return(BRUTELOSS)
+/obj/item/weapon/material/sword/katana/replica
+	edge = 0
+	sharp = 0
+	force_divisor = 0.2
+	thrown_force_divisor = 0.2
