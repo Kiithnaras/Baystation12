@@ -26,8 +26,8 @@
 /obj/item/weapon/reagent_containers/food/snacks/proc/On_Consume(var/mob/M)
 	if(!reagents.total_volume)
 		M.visible_message("<span class='notice'>[M] finishes eating \the [src].</span>","<span class='notice'>You finish eating \the [src].</span>")
-
 		M.drop_item()
+		M.update_personal_goal(/datum/goal/achievement/specific_object/food, type)
 		if(trash)
 			if(ispath(trash,/obj/item))
 				var/obj/item/TrashItem = new trash(get_turf(M))
@@ -49,7 +49,7 @@
 	if(istype(M, /mob/living/carbon))
 		//TODO: replace with standard_feed_mob() call.
 		var/mob/living/carbon/C = M
-		var/fullness = C.nutrition + (C.reagents.get_reagent_amount(/datum/reagent/nutriment) * 10)
+		var/fullness = C.get_fullness()
 		if(C == user)								//If you're eating it yourself
 			if(istype(C,/mob/living/carbon/human))
 				var/mob/living/carbon/human/H = M
@@ -942,7 +942,7 @@
 	name = "meat-kabob"
 	icon_state = "kabob"
 	desc = "Delicious meat, on a stick."
-	trash = /obj/item/stack/rods
+	trash = /obj/item/stack/material/rods
 	filling_color = "#a85340"
 	center_of_mass = "x=17;y=15"
 	bitesize = 2
@@ -954,7 +954,7 @@
 	name = "tofu-kabob"
 	icon_state = "kabob"
 	desc = "Vegan meat, on a stick."
-	trash = /obj/item/stack/rods
+	trash = /obj/item/stack/material/rods
 	filling_color = "#fffee0"
 	center_of_mass = "x=17;y=15"
 	nutriment_desc = list("tofu" = 3, "metal" = 1)

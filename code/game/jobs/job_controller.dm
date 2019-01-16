@@ -154,6 +154,8 @@ var/global/datum/controller/occupations/job_master
 				position_limit = job.spawn_positions
 			if((job.current_positions < position_limit) || position_limit == -1)
 				Debug("Player: [player] is now Rank: [rank], JCP:[job.current_positions], JPL:[position_limit]")
+
+				player.mind.assigned_job = job
 				player.mind.assigned_role = rank
 				player.mind.role_alt_title = GetPlayerAltTitle(player, rank)
 				unassigned -= player
@@ -232,6 +234,7 @@ var/global/datum/controller/occupations/job_master
 	proc/ResetOccupations()
 		for(var/mob/new_player/player in GLOB.player_list)
 			if((player) && (player.mind))
+				player.mind.assigned_job = null
 				player.mind.assigned_role = null
 				player.mind.special_role = null
 		SetupOccupations()
@@ -526,6 +529,7 @@ var/global/datum/controller/occupations/job_master
 
 		var/alt_title = null
 		if(H.mind)
+			H.mind.assigned_job = job
 			H.mind.assigned_role = rank
 			alt_title = H.mind.role_alt_title
 
@@ -638,7 +642,7 @@ var/global/datum/controller/occupations/job_master
 				else level4++ //not selected
 
 			tmp_str += "HIGH=[level1]|MEDIUM=[level2]|LOW=[level3]|NEVER=[level4]|BANNED=[level5]|YOUNG=[level6]|-"
-			feedback_add_details("job_preferences",tmp_str)
+			SSstatistics.add_field_details("job_preferences",tmp_str)
 
 
 /**

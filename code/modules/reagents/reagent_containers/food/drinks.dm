@@ -64,6 +64,9 @@
 
 /obj/item/weapon/reagent_containers/food/drinks/self_feed_message(var/mob/user)
 	to_chat(user, "<span class='notice'>You swallow a gulp from \the [src].</span>")
+	if(user.has_personal_goal(/datum/goal/achievement/specific_object/drink))
+		for(var/datum/reagent/R in reagents.reagent_list)
+			user.update_personal_goal(/datum/goal/achievement/specific_object/drink, R.type)
 
 /obj/item/weapon/reagent_containers/food/drinks/feed_sound(var/mob/user)
 	playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
@@ -336,7 +339,7 @@
 	base_name = "NT cup"
 
 /obj/item/weapon/reagent_containers/food/drinks/coffeecup/corp
-	name = "\improper Expeditionary Corps Organisation coffee cup"
+	name = "\improper EXO coffee cup"
 	desc = "A tasteful coffee cup in Expeditionary Corps Organisation corporate colours."
 	icon_state = "coffeecup_corp"
 	base_name = "EXO cup"

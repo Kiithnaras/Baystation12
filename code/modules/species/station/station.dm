@@ -152,7 +152,7 @@
 	override_limb_types = list(BP_HEAD = /obj/item/organ/external/head/skrell)
 
 	descriptors = list(
-		/datum/mob_descriptor/height = 1.2,
+		/datum/mob_descriptor/height = 1,
 		/datum/mob_descriptor/build = 0,
 		/datum/mob_descriptor/headtail_length = 0
 	)
@@ -182,18 +182,12 @@
 			RELIGION_ATHEISM,
 			RELIGION_DEISM,
 			RELIGION_AGNOSTICISM
-		),
-		TAG_EDUCATION = list(
-			EDUCATION_SKRELL_FAILURE,
-			EDUCATION_SKRELL_BASIC,
-			EDUCATION_SKRELL_FULL,
-			EDUCATION_SKRELL_FULL_SCIENCE,
-			EDUCATION_SKRELL_FULL_DOCTOR
 		)
 	)
 
 	has_organ = list(
 		BP_HEART =    /obj/item/organ/internal/heart,
+		BP_STOMACH =  /obj/item/organ/internal/stomach,
 		BP_LUNGS =    /obj/item/organ/internal/lungs/gills,
 		BP_LIVER =    /obj/item/organ/internal/liver,
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys,
