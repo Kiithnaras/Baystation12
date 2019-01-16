@@ -259,3 +259,35 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 
 /obj/machinery/portable_atmospherics/canister/nitrogen/airlock
 	start_pressure = 2 * ONE_ATMOSPHERE
+
+/obj/structure/window/basic/clear
+	alpha = 80
+	name = "clear window"
+	desc = "It's considerably clearer than most windows."
+
+/obj/structure/window/basic/full/clear
+	alpha = 80
+	name = "clear window"
+	desc = "It's considerably clearer than most windows."
+
+/obj/structure/window/reinforced/clear
+	alpha = 80
+	name = "clear window"
+	desc = "It's considerably clearer than most windows."
+
+/obj/structure/window/reinforced/full/clear
+	alpha = 80
+	name = "clear window"
+	desc = "It's considerably clearer than most windows."
+
+/obj/machinery/button
+	layer = ABOVE_WINDOW_LAYER
+
+/obj/machinery/airlock_sensor
+	layer = ABOVE_WINDOW_LAYER
+
+/obj/machinery/access_button
+	layer = ABOVE_WINDOW_LAYER
+
+/obj/machinery/embedded_controller
+	layer = ABOVE_WINDOW_LAYER
