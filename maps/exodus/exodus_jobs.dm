@@ -33,7 +33,6 @@
 	max_skill = list(   SKILL_PILOT       = SKILL_MAX,
 	                    SKILL_SCIENCE     = SKILL_MAX)
 	skill_points = 54
-	required_education = EDUCATION_TIER_BACHELOR
 
 /datum/job/hop
 	ideal_character_age = 35
@@ -42,7 +41,6 @@
 							 /datum/computer_file/program/card_mod,
 							 /datum/computer_file/program/camera_monitor,
 							 /datum/computer_file/program/reports)
-	required_education = EDUCATION_TIER_BACHELOR
 
 	min_skill = list(   SKILL_BUREAUCRACY = SKILL_ADEPT,
 	                    SKILL_COMPUTER    = SKILL_BASIC,
@@ -60,7 +58,6 @@
 
 /datum/job/chief_engineer
 	ideal_character_age = 30
-	required_education = EDUCATION_TIER_MASTERS
 	min_skill = list(   SKILL_COMPUTER     = SKILL_BASIC,
 	                    SKILL_EVA          = SKILL_ADEPT,
 	                    SKILL_CONSTRUCTION = SKILL_ADEPT,
@@ -98,7 +95,6 @@
 	max_skill = list(   SKILL_ANATOMY     = SKILL_MAX,
 	                    SKILL_DEVICES     = SKILL_MAX,
 	                    SKILL_SCIENCE     = SKILL_MAX)
-	required_education = EDUCATION_TIER_DOCTORATE
 
 /datum/job/rd/equip(var/mob/living/carbon/human/H)
 	. = ..()
@@ -124,7 +120,6 @@
 							 /datum/computer_file/program/suit_sensors,
 							 /datum/computer_file/program/camera_monitor,
 							 /datum/computer_file/program/reports)
-	required_education = EDUCATION_TIER_MEDSCHOOL
 
 /datum/job/cmo/equip(var/mob/living/carbon/human/H)
 	. = ..()
@@ -148,7 +143,6 @@
 							 /datum/computer_file/program/digitalwarrant,
 							 /datum/computer_file/program/camera_monitor,
 							 /datum/computer_file/program/reports)
-	required_education = EDUCATION_TIER_BACHELOR
 
 //Security
 
