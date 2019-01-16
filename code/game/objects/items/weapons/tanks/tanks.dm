@@ -1,4 +1,4 @@
-#define TANK_IDEAL_PRESSURE 1015 //Arbitrary.
+#define TANK_IDEAL_PRESSURE 10132 //Arbitrary.
 
 var/list/global/tank_gauge_cache = list()
 
@@ -28,10 +28,10 @@ var/list/global/tank_gauge_cache = list()
 	var/valve_welded = 0
 	var/obj/item/device/tankassemblyproxy/proxyassembly
 
-	var/volume = 70
+	var/volume = 80
 	var/manipulated_by = null		//Used by _onclick/hud/screen_objects.dm internals to determine if someone has messed with our tank or not.
 						//If they have and we haven't scanned it with the PDA or gas analyzer then we might just breath whatever they put in it.
-	var/failure_temp = 173 //173 deg C Borate seal (yes it should be 153 F, but that's annoying)
+	var/failure_temp = 180 //173 deg C Borate seal (yes it should be 153 F, but that's annoying)
 	var/leaking = 0
 	var/wired = 0
 	var/list/starting_pressure //list in format 'xgm gas id' = 'desired pressure at start'

@@ -274,7 +274,7 @@
 	caliber = "75"
 	ammo_type = /obj/item/ammo_casing/a75
 	multiple_sprites = 1
-	max_ammo = 4
+	max_ammo = 8
 
 /obj/item/ammo_magazine/a75/empty
 	initial_ammo = 0

@@ -3,7 +3,7 @@
 	desc = "The NT Mk30 NL is a small, low capacity gun used for non-lethal takedowns. Produced by NT, it's actually a licensed version of a W-T design. It can switch between high and low intensity stun shots."
 	icon_state = "taser"
 	item_state = null	//so the human update icon uses the icon_state instead.
-	max_shots = 5
+	max_shots = 18
 	projectile_type = /obj/item/projectile/beam/stun
 	combustion = 0
 
@@ -21,7 +21,7 @@
 	one_hand_penalty = 3
 	origin_tech = list(TECH_COMBAT = 4, TECH_MATERIAL = 3, TECH_POWER = 3)
 	force = 8
-	max_shots = 12
+	max_shots = 30
 	accuracy = 1
 	projectile_type = /obj/item/projectile/beam/stun/heavy
 	wielded_item_state = "tasercarbine-wielded"
@@ -39,7 +39,7 @@
 
 /obj/item/weapon/gun/energy/taser/mounted/cyborg
 	name = "taser gun"
-	max_shots = 6
+	max_shots = 12
 	recharge_time = 10 //Time it takes for shots to recharge (in ticks)
 
 
@@ -50,7 +50,7 @@
 	item_state = "stunrevolver"
 	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 3, TECH_POWER = 2)
 	projectile_type = /obj/item/projectile/energy/electrode
-	max_shots = 6
+	max_shots = 12
 	combustion = 0
 
 /obj/item/weapon/gun/energy/stunrevolver/rifle
@@ -63,7 +63,7 @@
 	one_hand_penalty = 6
 	origin_tech = list(TECH_COMBAT = 4, TECH_MATERIAL = 3, TECH_POWER = 3)
 	force = 10
-	max_shots = 10
+	max_shots = 20
 	accuracy = 1
 	projectile_type = /obj/item/projectile/energy/electrode/stunshot
 	wielded_item_state = "stunrifle-wielded"
@@ -80,7 +80,7 @@
 	silenced = 1
 	fire_sound = 'sound/weapons/Genhit.ogg'
 	projectile_type = /obj/item/projectile/energy/bolt
-	max_shots = 8
+	max_shots = 12
 	self_recharge = 1
 	charge_meter = 0
 	combustion = 0
@@ -88,13 +88,13 @@
 /obj/item/weapon/gun/energy/crossbow/ninja
 	name = "energy dart thrower"
 	projectile_type = /obj/item/projectile/energy/dart
-	max_shots = 5
+	max_shots = 6
 
 /obj/item/weapon/gun/energy/crossbow/largecrossbow
 	name = "energy crossbow"
 	desc = "A weapon favored by mercenary infiltration teams."
 	w_class = ITEM_SIZE_LARGE
-	force = 10
+	force = 12
 	one_hand_penalty = 1
 	matter = list(MATERIAL_STEEL = 200000)
 	projectile_type = /obj/item/projectile/energy/bolt/large
@@ -106,6 +106,6 @@
 	item_state = "plasma_stun"
 	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2, TECH_POWER = 3)
 	fire_delay = 20
-	max_shots = 4
+	max_shots = 12
 	projectile_type = /obj/item/projectile/energy/plasmastun
 	combustion = 0

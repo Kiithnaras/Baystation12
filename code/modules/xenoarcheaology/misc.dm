@@ -75,18 +75,12 @@
 	icon_broken = "secureresbroken"
 	icon_off = "secureresoff"
 
-	New()
-		..()
-		sleep(2)
-		new /obj/item/clothing/suit/space/vox/pressure(src)
-		new /obj/item/clothing/head/helmet/space/vox/pressure(src)
-		new /obj/item/weapon/tank/nitrogen(src)
-		new /obj/item/clothing/suit/space/vox/pressure(src)
-		new /obj/item/clothing/head/helmet/space/vox/pressure(src)
-		new /obj/item/weapon/tank/nitrogen(src)
-		new /obj/item/clothing/suit/space/vox/pressure(src)
-		new /obj/item/clothing/head/helmet/space/vox/pressure(src)
-		new /obj/item/weapon/tank/nitrogen(src)
+/obj/structure/closet/secure_closet/voxarch/WillContain()
+	return list(
+		/obj/item/clothing/suit/space/vox/pressure = 3,
+		/obj/item/clothing/head/helmet/space/vox/pressure = 3,
+		/obj/item/weapon/tank/nitrogen = 3,
+	)
 
 /obj/machinery/alarm/isolation
 	req_one_access = list(access_research, access_atmospherics, access_engine_equip)

@@ -110,6 +110,8 @@
 /obj/item/weapon/reagent_containers/spray/sterilizine
 	name = "sterilizine"
 	desc = "Great for hiding incriminating bloodstains and sterilizing scalpels."
+	amount_per_transfer_from_this = 6
+	possible_transfer_amounts = "2;6"
 
 /obj/item/weapon/reagent_containers/spray/sterilizine/New()
 	..()

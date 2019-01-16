@@ -1,7 +1,3 @@
-
-
-
-
 var/list/explosion_turfs = list()
 
 var/explosion_in_progress = 0
@@ -44,7 +40,8 @@ proc/explosion_rec(turf/epicenter, power, shaped)
 		if(!T) continue
 
 		//Wow severity looks confusing to calculate... Fret not, I didn't leave you with any additional instructions or help. (just kidding, see the line under the calculation)
-		var/severity = 4 - round(max(min( 3, ((explosion_turfs[T] - T.get_explosion_resistance()) / (max(3,(power/3)))) ) ,1), 1)								//sanity			effective power on tile				divided by either 3 or one third the total explosion power
+		var/severity = 4 - round(max(min( 3, ((explosion_turfs[T] - T.get_explosion_resistance()) / (max(3,(power/3)))) ) ,1), 1)
+								//sanity			effective power on tile				divided by either 3 or one third the total explosion power
 								//															One third because there are three power levels and I
 								//															want each one to take up a third of the crater
 		var/x = T.x
@@ -122,6 +119,9 @@ proc/explosion_rec(turf/epicenter, power, shaped)
 /turf/simulated/floor
 	explosion_resistance = 1
 
+/turf/simulated/floor/reinforced
+	explosion_resistance = 3
+
 /turf/simulated/mineral
 	explosion_resistance = 2
 
@@ -130,6 +130,12 @@ proc/explosion_rec(turf/epicenter, power, shaped)
 
 /turf/simulated/wall
 	explosion_resistance = 10
+
+/turf/simulated/wall/r_wall
+	explosion_resistance = 35
+
+/turf/simulated/wall/r_titanium
+	explosion_resistance = 25
 
 /obj/machinery/door/get_explosion_resistance()
 	if(!density)

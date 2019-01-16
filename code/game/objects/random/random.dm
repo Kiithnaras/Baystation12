@@ -44,8 +44,8 @@
 /obj/random/tool
 	name = "random tool"
 	desc = "This is a random tool."
-	icon = 'icons/obj/items.dmi'
-	icon_state = "welder"
+	icon = 'icons/obj/tools.dmi'
+	icon_state = "legacywelder"
 
 /obj/random/tool/spawn_choices()
 	return list(/obj/item/weapon/screwdriver,
@@ -132,7 +132,7 @@
 /obj/random/medical
 	name = "Random Medical equipment"
 	desc = "This is a random medical item."
-	icon = 'icons/obj/items.dmi'
+	icon = 'icons/obj/medical_kits.dmi'
 	icon_state = "traumakit"
 
 /obj/random/medical/spawn_choices()
@@ -155,7 +155,7 @@
 /obj/random/medical/lite
 	name = "Random Medicine"
 	desc = "This is a random simple medical item."
-	icon = 'icons/obj/items.dmi'
+	icon = 'icons/obj/medical_kits.dmi'
 	icon_state = "brutepack"
 	spawn_nothing_percentage = 25
 

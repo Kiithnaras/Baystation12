@@ -610,6 +610,25 @@
 	return
 
 
+/obj/structure/window/reinforced/full/crescent/attack_hand()
+	return
+
+/obj/structure/window/reinforced/full/crescent/attackby()
+	return
+
+/obj/structure/window/reinforced/full/crescent/ex_act()
+	return
+
+/obj/structure/window/reinforced/full/crescent/hitby()
+	return
+
+/obj/structure/window/reinforced/full/crescent/take_damage()
+	return
+
+/obj/structure/window/reinforced/full/crescent/shatter()
+	return
+
+
 /obj/structure/window/proc/update_onframe()
 	var/success = FALSE
 	var/turf/T = get_turf(src)

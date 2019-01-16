@@ -29,5 +29,8 @@
 	icon_state = "rainbow"
 	item_state = "rainbowgloves"
 
+/obj/item/clothing/gloves/purple
+	color = COLOR_PURPLE
+
 /obj/item/clothing/gloves/rainbow/modified
 	item_flags = ITEM_FLAG_PREMODIFIED

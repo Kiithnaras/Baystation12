@@ -86,20 +86,13 @@
 	icon_locked = "securemed1"
 	icon_opened = "securemedopen"
 	icon_off = "securemedoff"
-	
+
 /obj/structure/closet/secure_closet/voxmedeva/WillContain()
 	return list(
-		/obj/item/clothing/suit/space/vox/medic,
-		/obj/item/clothing/head/helmet/space/vox/medic,
-		/obj/item/clothing/suit/space/vox/medic,
-		/obj/item/clothing/head/helmet/space/vox/medic,
-		/obj/item/clothing/suit/space/vox/medic,
-		/obj/item/clothing/head/helmet/space/vox/medic,
-		/obj/item/clothing/shoes/magboots/vox,
-		/obj/item/clothing/shoes/magboots/vox,
-		/obj/item/weapon/tank/nitrogen,
-		/obj/item/weapon/tank/nitrogen,
-		/obj/item/weapon/tank/nitrogen,
+		/obj/item/clothing/suit/space/vox/medic = 3,
+		/obj/item/clothing/head/helmet/space/vox/medic = 3,
+		/obj/item/clothing/shoes/magboots/vox = 3,
+		/obj/item/weapon/tank/nitrogen = 3,
 	)
 
 /obj/structure/closet/secure_closet/paramedic

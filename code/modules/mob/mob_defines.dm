@@ -5,6 +5,7 @@
 	appearance_flags = PIXEL_SCALE
 	animate_movement = 2
 	movable_flags = MOVABLE_FLAG_PROXMOVE
+	glide_size = 8
 
 	virtual_mob = /mob/observer/virtual/mob
 

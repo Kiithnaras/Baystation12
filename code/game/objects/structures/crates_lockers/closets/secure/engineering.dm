@@ -116,22 +116,11 @@
 
 /obj/structure/closet/secure_closet/voxatmos/WillContain()
 	return list(
-        /obj/item/clothing/mask/breath,
-        /obj/item/weapon/tank/emergency_nitrogen,
-        /obj/item/clothing/mask/breath,
-        /obj/item/weapon/tank/emergency_nitrogen,
-        /obj/item/clothing/mask/breath,
-        /obj/item/weapon/tank/emergency_nitrogen,
-        /obj/item/clothing/mask/breath,
-        /obj/item/weapon/tank/emergency_nitrogen,
-        /obj/item/clothing/mask/breath,
-        /obj/item/weapon/tank/emergency_nitrogen,
-        /obj/item/clothing/mask/breath,
-        /obj/item/weapon/tank/emergency_nitrogen,
-        /obj/item/clothing/mask/breath,
-        /obj/item/weapon/tank/emergency_nitrogen,
+        /obj/item/clothing/mask/gas/vox = 4,
+        /obj/item/weapon/tank/emergency/nitrogen = 4,
+        /obj/item/weapon/tank/emergency/nitrogen/double = 2,
 	)
-        
+
 
 /obj/structure/closet/secure_closet/voxengieva
 	name = "Vox Engineering EVA Closet"
@@ -144,19 +133,28 @@
 
 /obj/structure/closet/secure_closet/voxengieva/WillContain()
 	return list(
-		/obj/item/clothing/suit/space/vox/stealth,
-		/obj/item/clothing/head/helmet/space/vox/stealth,
-		/obj/item/weapon/tank/nitrogen,
-		/obj/item/clothing/suit/space/vox/stealth,
-		/obj/item/clothing/head/helmet/space/vox/stealth,
-		/obj/item/weapon/tank/nitrogen,
-		/obj/item/clothing/suit/space/vox/stealth,
-		/obj/item/clothing/head/helmet/space/vox/stealth,
-		/obj/item/weapon/tank/nitrogen,
-		/obj/item/clothing/shoes/magboots/vox,
-		/obj/item/clothing/shoes/magboots/vox,
-		/obj/item/clothing/shoes/magboots/vox,
-		/obj/item/clothing/gloves/yellow/vox,
-		/obj/item/clothing/gloves/yellow/vox,
-		/obj/item/clothing/gloves/yellow/vox,
+		/obj/item/clothing/suit/space/vox/stealth = 3,
+		/obj/item/clothing/head/helmet/space/vox/stealth = 3,
+		/obj/item/weapon/tank/nitrogen = 3,
+		/obj/item/clothing/shoes/magboots/vox = 3,
+		/obj/item/clothing/gloves/vox = 3,
 	)
+
+/obj/structure/closet/secure_closet/voxsecarmor
+	name = "Vox Security Body Armor Closet"
+	req_access = list(access_eva,access_security)
+	icon_state = "wardensecure1"
+	icon_closed = "wardensecure"
+	icon_locked = "wardensecure1"
+	icon_opened = "wardensecureopen"
+	icon_off = "wardensecureoff"
+
+/obj/structure/closet/secure_closet/voxsecarmor/WillContain()
+	return list(
+		/obj/item/clothing/suit/space/vox/carapace = 3,
+		/obj/item/clothing/head/helmet/space/vox/carapace = 3,
+		/obj/item/weapon/tank/nitrogen = 3,
+		/obj/item/clothing/shoes/magboots/vox = 3,
+		/obj/item/clothing/gloves/vox = 3,
+	)
+

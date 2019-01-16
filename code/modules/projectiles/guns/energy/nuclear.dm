@@ -3,7 +3,7 @@
 	desc = "Another bestseller of Lawson Arms and the FTU, the LAEP90 Perun is a versatile energy based sidearm, capable of switching between low, medium and high power projectile settings. In other words: stun, shock or kill."
 	icon_state = "energystun100"
 	item_state = null	//so the human update icon uses the icon_state instead.
-	max_shots = 10
+	max_shots = 21
 	fire_delay = 10 // To balance for the fact that it is a pistol and can be used one-handed without penalty
 
 	projectile_type = /obj/item/projectile/beam/stun
@@ -20,7 +20,7 @@
 	name = "small energy gun"
 	desc = "A smaller model of the versatile LAEP90 Perun, the LAEP90-C packs considerable utility in a smaller package. Best used in situations where full-sized sidearms are inappropriate."
 	icon_state = "smallgunstun"
-	max_shots = 5
+	max_shots = 8
 	w_class = ITEM_SIZE_SMALL
 	force = 2 //it's the size of a car key, what did you expect?
 	modifystate = "smallgunstun"
@@ -33,22 +33,23 @@
 
 /obj/item/weapon/gun/energy/gun/captain
 	name = "Bolt 2411"
-	desc = "A true classic. Powerful and deadly, this chromed compact energy pistol is as much a fine-tuned personal defense weapon as it is a collector's item. Comes with a polished walnut stock."
+	desc = "A true classic. Powerful and deadly, this chromed compact energy pistol is as much a fine-tuned personal defense weapon as it is a collector's item. Comes with a polished walnut stock and advanced powercell."
 	cell_type = "/obj/item/weapon/cell/apc"
 	icon_state = "capenergystun100"
 	fire_sound = 'sound/weapons/Taser.ogg'
 
 	charge_cost = 5 //How much energy is needed to fire.
-	projectile_type = /obj/item/projectile/beam/stun/heavy
+	projectile_type = /obj/item/projectile/beam/stun
 	origin_tech =  list(TECH_COMBAT = 4, TECH_MAGNET = 3)
 	modifystate = "capenergystun"
 	w_class = ITEM_SIZE_SMALL
 
 	firemodes = list(
-		list(name="stun", charge_cost=50, projectile_type=/obj/item/projectile/beam/stun, modifystate="capenergystun"),
-		list(name="super stun", charge_cost=200, projectile_type=/obj/item/projectile/beam/stun/heavy, modifystate="capenergystun"),
-		list(name="lethal", charge_cost=100, projectile_type=/obj/item/projectile/beam/smalllaser, modifystate="capenergykill"),
-		list(name="very lethal", charge_cost=500, projectile_type=/obj/item/projectile/beam/heavylaser , modifystate="capenergykill"),
+		list(mode_name="stun", charge_cost=5, projectile_type=/obj/item/projectile/beam/stun, modifystate="capenergystun"),
+		list(mode_name="shock", charge_cost=10, projectile_type=/obj/item/projectile/beam/stun/shock, modifystate="capenergystun"),
+		list(mode_name="super stun", charge_cost=25, projectile_type=/obj/item/projectile/beam/stun/heavy, modifystate="capenergystun"),
+		list(mode_name="lethal", charge_cost=20, projectile_type=/obj/item/projectile/beam/smalllaser, modifystate="capenergykill"),
+		list(mode_name="very lethal", charge_cost=60, projectile_type=/obj/item/projectile/beam/heavylaser , modifystate="capenergykill"),
 		)
 
 /obj/item/weapon/gun/energy/gun/mounted

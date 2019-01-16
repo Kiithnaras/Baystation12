@@ -106,6 +106,8 @@
 		"filter_co2" = ("carbon_dioxide" in scrubbing_gas),
 		"filter_phoron" = ("phoron" in scrubbing_gas),
 		"filter_n2o" = ("sleeping_agent" in scrubbing_gas),
+		"filter_nh3" = ("ammonia" in scrubbing_gas),
+		"filter_h2" = ("hydrogen" in scrubbing_gas),
 		"sigtype" = "status"
 	)
 	if(!initial_loc.air_scrub_names[id_tag])
@@ -239,6 +241,16 @@
 	else if(signal.data["toggle_n2o_scrub"])
 		toggle += "sleeping_agent"
 
+	if(!isnull(signal.data["nh3_scrub"]) && text2num(signal.data["nh3_scrub"]) != ("ammonia" in scrubbing_gas))
+		toggle += "ammonia"
+	else if(signal.data["toggle_nh3_scrub"])
+		toggle += "ammonia"
+
+	if(!isnull(signal.data["h2_scrub"]) && text2num(signal.data["h2_scrub"]) != ("hydrogen" in scrubbing_gas))
+		toggle += "hydrogen"
+	else if(signal.data["toggle_h2_scrub"])
+		toggle += "hydrogen"
+
 	scrubbing_gas ^= toggle
 
 	if(signal.data["init"] != null)
@@ -325,7 +337,7 @@
 	if(welded)
 		to_chat(user, "It seems welded shut.")
 
-/obj/machinery/atmospherics/unary/vent_scrubber/vox/
+/obj/machinery/atmospherics/unary/vent_scrubber/vox
 	use_power = POWER_USE_IDLE
 	icon_state = "map_scrubber_on"
-	scrubbing_gas = list("carbon_dioxide","oxygen")
+	scrubbing_gas = list("carbon_dioxide","oxygen","ammonia")

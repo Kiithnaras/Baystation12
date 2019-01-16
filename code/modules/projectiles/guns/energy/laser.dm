@@ -24,7 +24,7 @@
 	desc = "A modified version of the HI G40E, this one fires less concentrated energy bolts designed for target practice."
 	icon_state = "laserp"
 	projectile_type = /obj/item/projectile/beam/practice
-	charge_cost = 10 //How much energy is needed to fire.
+	charge_cost = 5 //How much energy is needed to fire.
 
 /obj/item/weapon/gun/energy/laser/practice/proc/hacked()
 	return projectile_type != /obj/item/projectile/beam/practice
@@ -35,7 +35,7 @@
 	to_chat(user, "<span class='warning'>You disable the safeties on [src] and crank the output to the lethal levels.</span>")
 	desc += " Its safeties are disabled and output is set to dangerous levels."
 	projectile_type = /obj/item/projectile/beam/midlaser
-	charge_cost = 20
+	charge_cost = 10
 	max_shots = rand(3,6) //will melt down after those
 	return 1
 
@@ -66,9 +66,9 @@ obj/item/weapon/gun/energy/retro
 	force = 5
 	slot_flags = SLOT_BELT //too unusually shaped to fit in a holster
 	w_class = ITEM_SIZE_NORMAL
-	projectile_type = /obj/item/projectile/beam
+	projectile_type = /obj/item/projectile/beam/heavylaser
 	origin_tech = null
-	max_shots = 5 //to compensate a bit for self-recharging
+	max_shots = 21 //to compensate a bit for self-recharging
 	one_hand_penalty = 1 //a little bulky
 	self_recharge = 1
 
@@ -82,8 +82,8 @@ obj/item/weapon/gun/energy/retro
 	one_hand_penalty = 6 //large and heavy
 	w_class = ITEM_SIZE_HUGE
 	projectile_type = /obj/item/projectile/beam/heavylaser
-	charge_cost = 40
-	max_shots = 6
+	charge_cost = 20
+	max_shots = 18
 	accuracy = 2
 	fire_delay = 20
 	wielded_item_state = "gun_wielded"
@@ -107,8 +107,8 @@ obj/item/weapon/gun/energy/retro
 	projectile_type = /obj/item/projectile/beam/xray/midlaser
 	one_hand_penalty = 2
 	w_class = ITEM_SIZE_LARGE
-	charge_cost = 15
-	max_shots = 10
+	charge_cost = 20
+	max_shots = 12
 	wielded_item_state = "gun_wielded"
 	combustion = 0
 
@@ -132,8 +132,8 @@ obj/item/weapon/gun/energy/retro
 	projectile_type = /obj/item/projectile/beam/sniper
 	one_hand_penalty = 5 // The weapon itself is heavy, and the long barrel makes it hard to hold steady with just one hand.
 	slot_flags = SLOT_BACK
-	charge_cost = 40
-	max_shots = 4
+	charge_cost = 20
+	max_shots = 8
 	fire_delay = 35
 	force = 10
 	w_class = ITEM_SIZE_HUGE

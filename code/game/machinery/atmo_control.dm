@@ -53,12 +53,18 @@
 					signal.data["carbon_dioxide"] = round(100*air_sample.gas["carbon_dioxide"]/total_moles,0.1)
 				if(output&64)
 					signal.data["hydrogen"] = round(100*air_sample.gas["hydrogen"]/total_moles,0.1)
+				if(output&128)
+					signal.data["ammonia"] = round(100*air_sample.gas["ammonia"]/total_moles,0.1)
+				if(output&256)
+					signal.data["sleeping_agent"] = round(100*air_sample.gas["sleeping_agent"]/total_moles,0.1)
 			else
 				signal.data["oxygen"] = 0
 				signal.data["phoron"] = 0
 				signal.data["nitrogen"] = 0
 				signal.data["carbon_dioxide"] = 0
 				signal.data["hydrogen"] = 0
+				signal.data["ammonia"] = 0
+				signal.data["sleeping_agent"] = 0
 		signal.data["sigtype"]="status"
 		radio_connection.post_signal(src, signal, radio_filter = RADIO_ATMOSIA)
 
@@ -128,7 +134,7 @@ obj/machinery/computer/general_air_control/Destroy()
 					sensor_part += "   <B>Pressure:</B> [data["pressure"]] kPa<BR>"
 				if(data["temperature"])
 					sensor_part += "   <B>Temperature:</B> [data["temperature"]] K<BR>"
-				if(data["oxygen"]||data["phoron"]||data["nitrogen"]||data["carbon_dioxide"]||data["hydrogen"])
+				if(data["oxygen"]||data["phoron"]||data["nitrogen"]||data["carbon_dioxide"]||data["hydrogen"]||data["ammonia"]||data["sleeping_agent"])
 					sensor_part += "   <B>Gas Composition :</B>"
 					if(data["oxygen"])
 						sensor_part += "[data["oxygen"]]% O2; "
@@ -140,6 +146,10 @@ obj/machinery/computer/general_air_control/Destroy()
 						sensor_part += "[data["hydrogen"]]% H2; "
 					if(data["phoron"])
 						sensor_part += "[data["phoron"]]% PH; "
+					if(data["ammonia"])
+						sensor_part += "[data["ammonia"]]% NH3; "
+					if(data["sleeping_agent"])
+						sensor_part += "[data["sleeping_agent"]]% N2O; "
 				sensor_part += "<HR>"
 
 			else

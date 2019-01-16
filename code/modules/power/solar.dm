@@ -525,7 +525,7 @@ var/list/solars_list = list()
 /obj/machinery/power/solar_control/autostart
 	track = 2 // Auto tracking mode
 
-/obj/machinery/power/solar_control/autostart/Initialize()
+/obj/machinery/power/solar_control/autostart/LateInitialize()
 	search_for_connected()
 	if(connected_tracker && track == 2)
 		connected_tracker.set_angle(GLOB.sun.angle)

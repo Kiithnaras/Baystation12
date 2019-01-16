@@ -39,18 +39,19 @@ GLOBAL_VAR(spawntypes)
 	. = ..()
 #endif
 
-/*	proc/check_species(var/datum/species/spcs = "Vox")
-		if(restrict_species && !(spcs in restrict_species))
-			return 0
+/datum/spawnpoint/proc/check_species_spawning(S)
+	if(restrict_species && !(S in restrict_species))
+		return 0
 
-		if(disallow_species && (spcs in disallow_species))
-			return 0
+	if(disallow_species && (S in disallow_species))
+		return 0
 
-		return 1*/
+	return 1
 
 /datum/spawnpoint/arrivals
 	display_name = "Arrivals Shuttle"
 	msg = "has arrived on the station"
+	disallow_species = list(SPECIES_VOX)
 
 /datum/spawnpoint/arrivals/New()
 	..()
@@ -59,7 +60,7 @@ GLOBAL_VAR(spawntypes)
 /datum/spawnpoint/gateway
 	display_name = "Gateway"
 	msg = "has completed translation from offsite gateway"
-	disallow_species = list("Vox")
+	disallow_species = list(SPECIES_VOX)
 
 /datum/spawnpoint/gateway/New()
 	..()
@@ -69,7 +70,7 @@ GLOBAL_VAR(spawntypes)
 	display_name = "Cryogenic Storage"
 	msg = "has completed cryogenic revival"
 	disallow_job = list("Robot")
-	disallow_species = list("Vox")
+	disallow_species = list(SPECIES_VOX)
 
 /datum/spawnpoint/cryo/New()
 	..()
@@ -92,8 +93,8 @@ GLOBAL_VAR(spawntypes)
 /datum/spawnpoint/outpost
 	display_name = "Vox Employee Outpost"
 	msg = "has awoken from deep slumber"
-	//restrict_species = list("Vox")
+	restrict_species = list(SPECIES_VOX)
 
 /datum/spawnpoint/outpost/New()
 	..()
-	turfs = latevox
+	turfs = GLOB.latejoin_vox

@@ -10,7 +10,7 @@
 #define LIGHT_BURNED 3
 
 #define LIGHT_BULB_TEMPERATURE 400 //K - used value for a 60W bulb
-#define LIGHTING_POWER_FACTOR 5		//5W per luminosity * range
+#define LIGHTING_POWER_FACTOR 3		//5W per luminosity * range
 
 
 #define LIGHTMODE_EMERGENCY "emergency_lighting"
@@ -541,9 +541,9 @@
 	var/rigged = 0		// true if rigged to explode
 	var/broken_chance = 2
 
-	var/b_max_bright = 0.9
-	var/b_inner_range = 1
-	var/b_outer_range = 5
+	var/b_max_bright = 1
+	var/b_inner_range = 2
+	var/b_outer_range = 9
 	var/b_curve = 2
 	var/b_colour = "#fffee0"
 	var/list/lighting_modes = list()
@@ -557,10 +557,10 @@
 	item_state = "c_tube"
 	matter = list(MATERIAL_GLASS = 100)
 
-	b_outer_range = 5
+	b_outer_range = 8
 	b_colour = "#fffee0"
 	lighting_modes = list(
-		LIGHTMODE_EMERGENCY = list(l_outer_range = 4, l_max_bright = 1, l_color = "#da0205"),
+		LIGHTMODE_EMERGENCY = list(l_outer_range = 9, l_max_bright = 1, l_color = "#da0205"),
 		)
 	sound_on = 'sound/machines/lightson.ogg'
 
@@ -571,10 +571,10 @@
 /obj/item/weapon/light/tube/large
 	w_class = ITEM_SIZE_SMALL
 	name = "large light tube"
-	b_max_bright = 0.95
-	b_inner_range = 2
-	b_outer_range = 8
-	b_curve = 2.5
+	b_max_bright = 2
+	b_inner_range = 3
+	b_outer_range = 16
+	b_curve = 2
 
 /obj/item/weapon/light/tube/large/party/Initialize() //Randomly colored light tubes. Mostly for testing, but maybe someone will find a use for them.
 	. = ..()
@@ -589,13 +589,13 @@
 	broken_chance = 3
 	matter = list(MATERIAL_GLASS = 100)
 
-	b_max_bright = 0.6
-	b_inner_range = 0.1
-	b_outer_range = 4
-	b_curve = 3
+	b_max_bright = 0.75
+	b_inner_range = 1
+	b_outer_range = 6
+	b_curve = 2
 	b_colour = "#fcfcc7"
 	lighting_modes = list(
-		LIGHTMODE_EMERGENCY = list(l_outer_range = 3, l_max_bright = 1, l_color = "#da0205"),
+		LIGHTMODE_EMERGENCY = list(l_outer_range = 6, l_max_bright = 1, l_color = "#da0205"),
 		)
 
 /obj/item/weapon/light/bulb/red
@@ -604,7 +604,7 @@
 
 /obj/item/weapon/light/bulb/red/readylight
 	lighting_modes = list(
-		LIGHTMODE_READY = list(l_outer_range = 5, l_max_bright = 1, l_color = "#00ff00"),
+		LIGHTMODE_READY = list(l_outer_range = 6, l_max_bright = 1, l_color = "#00ff00"),
 		)
 
 /obj/item/weapon/light/throw_impact(atom/hit_atom)

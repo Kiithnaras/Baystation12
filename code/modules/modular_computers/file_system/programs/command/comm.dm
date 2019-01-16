@@ -89,8 +89,6 @@
 	var/list/processed_evac_options = list()
 	if(!isnull(evacuation_controller))
 		for (var/datum/evacuation_option/EO in evacuation_controller.available_evac_options())
-			if(EO.abandon_ship)
-				continue
 			var/list/option = list()
 			option["option_text"] = EO.option_text
 			option["option_target"] = EO.option_target

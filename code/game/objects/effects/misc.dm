@@ -49,6 +49,21 @@
 /obj/effect/paint/black
 	color = COLOR_DARK_GRAY
 
+/obj/effect/paint/green
+	color = COLOR_GREEN
+
+/obj/effect/paint/lime
+	color = COLOR_LIME
+
+/obj/effect/paint/gold
+	color = COLOR_ASSEMBLY_GOLD
+
+/obj/effect/paint/yellow
+	color = COLOR_YELLOW
+
+/obj/effect/paint/orange
+	color = COLOR_ORANGE
+
 //Stripes the wall it spawns on, then dies
 /obj/effect/paint_stripe
 	name = "stripe of paint"

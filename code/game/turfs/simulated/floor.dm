@@ -101,7 +101,8 @@
 	icon_state = "plating"
 	initial_gas = list("oxygen" = 0, "nitrogen" = MOLES_CELLSTANDARD)
 
-/turf/simulated/floor/vox/
+/turf/simulated/floor/tiled/vox/
 	name = "floor"
-	icon_state = "floor"
+	icon = 'icons/turf/flooring/tiles.dmi'
+	icon_state = "dark"
 	initial_gas = list("oxygen" = 0, "nitrogen" = MOLES_CELLSTANDARD)

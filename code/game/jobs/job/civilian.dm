@@ -69,7 +69,7 @@
 	title = "Shaft Miner"
 	department = "Supply"
 	department_flag = SUP
-	total_positions = 3
+	total_positions = 4
 	spawn_positions = 3
 	supervisors = "the quartermaster and the head of personnel"
 	selection_color = "#515151"
@@ -112,7 +112,7 @@
 	department_flag = SPT
 	total_positions = 2
 	spawn_positions = 2
-	supervisors = "company officials and Corporate Regulations"
+	supervisors = "regional operations and Corporate Regulations"
 	selection_color = "#515151"
 	economic_power = 7
 	access = list(access_lawyer, access_sec_doors, access_maint_tunnels, access_bridge)

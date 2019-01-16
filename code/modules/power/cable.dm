@@ -469,7 +469,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 // Definitions
 ////////////////////////////////
 
-#define MAXCOIL 30
+#define MAXCOIL 50
 
 /obj/item/stack/cable_coil
 	name = "multipurpose cable coil"

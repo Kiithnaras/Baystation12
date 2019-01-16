@@ -23,7 +23,7 @@
 			delete_me = 1
 			return
 		if("VoxLate")
-			GLOB.latevox += loc
+			GLOB.latejoin_vox += loc
 			delete_me = 1
 		if("JoinLate")
 			GLOB.latejoin += loc

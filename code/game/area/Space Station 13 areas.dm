@@ -58,37 +58,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/turf/base_turf //The base turf type of the area, which can be used to override the z-level's base turf
 /*Adding a wizard area teleport list because motherfucking lag -- Urist*/
 /*I am far too lazy to make it a proper list of areas so I'll just make it run the usual telepot routine at the start of the game*/
-var/list/teleportlocs = list()
-
-/hook/startup/proc/setupTeleportLocs()
-	for(var/area/AR in world)
-		if(istype(AR, /area/shuttle) || istype(AR, /area/syndicate_station) || istype(AR, /area/wizard_station)) continue
-		if(teleportlocs.Find(AR.name)) continue
-		var/turf/picked = pick(get_area_turfs(AR.type))
-		if (picked.z in config.station_levels)
-			teleportlocs += AR.name
-			teleportlocs[AR.name] = AR
-
-	teleportlocs = sortAssoc(teleportlocs)
-
-	return 1
-
-var/list/ghostteleportlocs = list()
-
-/hook/startup/proc/setupGhostTeleportLocs()
-	for(var/area/AR in world)
-		if(ghostteleportlocs.Find(AR.name)) continue
-		if(istype(AR, /area/turret_protected/aisat) || istype(AR, /area/derelict) || istype(AR, /area/tdome) || istype(AR, /area/shuttle/specops/centcom))
-			ghostteleportlocs += AR.name
-			ghostteleportlocs[AR.name] = AR
-		var/turf/picked = pick(get_area_turfs(AR.type))
-		if (picked.z in config.player_levels)
-			ghostteleportlocs += AR.name
-			ghostteleportlocs[AR.name] = AR
-
-	ghostteleportlocs = sortAssoc(ghostteleportlocs)
-
-	return 1
 
 /*-----------------------------------------------------------------------------*/
 
@@ -109,7 +78,7 @@ var/list/ghostteleportlocs = list()
 	area_flags = AREA_FLAG_EXTERNAL | AREA_FLAG_IS_NOT_PERSISTENT
 	ambience = list('sound/ambience/ambispace.ogg','sound/music/title2.ogg','sound/music/space.ogg','sound/music/main.ogg','sound/music/traitor.ogg')
 
-area/space/atmosalert()
+/area/space/atmosalert()
 	return
 
 /area/space/fire_alert()
@@ -328,7 +297,7 @@ area/space/atmosalert()
 	name = "start area"
 	icon_state = "start"
 	requires_power = 0
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 	has_gravity = 1
 
 // === end remove
@@ -373,6 +342,9 @@ area/space/atmosalert()
 /area/centcom/creed
 	name = "Creed's Office"
 
+/area/supply
+	name = "Supply Placeholder"
+
 /area/centcom/holding
 	name = "\improper Holding Facility"
 
@@ -382,7 +354,7 @@ area/space/atmosalert()
 	name = "\improper Mercenary Base"
 	icon_state = "syndie-ship"
 	requires_power = 0
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 
 /area/syndicate_mothership/control
 	name = "\improper Mercenary Control Room"
@@ -438,8 +410,8 @@ area/space/atmosalert()
 	name = "\improper Outpost Solar Array"
 	icon_state = "panelsA"
 	requires_power = 0
-	luminosity = 1
-	lighting_use_dynamic = 0
+	luminosity = 0.2
+	dynamic_lighting = 0
 
 
 
@@ -452,7 +424,7 @@ area/space/atmosalert()
 	name = "\improper Thunderdome"
 	icon_state = "thunder"
 	requires_power = 0
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 
 /area/tdome/tdome1
 	name = "\improper Thunderdome (Team 1)"
@@ -531,7 +503,7 @@ area/space/atmosalert()
 	name = "\improper Wizard's Den"
 	icon_state = "yellow"
 	requires_power = 0
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 
 /area/skipjack_station
 	name = "\improper Skipjack"
@@ -724,6 +696,13 @@ area/space/atmosalert()
 /area/maintenance/arrivals
 	name = "Arrivals Maintenance"
 	icon_state = "maint_arrivals"
+
+/area/maintenance/exterior
+	name = "\improper Exterior Reinforcements"
+	icon_state = "maint_security_starboard"
+	area_flags = AREA_FLAG_EXTERNAL
+	has_gravity = FALSE
+	turf_initializer = /decl/turf_initializer/maintenance/space
 
 /area/maintenance/bar
 	name = "Bar Maintenance"
@@ -1024,7 +1003,7 @@ area/space/atmosalert()
 /area/holodeck
 	name = "\improper Holodeck"
 	icon_state = "Holodeck"
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 
 /area/holodeck/alphadeck
 	name = "\improper Holodeck Alpha"
@@ -1153,7 +1132,7 @@ area/space/atmosalert()
 /area/solar
 	requires_power = 1
 	always_unpowered = 1
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 
 	auxport
 		name = "\improper Fore Port Solar Array"
@@ -1831,26 +1810,26 @@ area/space/atmosalert()
 /area/turret_protected/AIsatextFP
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 1
-	lighting_use_dynamic = 0
+	luminosity = 0.2
+	dynamic_lighting = 0
 
 /area/turret_protected/AIsatextFS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 1
-	lighting_use_dynamic = 0
+	luminosity = 0.2
+	dynamic_lighting = 0
 
 /area/turret_protected/AIsatextAS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 1
-	lighting_use_dynamic = 0
+	luminosity = 0.2
+	dynamic_lighting = 0
 
 /area/turret_protected/AIsatextAP
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 1
-	lighting_use_dynamic = 0
+	luminosity = 0.2
+	dynamic_lighting = 0
 
 /area/turret_protected/NewAIMain
 	name = "\improper AI Main New"
@@ -2021,7 +2000,7 @@ area/space/atmosalert()
 	name = "Beach"
 	icon_state = "null"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	dynamic_lighting = 0
 	requires_power = 0
 	ambience = list()
 	var/sound/mysound = null

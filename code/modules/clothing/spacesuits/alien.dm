@@ -40,7 +40,7 @@
 
 /obj/item/clothing/suit/space/vox/New()
 	..()
-	slowdown_per_slot[slot_wear_suit] = 1
+	slowdown_per_slot[slot_wear_suit] = 0
 
 /obj/item/clothing/head/helmet/space/vox
 	armor = list(melee = 60, bullet = 50, laser = 40, energy = 15, bomb = 30, bio = 30, rad = 30)
@@ -74,6 +74,10 @@
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
 	breach_threshold = 25
 
+/obj/item/clothing/suit/space/vox/carapace/New()
+	..()
+	slowdown_per_slot[slot_wear_suit] = 1
+
 /obj/item/clothing/head/helmet/space/vox/stealth
 	name = "alien stealth helmet"
 	icon_state = "vox-stealth"
@@ -85,7 +89,6 @@
 	name = "alien stealth suit"
 	icon_state = "vox-stealth"
 	desc = "A sleek black suit. It seems to have a tail, and is rather light and mobile-looking while appearing to have decent protection in the right places."
-	slowdown_per_slot[slot_wear_suit] = 1
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 45, bomb = 50, bio = 75, rad = 100)
 	max_heat_protection_temperature = 25000
 	breach_threshold = 20

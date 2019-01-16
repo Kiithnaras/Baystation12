@@ -6,25 +6,39 @@
 	husk_icon = 'icons/mob/human_races/species/vox/husk.dmi'
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick,  /datum/unarmed_attack/claws/strong, /datum/unarmed_attack/punch, /datum/unarmed_attack/bite/strong)
 	rarity_value = 4
-	description = "The Vox are the broken remnants of a once-proud race, now reduced to little more than \
-	scavenging vermin who prey on isolated stations, ships or planets to keep their own ancient arkships \
-	alive. They are four to five feet tall, reptillian, beaked, tailed and quilled; human crews often \
-	refer to them as 'shitbirds' for their violent and offensive nature, as well as their horrible \
-	smell.<br/><br/>Most humans will never meet a Vox raider, instead learning of this insular species through \
+	description = "The Vox are a secretive and technologically-powerful race, though it may not seem such at \
+	first glance. They often prey upon isolated outposts, ships, or planets to scavenge technology and resources \
+	from others. They are four to five feet tall, reptillian, beaked, tailed and quilled; human crews often have \
+	referred to them as 'shitbirds' for their violent and offensive nature, as well as their unpleasant \
+	odor.<br/><br/>Most humans will never meet a Vox raider, instead learning of this insular species through \
 	dealing with their traders and merchants; those that do rarely enjoy the experience."
-	codex_description = "The Vox are a species from the edges of human space. They prey on isolated stations, ships \
-	or planets without any apparent logic or reason, and tend to refuse communications or negotiations except \
-	when their backs are to the wall. They are four to five feet tall, reptillian, beaked, tailed and quilled; \
-	crews often refer to them as 'shitbirds' for their violent and offensive nature, as well as their horrible \
-	smell."
+	codex_description = "The Vox are a species from the edges of human space. They prey on isolated stations, ships, \
+	or planets without any apparent logic or reason and often refuse communications or negotiations except \
+	in desperation. They are four to five feet tall, reptillian, beaked, tailed and quilled. Many scientific studies \
+	on the Vox have conjectured that they are not an evolved race but an engineered one, serving a purpose akin \
+	to the workers of a bee colony. They are substantially tough, fast, strong, and well-adapted to the rigors of \
+	space. Their use of Nitrogen for respiration - and the toxicity of Oxygen to their physiology - suggests \
+	a strong potential for immortality.<br/><br/>Many Human and crews refer \
+	to them as 'shitbirds' for their violent and offensive tendencies as well as their unpleasant odor. This practice \
+	is highly frowned-upon, however, as Vox are quick to take offense and seldom pleasant in the face of disrespect. Not \
+	all Vox are created equal, though, as some can be quite cordial and pragmatic. One such Arkship has gone \
+	so far as to exchange the labor, knowledge, and skills of its Vox for technology and materials. As such,\
+	all Vox should be treated with a cautious respect until circumstances reveal their intentions. Failure to do so \
+	may result in civil or criminal penalties subject to Sol Government Code 14524 subsection 42B through Q.<br/><br/>\
+	While Vox may be employed in nearly any position on a Nanotrasen facility, certain restrictions exist. First, any \
+	Vox employee must have their suit sensors at maximum at all times, regardless of alert levels. Second, any Vox in \
+	a Department Head or Command position must receive and maintain a Loyalty Implant. Vox transferring to a Nanotrasen \
+	facility from Regional Operations will be checked for and receive a Loyalty Implant if necessary, while any Vox \
+	elevated to a Command-level position will require one to be supplied <i>in situ</i>. Any Vox employee violating \
+	either of these conditions is to be confined immediately, fined, and have any deficiencies corrected."
 	hidden_from_codex = FALSE
 
 	taste_sensitivity = TASTE_DULL
 	speech_sounds = list('sound/voice/shriek1.ogg')
 	speech_chance = 33
 
-	brute_mod = 0.85
-	burn_mod = 0.85
+	brute_mod = 0.75
+	burn_mod = 0.75
 
 	warning_low_pressure = 50
 	hazard_low_pressure = 0
@@ -37,7 +51,8 @@
 	heat_level_2 = 800
 	heat_level_3 = 1550
 
-	darksight = 4
+	darksight_range = 4
+	darksight_tint = DARKTINT_GOOD
 
 	slowdown = -1
 
@@ -46,6 +61,7 @@
 
 	breath_type = "nitrogen"
 	poison_types = list("oxygen" = TRUE)
+	exhale_type = "ammonia"
 	siemens_coefficient = 0.2
 
 	species_flags = SPECIES_FLAG_NO_SCAN
@@ -54,6 +70,11 @@
 
 	blood_color = "#2299fc"
 	flesh_color = "#808d11"
+
+	min_age = 10
+	max_age = 1000
+
+	strength = STR_HIGH
 
 	reagent_tag = IS_VOX
 
@@ -108,16 +129,16 @@
 	H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/vox(H), slot_wear_mask)
 
 	if(istype(H.get_equipped_item(slot_back), /obj/item/weapon/storage/backpack))
-		H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_r_hand)
+		H.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency/nitrogen/double(H), slot_r_hand)
 		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
-		H.internal = H.r_hand
+//		H.internal = H.r_hand
 	else
-		H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_back)
+		H.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency/nitrogen/double(H), slot_back)
 		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_r_hand)
-		H.internal = H.back
+//		H.internal = H.back
 
-	if(H.internals)
-		H.internals.icon_state = "internal1"
+//	if(H.internals)
+//		H.internals.icon_state = "internal1"
 
 /datum/species/vox/disfigure_msg(var/mob/living/carbon/human/H)
 	var/datum/gender/T = gender_datums[H.get_gender()]

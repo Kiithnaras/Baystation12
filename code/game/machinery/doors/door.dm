@@ -278,8 +278,8 @@
 //Large Queens (empresses) can open regular doors faster and even bypass some of the measures, such as locked and welded doors.
 
 	var/mob/Xeno = user
-	var isAlien
-	if(istype(Xeno,/mob/living/carbon/human/xdrone)||istype(Xeno,/mob/living/carbon/human/xhunter)||istype(Xeno,/mob/living/carbon/human/xsentinel)||istype(Xeno,/mob/living/carbon/human/xqueen))
+	var/isAlien
+	if(istype(Xeno, /mob/living/carbon/human/xdrone) || istype(Xeno, /mob/living/carbon/human/xhunter) || istype(Xeno, /mob/living/carbon/human/xsentinel) || istype(Xeno, /mob/living/carbon/human/xqueen))
 		isAlien = 1
 
 	if(src.density && isAlien && !aforce)
@@ -340,23 +340,23 @@
 				user.visible_message("<span class='notice'>[user] digs their claws in and starts to force the door!</span>",\
 					"\green You dig your claws in and start to force the door!",\
 					"<span class='notice'>You hear a loud metallic thunk!</span>")
-					if(do_after(user, 30))
-						if(prob(34))
-							user.visible_message("<span class='notice'>[user] slowly forces \the door open!</span>",\
-								"\green You slowly force \the door open!",\
-								"<span class='notice'>You hear a door straining open.</span>")
-							open(1)
-							aforce = 0
-							return
-						else
-							user.visible_message("<span class='notice'>[user] struggles uselessly against \the airlock motors!</span>",\
-								"\green You struggle uselessly against \the airlock motors!",\
-								"You hear the faint whining of airlock motors.")
-							aforce = 0
-							return
-					else
+				if(do_after(user, 30))
+					if(prob(34))
+						user.visible_message("<span class='notice'>[user] slowly forces \the door open!</span>",\
+							"\green You slowly force \the door open!",\
+							"<span class='notice'>You hear a door straining open.</span>")
+						open(1)
 						aforce = 0
 						return
+					else
+						user.visible_message("<span class='notice'>[user] struggles uselessly against \the airlock motors!</span>",\
+							"\green You struggle uselessly against \the airlock motors!",\
+							"You hear the faint whining of airlock motors.")
+						aforce = 0
+						return
+				else
+					aforce = 0
+					return
 //End Alien door forcing section
 
 	if(src.allowed(user) && operable())

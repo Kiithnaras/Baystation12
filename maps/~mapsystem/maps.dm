@@ -24,6 +24,9 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	var/full_name = "Unnamed Map"
 	var/path
 
+	var/list/zlevels = list()
+	var/zlevel_datum_type			// If populated, all subtypes of this type will be instantiated and used to populate the *_levels lists.
+
 	var/list/station_levels = list() // Z-levels the station exists on
 	var/list/admin_levels = list()   // Z-levels for admin functionality (Centcom, shuttle transit, etc)
 	var/list/contact_levels = list() // Z-levels that can be contacted from the station, for eg announcements
@@ -302,6 +305,64 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 		world.maxz++
 		empty_levels = list(world.maxz)
 	return pick(empty_levels)
+/*
+// Get the list of zlevels that a computer on srcz can see maps of (for power/crew monitor, cameras, etc)
+// The long_range parameter expands the coverage.  Default is to return map_levels for long range otherwise just srcz.
+// zLevels outside station_levels will return an empty list.
+/datum/map/proc/get_map_levels(var/srcz, var/long_range = TRUE)
+	if (long_range && (srcz in map_levels))
+		return map_levels
+	else if (srcz in station_levels)
+		return list(srcz)
+	else
+		return list()
+
+/datum/map/proc/get_zlevel_name(var/index)
+	var/datum/map_z_level/Z = zlevels["[index]"]
+	return Z.name
+
+// Another way to setup the map datum that can be convenient.  Just declare all your zlevels as subtypes of a common
+// subtype of /datum/map_z_level and set zlevel_datum_type on /datum/map to have the lists auto-initialized.
+
+// Structure to hold zlevel info together in one nice convenient package.
+/datum/map_z_level
+	var/z = 0				// Actual z-index of the zlevel. This had better be right!
+	var/name				// Friendly name of the zlevel
+	var/flags = 0			// Bitflag of which *_levels lists this z should be put into.
+	var/turf/base_turf		// Type path of the base turf for this z
+	var/transit_chance = 0	// Percentile chance this z will be chosen for map-edge space transit.
+
+// Holomaps
+	var/holomap_offset_x = -1	// Number of pixels to offset the map right (for centering) for this z
+	var/holomap_offset_y = -1	// Number of pixels to offset the map up (for centering) for this z
+	var/holomap_legend_x = 96	// x position of the holomap legend for this z
+	var/holomap_legend_y = 96	// y position of the holomap legend for this z
+
+// Default constructor applies itself to the parent map datum
+
+// Default constructor applies itself to the parent map datum
+
+/datum/map_z_level/New(var/datum/map/map)
+	if(!z) return
+	map.zlevels["[z]"] = src
+	if(flags & MAP_LEVEL_STATION) map.station_levels += z
+	if(flags & MAP_LEVEL_ADMIN) map.admin_levels += z
+	if(flags & MAP_LEVEL_CONTACT) map.contact_levels += z
+	if(flags & MAP_LEVEL_PLAYER) map.player_levels += z
+	if(flags & MAP_LEVEL_SEALED) map.sealed_levels += z
+	if(flags & MAP_LEVEL_EMPTY)
+		if(!map.empty_levels) map.empty_levels = list()
+		map.empty_levels += z
+	if(flags & MAP_LEVEL_CONSOLES)
+		if (!map.map_levels) map.map_levels = list()
+		map.map_levels += z
+	if(base_turf)
+		map.base_turf_by_z["[z]"] = base_turf
+	if(transit_chance)
+		map.accessible_z_levels["[z]"] = transit_chance
+	// Holomaps
+	// Auto-center the map if needed (Guess based on maxx/maxy)
+*/
 
 
 /datum/map/proc/setup_economy()

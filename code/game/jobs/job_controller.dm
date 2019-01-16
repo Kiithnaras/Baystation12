@@ -168,7 +168,7 @@ var/global/datum/controller/occupations/job_master
 			job.make_position_available()
 			return 1
 		return 0
-	
+
 	proc/ClearSlot(var/rank) // Removing one from the current filled counter
 		var/datum/job/job = GetJob(rank)
 		if (job && job.current_positions > 0)
@@ -495,7 +495,11 @@ var/global/datum/controller/occupations/job_master
 		H.job = rank
 
 		if(!joined_late || job.latejoin_at_spawnpoints)
-			var/obj/S = get_roundstart_spawnpoint(rank)
+			var/obj/S
+			if(H.species.name == SPECIES_VOX)
+				S = get_roundstart_spawnpoint("Vox Employee")
+			else
+				S = get_roundstart_spawnpoint(rank)
 
 			if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
 				H.forceMove(S.loc)
@@ -652,6 +656,7 @@ var/global/datum/controller/occupations/job_master
 	var/mob/H = C.mob
 	var/spawnpoint = C.prefs.spawnpoint
 	var/datum/spawnpoint/spawnpos
+	var/S = H.get_species()
 
 	if(spawnpoint == DEFAULT_SPAWNPOINT_ID)
 		spawnpoint = GLOB.using_map.default_spawn
@@ -669,11 +674,16 @@ var/global/datum/controller/occupations/job_master
 			to_chat(H, "<span class='warning'>Your chosen spawnpoint ([spawnpos.display_name]) is unavailable for your chosen job ([rank]). Spawning you at another spawn point instead.</span>")
 		spawnpos = null
 
+	if(spawnpos && !spawnpos.check_species_spawning(S))
+		if(H)
+			to_chat(H, "<span class='warning'>Your chosen spawnpoint ([spawnpos.display_name]) is unavailable for your chosen species ([S]). Spawning you at another spawn point instead.</span>")
+		spawnpos = null
+
 	if(!spawnpos)
 		// Step through all spawnpoints and pick first appropriate for job
 		for(var/spawntype in GLOB.using_map.allowed_spawns)
 			var/datum/spawnpoint/candidate = spawntypes()[spawntype]
-			if(candidate.check_job_spawning(rank))
+			if(candidate.check_job_spawning(rank) && candidate.check_species_spawning(S))
 				spawnpos = candidate
 				break
 

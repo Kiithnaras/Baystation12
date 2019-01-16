@@ -94,11 +94,13 @@
 	report_danger_level = 0
 	breach_detection = 0
 
-/obj/machinery/alarm/server/New()
+/obj/machinery/alarm/server/Initialize()
 	..()
 	req_access = list(access_rd, access_atmospherics, access_engine_equip)
-	TLV["temperature"] =	list(T0C-26, T0C, T0C+30, T0C+40) // K
-	target_temperature = T0C+10
+	TLV["temperature"] =	list(T0C-240, T0C-220, T0C-100, T0C-80) // K
+	TLV["oxygen"] =			list(0, 0, 5, 10) // Partial pressure, kpa
+
+	target_temperature = T0C-195
 
 /obj/machinery/alarm/Destroy()
 	unregister_radio(src, frequency)
@@ -424,7 +426,7 @@
 	switch(mode)
 		if(AALARM_MODE_SCRUBBING)
 			for(var/device_id in alarm_area.air_scrub_names)
-				send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "scrubbing"= SCRUBBER_SCRUB, "panic_siphon"= 0) )
+				send_signal(device_id, list("power"= 1, "co2_scrub"= 1, "nh3_scrub"= 1, "scrubbing"= SCRUBBER_SCRUB, "panic_siphon"= 0) )
 			for(var/device_id in alarm_area.air_vent_names)
 				send_signal(device_id, list("power"= 1, "checks"= "default", "set_external_pressure"= "default") )
 
@@ -584,6 +586,8 @@
 				scrubbers[scrubbers.len]["filters"] += list(list("name" = "Carbon Dioxide", "command" = "co2_scrub","val" = info["filter_co2"]))
 				scrubbers[scrubbers.len]["filters"] += list(list("name" = "Toxin"	, 		"command" = "tox_scrub","val" = info["filter_phoron"]))
 				scrubbers[scrubbers.len]["filters"] += list(list("name" = "Nitrous Oxide",	"command" = "n2o_scrub","val" = info["filter_n2o"]))
+				scrubbers[scrubbers.len]["filters"] += list(list("name" = "Ammonia",		"command" = "nh3_scrub","val" = info["filter_nh3"]))
+				scrubbers[scrubbers.len]["filters"] += list(list("name" = "Hydrogen",		"command" = "h2_scrub", "val" = info["filter_h2"]))
 			data["scrubbers"] = scrubbers
 		if(AALARM_SCREEN_MODE)
 			var/modes[0]
@@ -690,6 +694,8 @@
 					"co2_scrub",
 					"tox_scrub",
 					"n2o_scrub",
+					"nh3_scrub",
+					"h2_scrub",
 					"panic_siphon")
 
 					send_signal(device_id, list(href_list["command"] = text2num(href_list["val"]) ) )
@@ -1245,8 +1251,8 @@ Just a object used in constructing fire alarms
 	if(. == TOPIC_REFRESH)
 		attack_hand(user)
 
-/obj/machinery/alarm/voxdock/New()
-	..()
+/obj/machinery/alarm/voxdock/Initialize()
+	.=..()
 	TLV["oxygen"] =			list(-1, -1, 0.5, 1.0) //Partial pressure, kpa
 	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.75,ONE_ATMOSPHERE*0.85,ONE_ATMOSPHERE*1.20,ONE_ATMOSPHERE*1.30)
 	TLV["temperature"] =	list(T0C-40, T0C, T0C+40, T0C+100)

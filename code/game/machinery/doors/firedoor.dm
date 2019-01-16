@@ -141,30 +141,27 @@
 
 	if(src.density && isAlien && !aforce)//Firelock mechanics. Mostly duplicated, but necessarily, due to different variables in Firedoors vs Airlocks
 		if(blocked) //Behavior for welded airlocks. Duplicate for Firedoors. We don't care if they're powered or not - same behavior with or without power.
-			if(istype(Xeno,/mob/living/carbon/alien/humanoid/xqueen/large))
-				aforce = 1
-				user.visible_message("<span class='notice'>[user] jabs its big claws into \the door weld and yanks!</span>",\
-					"\green You jab your big claws into \the door weld and yank!",\
-					"<span class='notice'>"You hear a loud metallic thunk!</span>")
-				if(do_after(user,20))
-					if(prob(25))
-						user.visible_message("<span class='warning'>[user] rips \the door weld apart and forces \the doors open!</span>",\
-							"\green You rip \the door weld apart and force \the doors open!",\
-							"<span class='warning>You hear the sound of metal tearing and a door being forced open!"</span>)
-						blocked = 0
-						aforce = 0
-						open()
-						return
-					else
-						user.visible_message("<span class='notice'>[user] struggles against \the welded door in vain!</span>",\
-							"\green You struggle against the door in vain!")
-						aforce = 0
-						return
+			aforce = 1
+			user.visible_message("<span class='notice'>[user] jabs its claws into \the door weld and yanks!</span>",\
+				"\green You jab your claws into \the door weld and yank!",\
+				"<span class='notice'>You hear a loud metallic thunk!</span>")
+			if(do_after(user,40))
+				if(prob(25))
+					user.visible_message("<span class='warning'>[user] rips \the door weld apart and forces \the doors open!</span>",\
+						"\green You rip \the door weld apart and force \the doors open!",\
+						"<span class='warning>You hear the sound of metal tearing and a door being forced open!</span>")
+					blocked = 0
+					aforce = 0
+					open(1)
+					return
 				else
+					user.visible_message("<span class='notice'>[user] struggles against \the welded door in vain!</span>",\
+						"\green You struggle against the door in vain!",\
+						"You hear some metallic scratching.")
 					aforce = 0
 					return
 			else
-				to_chat(user, "\green There is no way to force open a welded door!")
+				aforce = 0
 				return
 		if((stat & NOPOWER) && !(blocked)) //Finally! Behavior for airlocks without power that are neither welded nor bolted! Duplicate for Firelocks.
 			sleep(5)
@@ -175,45 +172,26 @@
 			return
 		if(!(stat & NOPOWER)) //Standard operation of airlocks. Easier to force firedoors than to open airlocks.
 			aforce = 1
-			user.visible_message(<span class='notice'>"[user] digs their claws in and starts to force \the door!</span>",\
+			user.visible_message("<span class='notice'>[user] digs their claws in and starts to force \the door!</span>",\
 				"\green You dig your claws in and start to force \the door!",\
 				"<span class='notice'>You hear a metallic thunk.</span>")
-			if(istype(Xeno,/mob/living/carbon/alien/humanoid/xqueen/large))
-				if(do_after(user, 20))
-					if(prob(34))
-						user.visible_message("<span class='notice'>[user] mightily forces open the door!</span>",\
-							"\green You mightily force open the door!".\
-							"<span class='notice'>You hear a door straining open.</span>")
-						open()
-						aforce = 0
-						return
-					else
-						user.visible_message("<span class='notice'>[user]'s mighty claws slip off of the door!</span>",\
-							"\green Your mighty claws slip out of the door!".\
-							"You hear a faint scratching.")
-						aforce = 0
-						return
+			if(do_after(user, 40))
+				if(prob(34))
+					user.visible_message("<span class='notice'>[user] slowly forces the door open!</span>",\
+						"\green You slowly force the door open!",\
+						"<span class='notice'>You hear a door straining open.</span>")
+					open(1)
+					aforce = 0
+					return
 				else
+					user.visible_message("<span class='notice'>[user] struggles uselessly against \the airlock motors!</span>",\
+						"\green You struggle uselessly against \the airlock motors!",\
+						"You briefly hear the whine of door motors.")
 					aforce = 0
 					return
 			else
-				if(do_after(user, 30))
-					if(prob(25))
-						user.visible_message("<span class='notice'>[user] slowly forces the door open!</span>",\
-							"\green You slowly force the door open!".\
-							"<span class='notice'>You hear a door straining open.</span>)
-						open()
-						aforce = 0
-						return
-					else
-						user.visible_message("<span class='notice'>[user] struggles uselessly against \the airlock motors!</span>",\
-							"\green You struggle uselessly against \the airlock motors!".\
-							"You briefly hear the whine of door motors.")
-						aforce = 0
-						return
-				else
-					aforce = 0
-					return
+				aforce = 0
+				return
 
 //End Alien Door-forcing section
 

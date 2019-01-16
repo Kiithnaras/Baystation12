@@ -16,6 +16,12 @@
 /obj/machinery/camera/network/research
 	network = list(NETWORK_RESEARCH)
 
+/obj/machinery/camera/network/command
+	network = list(NETWORK_COMMAND)
+
+/obj/machinery/camera/network/central
+	network = list(NETWORK_CENTRAL)
+
 /obj/machinery/camera/network/security
 	network = list(NETWORK_SECURITY)
 

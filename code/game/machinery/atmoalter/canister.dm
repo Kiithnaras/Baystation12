@@ -13,7 +13,7 @@
 
 	var/canister_color = "yellow"
 	var/can_label = 1
-	start_pressure = 45 * ONE_ATMOSPHERE
+	start_pressure = 50 * ONE_ATMOSPHERE
 	var/temperature_resistance = 1000 + T0C
 	volume = 1000
 	interact_offline = 1 // Allows this to be used when not in powered area.
@@ -289,8 +289,8 @@ update_flag
 	data["portConnected"] = connected_port ? 1 : 0
 	data["tankPressure"] = round(air_contents.return_pressure() ? air_contents.return_pressure() : 0)
 	data["releasePressure"] = round(release_pressure ? release_pressure : 0)
-	data["minReleasePressure"] = round(ONE_ATMOSPHERE/10)
-	data["maxReleasePressure"] = round(10*ONE_ATMOSPHERE)
+	data["minReleasePressure"] = round(ONE_ATMOSPHERE/100)
+	data["maxReleasePressure"] = round(100*ONE_ATMOSPHERE)
 	data["valveOpen"] = valve_open ? 1 : 0
 
 	data["hasHoldingTank"] = holding ? 1 : 0
@@ -336,9 +336,9 @@ update_flag
 	else if (href_list["pressure_adj"])
 		var/diff = text2num(href_list["pressure_adj"])
 		if(diff > 0)
-			release_pressure = min(10*ONE_ATMOSPHERE, release_pressure+diff)
+			release_pressure = min(100*ONE_ATMOSPHERE, release_pressure+diff)
 		else
-			release_pressure = max(ONE_ATMOSPHERE/10, release_pressure+diff)
+			release_pressure = max(ONE_ATMOSPHERE/100, release_pressure+diff)
 		. = TOPIC_REFRESH
 
 	else if (href_list["relabel"])
