@@ -103,8 +103,13 @@
 /datum/evacuation_controller/shuttle/process()
 	if(state == EVAC_PREPPING)
 		if(!isnull(shuttle_launch_time) && world.time > shuttle_launch_time && shuttle.moving_status == SHUTTLE_IDLE)
-			shuttle.launch()
-			shuttle_launch_time = null
+			if(!shuttle.next_location.is_valid(shuttle))
+				shuttle_launch_time += 1 MINUTE
+				evac_ready_time += 1 MINUTE
+				priority_announcement.Announce("<span class='notice'><b>Alert: Shuttle destination area obstructed! We're holding the shuttle for another minute. Clear the docking area of all structures and materiel!</b></span>")
+			else
+				shuttle.launch()
+				shuttle_launch_time = null
 		return
 	else if(state == EVAC_IN_TRANSIT)
 		return
