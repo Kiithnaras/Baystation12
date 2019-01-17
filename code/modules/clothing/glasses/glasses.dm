@@ -1,9 +1,9 @@
 /obj/item/clothing/glasses
 	name = "glasses"
 	icon = 'icons/obj/clothing/obj_eyes.dmi'
-	sprite_sheets = list(
+/*	sprite_sheets = list(
 		SPECIES_UNATHI = 'icons/mob/species/unathi/generated/onmob_eyes_unathi.dmi'
-		)
+		)*/ //Source of endless frustration - defined in clothing.dm, but overwritten here. Fixing this stupid shit.
 	var/hud_type
 	var/prescription = FALSE
 	var/toggleable = FALSE

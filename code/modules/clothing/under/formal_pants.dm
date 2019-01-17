@@ -8,6 +8,7 @@
 	body_parts_covered = LOWER_TORSO|LEGS
 	item_icons = list(slot_w_uniform_str = 'icons/mob/onmob/onmob_under_pants.dmi')
 	sprite_sheets = list(
+		SPECIES_VOX = 'icons/mob/species/vox/onmob_under_vox.dmi',
 		SPECIES_UNATHI = 'icons/mob/species/unathi/generated/onmob_under_pants_unathi.dmi',
 		)
 

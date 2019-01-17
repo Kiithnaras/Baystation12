@@ -54,6 +54,7 @@
 	icon_state = "vox-pressure"
 	desc = "Hey, wasn't this a prop in \'The Abyss\'?"
 	armor = list(melee = 25, bullet = 10, laser = 15, energy = 10, bomb = 30, bio = 100, rad = 100)
+	light_overlay = "explorer_light"
 
 /obj/item/clothing/suit/space/vox/pressure
 	name = "alien pressure suit"
@@ -66,6 +67,7 @@
 	icon_state = "vox-carapace"
 	desc = "A glowing visor, perhaps stolen from a depressed Cylon."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
+	light_overlay = "null_light"
 
 /obj/item/clothing/suit/space/vox/carapace
 	name = "alien carapace armour"
@@ -84,6 +86,7 @@
 	desc = "A smoothly contoured, matte-black alien helmet."
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 45, bomb = 50, bio = 75, rad = 100)
 	max_heat_protection_temperature = 25000
+	light_overlay = "helmet_light"
 
 /obj/item/clothing/suit/space/vox/stealth
 	name = "alien stealth suit"
@@ -98,6 +101,7 @@
 	icon_state = "vox-medic"
 	desc = "An alien helmet with enormous goggled lenses."
 	armor = list(melee = 35, bullet = 25, laser = 15, energy = 20, bomb = 40, bio = 100, rad = 75)
+	light_overlay = "helmet_light_dual_green"
 
 /obj/item/clothing/suit/space/vox/medic
 	name = "alien armour"
