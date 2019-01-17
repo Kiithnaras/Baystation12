@@ -297,11 +297,14 @@
 	name = "Holding Facility"
 	docking_controller = "centcom_arrival"
 	landmark_tag = "arrival_centcom"
+	base_area = /area/space
+	base_turf = /turf/space
 
 /obj/effect/shuttle_landmark/arrival/transit
 	name = "In Transit"
 	landmark_tag = "arrival_interim"
 	base_turf = /turf/space/bluespace
+	base_area = /area/space
 
 /datum/shuttle/autodock/multi/antag/skipjack
 	name = "Skipjack"
