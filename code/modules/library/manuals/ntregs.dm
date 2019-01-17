@@ -38,7 +38,7 @@
 		</li>
 		<li class="toclevel-1 tocsection-7"><a href="#Minor_Violations_.28Corporate.29"><span class="tocnumber">2</span> <span class="toctext">Minor Violations (Corporate)</span></a></li>
 		<li class="toclevel-1 tocsection-8"><a href="#Major_Violations_.28Corporate.29"><span class="tocnumber">3</span> <span class="toctext">Major Violations (Corporate)</span></a></li>
-		<li class="toclevel-1 tocsection-9"><a href="#Sif_Law"><span class="tocnumber">4</span> <span class="toctext">Sif Law</span></a>
+		<li class="toclevel-1 tocsection-9"><a href="#UEE_Law"><span class="tocnumber">4</span> <span class="toctext">UEE Law</span></a>
 		<ul>
 		<li class="toclevel-2 tocsection-10"><a href="#Punishments_.28Law.29"><span class="tocnumber">4.1</span> <span class="toctext">Punishments (Law)</span></a></li>
 		<li class="toclevel-2 tocsection-11"><a href="#Minor_Violations_.28Law.29"><span class="tocnumber">4.2</span> <span class="toctext">Minor Violations (Law)</span></a></li>
@@ -55,16 +55,16 @@
 		</p>
 		<ul><li> Fines, the preferred penalty to be used for minor Corp Reg violations. If someone is unable or unwilling to pay the fine, the punishment may be substituted with time spent inside the brig.</li>
 		<li> Brig time, an alternative to monetary fines or at the offender's discretion. Brig time and fines cannot be used together for the same crime. If multiple crimes are committed, you may fine for one and brig for the other. Brig time may also be used for repeat offenders.</li>
-		<li> Write-ups to Central Command may be recommended or mandated for specific offenses. Internal Affairs is to ensure that this is adhered to, and assist if needed.</li>
+		<li> Write-ups to Regional Operations may be recommended or mandated for specific offenses. Internal Affairs is to ensure that this is adhered to, and assist if needed.</li>
 		<li> Reassignments as a form of punishment may be done by the Station Director as long as there is consent from the offender's Superior, if one exists. Generally the new role for the offender is usually menial or related to their offense, for example: Janitor, Miner, Cook, Gardener. This punishment can be especially fitting for certain violations such as someone who made graffiti being reassigned to janitorial duties.</li>
 		<li> Demotions may be done by the offender's Superior, at their discretion. The Station Director may also do this, however the Director is recommended to defer to the offender's direct Superior if one exists.</li>
-		<li> Terminations of employment from NanoTrasen can only be issued by the Station Director. This is the most severe corporate punishment available. Note that visitors and other non-employees cannot be terminated and that Central Command must be informed of the termination if one is applied.</li>
+		<li> Terminations of employment from NanoTrasen can only be issued by the Station Director. This is the most severe corporate punishment available. Note that visitors and other non-employees cannot be terminated and that Regional Operations must be informed of the termination if one is applied.</li>
 		<li> An order of Holding until Transfer is an option reserved for the Station Director (acting and not) and is only for repeat offenders, those who commit serious violations of Regulations, or if the offender poses a credible threat to the station or crew.</li></ul>
 		<h2><span class="mw-headline" id="Contraband">Contraband</span></h2>
 		<p>Here is a list of various types of 'contraband' that are prohibited from being brought onto the facility, as well as a list of items that are not contraband, despite popular belief.
 		</p>
 		<h3><span class="mw-headline" id="Not_Contraband">Not Contraband</span></h3>
-		<p>Here is a list of objects which are not actually contraband aboard NanoTrasen facilities in Vir, despite popular belief.
+		<p>Here is a list of objects which are not actually contraband aboard NanoTrasen facilities within Pyro and all UEE Protectorate Space, despite popular belief.
 		</p>
 		<ul><li> Blades or other Equipment which the possessor needs in order to fulfill their role aboard the facility, such as a kitchen knife for culinary personnel.</li>
 		<li> Handheld Flashes, which are useful for self-defense, as well as building certain machinery.</li></ul>
@@ -243,7 +243,7 @@
 		<td> No.
 		</td></tr></table>
 		<h1><span class="mw-headline" id="Major_Violations_.28Corporate.29">Major Violations (Corporate)</span></h1>
-		<p>Here is a list of the more severe violations of Corporate Regulations that might occur. If someone is guilty of a violation listed here, it is highly recommended that a report be sent to your local Central Command.
+		<p>Here is a list of the more severe violations of Corporate Regulations that might occur. If someone is guilty of a violation listed here, it is highly recommended that a report be sent to your local Regional Operations.
 		</p>
 		<table width="90%" style="background-color:#66ccff; text-align:center; border-collapse:collapse" border="1">
 		<tr>
@@ -262,7 +262,7 @@
 		</td>
 		<td> Being in an restricted or otherwise dangerous (to themselves or others) area which they do not have authorization have permission to be in.
 		</td>
-		<td> Demotion. Termination at discretion of Station Admin. Send notice to Central Command.
+		<td> Demotion. Termination at discretion of Station Admin. Send notice to Regional Operations.
 		</td>
 		<td> Also sometimes called Infiltration. Such areas include the AI upload/core, Armory, Engine, Atmospherics, Virology, Bridge, Station Admin's office. Other areas may warrant the Minor Trespass charge instead.
 		</td>
@@ -273,7 +273,7 @@
 		</td>
 		<td> Acting beyond what is allowed by Corporate Regulations or Standard Operating Procedure, generally as a member of Command or Security.
 		</td>
-		<td> Demotion or termination at discretion of Station Admin. Send notice to Central Command if a Head of Staff or Station Director had exceeded their powers.
+		<td> Demotion or termination at discretion of Station Admin. Send notice to Regional Operations if a Head of Staff or Station Director had exceeded their powers.
 		</td>
 		<td> The difference between this and Abuse of Office is that this charge is for instances of someone using their position to go beyond their assigned role (Ex:HOP randomly acting as security), or generally acting 'above the regulations'.
 		</td>
@@ -284,7 +284,7 @@
 		</td>
 		<td> Doing illegal, immoral, or otherwise disallowed actions, in an official capacity, placing their own interests ahead of the interests of the Company.
 		</td>
-		<td> Demotion. Termination at discretion of Station Admin. Send notice to Central Command if a Head of Staff or Station Director had abused their office.
+		<td> Demotion. Termination at discretion of Station Admin. Send notice to Regional Operations if a Head of Staff or Station Director had abused their office.
 		</td>
 		<td> The difference between this and Exceeding Official Powers is that this charge is for instances of someone using their authority to adversely and without cause, affect another crewmember or visitor, or otherwise empowering themselves for their own personal gain.
 		</td>
@@ -295,7 +295,7 @@
 		</td>
 		<td> Carrying an object which Nanotrasen deems dangerous to the welfare of the station as a whole, such as a deadly weapon, by someone not authorized to handle it.
 		</td>
-		<td> Confiscation of the restricted item, and notice be sent to Central Command. Persons may be detained and investigated if deemed necessary.
+		<td> Confiscation of the restricted item, and notice be sent to Regional Operations. Persons may be detained and investigated if deemed necessary.
 		</td>
 		<td> Visitors boarding the station with restricted items must leave the item outside the station (e.g. vessel), or surrender it to the Security team. A list of restricted items are provided inside this book.
 		<p>Roles authorized to handle a weapon by default include; Station Director, Head of Personnel, Head of Security, Security Officers, Detectives, and anyone possessing a valid weapon permit.
@@ -330,7 +330,7 @@
 		</td>
 		<td> To lie in an official report.
 		</td>
-		<td> Demotion. Termination at discretion of Station Director. Notify Central Command.
+		<td> Demotion. Termination at discretion of Station Director. Notify Regional Operations.
 		</td>
 		<td> This includes lying or withholding information to your superior in a report or lying to the crew about a situation.
 		</td>
@@ -341,7 +341,7 @@
 		</td>
 		<td> To demote, dismiss, terminate, or otherwise reduce a crewmember's rank for no valid reason. Should the reason be proven invalid, reinstatement of the employee must be done at first opportunity.
 		</td>
-		<td> Demotion. Termination at discretion of Station Director. Notify Central Command.
+		<td> Demotion. Termination at discretion of Station Director. Notify Regional Operations.
 		</td>
 		<td> An Internal Affairs Agent is required to do an investigation in order to conclude if this has occurred or not. Security cannot give this charge out on their own.
 		</td>
@@ -358,14 +358,14 @@
 		</td>
 		<td> No.
 		</td></tr></table>
-		<h1><span class="mw-headline" id="Sif_Law">Sif Law</span></h1>
-		<p>This section contains the abbreviated Vir Govermental Authority legal code's potential charges for crimes that are relevant to the reader.
+		<h1><span class="mw-headline" id="UEE_Law">UEE Law</span></h1>
+		<p>This section contains the abbreviated UEE Protectorate Service's (UEEPS) legal code's potential charges for crimes that are relevant to the reader.
 		</p>
 		<h2><span class="mw-headline" id="Punishments_.28Law.29">Punishments (Law)</span></h2>
-		<p>A violation of Sif Law is considered far more serious then a violation of corporate regulations. As a result, its expected that a member of Internal Affairs be present to observe and assist security with the paperwork if they are able. Unlike Corporate Regulations, all violations of Sif Law will require a fax detailing the events to be sent to the Vir Governmental Authority within a certain amount of time based on whether or not it was a minor or major violation. Punishments will usually include brig time with fines still remaining an option for the far less serious crimes. It should be noted that a majority of major violations carry a 'Hold till Transfer' order.
+		<p>A violation of UEE Law is considered far more serious then a violation of corporate regulations. As a result, its expected that a member of Internal Affairs be present to observe and assist security with the paperwork if they are able. Unlike Corporate Regulations, all violations of UEE Law will require a fax detailing the events to be sent to the UEE Protectorate Service within a certain amount of time based on whether or not it was a minor or major violation. Punishments will usually include brig time with fines still remaining an option for the far less serious crimes. It should be noted that a majority of major violations carry a 'Hold till Transfer' order.
 		</p>
 		<h2><span class="mw-headline" id="Minor_Violations_.28Law.29">Minor Violations (Law)</span></h2>
-		<p>Here is a list of the less severe violations of local Sif Law that might occur on your facility. A fax to the Vir Governmental Authority is required to be sent within 24 hours of a violation being committed, for minor violations listed here.
+		<p>Here is a list of the less severe violations of local UEE Law that might occur on your facility. A fax to the UEE Protectorate Service is required to be sent within 24 hours of a violation being committed, for minor violations listed here.
 		</p>
 		<table width="90%" style="background-color:#ffee99; text-align:center; border-collapse:collapse" border="1">
 		<tr>
@@ -450,9 +450,9 @@
 		</td>
 		<td> Failing to carry or present an EIO-issued Drone Identification card as a Drone intelligence.
 		</td>
-		<td> 200 thaler fine. Give Drone a temporary paper stating that it is a drone, if the ID was lost. Fax SifGov. Inform owner of Drone if possible. Instruct Drone to obtain new ID at its earliest opportunity, if it was lost.
+		<td> 200 thaler fine. Give Drone a temporary paper stating that it is a drone, if the ID was lost. Fax UEEPS. Inform owner of Drone if possible. Instruct Drone to obtain new ID at its earliest opportunity, if it was lost.
 		</td>
-		<td> This is only applicable to Drone intelligences which possess autonomous capability. It must be proven that the offender is a Drone, which can be accomplished in various ways, generally with the expertise of a Roboticist. Lawbound synthetics, maintenance drones, and simple bots do not require an ID card. No fine or SifGov fax should be sent if the Drone's ID was lost due to theft and the ID is able to be recovered.
+		<td> This is only applicable to Drone intelligences which possess autonomous capability. It must be proven that the offender is a Drone, which can be accomplished in various ways, generally with the expertise of a Roboticist. Lawbound synthetics, maintenance drones, and simple bots do not require an ID card. No fine or UEEPS fax should be sent if the Drone's ID was lost due to theft and the ID is able to be recovered.
 		</td>
 		<td> Yes.
 		</td></tr>
@@ -468,7 +468,7 @@
 		<td> Yes.
 		</td></tr></table>
 		<h2><span class="mw-headline" id="Major_Violations_.28Law.29">Major Violations (Law)</span></h2>
-		<p>Here is a list of the serious violations of local Sif Law that might occur on your facility. A fax to the Vir Governmental Authority is required to be sent within one hour, or when it is safe to do so, for major crimes listed here.
+		<p>Here is a list of the serious violations of local UEE Law that might occur on your facility. A fax to the UEE Protectorate Service is required to be sent within one hour, or when it is safe to do so, for major crimes listed here.
 		</p>
 		<table width="90%" style="background-color:#ffaa99; text-align:center; border-collapse:collapse" border="1">
 		<tr>
@@ -509,7 +509,7 @@
 		</td>
 		<td> Stealing money that is entrusted to you by a corporation or person.
 		</td>
-		<td> Hold until Transfer. Termination. Reimbursement of embezzled funds. Fax Central Command and SifGov.
+		<td> Hold until Transfer. Termination. Reimbursement of embezzled funds. Fax Regional Operations and UEE Protectorate Services.
 		</td>
 		<td> This includes funneling Departmental, Facility, or Crew funds into the offender's account. It also includes pocketing transactions directly that are meant to go to a separate account.
 		</td>
@@ -520,7 +520,7 @@
 		</td>
 		<td> Using more force than what is required to safely detain someone, using force against a helpless or incapacitated person, or using force against an unarmed and compliant person.
 		</td>
-		<td> Demotion. Termination at discretion of Superior, or Station Director. Send notice to Central Command if a Head of Security had used excessive force.
+		<td> Demotion. Termination at discretion of Superior, or Station Director. Send notice to Regional Operations if a Head of Security had used excessive force.
 		</td>
 		<td> This charge also is applicable to non-Security personnel acting in self defense, or otherwise acting in a Security-like capacity. Persons whom have caused a person to die as a result of excessive force should have Manslaughter applied instead, if the circumstances were unjustified.
 		</td>
@@ -531,7 +531,7 @@
 		</td>
 		<td> To kill a sapient being without intent.
 		</td>
-		<td> Hold until Transfer, if unjustified. Fax SifGov.
+		<td> Hold until Transfer, if unjustified. Fax UEEPS.
 		</td>
 		<td> Includes provoked manslaughter, negligent manslaughter, and impassioned killing. The important distinction between this and Murder is intent. Manslaughter can be justified if force was necessary and it was intended to prevent further loss of life or grievous injury to self or others, however persons involved in the kill will still be required to answer to higher legal authority after the shift.
 		</td>
@@ -542,7 +542,7 @@
 		</td>
 		<td> To kill or attempt to kill a sapient being with malicious intent.
 		</td>
-		<td> Hold until Transfer. Termination. Fax SifGov.
+		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
 		<td> The distinction between this and Manslaughter is intent. Sapients held within synthetic bodies, lawbound or otherwise, which receive critical damage from someone can be considered a murder attempt.
 		</td>
@@ -562,7 +562,7 @@
 		</td>
 		<td> Modifying a bound synthetic's lawset or chassis, in order to force it to do illegal, humiliating, dangerous, or other unlawful acts.
 		</td>
-		<td> Hold until Transfer. Termination. Fax SifGov.
+		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
 		<td> If the synthetic is a cyborg or positronic, this is also an offense against the Sapient Rights laws federally mandated by the Solar Confederate Government.
 		</td>
@@ -573,7 +573,7 @@
 		</td>
 		<td> Experimenting with technologies deemed unsafe or are otherwise federally restricted by the Solar Confederate Government.
 		</td>
-		<td> Hold until Transfer. Termination. Fax SifGov. Delete, destroy, or otherwise remove the experiments.
+		<td> Hold until Transfer. Termination. Fax UEEPS. Delete, destroy, or otherwise remove the experiments.
 		</td>
 		<td> Unsafe technologies include unrestricted nanomachinery, massive sapient body bio-augmentation, massive sapient brain augmentation, massively self-improving AI, and animal uplifting.
 		</td>
@@ -597,7 +597,7 @@
 		</td>
 		<td> To steal items that are dangerous, of a high value, or a sensitive nature.
 		</td>
-		<td> Hold until Transfer. Termination. Fax SifGov.
+		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
 		<td> This can include the following;
 		<ul><li> Deadly Weapons or Firearms.</li>
@@ -626,7 +626,7 @@
 		</td>
 		<td> To deliberately damage, or attempt to damage the facility, or critical systems of the facility.
 		</td>
-		<td> Hold until Transfer. Termination. Fax SifGov.
+		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
 		<td> This includes causing hull breaches, arson, sabotaging air supplies, stealing vital equipment, tampering with AI or telecomm systems, and sabotaging the Engine. If someone has only caused minor damage, the Vandalism charge should be used instead.
 		</td>
@@ -637,7 +637,7 @@
 		</td>
 		<td> To unlawfully confine, transport, or hold a sapient being against that individual's will.
 		</td>
-		<td> Hold until Transfer. Termination. Fax SifGov.
+		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
 		<td> Persons held for ransom or exchange are also considered to be hostages for this charge.
 		</td>
@@ -648,7 +648,7 @@
 		</td>
 		<td> To engage in maliciously destructive actions, which seriously threaten the crew or facility, or the usage of weapons of mass destruction.
 		</td>
-		<td> Hold until Transfer. Termination. Fax SifGov.
+		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
 		<td> This includes the use of mass bombings, mass murder, releasing harmful biological agents, nuclear weapons, radiological weapons, and chemical weapons.
 		</td>

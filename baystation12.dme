@@ -186,7 +186,6 @@
 #define DEBUG
 // END_PREFERENCES
 // BEGIN_INCLUDE
-#include "ntregs.dm"
 #include "code\_macros.dm"
 #include "code\client_macros.dm"
 #include "code\hub.dm"
@@ -1919,6 +1918,7 @@
 #include "code\modules\library\manuals\manuals.dm"
 #include "code\modules\library\manuals\medical.dm"
 #include "code\modules\library\manuals\nanotrasen.dm"
+#include "code\modules\library\manuals\ntregs.dm"
 #include "code\modules\library\manuals\security.dm"
 #include "code\modules\library\manuals\union.dm"
 #include "code\modules\library\manuals\vox.dm"

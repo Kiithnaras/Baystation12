@@ -33,6 +33,7 @@
 	max_skill = list(   SKILL_PILOT       = SKILL_MAX,
 	                    SKILL_SCIENCE     = SKILL_MAX)
 	skill_points = 54
+	alt_titles = list("Commander","Overseer")
 
 /datum/job/hop
 	ideal_character_age = 35
@@ -50,6 +51,7 @@
 	                    SKILL_SCIENCE     = SKILL_MAX)
 
 	skill_points = 36
+	alt_titles = list("Human Resources Director","Director of Human Resources")
 
 /datum/job/hop/equip(var/mob/living/carbon/human/H)
 	. = ..()
@@ -143,11 +145,13 @@
 							 /datum/computer_file/program/digitalwarrant,
 							 /datum/computer_file/program/camera_monitor,
 							 /datum/computer_file/program/reports)
+	alt_titles = list("Chief of Security","Security Chief")
 
 //Security
 
 /datum/job/warden
 	skill_points = 32
+	alt_titles = list("Armory Quartermaster","Prison Overseer")
 
 /datum/job/detective
 	skill_points = 32
@@ -218,6 +222,7 @@
 
 /datum/job/lawyer
 	skill_points = 48
+	alt_titles = list("Corporate Investigator","Regional Operations Agent")
 
 /datum/job/assistant
 	skill_points = 24

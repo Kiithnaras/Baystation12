@@ -49,6 +49,8 @@
 		shuttle.move_time = evac_transit_delay/10
 		evac_arrival_time += shuttle.warmup_time*10
 		shuttle.launch(src)
+	if(auxshuttle.current_location == "arrival_station")
+		auxshuttle.launch(src)
 //		departed = 1
 	// Announcements, state changes and such are handled by the shuttle itself to prevent desync.
 
@@ -145,7 +147,7 @@
 	if (!evacuation_controller)
 		return
 	if (evacuation_controller.deny)
-		to_chat(user, "Unable to initiate evacuation procedurshuttle.")
+		to_chat(user, "Unable to initiate evacuation procedures.")
 		return
 	if (evacuation_controller.is_on_cooldown())
 		to_chat(user, evacuation_controller.get_cooldown_message())
@@ -154,7 +156,7 @@
 		to_chat(user, "Evacuation procedures already in progress.")
 		return
 	if (evacuation_controller.call_evacuation(user, 1))
-		log_and_message_admins("[user? key_name(user) : "Autotransfer"] has initiated emergency departure procedurshuttle.")
+		log_and_message_admins("[user? key_name(user) : "Autotransfer"] has initiated emergency departure procedures.")
 
 /datum/evacuation_option/recall_shuttle
 	option_text = "Cancel shuttle call"
@@ -178,7 +180,7 @@
 	if (!evacuation_controller)
 		return
 	if (evacuation_controller.deny)
-		to_chat(user, "Unable to initiate crew transfer procedurshuttle.")
+		to_chat(user, "Unable to initiate crew transfer procedures.")
 		return
 	if (evacuation_controller.is_on_cooldown())
 		to_chat(user, evacuation_controller.get_cooldown_message())

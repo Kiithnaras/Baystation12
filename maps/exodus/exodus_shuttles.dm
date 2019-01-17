@@ -209,11 +209,11 @@
 	dock_target = "supply_shuttle"
 
 /obj/effect/shuttle_landmark/supply/centcom
-	name = "Offsite"
+	name = "RegOps"
 	landmark_tag = "nav_cargo_start"
 
 /obj/effect/shuttle_landmark/supply/station
-	name = "Hangar"
+	name = "Cargo Bay"
 	landmark_tag = "nav_cargo_station"
 	docking_controller = "cargo_bay"
 
@@ -230,7 +230,7 @@
 	current_location = "departure_centcom"
 
 /obj/effect/shuttle_landmark/departure/start
-	name = "Safe"
+	name = "Holding Facility"
 	docking_controller ="centcom_dock"
 	landmark_tag = "departure_centcom"
 	base_area = /area/space
@@ -244,11 +244,55 @@
 
 
 /obj/effect/shuttle_landmark/departure/station
-	name = "Station"
+	name = "NSS Endeavor"
 	docking_controller = "escape_dock"
 	landmark_tag = "departure_station"
 	base_area = /area/space
 	base_turf = /turf/space
+
+/datum/shuttle/autodock/ferry/arrival
+	name = "Arrival"
+	var/datum/evacuation_controller/shuttle/emergency_controller
+	warmup_time = 10
+	shuttle_area = /area/shuttle/arrival/station
+	current_location = "arrival_station"
+	waypoint_station = "arrival_station"
+	waypoint_offsite = "arrival_centcom"
+	landmark_transition = "arrival_interim"
+	move_time = 360
+	dock_target = "arrival_shuttle"
+
+/datum/evacuation_controller/shuttle
+	var/datum/shuttle/autodock/ferry/arrival/auxshuttle
+
+/datum/shuttle/autodock/ferry/arrival/New()
+	emergency_controller = evacuation_controller
+	if (!istype(emergency_controller, /datum/evacuation_controller/shuttle))
+		CRASH("Escape shuttle created without the appropriate controller type.")
+		return
+	if (emergency_controller.auxshuttle)
+		CRASH("An emergency shuttle has already been created.")
+		return
+
+	emergency_controller.auxshuttle = src
+	..()
+
+/obj/effect/shuttle_landmark/arrival/station
+	name = "NSS Endeavor"
+	docking_controller = "arrival_berth"
+	landmark_tag = "arrival_station"
+	base_area = /area/space
+	base_turf = /turf/simulated/floor/plating/airless
+
+/obj/effect/shuttle_landmark/arrival/centcom
+	name = "Holding Facility"
+	docking_controller = "centcom_arrival"
+	landmark_tag = "arrival_centcom"
+
+/obj/effect/shuttle_landmark/arrival/transit
+	name = "In Transit"
+	landmark_tag = "arrival_interim"
+	base_turf = /turf/space/bluespace
 
 /datum/shuttle/autodock/multi/antag/skipjack
 	name = "Skipjack"

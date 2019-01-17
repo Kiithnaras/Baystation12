@@ -291,3 +291,6 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 
 /obj/machinery/embedded_controller
 	layer = ABOVE_WINDOW_LAYER
+
+/obj/structure/wall_frame/vox
+	material = MATERIAL_VOX
