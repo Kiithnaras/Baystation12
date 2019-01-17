@@ -35,7 +35,7 @@
 
 /obj/machinery/atmospherics/unary/vent_scrubber/New()
 	..()
-	air_contents.volume = ATMOS_DEFAULT_VOLUME_FILTER
+	air_contents.volume = 2*ATMOS_DEFAULT_VOLUME_FILTER
 	icon = null
 
 /obj/machinery/atmospherics/unary/vent_scrubber/Destroy()

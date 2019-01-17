@@ -255,6 +255,7 @@
 	var/datum/evacuation_controller/shuttle/emergency_controller
 	warmup_time = 10
 	shuttle_area = /area/shuttle/arrival/station
+	location = 0
 	current_location = "arrival_station"
 	waypoint_station = "arrival_station"
 	waypoint_offsite = "arrival_centcom"
@@ -276,6 +277,14 @@
 
 	emergency_controller.auxshuttle = src
 	..()
+
+
+/obj/machinery/computer/shuttle_control/arrival
+	name = "arrival shuttle control console"
+	req_access = list(access_heads)
+	icon_keyboard = "power_key"
+	icon_screen = "shuttle"
+	shuttle_tag = "Arrival"
 
 /obj/effect/shuttle_landmark/arrival/station
 	name = "NSS Endeavor"

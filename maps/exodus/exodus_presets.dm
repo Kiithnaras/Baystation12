@@ -258,7 +258,7 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 	color = PIPE_COLOR_BLACK
 
 /obj/machinery/portable_atmospherics/canister/nitrogen/airlock
-	start_pressure = 2 * ONE_ATMOSPHERE
+	start_pressure = 3 * ONE_ATMOSPHERE
 
 /obj/structure/window/basic/clear
 	alpha = 80

@@ -49,7 +49,7 @@
 		shuttle.move_time = evac_transit_delay/10
 		evac_arrival_time += shuttle.warmup_time*10
 		shuttle.launch(src)
-	if(auxshuttle.current_location == "arrival_station")
+	if(auxshuttle.location == 0)
 		auxshuttle.launch(src)
 //		departed = 1
 	// Announcements, state changes and such are handled by the shuttle itself to prevent desync.

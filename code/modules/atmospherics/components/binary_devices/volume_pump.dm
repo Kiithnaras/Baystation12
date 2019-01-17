@@ -26,3 +26,5 @@
 /obj/machinery/atmospherics/binary/pump/high_power/on/distribution/New()
 	..()
 	target_pressure = round(3 * ONE_ATMOSPHERE)
+	air1.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+	air2.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP

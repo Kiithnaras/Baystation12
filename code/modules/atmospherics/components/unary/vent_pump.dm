@@ -71,7 +71,7 @@
 
 /obj/machinery/atmospherics/unary/vent_pump/New()
 	..()
-	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP
+	air_contents.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
 	icon = null
 
 /obj/machinery/atmospherics/unary/vent_pump/Destroy()
@@ -88,7 +88,7 @@
 
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/New()
 	..()
-	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP + 800
+	air_contents.volume = 8*ATMOS_DEFAULT_VOLUME_PUMP + 800
 
 /obj/machinery/atmospherics/unary/vent_pump/engine
 	name = "Engine Core Vent"
