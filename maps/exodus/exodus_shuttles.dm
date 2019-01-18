@@ -309,6 +309,7 @@
 /datum/shuttle/autodock/multi/antag/skipjack
 	name = "Skipjack"
 	warmup_time = 10
+	move_time = 120
 	destination_tags = list(
 		"nav_skipjack_ne",
 		"nav_skipjack_nw",
@@ -316,6 +317,7 @@
 		"nav_skipjack_sw",
 		"nav_skipjack_telcom",
 		"nav_skipjack_mine",
+		"nav_skipjack_mine_2",
 		"nav_skipjack_outpost",
 		"nav_skipjack_derelict",
 		"nav_skipjack_dock",
@@ -340,11 +342,6 @@
 /obj/effect/shuttle_landmark/skipjack/interim
 	name = "In transit"
 	landmark_tag = "nav_skipjack_transition"
-/*
-/obj/effect/shuttle_landmark/skipjack/dock
-	name = "Docking Port"
-	landmark_tag = "nav_skipjack_dock"
-	docking_controller = "skipjack_shuttle_dock_airlock"*/
 	base_turf = /turf/space/bluespace
 
 /obj/effect/shuttle_landmark/skipjack/nw
@@ -364,10 +361,14 @@
 	landmark_tag = "nav_skipjack_se"
 
 /obj/effect/shuttle_landmark/skipjack/mine
-	name = "Asteroid near Station"
+	name = "South Asteroid"
 	landmark_tag = "nav_skipjack_mine"
 	base_area = /area/mine/explored
 	base_turf = /turf/simulated/floor/asteroid
+
+/obj/effect/shuttle_landmark/skipjack/mine/alt
+	name = "North Asteroid"
+	landmark_tag = "nav_skipjack_mine_2"
 
 /obj/effect/shuttle_landmark/skipjack/outpost
 	name = "Curious satellite near station"
@@ -381,87 +382,178 @@
 	name = "Abandoned Derelict"
 	landmark_tag = "nav_skipjack_derelict"
 
-
-
-
-
-// Cargo shuttle.
-/*/datum/shuttle/ferry/supply/cargo
-	name = "Supply"
-	location = 1
+/datum/shuttle/autodock/multi/antag/mercenary
+	name = "Mercenary"
 	warmup_time = 10
-	area_offsite = /area/supply/dock
-	area_station = /area/supply/station
-	docking_controller_tag = "supply_shuttle"
-	dock_target_station = "cargo_bay"
-	flags = SHUTTLE_FLAGS_PROCESS|SHUTTLE_FLAGS_SUPPLY
+	move_time = 90
+	shuttle_area = /area/syndicate_station/start
+	current_location = "nav_merc_start"
+	landmark_transition = "nav_merc_interim"
+	home_waypoint = "nav_merc_start"
+	announcer = "Pyro IV UEE Traffic Control"
+	arrival_message = "Attention, unidentified vessel detected entering station proximity. Unusual signatures detected - remain on alert."
+	departure_message = "Attention, unidentified vessel detected leaving station proximity."
+	dock_target = "merc_shuttle"
+	destination_tags = list(
+		"nav_merc_start",
+		"nav_merc_nw_far",
+		"nav_merc_se_far",
+		"nav_merc_nw_solar",
+		"nav_merc_ne_solar",
+		"nav_merc_sw_solar",
+		"nav_merc_se_solar",
+		"nav_merc_arrival_dock",
+		"nav_merc_mine",
+		"nav_merc_mine_2",
+		"nav_merc_outpost",
+		"nav_merc_derelict",
+		"nav_merc_telcom",
+	)
 
-// The "Elevators"
-/datum/shuttle/ferry/engineering
-	name = "Engineering"
+/obj/effect/shuttle_landmark/mercenary/start
+	name = "Mercenary Base"
+	landmark_tag = "nav_merc_start"
+	docking_controller = "merc_base"
+	base_area = /area/space
+	base_turf = /turf/space
+
+/obj/effect/shuttle_landmark/mercenary/transit
+	name = "In Transit"
+	landmark_tag = "nav_merc_interim"
+	base_turf = /turf/space/transit/north
+
+/obj/effect/shuttle_landmark/mercenary/nwfar
+	name = "Station - Distant NW"
+	landmark_tag = "nav_merc_nw_far"
+
+/obj/effect/shuttle_landmark/mercenary/sefar
+	name = "Station - Distant SE"
+	landmark_tag = "nav_merc_se_far"
+
+/obj/effect/shuttle_landmark/mercenary/nw
+	name = "NW of Station"
+	landmark_tag = "nav_merc_nw"
+
+/obj/effect/shuttle_landmark/mercenary/ne
+	name = "NE of Station"
+	landmark_tag = "nav_merc_ne"
+
+/obj/effect/shuttle_landmark/mercenary/sw
+	name = "SW of Station"
+	landmark_tag = "nav_merc_sw"
+
+/obj/effect/shuttle_landmark/mercenary/se
+	name = "SE of Station"
+	landmark_tag = "nav_merc_se"
+
+/obj/effect/shuttle_landmark/mercenary/mine
+	name = "Nearby Asteroid North"
+	landmark_tag = "nav_merc_mine"
+	base_area = /area/mine/explored
+	base_turf = /turf/simulated/floor/asteroid
+
+/obj/effect/shuttle_landmark/mercenary/mine/alt
+	name = "Mining Outpost South"
+	landmark_tag = "nav_merc_mine_2"
+
+/obj/effect/shuttle_landmark/mercenary/arrival
+	name = "Station Docking Port"
+	landmark_tag = "nav_merc_arrival_dock"
+	docking_controller = "nuke_shuttle_dock_airlock"
+
+/obj/effect/shuttle_landmark/mercenary/outpost
+	name = "Weird Satellite"
+	landmark_tag = "nav_merc_outpost"
+
+/obj/effect/shuttle_landmark/mercenary/telcom
+	name = "Telcom Satellite"
+	landmark_tag = "nav_merc_telcom"
+
+/obj/effect/shuttle_landmark/mercenary/derelict
+	name = "Wreckage?"
+	landmark_tag = "nav_merc_derelict"
+
+/datum/shuttle/autodock/multi/antag/rescue
+	name = "Rescue"
 	warmup_time = 10
-	area_offsite = /area/shuttle/constructionsite/site
-	area_station = /area/shuttle/constructionsite/station
-	docking_controller_tag = "engineering_shuttle"
-	dock_target_station = "engineering_dock_airlock"
-	dock_target_offsite = "edock_airlock"
+	move_time = 60
+	shuttle_area = /area/rescue_base/start
+	current_location = "nav_rescue_start"
+	landmark_transition = "nav_rescue_interim"
+	home_waypoint = "nav_rescue_start"
+	announcer = "Regional Operations Traffic Control"
+	arrival_message = "Priority Alert: Specialist Task Force approaching station. Observe and maintain all SOPs."
+	departure_message = "Priority Alert: Specalist Task Force has departed the station."
+	dock_target = "rescue_shuttle"
+	destination_tags = list(
+		"nav_rescue_start",
+		"nav_rescue_mine",
+		"nav_rescue_mine_2",
+		"nav_rescue_derelict",
+		"nav_rescue_outpost",
+		"nav_rescue_arrival_dock",
+		"nav_rescue_telcom",
+		"nav_rescue_nw",
+		"nav_rescue_ne",
+		"nav_rescue_sw",
+		"nav_rescue_se",
+	)
 
-/datum/shuttle/ferry/mining
-	name = "Mining"
-	warmup_time = 10
-	area_offsite = /area/shuttle/mining/outpost
-	area_station = /area/shuttle/mining/station
-	docking_controller_tag = "mining_shuttle"
-	dock_target_station = "mining_dock_airlock"
-	dock_target_offsite = "mining_outpost_airlock"
+/obj/effect/shuttle_landmark/rescue/start
+	name = "Rescue Base"
+	landmark_tag = "nav_rescue_start"
+	base_area = /area/rescue_base/base
+	base_turf = /turf/unsimulated/floor
 
-/datum/shuttle/ferry/research
-	name = "Research"
-	warmup_time = 10
-	area_offsite = /area/shuttle/research/outpost
-	area_station = /area/shuttle/research/station
-	docking_controller_tag = "research_shuttle"
-	dock_target_station = "research_dock_airlock"
-	dock_target_offsite = "research_outpost_dock"
+/obj/effect/shuttle_landmark/rescue/transit
+	name = "In Transit"
+	landmark_tag = "nav_rescue_interim"
+	base_turf = /turf/space/transit/north
 
-// Admin shuttles.
-/datum/shuttle/ferry/centcom
-	name = "Centcom"
-	location = 1
-	warmup_time = 10
-	area_offsite = /area/shuttle/transport1/centcom
-	area_station = /area/shuttle/transport1/station
-	docking_controller_tag = "centcom_shuttle"
-	dock_target_station = "centcom_shuttle_dock_airlock"
-	dock_target_offsite = "centcom_shuttle_bay"
+/obj/effect/shuttle_landmark/rescue/dock
+	name = "NSS Endeavor Docking Port"
+	landmark_tag = "nav_rescue_arrival_dock"
+	docking_controller = "rescue_shuttle_dock_airlock"
 
-/datum/shuttle/ferry/administration
-	name = "Administration"
-	location = 1
-	warmup_time = 10	//want some warmup time so people can cancel.
-	area_offsite = /area/shuttle/administration/centcom
-	area_station = /area/shuttle/administration/station
-	docking_controller_tag = "admin_shuttle"
-	dock_target_station = "admin_shuttle_dock_airlock"
-	dock_target_offsite = "admin_shuttle_bay"
+/obj/effect/shuttle_landmark/rescue/mine
+	name = "Mining Outpost North"
+	landmark_tag = "nav_rescue_mine"
+	base_area = /area/mine/explored
+	base_turf = /turf/simulated/floor/asteroid
 
-// Traders
-/datum/shuttle/ferry/trade
-	name = "Trade"
-	location = 1
-	warmup_time = 10	//want some warmup time so people can cancel.
-	area_offsite = /area/shuttle/trade/centcom
-	area_station = /area/shuttle/trade/station
-	docking_controller_tag = "trade_shuttle"
-	dock_target_station = "trade_shuttle_dock_airlock"
-	dock_target_offsite = "trade_shuttle_bay"
+/obj/effect/shuttle_landmark/rescue/mine/alt
+	name = "Mining Outpost South"
+	landmark_tag = "nav_rescue_mine_2"
 
-// Is this even used?
-/datum/shuttle/ferry/alien
-	name = "Alien"
-	area_offsite = /area/shuttle/alien/base
-	area_station = /area/shuttle/alien/mine
-	flags = SHUTTLE_FLAGS_NONE
+/obj/effect/shuttle_landmark/rescue/derelict
+	name = "Construction Project"
+	landmark_tag = "nav_rescue_derelict"
+
+/obj/effect/shuttle_landmark/rescue/outpost
+	name = "Vox Satellite Outpost"
+	landmark_tag = "nav_rescue_outpost"
+
+/obj/effect/shuttle_landmark/rescue/telcom
+	name = "Telcom Satellite"
+	landmark_tag = "nav_rescue_telcom"
+
+/obj/effect/shuttle_landmark/rescue/nw
+	name = "NW of Endeavor"
+	landmark_tag = "nav_rescue_nw"
+
+/obj/effect/shuttle_landmark/rescue/ne
+	name = "NE of Endeavor"
+	landmark_tag = "nav_rescue_ne"
+
+/obj/effect/shuttle_landmark/rescue/sw
+	name = "SW of Endeavor"
+	landmark_tag = "nav_rescue_sw"
+
+/obj/effect/shuttle_landmark/rescue/se
+	name = "SE of Endeavor"
+	landmark_tag = "nav_rescue_se"
+
+/*
 
 // Mercenary
 /datum/shuttle/multi_shuttle/mercenary

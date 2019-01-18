@@ -19,18 +19,6 @@
 	name = "\improper Secondary Pods"
 	icon_state = "escape"
 
-/area/rescue_base/northwest
-	name = "\improper NW Rescue Base"
-	icon_state = "escape"
-
-/area/rescue_base/north
-	name = "\improper N Rescue Base"
-	icon_state = "escape"
-
-/area/rescue_base/northeast
-	name = "\improper NE Rescue Base"
-	icon_state = "escape"
-
 /area/supply/station
 	name = "\improper Shuttle Dock"
 	icon_state = "shuttle2"
@@ -39,21 +27,8 @@
 	name = "\improper Supply Shuttle"
 	icon_state = "shuttle2"
 
-/area/rescue_base/southeast
-	name = "\improper SE Rescue"
-	icon_state = "escape"
-
-/area/rescue_base/south
-	name = "\improper S Rescue"
-	icon_state = "escape"
-
-/area/rescue_base/southwest
-	name = "\improper SW Rescue"
-	icon_state = "escape"
-
-/area/rescue_base/arrivals_dock
-	name = "\improper Rescue Docking"
-	icon_state = "escape"
+/area/rescue_base
+	requires_power = 0
 
 /area/outpost/shuttle/outpost
 	name = "\improper Outpost Shuttle"
@@ -68,8 +43,9 @@
 	icon_state = "start"
 
 /area/rescue_base/base
-	name = "\improper Rescue Shuttle Dock"
+	name = "\improper Specialist Task Force Base"
 	icon_state = "escape"
+	dynamic_lighting = 0
 
 /area/mine/unexplored
 	name = "\improper Asteroid"
@@ -79,10 +55,6 @@
 	name = "\improper Asteroid"
 	icon_state = "explored"
 
-/area/rescue_base/commsat
-	name = "\improper Rescue Shuttle Commsat"
-	icon_state = "escape"
-
 /area/rescue_base/start
 	name = "\improper Rescue Shuttle Launch"
 	icon_state = "escape"
@@ -90,10 +62,6 @@
 /area/tcommsat/powercontrol
 	name = "\improper Telecomms Power Control"
 	icon_state = "tcomsatlob"
-
-/area/rescue_base/transit
-	name = "\improper Rescue Transit"
-	icon_state = "shuttlegrn"
 
 /area/acting/backstage
 	name = "\improper Backstage"
