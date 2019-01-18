@@ -48,6 +48,7 @@
 	item_flags = ITEM_FLAG_STOPPRESSUREDAMAGE
 	flags_inv = 0
 	species_restricted = list(SPECIES_VOX)
+	light_overlay_image = 'icons/mob/light_overlays.dmi'
 
 /obj/item/clothing/head/helmet/space/vox/pressure
 	name = "alien helmet"
