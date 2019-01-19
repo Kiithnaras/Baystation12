@@ -68,7 +68,7 @@
 	icon_state = "vox-carapace"
 	desc = "A glowing visor, perhaps stolen from a depressed Cylon."
 	armor = list(melee = 75, bullet = 65, laser = 60, energy = 30, bomb = 60, bio = 75, rad = 75)
-	light_overlay = "null_light"
+	light_overlay = "helmet_light"
 
 /obj/item/clothing/suit/space/vox/carapace
 	name = "alien carapace armour"
@@ -87,7 +87,7 @@
 	desc = "A smoothly contoured, matte-black alien helmet."
 	armor = list(melee = 50, bullet = 35, laser = 30, energy = 45, bomb = 50, bio = 75, rad = 100)
 	max_heat_protection_temperature = 25000
-	light_overlay = "helmet_light"
+	light_overlay = "null_light"
 
 /obj/item/clothing/suit/space/vox/stealth
 	name = "alien stealth suit"

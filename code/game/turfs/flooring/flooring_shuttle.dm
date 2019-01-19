@@ -31,3 +31,10 @@
 /turf/simulated/floor/shuttle/black
 	icon_state = "floor7"
 	initial_flooring = /decl/flooring/reinforced/shuttle/black
+
+/turf/simulated/floor/shuttle/nt
+	icon_state = "floor8"
+	initial_flooring = /decl/flooring/reinforced/shuttle/nt
+
+/decl/flooring/reinforced/shuttle/nt
+	icon_base = "floor8"

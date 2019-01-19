@@ -56,7 +56,7 @@
 	icon_state = "explored"
 
 /area/rescue_base/start
-	name = "\improper Rescue Shuttle Launch"
+	name = "\improper Specialist Rescue Vessel"
 	icon_state = "escape"
 
 /area/tcommsat/powercontrol

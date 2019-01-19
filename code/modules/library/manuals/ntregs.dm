@@ -564,14 +564,14 @@
 		</td>
 		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
-		<td> If the synthetic is a cyborg or positronic, this is also an offense against the Sapient Rights laws federally mandated by the Solar Confederate Government.
+		<td> If the synthetic is a cyborg or positronic, this is also an offense against the Sapient Rights laws federally mandated by the UEE Protectorate Services.
 		</td>
 		<td> Yes.
 		</td></tr>
 		<tr>
 		<td> <b>Experimentation with Transgressive Technology</b>
 		</td>
-		<td> Experimenting with technologies deemed unsafe or are otherwise federally restricted by the Solar Confederate Government.
+		<td> Experimenting with technologies deemed unsafe or are otherwise federally restricted by the UEE Protectorate Services.
 		</td>
 		<td> Hold until Transfer. Termination. Fax UEEPS. Delete, destroy, or otherwise remove the experiments.
 		</td>
@@ -668,69 +668,50 @@
 /obj/item/weapon/book/manual/nt_sops/New()
 	..()
 	dat = {"
-
-	<head>
-	<meta charset="UTF-8"/>
-	<title>Standard Operating Procedure - Baystation 12</title>
-	</head>
-	<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Standard_Operating_Procedure rootpage-Standard_Operating_Procedure skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
-			<div id="mw-head-base" class="noprint"></div>
-			<div id="content" class="mw-body" role="main">
-				<a id="top"></a>
-				<div class="mw-indicators mw-body-content">
-	<div id="mw-indicator-Moderated" class="mw-indicator"><img alt="Checklarge.png" src="/images/thumb/d/dd/Checklarge.png/20px-Checklarge.png" width="20" height="20" srcset="/images/thumb/d/dd/Checklarge.png/30px-Checklarge.png 1.5x, /images/thumb/d/dd/Checklarge.png/40px-Checklarge.png 2x" /> <b>Note:</b> This page is <a href="/Category:Moderated_Pages" title="Category:Moderated Pages">moderated</a> and can be used as a reference in-character.</div>
-	</div>
-	<h1 id="firstHeading" class="firstHeading" lang="en">Standard Operating Procedure</h1>			<div id="bodyContent" class="mw-body-content">
-					<div id="siteSub" class="noprint">From Baystation 12</div>				<div id="contentSub"></div>
-									<div id="jump-to-nav" class="mw-jump">
-						Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
-					</div>
-					<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><br />
-	</p><p>This page covers the standardized guidelines and procedures on board the NSS Exodus. Note that these are not laws, and the Captain may alter them as they see fit.
+	<html><head><title>Standard Operating Procedures</title></head><br><br>
+	<body>
+	</p><p>The following information covers standardized guidelines and procedures on board the NSS Endeavour. Note that these are not laws, and the Captain may alter them as they see fit. Alert level escalation will invariably alter elements of these procedures.
 	</p>
-	<div id="toc" class="toc"><div class="toctitle" lang="en" dir="ltr"><h2>Contents</h2></div>
-	<ul>
-	<li class="toclevel-1 tocsection-1"><a href="#Secure_and_High_Security_Areas"><span class="tocnumber">1</span> <span class="toctext">Secure and High Security Areas</span></a></li>
-	<li class="toclevel-1 tocsection-2"><a href="#Docking_and_Visitors"><span class="tocnumber">2</span> <span class="toctext">Docking and Visitors</span></a>
-	<ul>
-	<li class="toclevel-2 tocsection-3"><a href="#Visitors"><span class="tocnumber">2.1</span> <span class="toctext">Visitors</span></a></li>
-	<li class="toclevel-2 tocsection-4"><a href="#Vessels"><span class="tocnumber">2.2</span> <span class="toctext">Vessels</span></a></li>
-	</ul>
+	<ol type="1">
+	<li>Secure and High Security Areas</li>
+	<li>Docking and Visitors
+	<ol type="1">
+	<li>Visitors</li>
+	<li>Vessels</li>
+	</ol>
 	</li>
-	<li class="toclevel-1 tocsection-5"><a href="#Attached_Vessels_and_Hangar_Deck"><span class="tocnumber">3</span> <span class="toctext">Attached Vessels and Hangar Deck</span></a></li>
-	<li class="toclevel-1 tocsection-6"><a href="#Navigation"><span class="tocnumber">4</span> <span class="toctext">Navigation</span></a></li>
-	<li class="toclevel-1 tocsection-7"><a href="#First_Contact"><span class="tocnumber">5</span> <span class="toctext">First Contact</span></a></li>
-	<li class="toclevel-1 tocsection-8"><a href="#Medical_Evaluation"><span class="tocnumber">6</span> <span class="toctext">Medical Evaluation</span></a></li>
-	<li class="toclevel-1 tocsection-9"><a href="#Weaponry"><span class="tocnumber">7</span> <span class="toctext">Weaponry</span></a></li>
-	<li class="toclevel-1 tocsection-10"><a href="#Away_Missions"><span class="tocnumber">8</span> <span class="toctext">Away Missions</span></a>
-	<ul>
-	<li class="toclevel-2 tocsection-11"><a href="#Expeditions"><span class="tocnumber">8.1</span> <span class="toctext">Expeditions</span></a></li>
-	<li class="toclevel-2 tocsection-12"><a href="#Mining_Missions"><span class="tocnumber">8.2</span> <span class="toctext">Mining Missions</span></a></li>
-	<li class="toclevel-2 tocsection-13"><a href="#Other_Missions"><span class="tocnumber">8.3</span> <span class="toctext">Other Missions</span></a></li>
-	</ul>
+	<li>First Contact</li>
+	<li>Medical Evaluation</li>
+	<li>Weaponry</li>
+	<li>Away Missions
+	<ol type="1">
+	<li>Expeditions</li>
+	<li>Mining Missions</li>
+	<li>Other Missions</li>
+	</ol>
 	</li>
-	<li class="toclevel-1 tocsection-14"><a href="#Supply_.26_Operations"><span class="tocnumber">9</span> <span class="toctext">Supply &amp; Operations</span></a></li>
-	<li class="toclevel-1 tocsection-15"><a href="#Stowaways"><span class="tocnumber">10</span> <span class="toctext">Stowaways</span></a></li>
-	<li class="toclevel-1 tocsection-16"><a href="#Controlled_Substances.2FItems"><span class="tocnumber">11</span> <span class="toctext">Controlled Substances/Items</span></a></li>
-	<li class="toclevel-1 tocsection-17"><a href="#Research_Operations"><span class="tocnumber">12</span> <span class="toctext">Research Operations</span></a></li>
-	</ul>
-	</div>
+	<li>Supply &amp; Operations</li>
+	<li>Stowaways</li>
+	<li>Controlled Substances/Items</li>
+	<li>Research Operations</li>
+	</ol>
 
-	<h2><span class="mw-headline" id="Secure_and_High_Security_Areas">Secure and High Security Areas</span></h2>
-	<ul><li>Secure Areas: Important areas that can be accessed from main halls.
-	<ul><li>Tech Storage</li>
-	<li>Teleporter Room</li>
-	<li>EVA Storage</li>
-	<li>The Bridge</li></ul></li>
+	<ol type="1">
+	<li><h2>General Security and Restrictions</h2>
+	<ol type="1"><li>Secure Areas: Important areas that can be accessed from main halls.
+	<ol type="1"><li>Tech Storage: Only the Captain, CSO, or Chief Engineer should enter this room, and only they are permitted to authorize others do so on their behalf.</li>
+	<li>Teleporter Room: Only Head Staff should enter or authorize others to enter the Teleporter Room at any time.</li>
+	<li>EVA Storage: Only staff with normal access to EVA Storage, such as Security and Engineering, are permitted entry to EVA storage without authorization. Use of EVA equipment without authorization from Head Staff is impermissible to non-Heads.</li>
+	<li>The Bridge: Only Head Staff and authorized individuals are permitted entry to the Bridge</li></ol></li>
 	<li>High Security Areas: Critical areas, and areas with special procedures.
-	<ul><li>Self Destruct Room/Vault: To be secured against entry by any personnel unless two concurring Heads or the Captain deem access necessary.</li>
+	<ol type="1"><li>Self Destruct Room/Vault: To be secured against entry by any personnel unless two concurring Heads or the Captain deem access necessary.</li>
 	<li>Armoury: Only the Captain or Head of Security have access normally. All heads are authorised to access the Tactical Equipment armoury during Code Red or above. Blast doors are to remain secured unless the crew is being armed, and only occasional inspections are permitted when accompanied by the Chief of Security or Captain. When arming personnel, priority should be given to members of the crew based on rank and training.</li>
-	<li>Warden's Office and Sub-Armoury: Only the Warden and their superiors have normal access. Officers may request equipment from the sub-armory for which paperwork and justification must be provided.</li>
-	<li><a href="/AI" class="mw-redirect" title="AI">AI</a> Core and Upload: Only the Captain and Chief Engineer have access normally. Bolted on Code Blue or above. Individual access to upload no longer permitted on Code Red or above, access must be done with at least two Department Heads. Individual access to the AI Core is restricted in the same way.</li>
-	<li><a href="/Telecommunications" title="Telecommunications">Telecommunications</a>: Only the Captain, Chief Engineer, and Human Resources Director (HRD) are permitted normally. Access is only available, reliably, through the teleporter.</li></ul></li></ul>
-	<h2><span class="mw-headline" id="Docking_and_Visitors">Docking and Visitors</span></h2>
-	<h3><span class="mw-headline" id="Visitors">Visitors</span></h3>
-	<ul><li>The NSS Endeavour is encouraged to allow non-hostile visitors permission to dock or otherwise come aboard during normal operating conditions.</li>
+	<li>Warden's Office and Sub-Armoury: Only the Warden and their superiors have normal access. Officers may request equipment from the sub-armory for which paperwork and justification must be provided. Note that emergency situations and elevated alerts may constitute <i>ad oculos</i> justification. Paperwork should still be filed, though disbursement of equipment should not be delayed for paperwork in time-sensitive situations. Filing of armory and sub-armory equipment memoranda is the primary responsibility of the Warden, though the Chief of Security should maintain proper oversight whenever possible.</li>
+	<li>AI Core and Upload: Only the Captain and Chief Engineer have access normally. Bolted on Code Blue or above. Individual access to upload no longer permitted on Code Red or above, access must be done with at least two Department Heads. Individual access to the AI Core is restricted in the same way.</li>
+	<li>Telecommunications: Only the Captain, Chief Engineer, and Human Resources Director (HRD) are permitted normally. Access is only available, reliably, through the teleporter.</li></ol></li></ol></li>
+	<li><h2>Docking and Visitors</h2>
+	<ol type="1"><li><h3>Visitors</h3>
+	<ol type="1"><li>The NSS Endeavour is encouraged to allow non-hostile visitors permission to dock or otherwise come aboard during normal operating conditions.</li>
 	<li>Stationed in the Protectorate system of Pyro, the NSS Endeavour enjoys a limited amount of freedom from United Earth Empire (UEE) Law. While the UEE Navy and UEE Security Force have no permanent presence in Pyro, it is still subject to the laws and protections of the UEE. While a police cruiser is not likely to appear to subjugate lawbreakers, Nanotrasen's charter within the Pyro system and beyond are still contingent upon good legal standing within the UEE proper.</li>
 	<li>Fugitives of justice from foreign nations may desire to seek asylum aboard the NSS Endeavour due to its Protectorate status and proximity to UEE borders.</li>
 	<li>Only UEE officials may grant or deny asylum at their discretion.</li>
@@ -739,92 +720,75 @@
 	<li>Visitors may be assigned an escort or searched upon entrance at the Captain or other commanding staff's discretion. However, at no times may crew enter a visitor’s vessel, search a visitor’s vessel, or otherwise infringe on their sovereignty without both proper authorization and cause.</li>
 	<li>As with crew, visitors aboard the Endeavour are subject to UEE Law. Likewise, if a visitor breaks the law and flees to their own vessel, security are authorized to pursue and detain said visitor to await justice.</li>
 	<li>It is advised that the assigned Captain, HRD, or Internal Affairs Agent (IAA) initiate contact with visitors and mediate any conflicts, legal or otherwise, between the NSS Endeavour and other spacecraft.</li>
-	<li>The Captain, HRD, or IAA may lease the private office at arrivals to any visitor at their discretion.</li></ul>
-	<h3><span class="mw-headline" id="Vessels">Vessels</span></h3>
-	<ul><li>All vessels and installations in UEE space, including Protectorate space, are required to obey UEE Law. Vessels outside of UEE territory are sovereign entities and may enforce whatever laws and regulations they see fit aboard their own vessel when not otherwise subject to UEE Law.</li>
+	<li>The Captain, HRD, or IAA may lease the private office at arrivals to any visitor at their discretion.</li></ol></li>
+	<li><h3>Vessels</h3>
+	<ol type="1"><li>All vessels and installations in UEE space, including Protectorate space, are required to obey UEE Law. Vessels outside of UEE territory are sovereign entities and may enforce whatever laws and regulations they see fit aboard their own vessel when not otherwise subject to UEE Law.</li>
 	<li>Any personnel aboard a vessel and under the legal authority of that vessel and may be legally fined, arrested, detained, and otherwise punished for infractions of the visitor's laws.</li>
 	<li>Vessels belonging to organisations at war with the UEE, or vessels which attack a UEE-protected facility or ship, are not protected by these regulations, nor are vessels openly engaged in criminal activities protected in such a manner.</li>
-	<li>As a Nanotrasen installation, the Endeavour's charter requires that it render aid to vessels in distress unless there is undue risk to the Endeavour and its crew in doing so. Duty to render aid includes providing medical aid, engineering assistance, or military protection from declared hostiles or criminals. On Blue alert or above, docking to the Endeavour directly is prohibited without express authorization from the Captain or crewmember acting in such a capacity.</li></ul>
-	<!--<h2><span class="mw-headline" id="Attached_Vessels_and_Hangar_Deck">Attached Vessels and Hangar Deck</span></h2>
-	<p>The SEV Torch is equipped with multiple smaller spacecraft to assist with its mission, each designed and equipped for different tasks. Docked spacecraft fall under the authority of the Deck Officer, who is responsible for making sure all vessels are properly supplied, powered, and kept breathable. Pilots have authority over their respective craft while aboard them, but must keep the Deck Officer informed of ship movement. Individual spacecraft have their own regulations and access requirements.
-	</p>
-	<ul><li><b>Aquila</b>: The Aquila is an armed shuttle meant for emergency use by SolGov personnel. It is capable of atmospheric flight, and is equipped with two standard energy turrets. It should not be used without the express permission of the CO or XO. It's assigned pilots are the vessels bridge officers.</li>
-	<li><b>Charon</b>: The Charon is a multi-mission shuttle meant for use by SolGov and EXO personnel as needed. Primarily, it is intended for away missions for the purposes of research, salvage, and mining. It can be used by the SolGov <a href="/Pathfinder" title="Pathfinder">Pathfinder</a> and the <a href="/Shuttle_Pilot" title="Shuttle Pilot">Shuttle Pilot</a>, but not by Deck Crew or other untrained personnel.</li>
-	<li><b>Petrov</b>: The E.S.V. Petrov is a EXO mobile laboratory meant to allow the research of dangerous materials without endangering the Torch. It cannot move far from the Torch, as its power and atmosphere are supplied entirely by the ship. It can only travel a very short distance from the Torch, cannot land, and can be used by appropriately trained EXO personnel.</li>
-	<li><b>General Utility Pod</b>: The GUP is a short range pod with a very small crew and cargo capacity. It can be accessed and used by appropriately trained SolGov and EXO personnel, including Deck Crew.</li></ul>
-	<h2><span class="mw-headline" id="Navigation">Navigation</span></h2>
-	<p>The SEV Torch is capable of high acceleration while under way. This can be dangerous if the ship is maneuvered while its crew are engaged in EVA activities. The following regulations and considerations must be met and made before changing the speed and direction of movement of the ship. Navigation procedures may be forgone under emergency circumstances in which the integrity of the ship is at risk.
-	</p>
-	<ul><li>The intent to carry out a maneuver must be announced before carrying out the maneuver, with adequate intervening time provided to meet the requirements of other navigation procedures.</li>
-	<li>Once intent to navigate is announced, all personnel must complete or abandon activities that do not comply with navigation procedures in good time.</li>
-	<li>Detached smaller spacecraft must be notified and recovered with their crews, unless they are to be collected at a later time.</li>
-	<li>Persons carrying out EVA must be notified and recovered.</li>
-	<li>Waiting for shields or other non-vital equipment is not necessary unless there is good reason to require them.</li>
-	<li>The Vessel is fully capable of movement once the crew awakes from cryosleep. Unless the pilot is incapable of moving safely without hitting hazards, movement should not be delayed for engineering work.</li></ul>-->
-	<h2><span class="mw-headline" id="First_Contact">First Contact</span></h2>
+	<li>As a Nanotrasen installation, the Endeavour's charter requires that it render aid to vessels in distress unless there is undue risk to the Endeavour and its crew in doing so. Duty to render aid includes providing medical aid, engineering assistance, or military protection from declared hostiles or criminals. On Blue alert or above, docking to the Endeavour directly is prohibited without express authorization from the Captain or crewmember acting in such a capacity.</li></ol></li></ol>
+	<li><h2>First Contact</h2>
 	<p>As there is a reasonable probability that the NSS Endeavour will be in a First Contact situation, the following guidelines have been created to smooth the process:
 	</p>
-	<ul><li>Hostility: Determine if an undiscovered species or entity is hostile. This should be fairly easy to determine. Make every effort not to injure or kill a hostile entity regardless of its intelligence. Containment is the preferred course of action. If containment is successful, proceed with the next step. If containment is impossible, lethal force may be necessary, and can be authorised as needed.</li>
+	<ol type="1"><li>Hostility: Determine if an undiscovered species or entity is hostile. This should be fairly easy to determine. Make every effort not to injure or kill a hostile entity regardless of its intelligence. Containment is the preferred course of action. If containment is successful, proceed with the next step. If containment is impossible, lethal force may be necessary, and can be authorised as needed.</li>
 	<li>Intelligence: Assuming the species is not overtly hostile, determine how intelligent they are. This can be determined through communication, mathematics, or other tests.</li>
 	<li>Communication: The next step should be communication. It is highly unlikely new species will speak or even understand common, or have any ability to translate, but it should be tried in any case. Basic pictograms, mathematical concepts such as prime numbers, or physical constants such as atomic makeup may prove more useful if vocal communication is impossible.</li>
-	<li>Diplomacy: If communication is established, and the new species has some form of government or hierarchy that diplomatic contact can be made with, make every effort to open diplomatic communication with this government, a process which should be spearheaded by the SCGR.</li></ul>
-	<h2><span class="mw-headline" id="Medical_Evaluation">Medical Evaluation</span></h2>
-	<p>The <a href="/Chief_Medical_Officer" title="Chief Medical Officer">Chief Medical Officer</a> may declare any crewman or passenger unfit for duty, and remove them from their position. In this duty, the CMO outranks everyone. However, they will be required to justify their assessment to Nanotrasen Regional Operations. In most legitimate cases, this assessment will be <i>ad oculos</i>, but the CMO's medical license and employment are on the line with each such ruling of duty fitness.<br>
+	<li>Diplomacy: If communication is established, and the new species has some form of government or hierarchy that diplomatic contact can be made with, make every effort to open diplomatic communication with this government, a process which should be spearheaded by the IAA or Captain.</li></ol></li>
+	<li><h2>Medical Evaluation</h2>
+	<p>The Chief Medical Officer may declare any crewman or passenger unfit for duty, and remove them from their position. In this duty, the CMO outranks everyone. However, they will be required to justify their assessment to Nanotrasen Regional Operations. In most legitimate cases, this assessment will be <i>ad oculos</i>, but the CMO's medical license and employment are on the line with each such ruling of duty fitness.<br>
 	This regulation, unlike other non-legal regulations, cannot be overruled by the Captain, but can be overruled by an assigned IAA whose sole duty is to protect.
-	</p>
-	<h2><span class="mw-headline" id="Weaponry">Weaponry</span></h2>
+	</p></li>
+	<li><h2>Weaponry</h2>
 	<p>Those non-security personnel who are permitted to carry weaponry other than non-lethal flashes are assumed to be any personnel who have access to weapon(s) in their locker, or who have default authorization to carry them. This includes, but is not limited to, Detective, IAA, and Bartender crewmembers.
 	</p><p>Research personnel are permitted to construct, modify, and test weaponry within the Research Wing, and, with approval of the Chief Science Officer (CSO), may bring equipment along on any away missions for the purposes of field testing.
 	The Captain, Chief of Security, or Head of Personnel can authorise any crewman or passenger to carry lethal or nonlethal weapons at their discretion, though doing so without need or purpose is a direct violation of corporate regulations and may result in termination of employment and commission.
-	</p>
-	<h2><span class="mw-headline" id="Away_Missions">Away Missions</span></h2>
-	<p>A joint exploration mission should be scheduled whenever possible. Any away mission without a ranking Officer or head of staff, the RD or CO is advised to designate a team leader, and schedule planned check-ins for safety purposes.
-	</p><p>Documented flight plans for individual exploration away missions are optional, and, if desired, should generally be filed by bridge crew,  the pathfinder, or the pilot. However, no away mission should be delayed for the purposes of filing paperwork, and should instead be filed after the mission if still desired.
-	</p>
-	<h3><span class="mw-headline" id="Expeditions">Expeditions</span></h3>
-	<p>Away missions for the purpose of exploration must be a joint operation between available expeditionary and  EXO personnel. Only the Chief Science Officer may prohibit any member of science staff from accompanying an exploratory away mission. In addition to the explorers, the commanding officer may assign other expeditionary or defense force personnel as needed.
-	</p><p>A senior team member should be present to lead the team (preferably the Pathfinder). If necessary, security may be provided by the security team, but defense force personnel should be preferred if extreme danger is expected.
-	</p><p>Unless the ship is currently preparing for a bluespace jump, the expedition should continue as normal.
-	</p>
-	<h3><span class="mw-headline" id="Mining_Missions">Mining Missions</span></h3>
-	<p>Away missions for the purposes of resource collection are the responsibility of mining personnel aboard. In the event no mining staff or other XO-appointed personnel are available, Exploration may deploy the large mining drills in order to engage in resource collection.
-	</p>
-	<h3><span class="mw-headline" id="Other_Missions">Other Missions</span></h3>
-	<p>Missions not for exploration or resource collection may be authorized by the commanding officer or ranking personnel as needed and individually designed for their specific cases.
-	</p>
-	<h2><span id="Supply_&amp;_Operations"></span><span class="mw-headline" id="Supply_.26_Operations">Supply &amp; Operations</span></h2>
+	</p></li>
+	<li><h2>Away Missions</h2>
+	<p>A joint exploration mission should be scheduled whenever possible. On any away mission without a Head Staff member, the CSO or Captain is advised to designate a team leader and schedule planned check-ins for safety purposes.
+	</p><p>Documented flight plans for individual exploration away missions are optional, and, if desired, should generally be filed by Head Staff. However, no away mission should be delayed for the purposes of filing paperwork, and should instead be filed after the mission if still desired.
+	</p></li>
+	<li><h3>Expeditions</h3>
+	<p>Away missions for the purpose of exploration must be a joint operation between available Science and Command personnel. Only the Chief Science Officer may prohibit any member of science staff from accompanying an exploratory away mission. In addition to the Science division, the Captain may assign other personnel as needed.
+	</p><p>A senior team member should be present to lead the team. If necessary, security may be provided by the security team, but defense force personnel should be preferred if extreme danger is expected.
+	</p><p>Unless the station is preparing for end-of-shift activities and subsequent departure, expeditions should continue as normal where appropriate.
+	</p></li>
+	<li><h3>Mining Missions</h3>
+	<p>Away missions for the purposes of resource collection are the responsibility of mining personnel aboard. In the event no mining staff or other HRD-appointed personnel are available, Supply may deploy large mining drills in order to engage in resource collection.
+	</p></li>
+	<li><h3>Other Missions</h3>
+	<p>Missions not for exploration or resource collection may be authorized by Head Staff as needed and individually designed for their specific cases.
+	</p></li>
+	<li><h2>Supply &amp; Operations</h2>
 	<p>Receipts are not required to be provided to crew for supply requests. All supply orders are logged on the supply console, and all receipts exist for the benefit of the one who placed the order.
-	</p>
-	<h2><span class="mw-headline" id="Stowaways">Stowaways</span></h2>
+	</p><p>The Quartermaster may, at their discretion, require signed authorizations for any supply orders or materiel retrieved from Supply. This is required for any materiel considered to be Controlled, and encouraged for valuable non-controlled or <i>de facto</i> authorized controlled materiel to ensure proper dispensation and receipt.
+	</p></li>
+	<li><h2>Stowaways</h2>
 	<p>Due to the station's desirability as a habitat for stowaways, it is important that they are handled properly and with due regard to the law. To this end, all Stowaways should be charged appropriately and nominally with UEE Law. This means trespassing and any other charges they may have accrued and the accompanying brig time it may bring. Following the completion of their time served all Stowaways should be placed on restriction (Common-area access only) until such a time as they can be removed safely from the station.
-	</p>
-	<h2><span id="Controlled_Substances/Items"></span><span class="mw-headline" id="Controlled_Substances.2FItems">Controlled Substances/Items</span></h2>
-	<ul><li>Controlled substances are any substances that have been restricted or made illegal by the UEE. The current list of controlled substances is as follows:
-	<ul><li>Concentrated extract of Ambrosia Vulgaris or Deus, colloquially “Space Drugs.” Note that this does not include the recreational use of Ambrosia while off duty, only the use of its concentrated extract.</li>
-	<li>Pure Lysergic Acid Diethylamide, (LSD) sometimes referred to as “Mindbreaker.”</li>
+	</p></li>
+	<li><h2>Controlled Substances/Items</h2>
+	<ol type="1"><li>Controlled substances are any substances that have been restricted or made illegal by the UEE. The current list of controlled substances is as follows:
+	<ol type="1"><li>Concentrated extract of Ambrosia Vulgaris or Deus, colloquially "Space Drugs." Note that this does not include the recreational use of Ambrosia while off duty, only the use of its concentrated extract.</li>
+	<li>Pure Lysergic Acid Diethylamide, (LSD) sometimes referred to as "Mindbreaker."</li>
 	<li>Concentrated toxic extracts of the "Reishi" mushroom, specifically Psilocybin.</li>
-	<li>Activated CarpoToxin, or “Zombie Powder.”</li>
+	<li>Activated CarpoToxin, or "Zombie Powder."</li>
 	<li>Synaptizine, Hyperzine, Oxycodone, and Chloral Hydrate when not used in a medical capacity. Note that Chloral Hydrate may be deemed an appropriate nonlethal method of riot control, but only in extreme circumstances and where lethal force is neither desired nor appropriate.</li>
-	<li>"Loyalty" Implants, or any other technology designed to alter behavior involuntarily to produce obedience. Exceptions exist for any Vox employed in a Head Staff position, any Captain, Chief of Security, and IAA.</li></ul></li>
+	<li>"Loyalty" Implants, or any other technology designed to alter behavior involuntarily to produce obedience. Exceptions exist for any Vox employed in a Head Staff position, any Captain, Chief of Security, and IAA.</li></ol></li>
 	<li>Controlled Items are items that have been restricted or made illegal by the UEE. The current list of controlled items is as follows:
-	<ul><li>Biological or Chemical Weapons, such as engineered viruses. Phoron gas is considered a chemical weapon when used offensively.</li>
+	<ol type="1"><li>Biological or Chemical Weapons, such as engineered viruses. Phoron gas is considered a chemical weapon when used offensively.</li>
 	<li>Military Explosives when not in use by authorized personnel. Such personnel are very limited and include active-duty UEE Military forces, UEE Security forces, and UEE Protectorate Services. Nanotrasen Security should not be confused for UEE Security. Note that constructive explosives, such as any charges used for mining are not subject to this restriction. Phoron-based explosives are considered military weapons.</li>
 	<li>Automatic Weapons when not in use by the Military, another authorised department of the UEE, or and otherwise authorized entity. This means any weapon capable of firing multiple shots when the trigger is depressed once, energy or otherwise.</li>
 	<li>Any cloning technology designed to rapidly grow an adult clone with fully-developed mental faculties. While Nanotrasen was originally a pioneer of such technology, the UEE soon recognized the far-reaching implications of such technology and has heavily-restricted its usage and dissemination.</li>
 	<li>Corporate security forces are considered an "authorized entity" with respect to the above clauses.</li>
 	<li>Weaponry in the possession of personnel who have not been authorised to possess it.</li>
-	<li>Hacking software which allows a person to subvert access to ship systems, bypass access restrictions or attack a vessels computer network.</li></ul></li></ul>
-	<h2><span class="mw-headline" id="Research_Operations">Research Operations</span></h2>
-	<ul><li>Science employees are permitted to use their lab spaces as they see fit with the following exceptions:
-	<ul><li>Any human experimentation must be done with the consent of the test subject, and must not have an undue risk of life. The CO may terminate any experiment for safety or ethical purposes at their discretion.</li>
+	<li>Hacking software which allows a person to subvert access to ship systems, bypass access restrictions or attack a vessels computer network.</li></ol></li></ol></li>
+	<li><h2>Research Operations</h2>
+	<ol type="1"><li>Science employees are permitted to use their lab spaces as they see fit with the following exceptions:</li>
+	<li>Any human experimentation must be done with the consent of the test subject, and must not have an undue risk of life. The Captain may terminate any experiment for safety or ethical purposes at their discretion.</li>
 	<li>Self-Experimentation is prohibited and is subject to endangerment charges of both self and others.</li>
 	<li>Testing of any explosives with risk of penetrating the hull or causing mass destruction must be done at an away site.</li>
 	<li>Small arms and larger weapons must also be tested at an away site if there is risk to the hull.</li>
 	<li>Distribution of experimental technology to research personnel for testing is permitted within research areas or at away sites.</li>
-	<li>Use of experimental technology in public areas must be authorized on a case-by-case basis by the CO or XO.</li>
+	<li>Use of experimental technology in public areas must be authorized on a case-by-case basis by the Captain or Chief of Security.</li>
 	<li>Experimental technology may be provided to crew departments for testing and use with the approval of the department head.</li>
 	<li>Xenobiological organisms, anomalous entities, and xenoarchaeological finds must remain secured within research areas unless authorized by the Captain or Regional Operations official.</li>
-	<li>Science employees are permitted to properly utilize Controlled Substances or Items for the purposes of research provided doing so does not endanger themselves, the Endeavour, or other crewmembers.</li></ul></li></ul>
-	</body>
-	</html>
+	<li>Science employees are permitted to properly utilize Controlled Substances or Items for the purposes of research provided doing so does not endanger themselves, the Endeavour, or other crewmembers.</li></ol></li></ol>
 	"}
