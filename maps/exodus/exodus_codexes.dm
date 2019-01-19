@@ -98,7 +98,7 @@
 	<li>Diplomacy: If communication is established, and the new species has some form of government or hierarchy that diplomatic contact can be made with, make every effort to open diplomatic communication with this government, a process which should be spearheaded by the IAA or Captain.</li></ol></li>
 	<li><h2>Medical Evaluation</h2>
 	<p>The Chief Medical Officer may declare any crewman or passenger unfit for duty, and remove them from their position. In this duty, the CMO outranks everyone. However, they will be required to justify their assessment to Nanotrasen Regional Operations. In most legitimate cases, this assessment will be <i>ad oculos</i>, but the CMO's medical license and employment are on the line with each such ruling of duty fitness.<br>
-	This regulation, unlike other non-legal regulations, cannot be overruled by the Captain, but can be overruled by an assigned IAA whose sole duty is to protect.
+	This regulation, unlike other non-legal regulations, cannot be overruled by the Captain, but can be overruled by an assigned IAA.
 	</p></li>
 	<li><h2>Weaponry</h2>
 	<p>Those non-security personnel who are permitted to carry weaponry other than non-lethal flashes are assumed to be any personnel who have access to weapon(s) in their locker, or who have default authorization to carry them. This includes, but is not limited to, Detective, IAA, and Bartender crewmembers.

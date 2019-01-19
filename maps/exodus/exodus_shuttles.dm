@@ -281,7 +281,7 @@
 
 /obj/machinery/computer/shuttle_control/arrival
 	name = "arrival shuttle control console"
-	req_access = list(access_heads)
+	req_access = list(access_cent_general)
 	icon_keyboard = "power_key"
 	icon_screen = "shuttle"
 	shuttle_tag = "Arrival"
@@ -504,6 +504,7 @@
 	landmark_tag = "nav_rescue_start"
 	base_area = /area/rescue_base/base
 	base_turf = /turf/unsimulated/floor
+	docking_controller = "rescue_base"
 
 /obj/effect/shuttle_landmark/rescue/transit
 	name = "In Transit"

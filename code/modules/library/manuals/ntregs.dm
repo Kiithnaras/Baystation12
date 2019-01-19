@@ -4,52 +4,39 @@
 		<html class="client-nojs" lang="en" dir="ltr">
 		<head>
 		<meta charset="UTF-8"/>
-		<title>Corporate Regulations - SS13 Polaris</title>
+		<title>Corporate Regulations - NSS Endeavour</title>
 		</head>
-		<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Corporate_Regulations rootpage-Corporate_Regulations skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
-				<div id="mw-head-base" class="noprint"></div>
-				<div id="content" class="mw-body" role="main">
-					<a id="top"></a>
-
-								<div class="mw-indicators mw-body-content">
-		</div>
-					<h1 id="firstHeading" class="firstHeading" lang="en">Corporate Regulations</h1>
-											<div id="bodyContent" class="mw-body-content">
-											<div id="siteSub">From SS13 Polaris</div>
-										<div id="contentSub"></div>
-														<div id="jump-to-nav" class="mw-jump">
-							Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
-						</div>
-						<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p>Corporate Regulations are rules set by NanoTrasen that all visitors and employees must follow while working at or while on-board a NanoTrasen installation. Corporate Regulations, commonly shortened to Corp Regs by employees, is common throughout NanoTrasen holdings. A breach of Corporate Regulations can range from things like littering, to disrespecting a Head of Staff, to failing to follow a valid order from a superior. All NanoTrasen employees must follow these regulations as no one is above them, not even the Station Director. The only exception to this is Asset Protection.
+		<body>
+		<p>Corporate Regulations are rules set by NanoTrasen that all visitors and employees must follow while working at or while on-board a NanoTrasen installation. Corporate Regulations, commonly shortened to Corp Regs by employees, is common throughout NanoTrasen holdings. A breach of Corporate Regulations can range from things like littering, to disrespecting a Head of Staff, to failing to follow a valid order from a superior. All NanoTrasen employees must follow these regulations as no one is above them, not even the Captain or other Station Director. The only exception to this is Asset Protection, whose duty is to oversee and report any significant deviations, particularly from Head Staff, to NanoTrasen Regional Operations, and to ultimately ensure the safety and productivity of the station.
 		</p>
 		<div id="toc" class="toc"><div id="toctitle" class="toctitle"><h2>Contents</h2></div>
 		<ul>
-		<li class="toclevel-1 tocsection-1"><a href="#Corporate_Regulations"><span class="tocnumber">1</span> <span class="toctext">Corporate Regulations</span></a>
+		<li class="toclevel-1 tocsection-1">><span class="tocnumber">1</span> <span class="toctext">Corporate Regulations</span>
 		<ul>
-		<li class="toclevel-2 tocsection-2"><a href="#Punishments_.28Corporate.29"><span class="tocnumber">1.1</span> <span class="toctext">Punishments (Corporate)</span></a></li>
-		<li class="toclevel-2 tocsection-3"><a href="#Contraband"><span class="tocnumber">1.2</span> <span class="toctext">Contraband</span></a>
+		<li class="toclevel-2 tocsection-2">><span class="tocnumber">1.1</span> <span class="toctext">Punishments (Corporate)</span></li>
+		<li class="toclevel-2 tocsection-3">><span class="tocnumber">1.2</span> <span class="toctext">Contraband</span>
 		<ul>
-		<li class="toclevel-3 tocsection-4"><a href="#Not_Contraband"><span class="tocnumber">1.2.1</span> <span class="toctext">Not Contraband</span></a></li>
-		<li class="toclevel-3 tocsection-5"><a href="#Controlled_Objects"><span class="tocnumber">1.2.2</span> <span class="toctext">Controlled Objects</span></a></li>
-		<li class="toclevel-3 tocsection-6"><a href="#Restricted_Objects"><span class="tocnumber">1.2.3</span> <span class="toctext">Restricted Objects</span></a></li>
+		<li class="toclevel-3 tocsection-4">><span class="tocnumber">1.2.1</span> <span class="toctext">Not Contraband</span></li>
+		<li class="toclevel-3 tocsection-5">><span class="tocnumber">1.2.2</span> <span class="toctext">Controlled Objects</span></li>
+		<li class="toclevel-3 tocsection-6">><span class="tocnumber">1.2.3</span> <span class="toctext">Restricted Objects</span></li>
 		</ul>
 		</li>
 		</ul>
 		</li>
-		<li class="toclevel-1 tocsection-7"><a href="#Minor_Violations_.28Corporate.29"><span class="tocnumber">2</span> <span class="toctext">Minor Violations (Corporate)</span></a></li>
-		<li class="toclevel-1 tocsection-8"><a href="#Major_Violations_.28Corporate.29"><span class="tocnumber">3</span> <span class="toctext">Major Violations (Corporate)</span></a></li>
-		<li class="toclevel-1 tocsection-9"><a href="#UEE_Law"><span class="tocnumber">4</span> <span class="toctext">UEE Law</span></a>
+		<li class="toclevel-1 tocsection-7">><span class="tocnumber">2</span> <span class="toctext">Minor Violations (Corporate)</span></li>
+		<li class="toclevel-1 tocsection-8">><span class="tocnumber">3</span> <span class="toctext">Major Violations (Corporate)</span></li>
+		<li class="toclevel-1 tocsection-9">><span class="tocnumber">4</span> <span class="toctext">UEE Law</span>
 		<ul>
-		<li class="toclevel-2 tocsection-10"><a href="#Punishments_.28Law.29"><span class="tocnumber">4.1</span> <span class="toctext">Punishments (Law)</span></a></li>
-		<li class="toclevel-2 tocsection-11"><a href="#Minor_Violations_.28Law.29"><span class="tocnumber">4.2</span> <span class="toctext">Minor Violations (Law)</span></a></li>
-		<li class="toclevel-2 tocsection-12"><a href="#Major_Violations_.28Law.29"><span class="tocnumber">4.3</span> <span class="toctext">Major Violations (Law)</span></a></li>
+		<li class="toclevel-2 tocsection-10">><span class="tocnumber">4.1</span> <span class="toctext">Punishments (Law)</span></li>
+		<li class="toclevel-2 tocsection-11">><span class="tocnumber">4.2</span> <span class="toctext">Minor Violations (Law)</span></li>
+		<li class="toclevel-2 tocsection-12">><span class="tocnumber">4.3</span> <span class="toctext">Major Violations (Law)</span></li>
 		</ul>
 		</li>
 		</ul>
 		</div>
 
-		<h1><span class="mw-headline" id="Corporate_Regulations">Corporate Regulations</span></h1>
-		<h2><span class="mw-headline" id="Punishments_.28Corporate.29">Punishments (Corporate)</span></h2>
+		<h1>Corporate Regulations</h1>
+		<h2>Punishments (Corporate)</h2>
 		<p>Violations of Corporate Regulations can be resolved in a variety of ways. The Command staff on-board the facility have discretion to decide on what form of punishment to use, however it is advised for the punishment to fit the severity of the infraction. To help with this, each violation has a suggested punishment alongside it.
 		</p><p>The punishments that Command may use are as follows;
 		</p>
@@ -735,7 +722,7 @@
 	<li>Diplomacy: If communication is established, and the new species has some form of government or hierarchy that diplomatic contact can be made with, make every effort to open diplomatic communication with this government, a process which should be spearheaded by the IAA or Captain.</li></ol></li>
 	<li><h2>Medical Evaluation</h2>
 	<p>The Chief Medical Officer may declare any crewman or passenger unfit for duty, and remove them from their position. In this duty, the CMO outranks everyone. However, they will be required to justify their assessment to Nanotrasen Regional Operations. In most legitimate cases, this assessment will be <i>ad oculos</i>, but the CMO's medical license and employment are on the line with each such ruling of duty fitness.<br>
-	This regulation, unlike other non-legal regulations, cannot be overruled by the Captain, but can be overruled by an assigned IAA whose sole duty is to protect.
+	This regulation, unlike other non-legal regulations, cannot be overruled by the Captain, but can be overruled by an assigned IAA.
 	</p></li>
 	<li><h2>Weaponry</h2>
 	<p>Those non-security personnel who are permitted to carry weaponry other than non-lethal flashes are assumed to be any personnel who have access to weapon(s) in their locker, or who have default authorization to carry them. This includes, but is not limited to, Detective, IAA, and Bartender crewmembers.
