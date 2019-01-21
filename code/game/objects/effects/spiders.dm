@@ -127,7 +127,7 @@
 	var/obj/machinery/atmospherics/unary/vent_pump/entry_vent
 	var/travelling_in_vent = 0
 	var/dormant = FALSE    // If dormant, does not add the spiderling to the process list unless it's also growing
-	var/growth_chance = 50 // % chance of beginning growth, and eventually become a beautiful death machine
+	var/growth_chance = 25 // % chance of beginning growth, and eventually become a beautiful death machine
 
 	var/shift_range = 6
 	var/castes = list(/mob/living/simple_animal/hostile/giant_spider = 2,
@@ -294,7 +294,7 @@
 	else if(prob(1))
 		src.visible_message("<span class='notice'>\The [src] skitters.</span>")
 
-	if(amount_grown > 0)
+	if(amount_grown > 0 && prob(growth_chance))
 		amount_grown += rand(0,2)
 
 /obj/effect/decal/cleanable/spiderling_remains
