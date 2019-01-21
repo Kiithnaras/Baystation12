@@ -82,8 +82,9 @@
 	colour = "vox"
 	key = "5"
 	flags = RESTRICTED
-	syllables = list("ti","ti","ti","hi","hi","ki","ki","ki","ki","ya","ta","ha","ka","ya","chi","cha","kah", \
-	"SKRE","AHK","EHK","RAWK","KRA","AAA","EEE","KI","II","KRI","KA")
+	syllables = list("ti","ti","ti","hi","hi","ki","ki","ki","ki","ga","ya","yi","yo","ta","ha","hi","ho","ka","ya","chi","cha","ga", "gi",\
+	"ko","te","ta","la","li","da","dah","di","do","cha","kah","ra","ri","ja","ji","jo","zha","zhi","zho","sha","shi","sho", \
+	"SKRE","AHK","EHK","RAWK","KRA","AAA","EEE","KI","II","KRI","KA","GHA","CHEE",)
 	machine_understands = 0
 	shorthand = "Vox"
 

@@ -39,17 +39,17 @@
 /obj/item/organ/internal/xeno/plasmavessel/queen
 	name = "bloated plasma vessel"
 	stored_plasma = 200
-	max_plasma = 500
+	max_plasma = 1000
 	associated_power = /mob/living/carbon/human/proc/neurotoxin
 
 /obj/item/organ/internal/xeno/plasmavessel/sentinel
 	stored_plasma = 100
-	max_plasma = 250
+	max_plasma = 350
 
 /obj/item/organ/internal/xeno/plasmavessel/hunter
 	name = "tiny plasma vessel"
 	stored_plasma = 100
-	max_plasma = 150
+	max_plasma = 200
 
 /obj/item/organ/internal/xeno/acidgland
 	name = "acid gland"

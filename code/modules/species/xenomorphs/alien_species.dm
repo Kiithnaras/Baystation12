@@ -47,6 +47,8 @@
 	spawn_flags = SPECIES_IS_RESTRICTED
 
 	reagent_tag = IS_XENOS
+	darksight_range = 5
+	darksight_tint = DARKTINT_GOOD
 
 	blood_color = "#05ee05"
 	flesh_color = "#282846"
@@ -62,6 +64,7 @@
 
 	breath_type = null
 	poison_types = null
+	strength = STR_HIGH
 
 	vision_flags = SEE_SELF|SEE_MOBS
 
@@ -357,6 +360,8 @@
 		TAG_FACTION =   FACTION_XENOPHAGE,
 		TAG_RELIGION =  RELIGION_OTHER
 	)
+	strength = STR_VHIGH
+	mob_size = MOB_LARGE
 
 /datum/hud_data/alien
 

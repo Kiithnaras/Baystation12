@@ -311,9 +311,6 @@
 				else
 					aforce = 0
 					return
-			else
-				to_chat(user, "\green There is no way to force open a welded door!")
-				return
 			if(AF.locked) //Behavior for bolted airlocks - They can't be opened period. Gotta melt them suckers! We also don't need to bother checking for power here.
 				aforce = 1
 				user.visible_message("<span class='notice'>[user] digs its claws in and starts to pry \the door open!</span>",\
