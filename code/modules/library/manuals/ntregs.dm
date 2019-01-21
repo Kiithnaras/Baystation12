@@ -646,9 +646,9 @@
 		"}
 
 /obj/item/weapon/book/manual/nt_sops
-	name = "NT SOP Manual"
+	name = "NanoTrasen Standard Operating Procedures Manual"
 	desc = "A set of corporate operating procedures."
-	icon_state = "bookSpaceLaw"
+	icon_state = "bookntsops"
 	author = "Nanotrasen"
 	title = "Nanotrasen Standard Operating Procedures Manual"
 
