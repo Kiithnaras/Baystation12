@@ -44,8 +44,8 @@
 /obj/random/tool
 	name = "random tool"
 	desc = "This is a random tool."
-	icon = 'icons/obj/tools.dmi'
-	icon_state = "legacywelder"
+	icon = 'icons/obj/items.dmi'
+	icon_state = "welder"
 
 /obj/random/tool/spawn_choices()
 	return list(/obj/item/weapon/screwdriver,
@@ -132,8 +132,8 @@
 /obj/random/medical
 	name = "Random Medical equipment"
 	desc = "This is a random medical item."
-	icon = 'icons/obj/medical_kits.dmi'
-	icon_state = "traumakit"
+	icon = 'icons/obj/items.dmi'
+	icon_state = "medrandom"
 
 /obj/random/medical/spawn_choices()
 	return list(/obj/random/medical/lite = 21,
@@ -155,8 +155,8 @@
 /obj/random/medical/lite
 	name = "Random Medicine"
 	desc = "This is a random simple medical item."
-	icon = 'icons/obj/medical_kits.dmi'
-	icon_state = "brutepack"
+	icon = 'icons/obj/items.dmi'
+	icon_state = "medrandom"
 	spawn_nothing_percentage = 25
 
 /obj/random/medical/lite/spawn_choices()
@@ -248,7 +248,7 @@
 /obj/random/energy
 	name = "Random Energy Weapon"
 	desc = "This is a random energy weapon."
-	icon = 'icons/obj/gun.dmi'
+	icon = 'icons/obj/guns/energy_gun.dmi'
 	icon_state = "energykill100"
 
 /obj/random/energy/spawn_choices()
@@ -268,7 +268,7 @@
 /obj/random/projectile
 	name = "Random Projectile Weapon"
 	desc = "This is a random projectile weapon."
-	icon = 'icons/obj/gun.dmi'
+	icon = 'icons/obj/guns/revolvers.dmi'
 	icon_state = "revolver"
 
 /obj/random/projectile/spawn_choices()
@@ -295,7 +295,7 @@
 /obj/random/handgun
 	name = "Random Handgun"
 	desc = "This is a random sidearm."
-	icon = 'icons/obj/gun.dmi'
+	icon = 'icons/obj/guns/pistols.dmi'
 	icon_state = "secgundark"
 
 /obj/random/handgun/spawn_choices()
@@ -430,8 +430,8 @@
 obj/random/closet //A couple of random closets to spice up maint
 	name = "random closet"
 	desc = "This is a random closet."
-	icon = 'icons/obj/closet.dmi'
-	icon_state = "syndicate1"
+	icon = 'icons/obj/closets/bases/closet.dmi'
+	icon_state = "base"
 
 obj/random/closet/spawn_choices()
 	return list(/obj/structure/closet,
@@ -552,7 +552,7 @@ obj/random/closet/spawn_choices()
 	name = "Random Cleaning Supplies"
 	desc = "This is a random bar of soap. Soap! SOAP?! SOAP!!!"
 	icon = 'icons/obj/items.dmi'
-	icon_state = "soap"
+	icon_state = "soaprandom"
 
 /obj/random/soap/spawn_choices()
 	return list(/obj/item/weapon/soap = 4,
@@ -1228,9 +1228,14 @@ var/list/random_useful_
 				/obj/item/weapon/reagent_containers/food/snacks/poppypretzel,
 				/obj/item/clothing/mask/chewable/candy/gum)
 
+/obj/random/mre/dessert/vegan
+	name = "random vegan MRE dessert"
+	desc = "This is a random vegan dessert for MREs."
+
 /obj/random/mre/dessert/vegan/spawn_choices()
 	return list(/obj/item/weapon/reagent_containers/food/snacks/candy,
 				/obj/item/weapon/reagent_containers/food/snacks/chocolatebar,
+				/obj/item/weapon/reagent_containers/food/snacks/donut/cherryjelly,
 				/obj/item/weapon/reagent_containers/food/snacks/plumphelmetbiscuit)
 
 /obj/random/mre/drink
@@ -1255,6 +1260,13 @@ var/list/random_useful_
 /obj/random/mre/spread/spawn_choices()
 	return list(/obj/item/weapon/reagent_containers/food/condiment/small/packet/jelly,
 				/obj/item/weapon/reagent_containers/food/condiment/small/packet/honey)
+
+/obj/random/mre/spread/vegan
+	name = "random vegan MRE spread"
+	desc = "This is a random vegan spread packet for MREs"
+
+/obj/random/mre/spread/vegan/spawn_choices()
+	return list(/obj/item/weapon/reagent_containers/food/condiment/small/packet/jelly)
 
 /obj/random/mre/sauce
 	name = "random MRE sauce"
@@ -1293,4 +1305,4 @@ var/list/random_useful_
 				/obj/item/weapon/reagent_containers/food/condiment/small/packet/crayon/blue,
 				/obj/item/weapon/reagent_containers/food/condiment/small/packet/crayon/purple,
 				/obj/item/weapon/reagent_containers/food/condiment/small/packet/crayon/grey,
-				/obj/item/weapon/reagent_containers/food/condiment/small/packet/crayon/brown,)
+				/obj/item/weapon/reagent_containers/food/condiment/small/packet/crayon/brown)

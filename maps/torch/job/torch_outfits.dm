@@ -41,7 +41,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 	name = OUTFIT_JOB_NAME("Commanding Officer")
 	glasses = /obj/item/clothing/glasses/sunglasses
 	uniform = /obj/item/clothing/under/solgov/utility/expeditionary/officer/command
-	l_ear = /obj/item/device/radio/headset/heads/torchcaptain
+	l_ear = /obj/item/device/radio/headset/heads/torchexec
 	shoes = /obj/item/clothing/shoes/dutyboots
 	head = /obj/item/clothing/head/soft/solgov/expedition/co
 	id_type = /obj/item/weapon/card/id/torch/gold
@@ -56,7 +56,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 /decl/hierarchy/outfit/job/torch/crew/command/XO
 	name = OUTFIT_JOB_NAME("Executive Officer")
 	uniform = /obj/item/clothing/under/solgov/utility/expeditionary/officer/command
-	l_ear = /obj/item/device/radio/headset/heads/torchxo
+	l_ear = /obj/item/device/radio/headset/heads/torchexec
 	shoes = /obj/item/clothing/shoes/dutyboots
 	id_type = /obj/item/weapon/card/id/torch/silver
 	pda_type = /obj/item/modular_computer/pda/heads/hop
@@ -120,16 +120,48 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 	uniform = /obj/item/clothing/under/solgov/utility/fleet/combat/security
 	shoes = /obj/item/clothing/shoes/dutyboots
 
-/decl/hierarchy/outfit/job/torch/passenger/research/cl
+/decl/hierarchy/outfit/job/torch/passenger/workplace_liaison
 	name = OUTFIT_JOB_NAME("Workplace Liaison")
 	l_ear = /obj/item/device/radio/headset/heads/torchntcommand
 	uniform = /obj/item/clothing/under/suit_jacket/corp
 	shoes = /obj/item/clothing/shoes/laceup
-	id_type = /obj/item/weapon/card/id/torch/passenger/research/liaison
+	id_type = /obj/item/weapon/card/id/torch/passenger/corporate/liaison
 	pda_type = /obj/item/modular_computer/pda/heads/paperpusher
 	backpack_contents = list(/obj/item/clothing/accessory/badge/nanotrasen = 1)
 
-decl/hierarchy/outfit/job/torch/passenger/research/cl/union
+/decl/hierarchy/outfit/job/torch/passenger/corporate_bodyguard
+	name = OUTFIT_JOB_NAME("Loss Prevention Associate")
+	l_ear =    /obj/item/device/radio/headset/heads/torchcorp
+	uniform =  /obj/item/clothing/under/suit_jacket/corp
+	shoes =    /obj/item/clothing/shoes/laceup
+	id_type =  /obj/item/weapon/card/id/torch/passenger/corporate
+	pda_type = /obj/item/modular_computer/pda/heads/paperpusher
+
+/decl/hierarchy/outfit/job/torch/passenger/corporate_bodyguard/union
+	name = OUTFIT_JOB_NAME("Union Enforcer")
+	l_pocket = /obj/item/clothing/mask/smokable/cigarette/cigar/cohiba
+	r_pocket = /obj/item/weapon/flame/lighter/zippo
+
+/decl/hierarchy/outfit/job/torch/passenger/corporate_bodyguard/equip(mob/living/carbon/human/H, var/rank, var/assignment, var/equip_adjustments)
+	. = ..()
+	if(H)
+		var/obj/item/weapon/gun/energy/gun/secure/corporate/firearm = new(H)
+		if(istype(H.w_uniform, /obj/item/clothing))
+			var/obj/item/clothing/uniform = H.w_uniform
+			var/obj/item/clothing/accessory/storage/holster/thigh/holster = new(H)
+			if(uniform.can_attach_accessory(holster))
+				var/datum/extension/holster/holster_extension = get_extension(holster, /datum/extension/holster)
+				holster_extension.holstered = firearm
+				firearm.forceMove(holster)
+				uniform.attackby(holster, H)
+			else
+				qdel(holster)
+		if(firearm.loc == H)
+			H.put_in_any_hand_if_possible(firearm)
+			if(H.l_hand != firearm && H.r_hand != firearm)
+				firearm.forceMove(get_turf(H))
+
+/decl/hierarchy/outfit/job/torch/passenger/workplace_liaison/union_rep
 	name = OUTFIT_JOB_NAME("Union Representative")
 	l_pocket = /obj/item/clothing/mask/smokable/cigarette/cigar/cohiba
 	r_pocket = /obj/item/weapon/flame/lighter/zippo
@@ -147,7 +179,7 @@ decl/hierarchy/outfit/job/torch/passenger/research/cl/union
 	name = OUTFIT_JOB_NAME("Senior Enlisted Advisor - Fleet")
 	uniform = /obj/item/clothing/under/solgov/utility/fleet/command
 	shoes = /obj/item/clothing/shoes/dutyboots
-	l_ear = /obj/item/device/radio/headset/heads/torchxo
+	l_ear = /obj/item/device/radio/headset/sea
 	id_type = /obj/item/weapon/card/id/torch/crew/sea
 	pda_type = /obj/item/modular_computer/pda/heads
 
