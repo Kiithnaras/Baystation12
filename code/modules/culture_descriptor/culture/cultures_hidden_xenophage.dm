@@ -5,6 +5,7 @@
 	additional_langs = list(LANGUAGE_XENOPHAGE_HIVE)
 	var/caste_name = "drone"
 	var/caste_number = 0
+	description = "You are a member of the mighty Xenophage species! You are a parasitoid species that requires others for violent and lethal procreation. Those that are not vessels for your young are merely food! Grow and prosper, my children!"
 
 /decl/cultural_info/culture/hidden/xenophage/get_random_name()
 	return "alien [caste_name] ([caste_number])"

@@ -12,6 +12,11 @@
 	use_power = POWER_USE_IDLE
 	icon_state = "map_on"
 
+/obj/machinery/atmospherics/binary/pump/high_power/on/New()
+	..()
+	air1.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+	air2.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+
 /obj/machinery/atmospherics/binary/pump/high_power/on_update_icon()
 	if(!powered())
 		icon_state = "off"

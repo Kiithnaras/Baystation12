@@ -325,14 +325,14 @@
 				else
 					aforce = 0
 					return
-			if((!(AF.arePowerSystemsOn()) || (stat & NOPOWER)) && !(AF.welded) && !(AF.locked)) //Finally! Behavior for airlocks without power that are neither welded nor bolted! Duplicate for Firelocks.
+			if((stat & NOPOWER) && !(AF.welded) && !(AF.locked)) //Finally! Behavior for airlocks without power that are neither welded nor bolted! Duplicate for Firelocks.
 				user.visible_message("<span class='notice'>[user] digs its claws in and easily opens \the powerless door!</span>",\
 					"\green You dig your claws in and easily open \the powerless door!",\
 					"You hear a door opening.")
 				if(do_after(user,5))
 					open(1)
 					return
-			if(AF.arePowerSystemsOn() && !(stat & NOPOWER)) //Normal Airlock operation forcing
+			if((stat ^ NOPOWER)) //Normal Airlock operation forcing
 				aforce = 1
 				user.visible_message("<span class='notice'>[user] digs their claws in and starts to force the door!</span>",\
 					"\green You dig your claws in and start to force the door!",\
@@ -354,6 +354,9 @@
 				else
 					aforce = 0
 					return
+			else
+				CRASH("Misfire in door-forcing logic stream.")
+				return
 //End Alien door forcing section
 
 	if(src.allowed(user) && operable())
