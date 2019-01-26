@@ -297,7 +297,7 @@
 	var/datum/spawnpoint/spawnpoint = job.get_spawnpoint(client)
 	var/turf/spawn_turf = pick(spawnpoint.turfs)
 	if(job.latejoin_at_spawnpoints)
-		var/obj/S = job.get_roundstart_spawnpoint()
+		var/obj/S = job.get_roundstart_spawnpoint(job.title)
 		spawn_turf = get_turf(S)
 
 	if(!SSjobs.check_unsafe_spawn(src, spawn_turf))

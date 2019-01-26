@@ -37,6 +37,7 @@
 	name = "Bolt 2411"
 	desc = "A true classic. Powerful and deadly, this chromed compact energy pistol is as much a fine-tuned personal defense weapon as it is a collector's item. Comes with a polished walnut stock and advanced powercell."
 	cell_type = "/obj/item/weapon/cell/apc"
+	icon = 'icons/obj/guns/bolt2411.dmi'
 	icon_state = "capenergystun100"
 	fire_sound = 'sound/weapons/Taser.ogg'
 

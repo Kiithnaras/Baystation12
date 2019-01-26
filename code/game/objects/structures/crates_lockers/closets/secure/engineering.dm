@@ -90,9 +90,9 @@
 	)
 
 /obj/structure/closet/secure_closet/voxatmos
-    name = "Vox replacement internals"
-    req_access = null
-
+	name = "Vox replacement internals"
+	req_access = null
+	closet_appearance = /decl/closet_appearance/secure_closet
 
 /obj/structure/closet/secure_closet/voxatmos/WillContain()
 	return list(
@@ -105,11 +105,7 @@
 /obj/structure/closet/secure_closet/voxengieva
 	name = "Vox Engineering EVA Closet"
 	req_access = list(access_eva)
-	icon_state = "secureeng1"
-	icon_closed = "secureeng"
-	icon_locked = "secureeng1"
-	icon_opened = "secureengopen"
-	icon_off = "secureengoff"
+	closet_appearance = /decl/closet_appearance/secure_closet/engineering/atmos
 
 /obj/structure/closet/secure_closet/voxengieva/WillContain()
 	return list(
@@ -123,11 +119,7 @@
 /obj/structure/closet/secure_closet/voxsecarmor
 	name = "Vox Security Body Armor Closet"
 	req_access = list(access_eva,access_security)
-	icon_state = "wardensecure1"
-	icon_closed = "wardensecure"
-	icon_locked = "wardensecure1"
-	icon_opened = "wardensecureopen"
-	icon_off = "wardensecureoff"
+	closet_appearance = /decl/closet_appearance/secure_closet/security
 
 /obj/structure/closet/secure_closet/voxsecarmor/WillContain()
 	return list(

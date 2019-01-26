@@ -67,12 +67,8 @@
 
 /obj/structure/closet/secure_closet/voxmedeva
 	name = "Vox Medical EVA Suits"
-	req_access = list(access_medical)
-	icon_state = "securemed1"
-	icon_closed = "securemed"
-	icon_locked = "securemed1"
-	icon_opened = "securemedopen"
-	icon_off = "securemedoff"
+	req_access = list(access_medical_equip)
+	closet_appearance = /decl/closet_appearance/secure_closet/medical
 
 /obj/structure/closet/secure_closet/voxmedeva/WillContain()
 	return list(

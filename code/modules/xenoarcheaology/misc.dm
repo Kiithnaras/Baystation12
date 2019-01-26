@@ -61,12 +61,7 @@
 /obj/structure/closet/secure_closet/voxarch
 	name = "Vox Archeology Suits"
 	req_access = list(access_tox_storage)
-	icon_state = "secureres1"
-	icon_closed = "secureres"
-	icon_locked = "secureres1"
-	icon_opened = "secureresopen"
-	icon_broken = "secureresbroken"
-	icon_off = "secureresoff"
+	closet_appearance = /decl/closet_appearance/secure_closet/expedition/science
 
 /obj/structure/closet/secure_closet/voxarch/WillContain()
 	return list(

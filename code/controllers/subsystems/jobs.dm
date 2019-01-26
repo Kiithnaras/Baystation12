@@ -473,7 +473,11 @@ SUBSYSTEM_DEF(jobs)
 	H.job = rank
 
 	if(!joined_late || job.latejoin_at_spawnpoints)
-		var/obj/S = job.get_roundstart_spawnpoint()
+		var/obj/S
+		if (H.species.name == SPECIES_VOX)
+			S = job.get_roundstart_spawnpoint("Vox Employee")
+		else
+			S = job.get_roundstart_spawnpoint(job.title)
 
 		if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
 			H.forceMove(S.loc)
