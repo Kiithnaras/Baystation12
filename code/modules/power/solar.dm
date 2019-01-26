@@ -343,9 +343,11 @@ var/list/solars_list = list()
 
 
 /obj/machinery/power/solar_control/Initialize()
-	. = ..()
-	if(!connect_to_network()) return
-	set_panels(cdir)
+	..()
+	spawn(250)
+		if(!powernet) return
+		set_panels(cdir)
+		connect_to_network()
 
 /obj/machinery/power/solar_control/on_update_icon()
 	if(stat & BROKEN)
@@ -512,12 +514,13 @@ var/list/solars_list = list()
 /obj/machinery/power/solar_control/autostart
 	track = 2 // Auto tracking mode
 
-/obj/machinery/power/solar_control/autostart/LateInitialize()
-	search_for_connected()
-	if(connected_tracker && track == 2)
-		connected_tracker.set_angle(GLOB.sun.angle)
+/obj/machinery/power/solar_control/autostart/New()
+	..()
+	spawn(300) // Wait 15 seconds to ensure everything was set up properly (such as, powernets, solar panels, etc.
+		search_for_connected()
+		if(connected_tracker && track == 2)
+			connected_tracker.set_angle(GLOB.sun.angle)
 		set_panels(cdir)
-	. = ..()
 
 //
 // MISC

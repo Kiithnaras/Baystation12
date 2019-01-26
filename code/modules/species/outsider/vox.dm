@@ -60,7 +60,7 @@
 	stomach_capacity = 12
 
 	breath_type = "nitrogen"
-	poison_types = list("oxygen" = TRUE)
+	poison_types = list("oxygen" = TRUE,"phoron" = TRUE, "chlorine" = TRUE)
 	exhale_type = "ammonia"
 	siemens_coefficient = 0.2
 
