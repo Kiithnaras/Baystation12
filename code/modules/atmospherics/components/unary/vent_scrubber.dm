@@ -59,11 +59,14 @@
 	var/scrubber_icon = "scrubber"
 	if(welded)
 		scrubber_icon += "weld"
+	else if(!powered() || !use_power)
+		scrubber_icon += "off"
+	else if(scrubbing == SCRUBBER_SIPHON)
+		scrubber_icon += "in"
+	else if(scrubbing == SCRUBBER_EXCHANGE)
+		scrubber_icon += "exc"
 	else
-		if(!powered())
-			scrubber_icon += "off"
-		else
-			scrubber_icon += "[use_power ? "[scrubbing ? "on" : "in"]" : "off"]"
+		scrubber_icon += "on"
 
 	overlays += icon_manager.get_atmos_icon("device", , , scrubber_icon)
 
@@ -339,5 +342,6 @@
 
 /obj/machinery/atmospherics/unary/vent_scrubber/vox
 	use_power = POWER_USE_IDLE
+	scrubbing = SCRUBBER_SCRUB
 	icon_state = "map_scrubber_on"
 	scrubbing_gas = list("carbon_dioxide","oxygen","ammonia")

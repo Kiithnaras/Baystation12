@@ -294,3 +294,7 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 
 /obj/structure/wall_frame/vox
 	material = MATERIAL_VOX
+
+/obj/item/weapon/storage/box/beakers/large
+	name = "box of BIG beakers"
+	startswith = list(/obj/item/weapon/reagent_containers/glass/beaker/large = 7)

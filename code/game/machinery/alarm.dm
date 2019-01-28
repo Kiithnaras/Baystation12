@@ -61,7 +61,7 @@
 
 	var/datum/wires/alarm/wires
 
-	var/mode = AALARM_MODE_SCRUBBING
+	var/mode = AALARM_MODE_REPLACEMENT
 	var/screen = AALARM_SCREEN_MAIN
 	var/area_uid
 	var/area/alarm_area
@@ -438,7 +438,7 @@
 
 		if(AALARM_MODE_REPLACEMENT)
 			for(var/device_id in alarm_area.air_scrub_names)
-				send_signal(device_id, list("power"= 1, "panic_siphon"= 1) )
+				send_signal(device_id, list("power"= 1, "panic_siphon"= 0, "co2_scrub"= 1, "nh3_scrub"= 1, "scrubbing"= SCRUBBER_EXCHANGE) )
 			for(var/device_id in alarm_area.air_vent_names)
 				send_signal(device_id, list("power"= 1, "checks"= "default", "set_external_pressure"= "default") )
 
@@ -592,7 +592,7 @@
 		if(AALARM_SCREEN_MODE)
 			var/modes[0]
 			modes[++modes.len] = list("name" = "Filtering - Scrubs out contaminants", 			"mode" = AALARM_MODE_SCRUBBING,		"selected" = mode == AALARM_MODE_SCRUBBING, 	"danger" = 0)
-			modes[++modes.len] = list("name" = "Replace Air - Siphons out air while replacing", "mode" = AALARM_MODE_REPLACEMENT,	"selected" = mode == AALARM_MODE_REPLACEMENT,	"danger" = 0)
+			modes[++modes.len] = list("name" = "Replace Air - Exchanges used air for fresh supply", "mode" = AALARM_MODE_REPLACEMENT,	"selected" = mode == AALARM_MODE_REPLACEMENT,	"danger" = 0)
 			modes[++modes.len] = list("name" = "Panic - Siphons air out of the room", 			"mode" = AALARM_MODE_PANIC,			"selected" = mode == AALARM_MODE_PANIC, 		"danger" = 1)
 			modes[++modes.len] = list("name" = "Cycle - Siphons air before replacing", 			"mode" = AALARM_MODE_CYCLE,			"selected" = mode == AALARM_MODE_CYCLE, 		"danger" = 1)
 			modes[++modes.len] = list("name" = "Fill - Shuts off scrubbers and opens vents", 	"mode" = AALARM_MODE_FILL,			"selected" = mode == AALARM_MODE_FILL, 			"danger" = 0)
@@ -1254,6 +1254,7 @@ Just a object used in constructing fire alarms
 
 /obj/machinery/alarm/voxdock/Initialize()
 	.=..()
+	mode = AALARM_MODE_SCRUBBING
 	TLV["oxygen"] =			list(-1, -1, 0.5, 1.0) //Partial pressure, kpa
 	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.75,ONE_ATMOSPHERE*0.85,ONE_ATMOSPHERE*1.20,ONE_ATMOSPHERE*1.30)
 	TLV["temperature"] =	list(T0C-40, T0C, T0C+40, T0C+100)

@@ -14,8 +14,8 @@
 
 /obj/machinery/atmospherics/binary/pump/high_power/on/New()
 	..()
-	air1.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
-	air2.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+	air1.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2
+	air2.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2
 
 /obj/machinery/atmospherics/binary/pump/high_power/on_update_icon()
 	if(!powered())
@@ -31,5 +31,5 @@
 /obj/machinery/atmospherics/binary/pump/high_power/on/distribution/New()
 	..()
 	target_pressure = round(3 * ONE_ATMOSPHERE)
-	air1.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
-	air2.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+	air1.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2
+	air2.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2

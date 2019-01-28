@@ -37,7 +37,7 @@
 			var/data_value = 1
 
 			switch(metal)
-				if(MATERIAL_SAND, MATERIAL_GRAPHENE, MATERIAL_IRON)
+				if(MATERIAL_SAND, MATERIAL_GRAPHENE, MATERIAL_IRON, MATERIAL_BAUXITE)
 					ore_type = "surface minerals"
 				if(MATERIAL_GOLD, MATERIAL_SILVER, MATERIAL_DIAMOND)
 					ore_type = "precious metals"
