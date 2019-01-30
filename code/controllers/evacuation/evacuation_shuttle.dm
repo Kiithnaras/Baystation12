@@ -51,11 +51,11 @@
 		shuttle.launch(src)
 	if(auxshuttle.location == 0)
 		auxshuttle.launch(src)
-//		departed = 1
+	departed = 1
 	// Announcements, state changes and such are handled by the shuttle itself to prevent desync.
 
 /datum/evacuation_controller/shuttle/finish_preparing_evac()
-	departed = 1
+//	departed = 1
 	evac_launch_time = world.time + evac_launch_delay
 	.=..()
 

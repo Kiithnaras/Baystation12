@@ -1253,11 +1253,11 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	icon_state = "exam_room"
 
 /area/medical/genetics
-	name = "\improper Genetics Lab"
+	name = "\improper Auxiliary Medical Treatment"
 	icon_state = "genetics"
 
 /area/medical/genetics_cloning
-	name = "\improper Cloning Lab"
+	name = "\improper Organic Replication Lab"
 	icon_state = "cloning"
 
 /area/medical/sleeper

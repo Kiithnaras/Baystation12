@@ -28,7 +28,6 @@
 	icon_colour = "#444444"
 	ore_smelts_to = MATERIAL_PLASTIC
 	ore_name = "graphene"
-	ore_smelts_to = MATERIAL_PLASTIC
 	ore_result_amount = 5
 	ore_spread_chance = 25
 	ore_scan_icon = "mineral_common"
@@ -79,6 +78,7 @@
 	table_icon_base = "stone"
 	icon_reinf = "reinf_stone"
 	ore_compresses_to = MATERIAL_PYRITE
+	ore_smelts_to = MATERIAL_IRON
 	sale_price = 2
 
 /material/spodumene
@@ -185,7 +185,7 @@
 	name = MATERIAL_BAUXITE
 	ore_name = "bauxite"
 	ore_result_amount = 10
-	ore_spread_chance = 10
+	ore_spread_chance = 25
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
 	icon_colour = "#d8ad97"

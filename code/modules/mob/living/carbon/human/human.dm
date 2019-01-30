@@ -888,7 +888,7 @@
 	for(var/obj/item/organ/external/organ in organs)
 		if(clean_feet || (organ.organ_tag in list(BP_L_HAND,BP_R_HAND)))
 			organ.gunshot_residue = null
-	
+
 	if(clean_feet && !shoes)
 		feet_blood_color = null
 		feet_blood_DNA = null
@@ -1023,6 +1023,9 @@
 		species.remove_inherent_verbs(src)
 		holder_type = null
 
+	if(client && client.screen) //Reset our client screens if client is logged in.
+		client.screen = list()
+
 	species = all_species[new_species]
 	species.handle_pre_spawn(src)
 
@@ -1080,10 +1083,23 @@
 			vessel.maximum_volume = species.blood_volume
 		fixblood()
 
+	//Original Location of screen updates. Attempting lots of shitshovelling.
 	// Rebuild the HUD. If they aren't logged in then login() should reinstantiate it for them.
-	if(client && client.screen)
-		client.screen.len = null
-		InitializeHud()
+	if(client)
+		InitializeHud() //Re-intialize the hud
+
+//		set_sight(sight|SEE_SELF) //Set our default sight modes
+
+//		l_plane = new()
+//		l_general = new()
+		client.screen += l_plane
+		client.screen += l_general
+		client.screen += skybox
+
+		//Do all of the update things that InitializeHud() does not; extrapolated from login.dm.
+		refresh_client_images()
+		reload_fullscreen()
+		update_action_buttons()
 
 	if(config && config.use_cortical_stacks && client && client.prefs.has_cortical_stack)
 		create_stack()
@@ -1418,7 +1434,7 @@
 	var/bpm = get_pulse_as_number()
 	if(bpm >= PULSE_MAX_BPM)
 		return method ? ">[PULSE_MAX_BPM]" : "extremely weak and fast, patient's artery feels like a thread"
-	
+
 	return "[method ? bpm : bpm + rand(-10, 10)]"
 // output for machines ^	 ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ output for people
 

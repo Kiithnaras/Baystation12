@@ -99,7 +99,7 @@
 	. = ..()
 
 /obj/effect/spider/eggcluster/Process()
-	if(prob(80))
+	if(prob(50))
 		amount_grown += rand(0,2)
 	if(amount_grown >= 100)
 		var/num = rand(3,9)
@@ -180,6 +180,7 @@
 	if(!dormant)
 		return
 	dormant = FALSE
+	amount_grown = 1
 
 	GLOB.moved_event.unregister(src, src, /obj/effect/spider/spiderling/proc/disturbed)
 	START_PROCESSING(SSobj, src)

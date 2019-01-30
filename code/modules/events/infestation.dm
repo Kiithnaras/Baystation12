@@ -63,7 +63,7 @@
 			var/spawn_type = pick(spawn_types)
 			var/obj/effect/spider/spiderling/S = new spawn_type(T)
 			if(istype(S))
-				S.growth_chance = 2
+				S.growth_chance = 5
 
 /datum/event/infestation/announce()
 	command_announcement.Announce("Bioscans indicate that [vermstring] have been breeding in \the [location]. Clear them out, before this starts to affect productivity.", "Major Bill's Shipping Critter Sensor", zlevels = affecting_z)

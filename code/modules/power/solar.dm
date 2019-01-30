@@ -514,7 +514,7 @@ var/list/solars_list = list()
 /obj/machinery/power/solar_control/autostart
 	track = 2 // Auto tracking mode
 
-/obj/machinery/power/solar_control/autostart/New()
+/obj/machinery/power/solar_control/autostart/Initialize()
 	..()
 	spawn(300) // Wait 15 seconds to ensure everything was set up properly (such as, powernets, solar panels, etc.
 		search_for_connected()

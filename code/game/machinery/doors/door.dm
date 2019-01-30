@@ -294,7 +294,7 @@
 					"\green You jab your claws into \the door weld and yank!",\
 					"<span class='notice'>You hear a loud metal thunk!</span>")
 				if(do_after(user,40))
-					if(prob(20))
+					if(prob(25))
 						user.visible_message("<span class='notice'>[user] rips the door weld apart and forces the doors open!</span>",\
 							"\green You rip the door weld apart and force the doors open!",\
 							"<span class='warning'>You hear the sound of tearing metal and a door opening!</span>")

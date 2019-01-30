@@ -176,7 +176,7 @@
 				"\green You dig your claws in and start to force \the door!",\
 				"<span class='notice'>You hear a metallic thunk.</span>")
 			if(do_after(user, 40))
-				if(prob(34))
+				if(prob(50))
 					user.visible_message("<span class='notice'>[user] slowly forces the door open!</span>",\
 						"\green You slowly force the door open!",\
 						"<span class='notice'>You hear a door straining open.</span>")

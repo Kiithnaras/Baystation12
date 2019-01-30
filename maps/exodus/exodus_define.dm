@@ -61,12 +61,13 @@
 	emergency_shuttle_recall_message = "The emergency shuttle has been recalled."
 
 	evac_controller_type = /datum/evacuation_controller/shuttle
-
+/*
 /datum/map/exodus/perform_map_generation()
 
-	new /datum/random_map/automata/cave_system(null, 1, 1, Z_LEVEL_ABANDONED_ASTEROID, world.maxx, world.maxy) // Create the mining Z-level.
-	new /datum/random_map/noise/ore(null, 1, 1, Z_LEVEL_ABANDONED_ASTEROID, world.maxx, world.maxy)         // Create the mining ore distribution map.
+//	new /datum/random_map/automata/cave_system(TRUE, 1, 1, Z_LEVEL_ABANDONED_ASTEROID, world.maxx, world.maxy) // Create the mining Z-level.
+//	new /datum/random_map/noise/ore(TRUE, 1, 1, Z_LEVEL_ABANDONED_ASTEROID, world.maxx, world.maxy)         // Create the mining ore distribution map.
 
-	new /datum/random_map/automata/cave_system(null, 1, 1, Z_LEVEL_MINING, world.maxx, world.maxy) // Create the mining Z-level.
-	new /datum/random_map/noise/ore(null, 1, 1, Z_LEVEL_MINING, world.maxx, world.maxy)         // Create the mining ore distribution map.
+	new /datum/random_map/automata/cave_system(TRUE, 1, 1, Z_LEVEL_MINING, world.maxx, world.maxy) // Create the mining Z-level.
+	new /datum/random_map/noise/ore(TRUE, 1, 1, Z_LEVEL_MINING, world.maxx, world.maxy)         // Create the mining ore distribution map.
 	return 1
+*/

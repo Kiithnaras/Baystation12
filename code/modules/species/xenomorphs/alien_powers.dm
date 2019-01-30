@@ -111,9 +111,6 @@
 	if(check_alien_ability(500))
 		visible_message("<span class='alium'><B>[src] begins to twist and contort!</B></span>", "<span class='alium'>You begin to evolve!</span>")
 		src.set_species("Xenophage Queen")
-		sleep(3)
-		src.update_icons()
-		src.update_sight()
 	return
 
 /mob/living/carbon/human/proc/plant()

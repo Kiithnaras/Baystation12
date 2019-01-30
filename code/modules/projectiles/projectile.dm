@@ -75,12 +75,12 @@
 
 /obj/item/projectile/Destroy()
 	return ..()
-
-/obj/item/projectile/forceMove()
+/*
+/obj/item/projectile/forceMove()	//Commented. If in Space in Space area, guns just don't fire at all. Who did this?
 	..()
 	if(istype(loc, /turf/space/) && istype(loc.loc, /area/space))
 		qdel(src)
-
+*/
 //TODO: make it so this is called more reliably, instead of sometimes by bullet_act() and sometimes not
 /obj/item/projectile/proc/on_hit(var/atom/target, var/blocked = 0, var/def_zone = null)
 	if(blocked >= 100)		return 0//Full block
