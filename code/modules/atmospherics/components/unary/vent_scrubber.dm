@@ -166,9 +166,9 @@
 		transfer_moles = min(environment.total_moles, environment.total_moles*MAX_SCRUBBER_FLOWRATE/environment.volume)	//group_multiplier gets divided out here
 		power_draw = scrub_gas(src, scrubbing_gas, environment, air_contents, transfer_moles, power_rating)
 
-	if(scrubbing != SCRUBBER_SIPHON && last_airflow <= 0)	//99% of all scrubbers
-		//Fucking hibernate because you ain't doing shit.
-		hibernate = world.time + (rand(150,300))
+	if(scrubbing != SCRUBBER_SIPHON && power_draw <= 0 && last_power_draw <= 0 && last_flow_rate <= 0)	//99% of all scrubbers, but really make sure we weren't working recently.
+			//Fucking hibernate because you ain't doing shit.
+		hibernate = world.time + rand(160,240)
 	else if(scrubbing == SCRUBBER_EXCHANGE) // after sleep check so it only does an exchange if there are bad gasses that have been scrubbed
 		transfer_moles = min(environment.total_moles, environment.total_moles*MAX_SCRUBBER_FLOWRATE/environment.volume)
 		power_draw += pump_gas(src, environment, air_contents, transfer_moles / 4, power_rating)
@@ -344,4 +344,4 @@
 	use_power = POWER_USE_IDLE
 	scrubbing = SCRUBBER_SCRUB
 	icon_state = "map_scrubber_on"
-	scrubbing_gas = list("carbon_dioxide","oxygen","ammonia")
+	scrubbing_gas = list("oxygen","ammonia","carbon_dioxide","hydrogen","phoron","sleeping_agent")
