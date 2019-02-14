@@ -1037,10 +1037,19 @@
 		r_skin = hex2num(copytext(species.base_color,2,4))
 		g_skin = hex2num(copytext(species.base_color,4,6))
 		b_skin = hex2num(copytext(species.base_color,6,8))
+	else if(species.flesh_color && default_colour)         //Fixes set_species() creating black species all the bloody time. Maybe.
+		r_skin = hex2num(copytext(species.flesh_color,2,4))
+		g_skin = hex2num(copytext(species.flesh_color,4,6))
+		b_skin = hex2num(copytext(species.flesh_color,6,8))
 	else
 		r_skin = 0
 		g_skin = 0
 		b_skin = 0
+
+	if(species.default_hair_color && default_colour)
+		r_hair = hex2num(copytext(species.default_hair_color,2,4))
+		g_hair = hex2num(copytext(species.default_hair_color,4,6))
+		b_hair = hex2num(copytext(species.default_hair_color,6,8))
 
 	if(species.holder_type)
 		holder_type = species.holder_type

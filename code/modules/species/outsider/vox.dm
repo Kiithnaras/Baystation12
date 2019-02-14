@@ -70,6 +70,7 @@
 
 	blood_color = "#2299fc"
 	flesh_color = "#808d11"
+	default_hair_color = "#3f2413"
 
 	min_age = 10
 	max_age = 1000
