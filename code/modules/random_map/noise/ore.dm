@@ -1,7 +1,7 @@
 /datum/random_map/noise/ore
 	descriptor = "ore distribution map"
-	var/deep_val = 0.8              // Threshold for deep metals, set in new as percentage of cell_range.
-	var/rare_val = 0.66             // Threshold for rare metal, set in new as percentage of cell_range.
+	var/deep_val = 0.75              // Threshold for deep metals, set in new as percentage of cell_range.
+	var/rare_val = 0.60             // Threshold for rare metal, set in new as percentage of cell_range.
 	var/chunk_size = 4              // Size each cell represents on map
 	var/min_surface_ratio = MIN_SURFACE_COUNT_PER_CHUNK
 	var/min_rare_ratio = MIN_RARE_COUNT_PER_CHUNK
@@ -28,6 +28,8 @@
 			deep_count++
 
 	var/num_chunks = surface_count + rare_count + deep_count
+
+	world.log << "Calculated [surface_count] Surface, [rare_count] Rare, and [deep_count] Deep deposits."
 
 	// Sanity check.
 	if(surface_count < (min_surface_ratio * num_chunks))

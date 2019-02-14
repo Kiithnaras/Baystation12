@@ -1,6 +1,6 @@
 /datum/game_mode/var/next_spawn = 0
-/datum/game_mode/var/min_autotraitor_delay = 4200  // Approx 7 minutes.
-/datum/game_mode/var/max_autotraitor_delay = 12000 // Approx 20 minutes.
+/datum/game_mode/var/min_autotraitor_delay = 7 MINUTES
+/datum/game_mode/var/max_autotraitor_delay = 20 MINUTES
 /datum/game_mode/var/process_count = 0
 
 ///process()
@@ -16,6 +16,13 @@
 		return FALSE
 	// Don't create auto-antags in the last twenty minutes of the round, but only if the vote interval is longer than 20 minutes
 	if((config.vote_autotransfer_interval > 20 MINUTES) && (transfer_controller.time_till_transfer_vote() < 20 MINUTES))
+		return FALSE
+	// Don't create auto-antags if there are fewer than our scaling coefficient of players in the round.
+	var/count
+	for(var/mob/living/M in GLOB.player_list)
+		if(M.client)
+			count++
+	if(antag_scaling_coeff && antag_scaling_coeff > count)
 		return FALSE
 
 	return TRUE
