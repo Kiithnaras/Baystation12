@@ -298,3 +298,18 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 /obj/item/weapon/storage/box/beakers/large
 	name = "box of BIG beakers"
 	startswith = list(/obj/item/weapon/reagent_containers/glass/beaker/large = 7)
+
+/decl/closet_appearance/crate/aluminium
+	color = "#a0b2b2"
+
+/obj/structure/closet/crate/aluminium
+	name = "aluminium crate"
+	desc = "a rectangular aluminium crate"
+	points_per_crate = 1
+	closet_appearance = /decl/closet_appearance/crate/aluminium
+
+/datum/stack_recipe/furniture/crate/aluminium
+	title = "crate"
+	result_type = /obj/structure/closet/crate/aluminium
+	req_amount = 10
+	time = 50

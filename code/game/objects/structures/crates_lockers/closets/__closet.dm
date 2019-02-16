@@ -24,6 +24,7 @@
 	var/broken = FALSE
 	var/opened = FALSE
 	var/locked = FALSE
+	var/emagged = 0
 
 /obj/structure/closet/Initialize()
 	..()
@@ -535,6 +536,7 @@
 
 /obj/structure/closet/emag_act(var/remaining_charges, var/mob/user, var/emag_source, var/visual_feedback = "", var/audible_feedback = "")
 	if(make_broken())
+		emagged = 1
 		update_icon()
 		if(visual_feedback)
 			visible_message(visual_feedback, audible_feedback)

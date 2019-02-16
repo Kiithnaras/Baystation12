@@ -64,7 +64,7 @@
 			return
 		if(!user.unEquip(W))
 			return
-		move_into_gibber(user,G.affecting)
+		move_into_gibber(user, G.affecting)
 	else if(istype(W, /obj/item/organ))
 		if(!user.unEquip(W))
 			return
@@ -78,7 +78,7 @@
 		return
 	move_into_gibber(user,target)
 
-/obj/machinery/gibber/proc/move_into_gibber(var/mob/user,var/mob/living/victim)
+/obj/machinery/gibber/proc/move_into_gibber(var/mob/user, var/mob/living/victim)
 
 	if(src.occupant)
 		to_chat(user, "<span class='danger'>\The [src] is full, empty it first!</span>")
@@ -88,13 +88,14 @@
 		to_chat(user, "<span class='danger'>\The [src] is locked and running, wait for it to finish.</span>")
 		return
 
-	if(!(istype(victim, /mob/living/carbon)) || !(istype(victim, /mob/living/simple_animal)) )
+	if(!(istype(victim, /mob/living/carbon) || istype(victim, /mob/living/simple_animal)))
 		to_chat(user, "<span class='danger'>This is not suitable for \the [src]!</span>")
 		return
 
-	if(istype(victim,/mob/living/carbon/human) && !emagged)
-		to_chat(user, "<span class='danger'>\The [src] safety guard is engaged!</span>")
-		return
+	if(!(victim.isMonkey()))
+		if(istype(victim, /mob/living/carbon/human) && !emagged)
+			to_chat(user, "<span class='danger'>\The [src] safety guard is engaged!</span>")
+			return
 
 
 	if(victim.abiotic(1))

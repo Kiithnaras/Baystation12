@@ -209,7 +209,7 @@
 /obj/item/projectile/beam/plasmacutter/on_impact(var/atom/A)
 	if(istype(A, /turf/simulated/mineral))
 		var/turf/simulated/mineral/M = A
-		if(prob(33))
+		if(prob(75))
 			M.GetDrilled(1)
 			return
 		else

@@ -111,7 +111,7 @@ SUBSYSTEM_DEF(supply)
 					// Must sell ore detector disks in crates
 					if(istype(A, /obj/item/weapon/disk/survey))
 						var/obj/item/weapon/disk/survey/D = A
-						add_points_from_source(round(D.Value() * 0.005), "gep")
+						add_points_from_source(round(D.Value() * 0.10), "gep")
 			qdel(AM)
 
 	if(material_count.len)

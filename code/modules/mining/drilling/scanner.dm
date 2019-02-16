@@ -105,7 +105,7 @@
 
 /obj/item/weapon/disk/survey/Value()
 	if(data < 10000)
-		return 0.07*data
+		return 0.15*data
 	if(data < 30000)
-		return 0.1*data
-	return 0.15*data
+		return 0.12*data
+	return 0.10*data

@@ -94,38 +94,69 @@
  */
 
 /obj/item/weapon/card/emag_broken
-	desc = "It's a card with a magnetic strip attached to some circuitry. It looks too busted to be used for anything but salvage."
+	desc = "It's a card with various cables and attached circuitry.. It looks too busted to be used for anything but salvage."
 	name = "broken cryptographic sequencer"
 	icon_state = "emag"
 	item_state = "card-id"
 	origin_tech = list(TECH_MAGNET = 2, TECH_ILLEGAL = 2)
 
 /obj/item/weapon/card/emag
-	desc = "It's a card with a magnetic strip attached to some circuitry."
+	desc = "It's a card with various cables and attached circuitry. It seems someone delicate. Maybe you should handle it carefully."
 	name = "cryptographic sequencer"
 	icon_state = "emag"
 	item_state = "card-id"
 	origin_tech = list(TECH_MAGNET = 2, TECH_ILLEGAL = 2)
-	var/uses = 10
+	var/uses = 12
+	var/integrity = 3
+	var/working
 
 var/const/NO_EMAG_ACT = -50
 /obj/item/weapon/card/emag/resolve_attackby(atom/A, mob/user)
-	var/used_uses = A.emag_act(uses, user, src)
-	if(used_uses == NO_EMAG_ACT)
+	if(working)
+		to_chat(user,"<span class='notice'>You're already using \the [src], be patient...</span>")
+		return
+	if(!can_emag(A))
 		return ..(A, user)
+	else
+		A.add_fingerprint(user)
+		working = 1
+		user.visible_message("<span class='notice'>\The [user] attaches a device to \the [A]!",\
+			"<span class='notice'>You attach the [src] to \the [A] and start the sequencing algorithm!</span>")
+		if(do_after(user,60,src))
+			var/used_uses = A.emag_act(uses, user, src)
+			if(used_uses == NO_EMAG_ACT)
+				working = 0
+				return ..(A, user)
+			uses -= used_uses
+			if(used_uses)
+				log_and_message_admins("emagged \an [A].")
 
-	uses -= used_uses
-	A.add_fingerprint(user)
-	if(used_uses)
-		log_and_message_admins("emagged \an [A].")
+			if(uses<1)
+				user.visible_message("<span class='warning'>\The [src] fizzles and sparks - it seems it's been used once too often, and is now spent.</span>")
+				var/obj/item/weapon/card/emag_broken/junk = new(user.loc)
+				junk.add_fingerprint(user)
+				qdel(src)
+			working = 0
+			return 1
+		else
+			working = 0
+			if(prob(10))
+				integrity -= 1
+				if(integrity < 1)
+					user.visible_message("<span class='danger'>\The [user] rips the device from \the [A], sending sparks flying!",\
+						"<span class='danger'>You slip up and break something on \the [src], sending sparks flying!")
+					var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread()
+					sparks.set_up(2, 0, get_turf(user))
+					sparks.start()
+					var/obj/item/weapon/card/emag_broken/junk = new(user.loc)
+					junk.add_fingerprint(user)
+					qdel(src)
+				else
+					to_chat(user,"<span class='warning'>You slip up and damage something on \the [src]. Maybe you should be more careful...")
 
-	if(uses<1)
-		user.visible_message("<span class='warning'>\The [src] fizzles and sparks - it seems it's been used once too often, and is now spent.</span>")
-		var/obj/item/weapon/card/emag_broken/junk = new(user.loc)
-		junk.add_fingerprint(user)
-		qdel(src)
-
-	return 1
+/obj/item/weapon/card/emag/proc/can_emag(var/atom/A)
+	if(hasvar(A,"emagged")||hasvar(A,"computer_emagged")) return 1
+	else return 0
 
 /obj/item/weapon/card/id
 	name = "identification card"

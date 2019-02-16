@@ -27,7 +27,7 @@
 	. += new/datum/stack_recipe/coin(src)
 	. += new/datum/stack_recipe/spoon(src)
 	. += new/datum/stack_recipe/ring(src)
-		
+
 	if(integrity>50)
 		. += new/datum/stack_recipe/furniture/chair(src) //NOTE: the wood material has it's own special chair recipe
 		. += new/datum/stack_recipe_list("padded [display_name] chairs", create_recipe_list(/datum/stack_recipe/furniture/chair/padded))
@@ -138,4 +138,5 @@
 	if(reinforce_material)	//recipies below don't support composite materials
 		return
 	. += new/datum/stack_recipe/furniture/table_frame(src)
-	. += new/datum/stack_recipe/grenade(src) 
+	. += new/datum/stack_recipe/grenade(src)
+	. += new/datum/stack_recipe/furniture/crate/aluminium(src)
