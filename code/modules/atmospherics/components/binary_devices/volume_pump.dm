@@ -12,10 +12,10 @@
 	use_power = POWER_USE_IDLE
 	icon_state = "map_on"
 
-/obj/machinery/atmospherics/binary/pump/high_power/on/New()
+/obj/machinery/atmospherics/binary/pump/high_power/New()
 	..()
-	air1.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2
-	air2.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2
+	air1.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+	air2.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
 
 /obj/machinery/atmospherics/binary/pump/high_power/on_update_icon()
 	if(!powered())
@@ -28,8 +28,12 @@
 	target_pressure = MAX_PUMP_PRESSURE
 
 // A possible variant for Atmospherics distribution feed.
-/obj/machinery/atmospherics/binary/pump/high_power/on/distribution/New()
+/obj/machinery/atmospherics/binary/pump/high_power/distribution/New()
 	..()
 	target_pressure = round(3 * ONE_ATMOSPHERE)
-	air1.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2
-	air2.volume = ATMOS_DEFAULT_VOLUME_PUMP * 2
+	air1.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+	air2.volume = 2*ATMOS_DEFAULT_VOLUME_PUMP
+
+/obj/machinery/atmospherics/binary/pump/high_power/distribution/on
+	use_power = POWER_USE_IDLE
+	icon_state = "map_on"

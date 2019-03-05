@@ -7,9 +7,9 @@
 	required_enemies = 0
 	end_on_antag_death = 0
 	round_autoantag = TRUE
-	antag_tags = list(MODE_TRAITOR, MODE_RENEGADE, MODE_CHANGELING, MODE_XENOMORPH, MODE_NINJA, MODE_WIZARD)
+	antag_tags = list(MODE_TRAITOR, MODE_RENEGADE, MODE_CHANGELING, MODE_BORER, MODE_NINJA, MODE_WIZARD)
 	antag_scaling_coeff = 4
-	latejoin_antag_tags = list(MODE_TRAITOR, MODE_RENEGADE, MODE_CHANGELING, MODE_XENOMORPH, MODE_NINJA, MODE_WIZARD)
+	latejoin_antag_tags = list(MODE_TRAITOR, MODE_RENEGADE, MODE_CHANGELING, MODE_BORER, MODE_NINJA, MODE_WIZARD)
 
 //Don't try to spawn any antags initially on Tuesday
 /datum/game_mode/tuesday/pre_setup()

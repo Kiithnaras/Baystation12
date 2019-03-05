@@ -43,7 +43,6 @@
 	var/list/usable_templates = list()
 	for(var/datum/antagonist/A in antag_templates)
 		if(A.can_late_spawn())
-			message_admins("[uppertext(name)]: [A.id] selected for spawn attempt.")
 			usable_templates |= A
 
 	if(!usable_templates.len)
@@ -54,6 +53,7 @@
 	while(usable_templates.len)
 		var/datum/antagonist/spawn_antag = pick(usable_templates)
 		usable_templates -= spawn_antag
+		message_admins("[uppertext(name)]: [spawn_antag.id] selected for spawn attempt.")
 
 		if(spawn_antag.attempt_auto_spawn())
 			message_admins("[uppertext(name)]: Auto-added a new [spawn_antag.role_text].")

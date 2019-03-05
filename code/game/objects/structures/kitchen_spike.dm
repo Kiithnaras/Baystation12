@@ -9,8 +9,9 @@
 	anchored = 1
 	var/meat = 0
 	var/occupied
-	var/meat_type
+	var/meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat
 	var/victim_name = "corpse"
+	var/meat_name
 
 /obj/structure/kitchenspike/attackby(obj/item/grab/G, mob/living/carbon/human/user)
 	if(!istype(G) || !G.affecting)
@@ -53,31 +54,48 @@
 		var/mob/living/carbon/human/H = victim
 		if(!issmall(H))
 			return 0
-		meat_type = H.species.meat_type
+		if(H.species.meat_type)
+			meat_type = H.species.meat_type
 		icon_state = "spikebloody"
 	else if(istype(victim, /mob/living/carbon/alien))
 		meat_type = /obj/item/weapon/reagent_containers/food/snacks/xenomeat
 		icon_state = "spikebloodygreen"
 	else if(istype(victim, /mob/living/simple_animal))
 		var/mob/living/simple_animal/SA = victim
-		meat_type = SA.meat_type
+		if(SA.meat_type)
+			meat_type = SA.meat_type
 		icon_state = "spikebloody"
 	else
 		return 0
 
+	if(hasvar(victim, "meat_amount") && victim:meat_amount)
+		meat = victim:meat_amount
+	else if(victim.mob_size == MOB_MINISCULE || victim.mob_size == MOB_TINY)
+		meat = 1
+	else if(victim.mob_size == MOB_SMALL)
+		meat = 2
+	else if(victim.mob_size == MOB_MEDIUM)
+		meat = 4
+	else if(victim.mob_size == MOB_LARGE)
+		meat = 8
+	else
+		meat = 3
+
 	victim_name = victim.name
+	meat_name = victim.name
 	occupied = 1
-	meat = 5
 	return 1
 
 /obj/structure/kitchenspike/attack_hand(mob/user as mob)
 	if(..() || !occupied)
 		return
 	meat--
-	new meat_type(get_turf(src))
+	var/obj/item/weapon/reagent_containers/food/snacks/new_meat = new meat_type(get_turf(src))
+	if(istype(new_meat))
+		new_meat.SetName("[meat_name] [new_meat.name]")
 	if(src.meat > 1)
 		to_chat(user, "You remove some meat from \the [victim_name].")
-	else if(src.meat == 1)
+	else if(src.meat < 1)
 		to_chat(user, "You remove the last piece of meat from \the [victim_name]!")
 		icon_state = "spike"
 		occupied = 0
