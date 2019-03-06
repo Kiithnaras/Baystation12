@@ -155,3 +155,25 @@
 	<li>Xenobiological organisms, anomalous entities, and xenoarchaeological finds must remain secured within research areas unless authorized by the Captain or Regional Operations official.</li>
 	<li>Science employees are permitted to properly utilize Controlled Substances or Items for the purposes of research provided doing so does not endanger themselves, the Endeavour, or other crewmembers.</li></ol></li></ol>
 	</body></html>"}
+
+/datum/codex_entry/phoron
+	display_name = "Phoron"
+	associated_paths = list(
+		/obj/machinery/portable_atmospherics/canister/phoron,
+		/obj/item/stack/material/phoron,
+		/obj/item/weapon/tank/phoron
+		)
+	associated_strings = list(
+		"phoron",
+		"toxin",
+		)
+	lore_text= "Phoron is an exotic cyanohydrocarbon. Similar in structure to the highly-efficient Octane allotrope, 2-2-3 trimethyl pentane, \
+	Phoron is a branching, fractal structure of methyl and cyanide groups wound such that it is almost like a spiral galaxy. This leads to an \
+	astonishingly-difficult molecule to reproduce outside of extreme natural conditions, such as those found in Nyx and Pyro. It is highly \
+	unstable, yet remarkably metastable. Phoron is naturally a gas at normal temperature and pressure, but it easily retains liquid and solid \
+	phases with sufficient cooling and/or compression. In its gas phase, it is metastable to the point that it will not, outside of extreme \
+	conditions, decompose, but it will readily and violently react with oxygen with even a tiny ignition source. Phoron's complex structure \
+	mimics, in some ways, those of certain proteins, and its use in chemistry can not be understated. While extremely toxic to organic \
+	physiology in its raw states, it is often called a wonder molecule due to its medical, chemical, and combustion properties. The solid \
+	state is relatively safe to handle, but care should be taken near open flames and adequate ventillation used if any grinding or crushing \
+	of the substance is performed."
