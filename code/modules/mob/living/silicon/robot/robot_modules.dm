@@ -366,15 +366,18 @@ var/global/list/robot_modules = list(
 	var/datum/matter_synth/metal = new /datum/matter_synth/metal(60000)
 	var/datum/matter_synth/glass = new /datum/matter_synth/glass(40000)
 	var/datum/matter_synth/plasteel = new /datum/matter_synth/plasteel(20000)
+	var/datum/matter_synth/plastic = new /datum/matter_synth/plastic(30000)
 	var/datum/matter_synth/wire = new /datum/matter_synth/wire()
 	synths += metal
 	synths += glass
 	synths += plasteel
 	synths += wire
+	synths += plastic
 
 	var/obj/item/weapon/matter_decompiler/MD = new /obj/item/weapon/matter_decompiler(src)
 	MD.metal = metal
 	MD.glass = glass
+	MD.plastic = plastic
 	src.modules += MD
 
 	var/obj/item/stack/material/cyborg/steel/M = new (src)
@@ -382,7 +385,7 @@ var/global/list/robot_modules = list(
 	src.modules += M
 
 	var/obj/item/stack/material/cyborg/aluminium/AL = new (src)
-	M.synths = list(metal)
+	AL.synths = list(metal)
 	src.modules += AL
 
 	var/obj/item/stack/material/cyborg/glass/G = new (src)
@@ -408,6 +411,10 @@ var/global/list/robot_modules = list(
 	var/obj/item/stack/material/cyborg/plasteel/PL = new (src)
 	PL.synths = list(plasteel)
 	src.modules += PL
+
+	var/obj/item/stack/material/cyborg/plastic/P = new (src)
+	P.synths = list(plastic)
+	src.modules += P
 
 	..()
 
