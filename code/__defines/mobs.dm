@@ -285,7 +285,7 @@
 #define SPECIES_IPC         "Machine"
 #define SPECIES_UNATHI      "Unathi"
 #define SPECIES_SKRELL      "Skrell"
-#define SPECIES_NABBER      "giant armoured serpentid"
+#define SPECIES_NABBER      "Scelerid"
 #define SPECIES_PROMETHEAN  "Promethean"
 #define SPECIES_XENO        "Xenophage"
 #define SPECIES_ALIEN       "Humanoid"

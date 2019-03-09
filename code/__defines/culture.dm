@@ -129,7 +129,7 @@
 #define HOME_SYSTEM_DIONAEA    "Epsilon Ursae Minoris"
 
 // Serpentid cultures.
-#define CULTURE_SERPENTID      "Serpentid Labourer"
+#define CULTURE_SERPENTID      "Scelerid Labourer"
 
 #define HOME_SYSTEM_SERPENTIDS "Tau-Wilo"
 

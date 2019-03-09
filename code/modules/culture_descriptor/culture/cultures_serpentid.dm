@@ -5,7 +5,7 @@
 	name_language = LANGUAGE_NABBER
 	additional_langs = list(LANGUAGE_GALCOM)
 	description = "You have been trained to Xynergy Grade PLACEHOLDER."
-	var/list/valid_jobs = list()
+	var/list/valid_jobs = list(/datum/job/assistant)
 	var/list/hidden_valid_jobs = list(/datum/job/ai, /datum/job/cyborg)
 	var/title_suffix
 
@@ -38,27 +38,85 @@
 
 /decl/cultural_info/culture/nabber/c
 	name = CULTURE_NABBER_C
-	valid_jobs = list(/datum/job/janitor)
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor
+		)
 
 /decl/cultural_info/culture/nabber/c/plus
 	name = CULTURE_NABBER_CPLUS
-
-/decl/cultural_info/culture/nabber/b
-	name = CULTURE_NABBER_B
-	valid_jobs = list(/datum/job/bartender, /datum/job/chef)
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor,
+		/datum/job/hydro
+		)
 
 /decl/cultural_info/culture/nabber/b/minus
 	name = CULTURE_NABBER_BMINUS
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor,
+		/datum/job/hydro,
+		/datum/job/chef
+		)
+
+/decl/cultural_info/culture/nabber/b
+	name = CULTURE_NABBER_B
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor,
+		/datum/job/hydro,
+		/datum/job/chef,
+		/datum/job/bartender
+		)
 
 /decl/cultural_info/culture/nabber/b/plus
 	name = CULTURE_NABBER_BPLUS
-
-/decl/cultural_info/culture/nabber/a
-	name = CULTURE_NABBER_A
-	valid_jobs = list(/datum/job/chemist, /datum/job/roboticist)
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor,
+		/datum/job/hydro,
+		/datum/job/chef,
+		/datum/job/bartender,
+		/datum/job/cargo_tech
+		)
 
 /decl/cultural_info/culture/nabber/a/minus
 	name = CULTURE_NABBER_AMINUS
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor,
+		/datum/job/hydro,
+		/datum/job/chef,
+		/datum/job/bartender,
+		/datum/job/cargo_tech,
+		/datum/job/chemist
+		)
+
+/decl/cultural_info/culture/nabber/a
+	name = CULTURE_NABBER_A
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor,
+		/datum/job/hydro,
+		/datum/job/chef,
+		/datum/job/bartender,
+		/datum/job/cargo_tech,
+		/datum/job/chemist,
+		/datum/job/roboticist
+		)
 
 /decl/cultural_info/culture/nabber/a/plus
 	name = CULTURE_NABBER_APLUS
+	valid_jobs = list(
+		/datum/job/assistant,
+		/datum/job/janitor,
+		/datum/job/hydro,
+		/datum/job/chef,
+		/datum/job/bartender,
+		/datum/job/cargo_tech,
+		/datum/job/chemist,
+		/datum/job/roboticist,
+		/datum/job/officer,
+		/datum/job/engineer
+		)

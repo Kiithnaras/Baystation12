@@ -2,8 +2,8 @@
 	species_to_job_whitelist = list(
 		/datum/species/adherent = list(/datum/job/ai, /datum/job/cyborg, /datum/job/assistant, /datum/job/janitor, /datum/job/chef, /datum/job/bartender, /datum/job/cargo_tech,
 										/datum/job/roboticist, /datum/job/chemist, /datum/job/mining, /datum/job/scientist, /datum/job/hydro),
-		/datum/species/nabber = list(/datum/job/ai, /datum/job/cyborg, /datum/job/janitor, /datum/job/chemist, /datum/job/mining, /datum/job/scientist,
-									 /datum/job/roboticist, /datum/job/cargo_tech, /datum/job/chef, /datum/job/bartender, /datum/job/hydro),
+		/datum/species/nabber = list(/datum/job/ai, /datum/job/cyborg, /datum/job/janitor, /datum/job/chemist, /datum/job/mining, /datum/job/scientist, /datum/job/engineer,
+									 /datum/job/roboticist, /datum/job/cargo_tech, /datum/job/chef, /datum/job/bartender, /datum/job/hydro, /datum/job/officer, /datum/job/assistant)
 	)
 
 #define HUMAN_ONLY_JOBS /datum/job/captain, /datum/job/hop, /datum/job/cmo, /datum/job/chief_engineer, /datum/job/hos, /datum/job/lawyer

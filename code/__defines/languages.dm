@@ -11,7 +11,7 @@
 #define LANGUAGE_CULT           "Cult"
 #define LANGUAGE_SIGN           "Sign Language"
 #define LANGUAGE_INDEPENDENT    "Independent"
-#define LANGUAGE_NABBER         "Serpentid"
+#define LANGUAGE_NABBER         "Scelerid"
 #define LANGUAGE_SPACER         "Spacer"
 #define LANGUAGE_ALIUM          "Alium"
 #define LANGUAGE_OCCULT         "Occult"

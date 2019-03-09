@@ -253,6 +253,17 @@ update_flag
 	..()
 
 /obj/machinery/portable_atmospherics/canister/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
+	if(destroyed && isWelder(W))
+		visible_message("<span class='notice'>\The [user] begins cutting \the [src] apart.</span>")
+		var/obj/item/weapon/weldingtool/WT = W
+		if(do_after(user,50,src))
+			if(WT.remove_fuel(0.5,user))
+				var sheet_amount = rand(7,10)
+				new /obj/item/stack/material/steel(src.loc, sheet_amount)
+				playsound(src, 'sound/items/Welder.ogg', 80, 1)
+				visible_message("<span class='notice'>\The [user] cuts and flattens \the [src] into [sheet_amount] sheets.</span>")
+				qdel(src)
+
 	if(!isWrench(W) && !istype(W, /obj/item/weapon/tank) && !istype(W, /obj/item/device/analyzer) && !istype(W, /obj/item/modular_computer/pda))
 		visible_message("<span class='warning'>\The [user] hits \the [src] with \a [W]!</span>")
 		src.health -= W.force
