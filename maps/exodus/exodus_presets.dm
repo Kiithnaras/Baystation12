@@ -182,7 +182,6 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 			return access_maint_tunnels
 		if(NETWORK_TELECOMM)
 			return access_engine_equip
-	return get_shared_network_access(network) || ..()
 
 /datum/map/exodus/default_internal_channels()
 	return list(
