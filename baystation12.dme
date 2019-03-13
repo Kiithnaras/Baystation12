@@ -3117,6 +3117,7 @@
 #include "maps\exodus\exodus-6.dmm"
 #include "maps\exodus\exodus-7.dmm"
 #include "maps\exodus\gamemodes\tuesday\tuesday.dm"
+#include "maps\exodus\items\exodus_items.dm"
 #include "maps\random_ruins\exoplanet_ruins\exoplanet_ruins.dm"
 #include "maps\random_ruins\exoplanet_ruins\crashed_pod\crashed_pod.dm"
 #include "maps\random_ruins\exoplanet_ruins\datacapsule\datacapsule.dm"

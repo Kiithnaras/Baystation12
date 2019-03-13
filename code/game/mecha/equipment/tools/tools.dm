@@ -33,6 +33,17 @@
 			if(istype(O, /obj/machinery/power/supermatter))
 				occupant_message("<span class='warning'>Warning: Safety systems prevent the loading of [target] into the cargo compartment.</span>")
 				return
+			if(istype(O, /obj/item/weapon/ore))
+				var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in chassis:cargo
+				if(ore_box)
+					for(var/obj/item/weapon/ore/ore in O.loc)
+						ore.Move(ore_box)
+					occupant_message("<span class='notice'>You deploy \the [src]'s material funnel and collect the contents of \the [O.loc].</span>")
+					return 1
+				else
+					occupant_message("<span class='notice>Attention: You cannot collect ore individually. Acquire and load an Ore Box to collect ores.</span>")
+					return
+
 
 			occupant_message("You lift [target] and start to load it into cargo compartment.")
 			chassis.visible_message("[chassis] lifts [target] and starts to load it into cargo compartment.")
@@ -68,6 +79,15 @@
 			set_ready_state(0)
 			chassis.use_power(energy_drain)
 			do_after_cooldown()
+		else if (istype(target,/turf/simulated/floor))
+			if(locate(/obj/item/weapon/ore in target))
+				var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in chassis:cargo
+				if(ore_box)
+					for(var/obj/item/weapon/ore/ore in target)
+						ore.Move(ore_box)
+					occupant_message("<span class='notice'>You deploy \the [src]'s material funnel and collect the contents of \the [target].</span>")
+				else
+					occupant_message("<span class='notice>Attention: You cannot collect ore individually. Acquire and load an Ore Box to collect ores.</span>")
 		return 1
 
 /obj/item/mecha_parts/mecha_equipment/tool/drill
@@ -75,7 +95,7 @@
 	desc = "This is the drill that'll pierce the heavens! (Can be attached to: Combat and Engineering Exosuits)"
 	icon_state = "mecha_drill"
 	equip_cooldown = 30
-	energy_drain = 10
+	energy_drain = 1 KILOWATTS
 	force = 15
 	required_type = list(/obj/mecha/working/ripley, /obj/mecha/combat)
 

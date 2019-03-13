@@ -6,10 +6,6 @@
 	post_round_safe_areas = list (
 		/area/centcom,
 		/area/shuttle/escape/centcom,
-		/area/shuttle/escape_pod1/centcom,
-		/area/shuttle/escape_pod2/centcom,
-		/area/shuttle/escape_pod3/centcom,
-		/area/shuttle/escape_pod5/centcom,
 		/area/shuttle/transport1/centcom,
 		/area/shuttle/administration/centcom,
 		/area/shuttle/specops/centcom,
@@ -46,6 +42,7 @@
 	name = "\improper Specialist Task Force Base"
 	icon_state = "escape"
 	dynamic_lighting = 0
+	luminosity = 1
 
 /area/mine/unexplored
 	name = "\improper Asteroid"
@@ -217,6 +214,7 @@
 
 /area/shuttle/vox/outpost
 	name = "\improper Vox Outpost Berth"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/vox/station
 	name = "\improper Vox Shuttle Berth"
@@ -231,3 +229,4 @@
 /area/shuttle/supply
 	name = "\improper Supply Shuttle"
 	icon_state = "shuttle2"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT

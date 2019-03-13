@@ -92,31 +92,6 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 		NETWORK_TELECOMM,
 	)
 
-/datum/map/exodus/get_network_access(var/network)
-	switch(network)
-		if(NETWORK_ENGINEERING_OUTPOST)
-			return access_engine
-		if(NETWORK_CIVILIAN_WEST || NETWORK_CIVILIAN_EAST || NETWORK_CIVILIAN)
-			return access_maint_tunnels
-		if(NETWORK_COMMAND)
-			return access_heads
-		if(NETWORK_RESEARCH_OUTPOST)
-			return access_research
-		if(NETWORK_SUPPLY)
-			return access_mailsorting
-		if(NETWORK_SHUTTLE)
-			return access_maint_tunnels
-		if(NETWORK_CENTRAL)
-			return access_cent_general
-		if(NETWORK_ENGINE)
-			return access_engine
-		if(NETWORK_PRISON)
-			return access_security
-		if(NETWORK_VOX_OUTPOST)
-			return access_maint_tunnels
-		if(NETWORK_TELECOMM)
-			return access_engine_equip
-
 	holodeck_programs = list(
 		"emptycourt"       = new/datum/holodeck_program(/area/holodeck/source_emptycourt, list('sound/music/THUNDERDOME.ogg')),
 		"boxingcourt"      = new/datum/holodeck_program(/area/holodeck/source_boxingcourt, list('sound/music/THUNDERDOME.ogg')),
@@ -160,27 +135,54 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 	)
 
 	holodeck_supported_programs = list(
+		"EndeavourMainPrograms" = list(
 
-		"Basketball Court"  = "basketball",
-		"Beach"             = "beach",
-		"Boxing Ring"       = "boxingcourt",
-		"Courtroom"         = "courtroom",
-		"Desert"            = "desert",
-		"Empty Court"       = "emptycourt",
-		"Meeting Hall"      = "meetinghall",
-		"Picnic Area"       = "picnicarea",
-		"Snow Field"        = "snowfield",
-		"Space"             = "space",
-		"Theatre"           = "theatre",
-		"Thunderdome Court" = "thunderdomecourt",
-
+			"Basketball Court"  = "basketball",
+			"Beach"             = "beach",
+			"Boxing Ring"       = "boxingcourt",
+			"Courtroom"         = "courtroom",
+			"Desert"            = "desert",
+			"Empty Court"       = "emptycourt",
+			"Meeting Hall"      = "meetinghall",
+			"Picnic Area"       = "picnicarea",
+			"Snow Field"        = "snowfield",
+			"Space"             = "space",
+			"Theatre"           = "theatre",
+			"Thunderdome Court" = "thunderdomecourt",
+		)
 	)
 
 	holodeck_restricted_programs = list(
-
-		"Wildlife Simulation" = "wildlifecarp"
-
+		"EndeavourMainPrograms" = list(
+			"Wildlife Simulation" = "wildlifecarp"
+		)
 	)
+
+/datum/map/exodus/get_network_access(var/network)
+	switch(network)
+		if(NETWORK_ENGINEERING_OUTPOST)
+			return access_engine
+		if(NETWORK_CIVILIAN_WEST || NETWORK_CIVILIAN_EAST || NETWORK_CIVILIAN)
+			return access_maint_tunnels
+		if(NETWORK_COMMAND)
+			return access_heads
+		if(NETWORK_RESEARCH_OUTPOST)
+			return access_research
+		if(NETWORK_SUPPLY)
+			return access_mailsorting
+		if(NETWORK_SHUTTLE)
+			return access_maint_tunnels
+		if(NETWORK_CENTRAL)
+			return access_cent_general
+		if(NETWORK_ENGINE)
+			return access_engine
+		if(NETWORK_PRISON)
+			return access_security
+		if(NETWORK_VOX_OUTPOST)
+			return access_maint_tunnels
+		if(NETWORK_TELECOMM)
+			return access_engine_equip
+	return get_shared_network_access(network) || ..()
 
 /datum/map/exodus/default_internal_channels()
 	return list(
@@ -304,6 +306,10 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 	alpha = 80
 	name = "clear window"
 	desc = "It's considerably clearer than most windows."
+
+/turf/simulated/wall/r_titanium/shuttle
+	name = "shuttle wall"
+	paint_color = COLOR_OFF_WHITE
 
 /obj/machinery/button
 	layer = ABOVE_WINDOW_LAYER

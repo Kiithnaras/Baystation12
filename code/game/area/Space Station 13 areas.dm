@@ -126,6 +126,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 /area/shuttle/arrival/station
 	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/escape
 	name = "\improper Emergency Shuttle"
@@ -138,6 +139,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/shuttle/escape/centcom
 	name = "\improper Emergency Shuttle Centcom"
 	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/escape/transit // the area to pass through for 3 minute transit
 	name = "\improper Emergency Shuttle Transit"
@@ -149,57 +151,35 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 /area/shuttle/escape_pod1/station
 	icon_state = "shuttle2"
-
-/area/shuttle/escape_pod1/centcom
-	icon_state = "shuttle"
-
-/area/shuttle/escape_pod1/transit
-	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/escape_pod2
 	name = "\improper Escape Pod Two"
 
 /area/shuttle/escape_pod2/station
 	icon_state = "shuttle2"
-
-/area/shuttle/escape_pod2/centcom
-	icon_state = "shuttle"
-
-/area/shuttle/escape_pod2/transit
-	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/escape_pod3
 	name = "\improper Escape Pod Three"
 
 /area/shuttle/escape_pod3/station
 	icon_state = "shuttle2"
-
-/area/shuttle/escape_pod3/centcom
-	icon_state = "shuttle"
-
-/area/shuttle/escape_pod3/transit
-	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/escape_pod5 //Pod 4 was lost to meteors
 	name = "\improper Escape Pod Five"
 
 /area/shuttle/escape_pod5/station
 	icon_state = "shuttle2"
-
-/area/shuttle/escape_pod5/centcom
-	icon_state = "shuttle"
-
-/area/shuttle/escape_pod5/transit
-	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/mining
 	name = "\improper Mining Shuttle"
 
 /area/shuttle/mining/station
 	icon_state = "shuttle2"
-
-/area/shuttle/mining/outpost
-	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/shuttle/transport1/centcom
 	icon_state = "shuttle"
@@ -285,9 +265,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 /area/shuttle/research/station
 	icon_state = "shuttle2"
-
-/area/shuttle/research/outpost
-	icon_state = "shuttle"
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
 /area/airtunnel1/      // referenced in airtunnel.dm:759
 
@@ -410,8 +388,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "\improper Outpost Solar Array"
 	icon_state = "panelsA"
 	requires_power = 0
-	luminosity = 0.2
-	dynamic_lighting = 0
 
 
 
@@ -1064,7 +1040,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/solar
 	requires_power = 1
 	always_unpowered = 1
-	dynamic_lighting = 0
 
 	auxport
 		name = "\improper Fore Port Solar Array"
@@ -1742,25 +1717,21 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/turret_protected/AIsatextFP
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 0.2
 	dynamic_lighting = 0
 
 /area/turret_protected/AIsatextFS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 0.2
 	dynamic_lighting = 0
 
 /area/turret_protected/AIsatextAS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 0.2
 	dynamic_lighting = 0
 
 /area/turret_protected/AIsatextAP
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
-	luminosity = 0.2
 	dynamic_lighting = 0
 
 /area/turret_protected/NewAIMain
@@ -1995,10 +1966,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 var/list/centcom_areas = list (
 	/area/centcom,
 	/area/shuttle/escape/centcom,
-	/area/shuttle/escape_pod1/centcom,
-	/area/shuttle/escape_pod2/centcom,
-	/area/shuttle/escape_pod3/centcom,
-	/area/shuttle/escape_pod5/centcom,
 	/area/shuttle/transport1/centcom,
 	/area/shuttle/administration/centcom,
 	/area/shuttle/specops/centcom,
