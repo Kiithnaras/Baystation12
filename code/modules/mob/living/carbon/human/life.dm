@@ -639,8 +639,8 @@
 
 		// nutrition decrease
 		if (nutrition > 0)
-			if(sleeping) nutrition = max(0, (nutrition - species.hunger_factor) / 5)
-			else if(resting) nutrition = max(0, (nutrition - species.hunger_factor) / 2)
+			if(sleeping) nutrition = max(0, (nutrition - (species.hunger_factor / 5)))
+			else if(resting) nutrition = max(0, (nutrition - (species.hunger_factor / 2)))
 			else nutrition = max (0, nutrition - species.hunger_factor)
 
 		if(stasis_value > 1 && drowsyness < stasis_value * 4)
