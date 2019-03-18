@@ -10,9 +10,10 @@
 	antag_tags = list(MODE_TRAITOR, MODE_RENEGADE, MODE_CHANGELING, MODE_BORER, MODE_NINJA, MODE_WIZARD)
 	antag_scaling_coeff = 4
 	latejoin_antag_tags = list(MODE_TRAITOR, MODE_RENEGADE, MODE_CHANGELING, MODE_BORER, MODE_NINJA, MODE_WIZARD)
-
-//Don't try to spawn any antags initially on Tuesday
+/* Lets comment this out. Not sure it's entirely necessary yet, and it's given us issues spawning in antags.
+//Don't try to spawn any antags initially on Tuesday.
 /datum/game_mode/tuesday/pre_setup()
 	. = ..()
 	for(var/datum/antagonist/antag in antag_templates)
-		antag.initial_spawn_target = 0
+		antag.initial_spawn_target = 1
+*/

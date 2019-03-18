@@ -101,7 +101,7 @@
 	origin_tech = list(TECH_MAGNET = 2, TECH_ILLEGAL = 2)
 
 /obj/item/weapon/card/emag
-	desc = "It's a card with various cables and attached circuitry. It seems someone delicate. Maybe you should handle it carefully."
+	desc = "It's a card with various cables and attached circuitry. It seems somewhat delicate. Maybe you should handle it carefully."
 	name = "cryptographic sequencer"
 	icon_state = "emag"
 	item_state = "card-id"

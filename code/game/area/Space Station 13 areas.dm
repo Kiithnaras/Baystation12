@@ -388,8 +388,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "\improper Outpost Solar Array"
 	icon_state = "panelsA"
 	requires_power = 0
-
-
+	luminosity = 1
 
 /area/planet/clown
 	name = "\improper Clown Planet"
@@ -1040,6 +1039,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/solar
 	requires_power = 1
 	always_unpowered = 1
+	luminosity = 1
 
 	auxport
 		name = "\improper Fore Port Solar Array"

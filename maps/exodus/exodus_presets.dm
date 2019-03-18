@@ -148,7 +148,7 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 			"Snow Field"        = "snowfield",
 			"Space"             = "space",
 			"Theatre"           = "theatre",
-			"Thunderdome Court" = "thunderdomecourt",
+			"Thunderdome Court" = "thunderdomecourt"
 		)
 	)
 
