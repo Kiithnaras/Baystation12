@@ -106,7 +106,7 @@
 		/datum/job/cargo_tech,
 		/datum/job/mining,
 		/datum/job/chemist,
-		/datum/job/paramedic
+		/datum/job/Paramedic
 		)
 
 /decl/cultural_info/culture/nabber/a/plus
@@ -122,7 +122,7 @@
 		/datum/job/chemist,
 		/datum/job/roboticist,
 		/datum/job/officer,
-		/datum/job/paramedic,
+		/datum/job/Paramedic,
 		/datum/job/engineer,
 		/datum/job/qm
 		)

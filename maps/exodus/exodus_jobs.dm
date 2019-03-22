@@ -2,7 +2,7 @@
 	species_to_job_whitelist = list(
 		/datum/species/adherent = list(/datum/job/ai, /datum/job/cyborg, /datum/job/assistant, /datum/job/janitor, /datum/job/chef, /datum/job/bartender, /datum/job/cargo_tech,
 										/datum/job/roboticist, /datum/job/chemist, /datum/job/mining, /datum/job/scientist, /datum/job/hydro),
-		/datum/species/nabber = list(/datum/job/ai, /datum/job/cyborg, /datum/job/janitor, /datum/job/chemist, /datum/job/mining, /datum/job/scientist, /datum/job/engineer, /datum/job/paramedic,
+		/datum/species/nabber = list(/datum/job/ai, /datum/job/cyborg, /datum/job/janitor, /datum/job/chemist, /datum/job/mining, /datum/job/scientist, /datum/job/engineer, /datum/job/Paramedic,
 									 /datum/job/roboticist, /datum/job/cargo_tech, /datum/job/chef, /datum/job/bartender, /datum/job/hydro, /datum/job/officer, /datum/job/assistant, /datum/job/qm)
 	)
 
@@ -206,10 +206,10 @@
 /datum/job/psychiatrist/get_description_blurb()
 	return "The Psychiatrist is responsible for helping the remainder of the crew cope with the rigors of life in space confined on board an artifical station. NanoTrasen recognizes the various difficulties associated with artificial space habitation and that comfortable employees are productive employees."
 
-/datum/job/paramedic
+/datum/job/Paramedic
 	skill_points = 24
 
-/datum/job/paramedic/get_description_blurb()
+/datum/job/Paramedic/get_description_blurb()
 	return "A Paramedic is the Medical Staff's first line of defense against loss of crew life. While Doctors are largely responsible for maintaining a presence within the Medical Wing, Paramedics are often required to venture into hazardous parts of the station or even space in order to retrieve, stabilize, and transport injured members of the crew."
 
 //Science
