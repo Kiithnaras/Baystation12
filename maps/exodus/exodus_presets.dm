@@ -343,3 +343,14 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 	result_type = /obj/structure/closet/crate/aluminium
 	req_amount = 10
 	time = 50
+
+/datum/autolathe/recipe/plastic
+	name = "plastic sheets"
+	path = /obj/item/stack/material/plastic
+	category = "General"
+	is_stack = 1
+	resources = list(MATERIAL_PLASTIC = SHEET_MATERIAL_AMOUNT * EXTRA_COST_FACTOR)
+
+/datum/language/nabber/syllables = list(
+	"skr","chk","thk","vrk","krk","ghk","krr","rkh","chkh","chr","shr","shk","thk","kth","kx","chx","xkx","ak","ik","ek","ssk","kch","kch","kch"
+	)

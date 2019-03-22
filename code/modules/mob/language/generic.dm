@@ -26,7 +26,12 @@
 	whisper_verb = "whispers"
 	key = "0"
 	flags = RESTRICTED
-	syllables = list("blah","blah","blah","bleh","meh","neh","nah","wah")
+	syllables = list("pla","plo","pli","plu","ple","bla","blo","blu","ble","bli","bra","bro","bru","bre","bri","pra","pro","pri","pru","pre",
+		"tra","tre","tri","tro","tru","dra","dre","dri","dro","dru","kla","kle","kli","klo","klu","gla","gle","gli","glo","glu","kra","kre",
+		"kri","kro","kru","gra","gre","gri","gro","gru","fla","fle","fli","flo","flu","fra","fre","fri","fro","fru","ta","te","ti","to","tu",
+		"da","de","di","do","du","tha","the","thi","tho","thu","sha","she","shi","sho","shu","sa","se","si","so","su","pa","pe","pi","po","pu",
+		"ma","me","mi","mo","mu","na","ne","ni","no","nu","fa","fe","fi","fo","fu","va","ve","vi","vo","vu","ha","he","hi","ho","hu","la","le",
+		"li","lo","lu","spa","spe","spi","spo","spu","sta","ste","sti","sto","stu","ska","ske","ski","sko","sku","thra","thre","thri","thro","thru")
 	shorthand = "GC"
 
 // Otherwise we end up with Blahblehmeh Nehnahwahblah, Captain.

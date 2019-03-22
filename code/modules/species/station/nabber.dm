@@ -1,6 +1,6 @@
 /datum/species/nabber
 	name = SPECIES_NABBER
-	name_plural = "giant armoured serpentids"
+	name_plural = "Scelerids"
 	description = "A species of large invertebrates who, after being discovered by a \
 	research company, were taught how to live and work with humans. Standing \
 	upwards of nine feet tall, these people have a tendency to terrify \
@@ -13,7 +13,7 @@
 
 	assisted_langs = list(LANGUAGE_GALCOM, LANGUAGE_LUNAR, LANGUAGE_GUTTER, LANGUAGE_UNATHI, LANGUAGE_SKRELLIAN, LANGUAGE_SOL_COMMON, LANGUAGE_EAL, LANGUAGE_INDEPENDENT, LANGUAGE_SPACER)
 	min_age = 8
-	max_age = 40
+	max_age = 120
 
 	speech_sounds = list('sound/voice/bug.ogg')
 	speech_chance = 2

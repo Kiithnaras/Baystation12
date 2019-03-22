@@ -78,7 +78,8 @@
 		/datum/job/hydro,
 		/datum/job/chef,
 		/datum/job/bartender,
-		/datum/job/cargo_tech
+		/datum/job/cargo_tech,
+		/datum/job/mining
 		)
 
 /decl/cultural_info/culture/nabber/a/minus
@@ -90,6 +91,7 @@
 		/datum/job/chef,
 		/datum/job/bartender,
 		/datum/job/cargo_tech,
+		/datum/job/mining,
 		/datum/job/chemist
 		)
 
@@ -102,8 +104,9 @@
 		/datum/job/chef,
 		/datum/job/bartender,
 		/datum/job/cargo_tech,
+		/datum/job/mining,
 		/datum/job/chemist,
-		/datum/job/roboticist
+		/datum/job/paramedic
 		)
 
 /decl/cultural_info/culture/nabber/a/plus
@@ -115,8 +118,11 @@
 		/datum/job/chef,
 		/datum/job/bartender,
 		/datum/job/cargo_tech,
+		/datum/job/mining,
 		/datum/job/chemist,
 		/datum/job/roboticist,
 		/datum/job/officer,
-		/datum/job/engineer
+		/datum/job/paramedic,
+		/datum/job/engineer,
+		/datum/job/qm
 		)

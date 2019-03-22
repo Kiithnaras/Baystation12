@@ -13,8 +13,8 @@
 	idle_power_usage = 150		//internal circuitry, friction losses and stuff
 	power_rating = 7500			//7500 W ~ 10 HP
 
-	var/max_flow_rate = ATMOS_DEFAULT_VOLUME_FILTER
-	var/set_flow_rate = ATMOS_DEFAULT_VOLUME_FILTER
+	var/max_flow_rate = ATMOS_DEFAULT_VOLUME_FILTER * 2
+	var/set_flow_rate = ATMOS_DEFAULT_VOLUME_FILTER * 2
 
 	var/list/filtering_outputs = list()	//maps gasids to gas_mixtures
 
@@ -22,7 +22,7 @@
 	..()
 	rebuild_filtering_list()
 	for(var/datum/omni_port/P in ports)
-		P.air.volume = ATMOS_DEFAULT_VOLUME_FILTER
+		P.air.volume = ATMOS_DEFAULT_VOLUME_FILTER * 2
 
 /obj/machinery/atmospherics/omni/filter/Destroy()
 	input = null
@@ -40,7 +40,7 @@
 			if(P in gas_filters)
 				gas_filters -= P
 
-			P.air.volume = ATMOS_DEFAULT_VOLUME_FILTER
+			P.air.volume = ATMOS_DEFAULT_VOLUME_FILTER * 2
 			switch(P.mode)
 				if(ATM_INPUT)
 					input = P
