@@ -1,8 +1,9 @@
 /datum/species/nabber
 	name = SPECIES_NABBER
 	name_plural = "Scelerids"
-	description = "This species of large invertebrates is a recent addition to the UEE. Middling in intelligence, they are a highly social \
+	description = "This species of large, serpentine invertebrates is a recent addition to the UEE. Middling in intelligence, they are a highly social \
 	species that has adapted readily to the complex society of the UEE. They are easily-trained and have a comparable lifespan to humans. \
+	They are rather physically-resilient and can survive for a limited period in total vacuum, but they are particularly susceptible to fire. \
 	One company in particular, Xynergy, has borne the brunt of Scelerid education and incorporation, going so far as to 'market' individuals \
 	with various quality of skill grades. Of course, the UEE officially outlaws slavery and indentured servitude, yet the Scelerids are \
 	seemingly-eager to expand their education and horizons. The Scelerids employed by Nanotrasen have their education contracts purchased \
@@ -44,7 +45,7 @@
 	hud_type = /datum/hud_data/nabber
 
 	total_health = 200
-	brute_mod = 0.9
+	brute_mod = 0.80
 	burn_mod =  1.35
 	natural_armour_values = list(melee = 30, bullet = 15, laser = 0, energy = 0, bomb = 30, bio = 100, rad = 10)
 
