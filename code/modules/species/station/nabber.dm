@@ -1,12 +1,12 @@
 /datum/species/nabber
 	name = SPECIES_NABBER
 	name_plural = "Scelerids"
-	description = "A species of large invertebrates who, after being discovered by a \
-	research company, were taught how to live and work with humans. Standing \
-	upwards of nine feet tall, these people have a tendency to terrify \
-	those who have not met them before and are rarely trusted by the \
-	average person. Even so, they do their jobs well and are thriving in this \
-	new environment."
+	description = "This species of large invertebrates is a recent addition to the UEE. Middling in intelligence, they are a highly social \
+	species that has adapted readily to the complex society of the UEE. They are easily-trained and have a comparable lifespan to humans. \
+	One company in particular, Xynergy, has borne the brunt of Scelerid education and incorporation, going so far as to 'market' individuals \
+	with various quality of skill grades. Of course, the UEE officially outlaws slavery and indentured servitude, yet the Scelerids are \
+	seemingly-eager to expand their education and horizons. The Scelerids employed by Nanotrasen have their education contracts purchased \
+	outright from Xynergy with a 'guaranteed employment' clause for a few years in order to make good on that debt."
 	hidden_from_codex = FALSE
 
 	antaghud_offset_y = 8

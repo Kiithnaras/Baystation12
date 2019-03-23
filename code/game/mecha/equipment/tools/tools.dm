@@ -80,10 +80,10 @@
 			chassis.use_power(energy_drain)
 			do_after_cooldown()
 		else if (istype(target,/turf/simulated/floor))
-			if(locate(/obj/item/weapon/ore in target))
+			if(locate(/obj/item/weapon/ore in target.contents))
 				var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in chassis:cargo
 				if(ore_box)
-					for(var/obj/item/weapon/ore/ore in target)
+					for(var/obj/item/weapon/ore/ore in target.contents)
 						ore.Move(ore_box)
 					occupant_message("<span class='notice'>You deploy \the [src]'s material funnel and collect the contents of \the [target].</span>")
 				else

@@ -177,3 +177,27 @@
 	physiology in its raw states, it is often called a wonder molecule due to its medical, chemical, and combustion properties. The solid \
 	state is relatively safe to handle, but care should be taken near open flames and adequate ventillation used if any grinding or crushing \
 	of the substance is performed."
+
+/datum/codex_entry/radio
+	display_name = "Radio Communication"
+	associated_paths = list(
+		/obj/item/device/radio
+		)
+	associated_strings = list(
+		"radio",
+		"headset",
+		"intercom",
+		"communication"
+		)
+	lore_text = "Radio communication is essential in daily routines throughout the majority of space installations. Those who cannot use these \
+	simple devices will often find themselves at a disadvantage in reliance upon direct face to face communication. Most are simple devices that \
+	transmit sound waves across radio-frequency light. Miniaturization has resulted in many being so small as to fit in an earpiece. Virtually \
+	every member in the employment of spacefaring agencies and organizations are issued with some sort of radio."
+	mechanics_text = "To speak over an equipped radio, you must enter a radio key before any desired speech in your Say box/line. Every crewmember of the Endeavour is \
+	issued at least a basic radio headset in one of their Ear slots. If you don't see an Ear slot, expand your inventory. The default Common radio key is a Semicolon (;), but this can be configured in your Global Character Preferences. \
+	If you have a department, such as engineering or security, your default departmental key is ':h'. Some radio headsets may be equipped with \
+	additional encryption keys. These can be viewed by examining the radio headset, and can be configured by Using the headset in your hand. \
+	Occasionally, the need may arise to use handheld radios or wall-mounted intercoms. Intercoms simply must have their individual Microphones \
+	switched on, and speaking over them will speak over the desired channel or frequency. Shortwave radios, held in the hand, can work the same way, \
+	but can also be used with the keys ':l' and ':r' for Left or Right hands, respectively, if leaving the microphone on constantly is not desirable. \
+	Also note that, when using radios along with non-default languages, any Language key must come before the Radio key."
