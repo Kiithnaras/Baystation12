@@ -154,6 +154,16 @@ var/list/mining_floors = list()
 	ore_overlay.color = mineral.icon_colour
 	ore_overlay.turf_decal_layerise()
 	update_icon()
+//Xenophage rock-smashing, ensuring we can get through mine turfs where necessary, especially as the xeno eggs are out on the asteroid.
+/turf/simulated/mineral/attack_hand(mob/user)
+	if(isxenomorph(user))
+		user.visible_message("<span class='notice'>\The [user] begins clawing at \the [src]!</span>","<span class='notice'>You begin clawing at \the [src]!</span>","<span class='notice'>You hear a stony scratching sound.</span>")
+		if(do_after(user,60,src))
+			user.visible_message("<span class='notice'>\The [user] smashes through \the [src]!</span>","<span class='notice'>You smash through \the [src]!</span>","<span class='notice'>You hear rocks breaking apart...</span>")
+			mined_ore = rand(0,3)
+			GetDrilled()
+			return
+	..()
 
 //Not even going to touch this pile of spaghetti
 /turf/simulated/mineral/attackby(obj/item/weapon/W as obj, mob/user as mob)

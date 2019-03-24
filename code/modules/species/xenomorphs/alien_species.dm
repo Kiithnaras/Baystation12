@@ -21,7 +21,6 @@
 	// end temp
 
 	pixel_offset_x = -16
-	has_fine_manipulation = 0
 	siemens_coefficient = 0
 	gluttonous = GLUT_ANYTHING
 	stomach_capacity = MOB_MEDIUM
@@ -47,7 +46,7 @@
 	spawn_flags = SPECIES_IS_RESTRICTED
 
 	reagent_tag = IS_XENOS
-	darksight_range = 5
+	darksight_range = 8
 	darksight_tint = DARKTINT_GOOD
 
 	blood_color = "#05ee05"
@@ -119,6 +118,44 @@
 		return 1
 
 	return 0
+
+/datum/species/xenos/can_shred(var/mob/living/carbon/human/H, var/ignore_intent, var/ignore_antag)
+	return ..(H, ignore_intent, TRUE)
+
+/datum/species/xenos/has_fine_manipulation(var/mob/living/carbon/human/H)
+	return (..() && (H && H.pulling_punches))
+
+/datum/species/xenos/attempt_grab(var/mob/living/carbon/human/grabber, var/mob/living/target)
+
+	if(grabber.pulling_punches)
+		return ..()
+	grabber.unEquip(grabber.l_hand)
+	grabber.unEquip(grabber.r_hand)
+	to_chat(grabber, "<span class='warning'>You drop everything as you spring out to nab \the [target]!.</span>")
+	playsound(grabber.loc, 'sound/weapons/pierce.ogg', 25, 1, -1)
+
+	if(grabber.last_special > world.time)
+		to_chat(grabber, "<span class='warning'>It is too soon to make another nab attempt.</span>")
+		return
+
+	grabber.last_special = world.time + 50
+
+	if(prob(90) && grabber.make_grab(grabber, target, GRAB_NAB_SPECIAL))
+		target.Weaken(rand(1,3))
+		target.LAssailant = grabber
+		grabber.visible_message("<span class='danger'>\The [grabber] suddenly lunges out and grabs \the [target]!</span>")
+		grabber.do_attack_animation(target)
+		playsound(grabber.loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+		return 1
+	else
+		grabber.visible_message("<span class='danger'>\The [grabber] suddenly lunges out, almost grabbing \the [target]!</span>")
+
+/datum/species/xenos/toggle_stance(var/mob/living/carbon/human/H)
+	.=..()
+	if(H.pulling_punches)
+		H.current_grab_type = all_grabobjects[GRAB_NORMAL]
+	else
+		H.current_grab_type = all_grabobjects[GRAB_NAB]
 
 /datum/species/xenos/hug(var/mob/living/carbon/human/H,var/mob/living/target)
 	H.visible_message("<span class='notice'>[H] caresses [target] with countless prickling, needle-like legs.</span>", \
@@ -224,6 +261,7 @@
 	inherent_verbs = list(
 		/mob/living/proc/ventcrawl,
 		/mob/living/carbon/human/proc/regurgitate,
+		/mob/living/carbon/proc/devour,
 		/mob/living/carbon/human/proc/plant,
 		/mob/living/carbon/human/proc/transfer_plasma,
 		/mob/living/carbon/human/proc/evolve,
@@ -267,7 +305,8 @@
 		/mob/living/carbon/human/proc/tackle,
 		/mob/living/carbon/human/proc/leap,
 		/mob/living/carbon/human/proc/psychic_whisper,
-		/mob/living/carbon/human/proc/regurgitate
+		/mob/living/carbon/human/proc/regurgitate,
+		/mob/living/carbon/proc/devour
 		)
 
 	force_cultural_info = list(
@@ -300,6 +339,7 @@
 		/mob/living/proc/ventcrawl,
 		/mob/living/carbon/human/proc/tackle,
 		/mob/living/carbon/human/proc/regurgitate,
+		/mob/living/carbon/proc/devour,
 		/mob/living/carbon/human/proc/transfer_plasma,
 		/mob/living/carbon/human/proc/pry_open,
 		/mob/living/carbon/human/proc/corrosive_acid,
@@ -344,6 +384,7 @@
 		/mob/living/proc/ventcrawl,
 		/mob/living/carbon/human/proc/psychic_whisper,
 		/mob/living/carbon/human/proc/regurgitate,
+		/mob/living/carbon/proc/devour,
 		/mob/living/carbon/human/proc/pry_open,
 		/mob/living/carbon/human/proc/lay_egg,
 		/mob/living/carbon/human/proc/plant,

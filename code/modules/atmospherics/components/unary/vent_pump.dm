@@ -97,7 +97,7 @@
 
 /obj/machinery/atmospherics/unary/vent_pump/engine/New()
 	..()
-	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP + 500 //meant to match air injector
+	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP * 4 //meant to match air injector
 
 /obj/machinery/atmospherics/unary/vent_pump/on_update_icon(var/safety = 0)
 	if(!check_icon_cache())

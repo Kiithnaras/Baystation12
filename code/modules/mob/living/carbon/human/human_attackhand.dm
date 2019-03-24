@@ -229,11 +229,12 @@
 
 			var/real_damage = rand_damage
 			real_damage += attack.get_unarmed_damage(H)
+			damage_multiplier *= 2 ** H.species.strength
 			real_damage *= damage_multiplier
 			rand_damage *= damage_multiplier
 			if(MUTATION_HULK in H.mutations)
-				real_damage *= 2 // Hulks do twice the damage
-				rand_damage *= 2
+				real_damage *= 4 // Hulks do FOUR TIMES the damage. Oof. Good thing we're not using genetics >_>
+				rand_damage *= 4
 			real_damage = max(1, real_damage)
 
 			var/armour = run_armor_check(hit_zone, "melee")

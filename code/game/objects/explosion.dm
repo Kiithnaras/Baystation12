@@ -3,6 +3,17 @@
 proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1, z_transfer = UP|DOWN, shaped)
 	var/multi_z_scalar = 0.35
 	src = null	//so we don't abort once src is deleted
+
+	//explosion numerical sanity to simplify other maths
+	if(devastation_range < 0)
+		devastation_range = 0
+	if(heavy_impact_range < 0)
+		heavy_impact_range = 0
+	if(light_impact_range < 0)
+		light_impact_range = 0
+	if(flash_range < 0)
+		flash_range = 0
+
 	spawn(0)
 		var/start = world.timeofday
 		epicenter = get_turf(epicenter)
@@ -44,7 +55,7 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 					far_volume += (dist <= far_dist * 0.5 ? 50 : 0) // add 50 volume if the mob is pretty close to the explosion
 					M.playsound_local(epicenter, 'sound/effects/explosionfar.ogg', far_volume, 1, frequency, falloff = 5)
 
-		if(adminlog)
+		if(adminlog && !config.use_recursive_explosions)
 			message_admins("Explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range]) in area [epicenter.loc.name] ([epicenter.x],[epicenter.y],[epicenter.z]) (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[epicenter.x];Y=[epicenter.y];Z=[epicenter.z]'>JMP</a>)")
 			log_game("Explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range]) in area [epicenter.loc.name] ")
 
@@ -62,8 +73,12 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 		var/y0 = epicenter.y
 		var/z0 = epicenter.z
 		if(config.use_recursive_explosions)
-			var/power = max(0, devastation_range) * 2 + max(0, heavy_impact_range) + max(0, light_impact_range) //The ranges add up, ie light 14 includes both heavy 7 and devestation 3. So this calculation means devestation counts for 4, heavy for 2 and light for 1 power, giving us a cap of 27 power.
+			var/power = devastation_range * 2 + heavy_impact_range + light_impact_range //The ranges add up, ie light 14 includes both heavy 7 and devestation 3. So this calculation means devestation counts for 4, heavy for 2 and light for 1 power, giving us a cap of 27 power.
 			explosion_rec(epicenter, power, shaped)
+			if(adminlog)
+				message_admins("Explosion with size ([power]) in area [epicenter.loc.name] ([epicenter.x],[epicenter.y],[epicenter.z]) (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[epicenter.x];Y=[epicenter.y];Z=[epicenter.z]'>JMP</a>)")
+				log_game("Explosion with size ([power]) in area [epicenter.loc.name] ")
+
 		else
 			for(var/turf/T in trange(max_range, epicenter))
 				var/dist = sqrt((T.x - x0)**2 + (T.y - y0)**2)

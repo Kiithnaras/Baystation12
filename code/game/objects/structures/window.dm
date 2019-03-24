@@ -190,7 +190,7 @@
 		if (istype(user,/mob/living/carbon/human))
 			var/mob/living/carbon/human/H = user
 			if(H.species.can_shred(H))
-				attack_generic(H,25)
+				attack_generic(H,25 * 2 ** H.species.strength)
 				return
 
 		playsound(src.loc, 'sound/effects/glassknock.ogg', 80, 1)
@@ -276,7 +276,11 @@
 		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 		if(W.damtype == BRUTE || W.damtype == BURN)
 			user.do_attack_animation(src)
-			hit(W.force)
+			if(istype(user,/mob/living/carbon/human))
+				var/mob/living/carbon/human/H = user
+				hit(W.force * 2 ** H.species.strength)
+			else
+				hit(W.force)
 			if(health <= 7)
 				set_anchored(FALSE)
 				step(src, get_dir(user, src))

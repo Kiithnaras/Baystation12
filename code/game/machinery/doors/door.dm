@@ -277,12 +277,8 @@
 //Goal: Normal aliens can force airlocks and firedoors when powered. When not powered and unlocked, they can open doors easily as if they were powered.
 //Large Queens (empresses) can open regular doors faster and even bypass some of the measures, such as locked and welded doors.
 
-	var/mob/Xeno = user
-	var/isAlien
-	if(istype(Xeno, /mob/living/carbon/human/xdrone) || istype(Xeno, /mob/living/carbon/human/xhunter) || istype(Xeno, /mob/living/carbon/human/xsentinel) || istype(Xeno, /mob/living/carbon/human/xqueen))
-		isAlien = 1
-
-	if(src.density && isAlien && !aforce)
+	if(src.density && isxenomorph(user) && !aforce)
+		var/mob/living/carbon/human/Xeno = user
 		if(istype(src, /obj/machinery/door/airlock)) //Airlock-specific conditions
 			var /obj/machinery/door/airlock/AF = src
 			if(operating)
@@ -293,8 +289,8 @@
 				user.visible_message("<span class='notice'>[user] jabs its claws into \the door weld and yanks!</span>",\
 					"\green You jab your claws into \the door weld and yank!",\
 					"<span class='notice'>You hear a loud metal thunk!</span>")
-				if(do_after(user,40))
-					if(prob(25))
+				if(do_after(user,40 / max(Xeno.species.strength,1)))
+					if(prob(25 * max(Xeno.species.strength,1)))
 						user.visible_message("<span class='notice'>[user] rips the door weld apart and forces the doors open!</span>",\
 							"\green You rip the door weld apart and force the doors open!",\
 							"<span class='warning'>You hear the sound of tearing metal and a door opening!</span>")
@@ -304,7 +300,7 @@
 						return
 					else
 						user.visible_message("<span class='notice'>[user] struggles against the welded door in vain!</span>",\
-							"\green You struggle against the door in vain!",\
+							"\green You have trouble getting your claws through the door welds!",\
 							"You hear a faint metal scratching.")
 						aforce = 0
 						return
@@ -337,8 +333,8 @@
 				user.visible_message("<span class='notice'>[user] digs their claws in and starts to force the door!</span>",\
 					"\green You dig your claws in and start to force the door!",\
 					"<span class='notice'>You hear a loud metallic thunk!</span>")
-				if(do_after(user, 30))
-					if(prob(34))
+				if(do_after(user, 40 / max(Xeno.species.strength,1)))
+					if(prob(34 * max(Xeno.species.strength,1)))
 						user.visible_message("<span class='notice'>[user] slowly forces \the door open!</span>",\
 							"\green You slowly force \the door open!",\
 							"<span class='notice'>You hear a door straining open.</span>")

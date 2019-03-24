@@ -134,19 +134,15 @@
 
 //Alien Door-forcing section
 
-	var/mob/Xeno = user
-	var isAlien
-	if(istype(Xeno,/mob/living/carbon/human/xdrone)||istype(Xeno,/mob/living/carbon/human/xhunter)||istype(Xeno,/mob/living/carbon/human/xsentinel)||istype(Xeno,/mob/living/carbon/human/xqueen))
-		isAlien = 1
-
-	if(src.density && isAlien && !aforce)//Firelock mechanics. Mostly duplicated, but necessarily, due to different variables in Firedoors vs Airlocks
+	if(src.density && isxenomorph(user) && !aforce)//Firelock mechanics. Mostly duplicated, but necessarily, due to different variables in Firedoors vs Airlocks
+		var/mob/living/carbon/human/Xeno = user
 		if(blocked) //Behavior for welded airlocks. Duplicate for Firedoors. We don't care if they're powered or not - same behavior with or without power.
 			aforce = 1
 			user.visible_message("<span class='notice'>[user] jabs its claws into \the door weld and yanks!</span>",\
 				"\green You jab your claws into \the door weld and yank!",\
 				"<span class='notice'>You hear a loud metallic thunk!</span>")
-			if(do_after(user,40))
-				if(prob(25))
+			if(do_after(user,40 / max(Xeno.species.strength,1)))
+				if(prob(34 * max(Xeno.species.strength,1)))
 					user.visible_message("<span class='warning'>[user] rips \the door weld apart and forces \the doors open!</span>",\
 						"\green You rip \the door weld apart and force \the doors open!",\
 						"<span class='warning>You hear the sound of metal tearing and a door being forced open!</span>")
@@ -175,8 +171,8 @@
 			user.visible_message("<span class='notice'>[user] digs their claws in and starts to force \the door!</span>",\
 				"\green You dig your claws in and start to force \the door!",\
 				"<span class='notice'>You hear a metallic thunk.</span>")
-			if(do_after(user, 40))
-				if(prob(50))
+			if(do_after(user, 40 / max(Xeno.species.strength,1)))
+				if(prob(50 * max(Xeno.species.strength,1)))
 					user.visible_message("<span class='notice'>[user] slowly forces the door open!</span>",\
 						"\green You slowly force the door open!",\
 						"<span class='notice'>You hear a door straining open.</span>")
@@ -192,6 +188,9 @@
 			else
 				aforce = 0
 				return
+		else
+			CRASH("Misfire in door-forcing logic stream.")
+			return
 
 //End Alien Door-forcing section
 

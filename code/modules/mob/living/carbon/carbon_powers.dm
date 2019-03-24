@@ -68,6 +68,9 @@
  *  Returns TRUE on success, FALSE on failure
  */
 /mob/living/carbon/proc/devour(atom/movable/victim)
+	set category = "Abilities"
+	set name = "Devour"
+	set desc = "Swallow a creature whole."
 	var/can_eat = can_devour(victim)
 	if(!can_eat)
 		return FALSE

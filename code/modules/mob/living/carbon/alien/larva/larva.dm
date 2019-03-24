@@ -7,6 +7,7 @@
 	language = "Hivemind"
 	maxHealth = 25
 	health = 25
+	see_in_dark = 6
 
 	var/adult_form = /mob/living/carbon/human
 	var/amount_grown = 0

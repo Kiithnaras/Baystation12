@@ -181,7 +181,19 @@
 /datum/codex_entry/radio
 	display_name = "Radio Communication"
 	associated_paths = list(
-		/obj/item/device/radio
+		/obj/item/device/radio,
+		/obj/item/device/radio/headset,
+		/obj/item/device/radio/headset/heads,
+		/obj/item/device/radio/headset/headset_cargo,
+		/obj/item/device/radio/headset/headset_com,
+		/obj/item/device/radio/headset/headset_eng,
+		/obj/item/device/radio/headset/headset_med,
+		/obj/item/device/radio/headset/headset_medsci,
+		/obj/item/device/radio/headset/headset_mining,
+		/obj/item/device/radio/headset/headset_rob,
+		/obj/item/device/radio/headset/headset_sec,
+		/obj/item/device/radio/headset/headset_sci,
+		/obj/item/device/radio/headset/headset_service,
 		)
 	associated_strings = list(
 		"radio",

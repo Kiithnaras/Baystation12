@@ -73,7 +73,7 @@
 		if(!user.unEquip(W, src))
 			return
 		var/obj/item/weapon/spacecash/S = W
-		user.visible_message("<span class='notice'>[user] puts [S.worth] [S.worth > 1 ? "thalers" : "thaler"] into \the [src].</span>")
+		user.visible_message("<span class='notice'>[user] puts [S.worth] [S.worth > 1 ? "credits" : "credit"] into \the [src].</span>")
 		update_icon()
 
 /obj/item/glass_jar/on_update_icon() // Also updates name and desc
