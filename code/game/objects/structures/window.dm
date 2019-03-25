@@ -479,12 +479,11 @@
 
 /obj/structure/window/shuttle
 	name = "shuttle window"
-	desc = "It looks rather strong. Might take a few good hits to shatter it."
-	icon = 'icons/obj/podwindows.dmi'
-	icon_state = "1"
-	basestate = "w"
-	reinf_basestate = "w"
+	desc = "Reinforced with titanium lattice. It looks rather strong. Might take a few good hits to shatter it."
+	icon_state = "rwindow_full"
 	dir = 5
+	init_material = MATERIAL_GLASS
+	init_reinf_material = MATERIAL_TITANIUM
 
 /obj/structure/window/reinforced/polarized
 	name = "electrochromic window"
