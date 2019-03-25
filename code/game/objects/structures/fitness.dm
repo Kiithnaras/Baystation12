@@ -25,7 +25,17 @@
 			user.do_attack_animation(src)
 			if(!synth)
 				user.nutrition = user.nutrition - 5
+			var/trainprob = 10 / user.get_skill_value(SKILL_COMBAT) ** 2
 			to_chat(user, "<span class='warning'>You [pick(hit_message)] \the [src].</span>")
+			if(!synth && prob(trainprob))
+				if(user.too_many_buffs(/datum/skill_buff/fitness))
+					to_chat(user,"<span class='notice'>You've trained hard enough today already.</span>")
+				else if(user.get_skill_value(SKILL_COMBAT) == SKILL_MAX)
+					to_chat(user,"<span class='notice'>You're already aces at this, hitting a sack isn't going to help any more.</span>")
+				else
+					to_chat(user,"<span class='notice'>Surprisingly, you feel like you're getting better by just hitting this thing.</span>")
+					var/decl/hierarchy/skill/buffme = SKILL_COMBAT
+					user.buff_skill(buffme.type = 1, buff_type = /datum/skill_buff/fitness)
 
 /obj/structure/fitness/weightlifter
 	name = "weightlifting machine"
@@ -68,7 +78,7 @@
 				if(weight - skill > max_weight/2)
 					if(prob(50))
 						message = ", getting hurt in the process"
-						user.apply_damage(5)
+						user.apply_damage(5 * (weight - skill)) //Set very high with untrained louts, this could ~really~ hurt. Antag opportunities.
 					else
 						message = "; this does not look safe"
 				else
@@ -79,7 +89,20 @@
 					user.nutrition -= weight * 5
 				message = success_message[min(1 + round(skill - weight), fail_message.len)]
 				user.visible_message("<span class='notice'>\The [user] lift\s the weights [message].</span>", "<span class='notice'>You lift the weights [message].</span>")
+				var/toneprob = (5 * weight) / (user.get_skill_value(SKILL_HAULING) ** 2)
+				if(!synth && prob(toneprob))
+					if(user.too_many_buffs(/datum/skill_buff/fitness))
+						to_chat(user,"<span class='notice'>You feel like you have toned yourself as much as you possibly can today.</span>")
+					else if(skill == SKILL_MAX)
+						to_chat(user,"<span class='notice'>Lifting these weights is a breeze.</span>")
+					else
+						to_chat(user,"<span class='notice'>You feel a little more at ease lifting these weights.</span>")
+						var/decl/hierarchy/skill/buffme = SKILL_HAULING
+						user.buff_skill(buffme.type = 1, buff_type = /datum/skill_buff/fitness)
 			being_used = 0
 		else
 			to_chat(user, "<span class='notice'>Against your previous judgement, perhaps working out is not for you.</span>")
 			being_used = 0
+
+/datum/skill_buff/fitness
+	limit = 3
