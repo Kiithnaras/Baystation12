@@ -34,8 +34,9 @@
 					to_chat(user,"<span class='notice'>You're already aces at this, hitting a sack isn't going to help any more.</span>")
 				else
 					to_chat(user,"<span class='notice'>Surprisingly, you feel like you're getting better by just hitting this thing.</span>")
-					var/decl/hierarchy/skill/buffme = SKILL_COMBAT
-					user.buff_skill(buffme.type = 1, buff_type = /datum/skill_buff/fitness)
+					var/list/buff = list(SKILL_COMBAT = 1)
+					var/buffpath = /datum/skill_buff/fitness
+					user.buff_skill(buff, 0, buffpath)
 
 /obj/structure/fitness/weightlifter
 	name = "weightlifting machine"
@@ -97,8 +98,9 @@
 						to_chat(user,"<span class='notice'>Lifting these weights is a breeze.</span>")
 					else
 						to_chat(user,"<span class='notice'>You feel a little more at ease lifting these weights.</span>")
-						var/decl/hierarchy/skill/buffme = SKILL_HAULING
-						user.buff_skill(buffme.type = 1, buff_type = /datum/skill_buff/fitness)
+						var/buff = list(SKILL_HAULING = 1)
+						var/buffpath = /datum/skill_buff/fitness
+						user.buff_skill(buff, 0, buffpath)
 			being_used = 0
 		else
 			to_chat(user, "<span class='notice'>Against your previous judgement, perhaps working out is not for you.</span>")
