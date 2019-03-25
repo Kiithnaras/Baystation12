@@ -91,7 +91,7 @@
 		</td>
 		<td> Being in an area which a person does not have authorization nor permission to be in.
 		</td>
-		<td> Removal from area. Fine of up to 150 thaler or brig time of up to 10 minutes. Demotion at discretion of Superior. Confiscation of tools used at discretion of arresting officer.
+		<td> Removal from area. Fine of up to 150 UEC or brig time of up to 10 minutes. Demotion at discretion of Superior. Confiscation of tools used at discretion of arresting officer.
 		</td>
 		<td> Remember that people can either break in, sneak in, or be let in. Always check that the suspect wasn't let in to do a job by someone with access, or were given access on their ID. Trespassing and theft often committed together; both sentences should be applied. It should be noted that having access does not equal authorization. Example: Chef entering maintenance tunnels via kitchen maintenance.
 		</td>
@@ -102,7 +102,7 @@
 		</td>
 		<td> Taking or using the Company's property without permission, which is of low value.
 		</td>
-		<td> Return of stolen item(s). Fine of up to 200 thaler or brig time of up to 20 minutes. Demotion at discretion of Superior.
+		<td> Return of stolen item(s). Fine of up to 200 UEC or brig time of up to 20 minutes. Demotion at discretion of Superior.
 		</td>
 		<td> This is for theft of company belongings which are of a relatively low value such as low-end medical equipment, tools, clothing, not paying for food/drink, and such. It is assumed that persons inside a department using departmental equipment have the consent of NanoTrasen to take those items. Theft from a person, or if stolen objects were not of a trivial worth, falls under Theft instead. Grand Theft is reserved for extremely valuable or dangerous objects being stolen.
 		</td>
@@ -124,7 +124,7 @@
 		</td>
 		<td> Knowingly insulting, belittling, offending, or otherwise disrespecting a Head of Staff of NanoTrasen, while also an employee of NanoTrasen.
 		</td>
-		<td> Fine of up to 100 thaler. Demotion at discretion of Superior.
+		<td> Fine of up to 100 UEC. Demotion at discretion of Superior.
 		</td>
 		<td> Accidental cases resulting from, for example, ignorance of a species' culture, invalidates this charge.  Non-employees cannot receive this charge.
 		</td>
@@ -135,7 +135,7 @@
 		</td>
 		<td> Refusing to follow a valid and lawful order of a Superior as an employee of NanoTrasen.
 		</td>
-		<td> 50 thaler fine. Demotion at discretion of Superior.
+		<td> 50 UEC fine. Demotion at discretion of Superior.
 		</td>
 		<td> For this charge to apply, the order must be lawful, reasonable, and the person being ordered to do it must have been able to do so. This includes orders from someone who is not necessarily the direct superior of the offender, but has authority in that context, for instance the Chief Engineer giving an order about engineering matters.
 		</td>
@@ -146,7 +146,7 @@
 		</td>
 		<td> Failing to throw garbage away, or otherwise creating a mess.
 		</td>
-		<td> 50 thaler fine issued to litterer. Demotion at discretion of Superior __for extreme cases or repeat offenders.__
+		<td> 50 UEC fine issued to litterer. Demotion at discretion of Superior __for extreme cases or repeat offenders.__
 		</td>
 		<td> N/A
 		</td>
@@ -157,7 +157,7 @@
 		</td>
 		<td> Defacing Company property either writing or drawing on Company property without authorization.
 		</td>
-		<td> Up to 150 thaler fine issued to to those responsible. Cleanup of graffiti. Demotion at discretion of Superior.
+		<td> Up to 150 UEC fine issued to to those responsible. Cleanup of graffiti. Demotion at discretion of Superior.
 		</td>
 		<td> This applies for a wide variety of forms of graffiti, including writing on the walls or the floor, or drawing on the floor with painting tools. Authorization for painting or otherwise altering the floor or walls' appearance can be granted by Command staff.
 		</td>
@@ -168,7 +168,7 @@
 		</td>
 		<td> Knowingly filing a complaint which is false, and in bad faith, to Internal Affairs, Command, or Security.
 		</td>
-		<td> Fine of 250 thaler. Demotion at discretion of Superior.
+		<td> Fine of 250 UEC. Demotion at discretion of Superior.
 		</td>
 		<td> If someone's complaint is merely incorrect but not maliciously so, it does not count for this charge.
 		</td>
@@ -179,7 +179,7 @@
 		</td>
 		<td> Actively and willfully disregarding the station's Standard Operating Procedures without risking serious threat to station property or crew.
 		</td>
-		<td> Fine of 100 thaler. Demotion at discretion of Superior.
+		<td> Fine of 100 UEC. Demotion at discretion of Superior.
 		</td>
 		<td> This includes refusal to activate suit sensors on blue or red alert.
 		</td>
@@ -190,7 +190,7 @@
 		</td>
 		<td> Noncompliance with an Arresting Officer who has cause and is following SOP.
 		</td>
-		<td> Fine of up to 200 thaler or brig time extension up to 20 minutes. Demotion at discretion of Superior.
+		<td> Fine of up to 200 UEC or brig time extension up to 20 minutes. Demotion at discretion of Superior.
 		</td>
 		<td> If this disputed, an Internal Affairs Agent (if available) is to be the impartial mediator.
 		</td>
@@ -212,7 +212,7 @@
 		</td>
 		<td> To be intentionally and publicly unclothed in public.
 		</td>
-		<td> Fine of 150 thaler. Demotion at discretion of Superior.
+		<td> Fine of 150 UEC. Demotion at discretion of Superior.
 		</td>
 		<td> Exceptions are allowed based on species. See the Dress Code section of General SOP for more details.
 		</td>
@@ -223,7 +223,7 @@
 		</td>
 		<td> To intentionally engage in disruptive behavior such as belligerent drunkenness, disorderly shouting, or aggressive assembly.
 		</td>
-		<td> Fine of 100 thaler or brig time of 15 minutes. Demotion at discretion of Superior.
+		<td> Fine of 100 UEC or brig time of 15 minutes. Demotion at discretion of Superior.
 		</td>
 		<td> People who are intoxicated and being an annoyance can be brigged until they become sober at the discretion of the Arresting Officer.
 		</td>
@@ -404,7 +404,7 @@
 		</td>
 		<td> To deliberately damage or deface the station.
 		</td>
-		<td> Fine of up to 200 thaler or a recommended brig time of 10 minutes times number of times the person has been arrested for this crime going no higher than 30 minutes. Demotion at discretion of Superior. Confiscation of tools used at discretion of arresting officer.
+		<td> Fine of up to 200 UEC or a recommended brig time of 10 minutes times number of times the person has been arrested for this crime going no higher than 30 minutes. Demotion at discretion of Superior. Confiscation of tools used at discretion of arresting officer.
 		</td>
 		<td> This should be used for minor damages such as broken windows which do not lead to vacuum, flipping tables, breaking lights, ripping up floor tiles, and such. More serious or life threatening damages should have Sabotage applied instead.
 		</td>
@@ -437,7 +437,7 @@
 		</td>
 		<td> Failing to carry or present an EIO-issued Drone Identification card as a Drone intelligence.
 		</td>
-		<td> 200 thaler fine. Give Drone a temporary paper stating that it is a drone, if the ID was lost. Fax UEEPS. Inform owner of Drone if possible. Instruct Drone to obtain new ID at its earliest opportunity, if it was lost.
+		<td> 200 UEC fine. Give Drone a temporary paper stating that it is a drone, if the ID was lost. Fax UEEPS. Inform owner of Drone if possible. Instruct Drone to obtain new ID at its earliest opportunity, if it was lost.
 		</td>
 		<td> This is only applicable to Drone intelligences which possess autonomous capability. It must be proven that the offender is a Drone, which can be accomplished in various ways, generally with the expertise of a Roboticist. Lawbound synthetics, maintenance drones, and simple bots do not require an ID card. No fine or UEEPS fax should be sent if the Drone's ID was lost due to theft and the ID is able to be recovered.
 		</td>
@@ -448,7 +448,7 @@
 		</td>
 		<td> To spread false rumours in order to discredit or damage the reputation of another.
 		</td>
-		<td> 150 thaler fine.
+		<td> 150 UEC fine.
 		</td>
 		<td> This charge only applies if somebody makes a false verbal, written, or typed statement about another with the intent to discredit or damage the reputation of another.
 		</td>
@@ -551,14 +551,23 @@
 		</td>
 		<td> Hold until Transfer. Termination. Fax UEEPS.
 		</td>
-		<td> If the synthetic is a cyborg or positronic, this is also an offense against the Sapient Rights laws federally mandated by the UEE Protectorate Services.
+		<td> If the synthetic is a cyborg or positronic, this is also an offense against the Sapient Rights laws mandated by the UEE Protectorate Services.
 		</td>
 		<td> Yes.
 		</td></tr>
 		<tr>
+		<td> <b>Unauthorized Cloning</b>
+		</td>
+		<td> Development, implementation, or usage of any rapid-cloning technology without direct authorization and clearance from Regional Operations.
+		</td>
+		<td> Minimum fine of 2,000 UEC per cloned person, Termination, and Held until Transfer. Fax UEEPS. Dismantle and destroy any unauthorized inert biomass and machinery.
+		</td>
+		<td> Successfully-cloned individuals should be medically-confined. They should additionally be subjected to psychiatric evaluation and treatment if possible. While Nanotrasen is permitted to grow new clones of contracted employees, the legally- and medically-approved processes take a few weeks, followed by resleeving. More important employees may have one or more inert "blank" clones kept on hand for rapid resleeving, but these bodies will be held in an approved Regional Operations hub.
+		</td></tr>
+		<tr>
 		<td> <b>Experimentation with Transgressive Technology</b>
 		</td>
-		<td> Experimenting with technologies deemed unsafe or are otherwise federally restricted by the UEE Protectorate Services.
+		<td> Experimenting with technologies deemed unsafe or are otherwise restricted by the UEE Protectorate Services.
 		</td>
 		<td> Hold until Transfer. Termination. Fax UEEPS. Delete, destroy, or otherwise remove the experiments.
 		</td>
@@ -574,7 +583,7 @@
 		<td> Decommissioning of the newly created Drone. Investigation of Drone to determine level of intelligence, if possible. Hold until Transfer for the creator.
 		</td>
 		<td> It must be proven that the Drone is in fact a Drone, which can be accomplished in various ways, generally with the expertise of a Roboticist. It must also be proven that the Drone's codeline is also unregistered. Intelligences produced from a Maintenance Drone Fabricator, the Research department, and through other regular means are by default already registered. Very simple machines such as securitrons do not require registration.
-		<p>The remains of the Drone are to be brought to the Spaceport at the earliest opportunity. Their creator is to also be brought there, so that they may be questioned by federal authorities.
+		<p>The remains of the Drone are to be brought to the Spaceport at the earliest opportunity. Their creator is to also be brought there, so that they may be questioned by UEEPS authorities.
 		</p>
 		</td>
 		<td> Yes.
@@ -604,7 +613,7 @@
 		<li> Phoron, in any form.</li>
 		<li> Mineral wealth obtained from Mining or the Vault (Gold, Silver, Diamonds, etc).</li>
 		<li> Hardsuits.</li>
-		<li> Money in excess of 5,000 thaler.</li></ul>
+		<li> Money in excess of 5,000 UEC.</li></ul>
 		</td>
 		<td> Yes.
 		</td></tr>
@@ -763,7 +772,7 @@
 	<ol type="1"><li>Biological or Chemical Weapons, such as engineered viruses. Phoron gas is considered a chemical weapon when used offensively.</li>
 	<li>Military Explosives when not in use by authorized personnel. Such personnel are very limited and include active-duty UEE Military forces, UEE Security forces, and UEE Protectorate Services. Nanotrasen Security should not be confused for UEE Security. Note that constructive explosives, such as any charges used for mining are not subject to this restriction. Phoron-based explosives are considered military weapons.</li>
 	<li>Automatic Weapons when not in use by the Military, another authorised department of the UEE, or and otherwise authorized entity. This means any weapon capable of firing multiple shots when the trigger is depressed once, energy or otherwise.</li>
-	<li>Any cloning technology designed to rapidly grow an adult clone with fully-developed mental faculties. While Nanotrasen was originally a pioneer of such technology, the UEE soon recognized the far-reaching implications of such technology and has heavily-restricted its usage and dissemination.</li>
+	<li>Any cloning technology designed to rapidly grow an adult clone with fully-developed mental faculties. While Nanotrasen was originally a pioneer of such technology, the UEE soon recognized the far-reaching implications of such technology and has heavily-restricted its usage and dissemination. As such, any cloning processes are highly regulated and monitored. Medically and legally approved processes exist, but these take several weeks to gestate a new body that must be inert without an appropriate Neural Lace along with a small mountain of paperwork.</li>
 	<li>Corporate security forces are considered an "authorized entity" with respect to the above clauses.</li>
 	<li>Weaponry in the possession of personnel who have not been authorised to possess it.</li>
 	<li>Hacking software which allows a person to subvert access to ship systems, bypass access restrictions or attack a vessels computer network.</li></ol></li></ol></li>
