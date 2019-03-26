@@ -214,5 +214,6 @@ Single Use Emergency Pouches
 
 /obj/item/weapon/reagent_containers/hypospray/autoinjector/pouch_auto/adrenaline
 	name = "emergency adrenaline autoinjector"
+	band_color = COLOR_RED_LIGHT
 	amount_per_transfer_from_this = 8
 	starts_with = list(/datum/reagent/adrenaline = 8)

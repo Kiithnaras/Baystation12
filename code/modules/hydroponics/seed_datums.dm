@@ -1222,6 +1222,13 @@
 	set_trait(TRAIT_YIELD,-1)
 	set_trait(TRAIT_SPREAD,2)
 	set_trait(TRAIT_POTENCY,50)
+	set_trait(TRAIT_LOWKPA_TOLERANCE, -1) //We can exist in space
+	set_trait(TRAIT_HIGHKPA_TOLERANCE, 400)//We
+	set_trait(TRAIT_HEAT_TOLERANCE, 360)
+	set_trait(TRAIT_IDEAL_HEAT, 180)
+	set_trait(TRAIT_REQUIRES_WATER, 0)
+	set_trait(TRAIT_REQUIRES_NUTRIENTS, 0)
+	set_trait(TRAIT_LIGHT_TOLERANCE, 5)
 
 /datum/seed/algae
 	name = "algae"

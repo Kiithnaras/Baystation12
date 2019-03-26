@@ -82,6 +82,8 @@
 	var/mob/living/carbon/human/H = victim
 	if(isalien(victim) || (H.species.species_flags & SPECIES_FLAG_NO_TANGLE))
 		return
+	if(src.seed.name == "xenomorph" && locate(/obj/item/organ/internal/xeno/hivenode) in H.internal_organs && !isalien(victim) && !isxenomorph(victim)) //Prevents Thralls from being entangled, but prevents double-checking xenos
+		return
 
 	if(buckled_mob)
 		return

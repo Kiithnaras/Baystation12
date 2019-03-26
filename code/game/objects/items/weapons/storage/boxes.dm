@@ -116,7 +116,6 @@
 	name = "vox employee standard supplies"
 	desc = "A simple cardboard box plainly labelled for distribution to Vox employees."
 	startswith = list(/obj/item/weapon/tank/emergency/nitrogen = 1,
-		/obj/item/clothing/mask/breath = 1,
 		/obj/item/weapon/storage/pill_bottle/dylovene = 1)
 
 /obj/item/weapon/storage/box/gloves
@@ -137,13 +136,13 @@
 	name = "box of syringes"
 	desc = "A box full of syringes."
 	icon_state = "syringe"
-	startswith = list(/obj/item/weapon/reagent_containers/syringe = 7)
+	startswith = list(/obj/item/weapon/reagent_containers/syringe = 20)
 
 /obj/item/weapon/storage/box/syringegun
 	name = "box of syringe gun cartridges"
 	desc = "A box full of compressed gas cartridges."
 	icon_state = "syringe"
-	startswith = list(/obj/item/weapon/syringe_cartridge = 7)
+	startswith = list(/obj/item/weapon/syringe_cartridge = 12)
 
 
 /obj/item/weapon/storage/box/beakers

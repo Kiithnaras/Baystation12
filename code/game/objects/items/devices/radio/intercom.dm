@@ -5,7 +5,7 @@
 	randpixel = 0
 	anchored = 1
 	w_class = ITEM_SIZE_HUGE
-	canhear_range = 2
+	canhear_range = 3
 	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_NO_BLOOD
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	layer = ABOVE_WINDOW_LAYER
@@ -16,6 +16,11 @@
 
 /obj/item/device/radio/intercom/get_storage_cost()
 	return ITEM_SIZE_NO_CONTAINER
+
+/obj/item/device/radio/intercom/send_hear(freq, level)
+	var/range = receive_range(freq, level)
+	if(range > -1)
+		return get_mobs_or_objects_in_view(canhear_range * 2, src)
 
 /obj/item/device/radio/intercom/custom
 	name = "intercom (Custom)"

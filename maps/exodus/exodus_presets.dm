@@ -354,3 +354,9 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 /datum/language/nabber/syllables = list(
 	"skr","chk","thk","vrk","krk","ghk","krr","rkh","chkh","chr","shr","shk","thk","kth","kx","chx","xkx","ak","ik","ek","ssk","kch","kch","kch"
 	)
+
+/obj/item/weapon/storage/box/adrenoinjectors
+	name = "box of adrenaline autoinjectors"
+	desc = "Contains a small arsenal of adrenaline autoinjectors."
+	icon_state = "syringe"
+	startswith = list(/obj/item/weapon/reagent_containers/hypospray/autoinjector/pouch_auto/adrenaline = 20)

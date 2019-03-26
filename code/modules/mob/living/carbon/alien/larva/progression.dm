@@ -51,6 +51,7 @@
 
 	for(var/datum/language/L in languages)
 		adult.add_language(L.name)
+	adult.skillset.obtain_from_mob(src)
 	qdel(src)
 
 /mob/living/carbon/alien/larva/proc/update_progression()

@@ -19,11 +19,8 @@ GLOBAL_DATUM_INIT(renegades, /datum/antagonist/renegade, new)
 	flags = ANTAG_SUSPICIOUS | ANTAG_IMPLANT_IMMUNE | ANTAG_RANDSPAWN | ANTAG_VOTABLE
 	hard_cap = 5
 	hard_cap_round = 7
-
-	hard_cap = 8
-	hard_cap_round = 12
-	initial_spawn_req = 3
-	initial_spawn_target = 6
+	initial_spawn_req = 1
+	initial_spawn_target = 3
 	antaghud_indicator = "hudrenegade"
 	skill_setter = /datum/antag_skill_setter/station
 
