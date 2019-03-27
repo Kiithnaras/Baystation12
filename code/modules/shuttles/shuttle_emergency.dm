@@ -82,6 +82,10 @@
 		if (emergency_controller.autopilot)
 			emergency_controller.autopilot = 0
 			to_world("<span class='notice'><b>Alert: The shuttle autopilot has been overridden. Launch sequence initiated!</b></span>")
+			move_time =  emergency_controller.evac_transit_delay / 10 //Launch the shuttle now with the proper ETAs and timings, and launch the pods, too, if appropriate
+			emergency_controller.evac_launch_time = world.time + 10 SECONDS
+			emergency_controller.evac_arrival_time =  emergency_controller.evac_launch_time +  emergency_controller.evac_transit_delay
+			emergency_controller.launch_evacuation()
 
 	if(usr)
 		log_admin("[key_name(usr)] has overridden the shuttle autopilot and activated launch sequence")
@@ -96,6 +100,10 @@
 		if (emergency_controller.autopilot)
 			emergency_controller.autopilot = 0
 			to_world("<span class='notice'><b>Alert: The shuttle autopilot has been overridden. Bluespace drive engaged!</b></span>")
+			move_time = emergency_controller.evac_transit_delay / 10 //Launch the shuttle now with the proper ETAs and timings, and launch the pods, too, if appropriate
+			emergency_controller.evac_launch_time = world.time
+			emergency_controller.evac_arrival_time =  emergency_controller.evac_launch_time +  emergency_controller.evac_transit_delay
+			emergency_controller.launch_evacuation()
 
 	if(usr)
 		log_admin("[key_name(usr)] has overridden the shuttle autopilot and forced immediate launch")
@@ -113,7 +121,7 @@
 			if (emergency_controller.autopilot)
 				emergency_controller.autopilot = 0
 				to_world("<span class='notice'><b>Alert: The shuttle autopilot has been overridden. Launch sequence aborted!</b></span>")
-
+				emergency_controller.state = 0 //Suspend emergency controller process, but don't Cancel the evac.
 		if(usr)
 			log_admin("[key_name(usr)] has overridden the shuttle autopilot and cancelled launch sequence")
 			message_admins("[key_name_admin(usr)] has overridden the shuttle autopilot and cancelled launch sequence")

@@ -33,11 +33,13 @@
 	return departed
 
 /datum/evacuation_controller/shuttle/waiting_to_leave()
-	return (!autopilot || (shuttle && shuttle.is_launching()))
+	return (autopilot && (shuttle && shuttle.is_launching()))
 
 /datum/evacuation_controller/shuttle/launch_evacuation()
 	if(waiting_to_leave())
 		return
+
+	state = EVAC_IN_TRANSIT
 
 	if(emergency_evacuation) //Launch Pods of this is an emergency!
 		for (var/datum/shuttle/autodock/ferry/escape_pod/pod in escape_pods)
@@ -52,6 +54,7 @@
 	if(auxshuttle.location == 0)
 		auxshuttle.launch(src)
 	departed = 1
+	return 1
 	// Announcements, state changes and such are handled by the shuttle itself to prevent desync.
 
 /datum/evacuation_controller/shuttle/finish_preparing_evac()
