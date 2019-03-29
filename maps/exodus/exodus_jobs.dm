@@ -170,18 +170,35 @@
 /datum/job/warden
 	skill_points = 32
 	alt_titles = list("Armory Quartermaster","Prison Overseer")
+	min_skill = list(	SKILL_BUREAUCRACY	= SKILL_BASIC,
+						SKILL_WEAPONS		= SKILL_BASIC,
+						SKILL_COMBAT		= SKILL_BASIC)
+	max_skill = list(	SKILL_COMBAT		= SKILL_MAX,
+						SKILL_WEAPONS		= SKILL_MAX,
+						SKILL_FORENSICS		= SKILL_MAX)
 
 /datum/job/warden/get_description_blurb()
 	return "As Warden, your reponsibilities are twofold - the Armory and Brig. You answer directly to the Security Chief. Your task is to maintain proper authorizations and documentation of Armory and Sub-Armory equipment usage as well as proper and timely processing, detention, and release of security violators."
 
 /datum/job/detective
 	skill_points = 32
+	min_skill = list(	SKILL_FORENSICS		= SKILL_ADEPT,
+						SKILL_COMBAT		= SKILL_BASIC,
+						SKILL_BUREAUCRACY	= SKILL_BASIC)
+	max_skill = list(	SKILL_FORENSICS		= SKILL_MAX,
+						SKILL_COMBAT		= SKILL_MAX,
+						SKILL_WEAPONS		= SKILL_MAX)
 
 /datum/job/detective/get_description_blurb()
 	return "As Detective, you answer to the Chief of Security and are reponsible for the gathering of any necessary forensic evidence to prosecute CorpReg violators. You are NOT a stone-cold one-man army, despite any proclivity toward noir-style self-narration, nor are you permitted to make arrests without explicit authorization or support of other Officers."
 
 /datum/job/officer
 	skill_points = 24
+	min_skill = list(	SKILL_COMBAT		= SKILL_BASIC,
+						SKILL_WEAPONS		= SKILL_BASIC,
+						SKILL_BUREAUCRACY	= SKILL_BASIC)
+	max_skill = list(	SKILL_COMBAT		= SKILL_MAX,
+						SKILL_WEAPONS		= SKILL_MAX)
 
 /datum/job/officer/get_description_blurb()
 	return "As a Security Officer, you are responsible for maintaining a safe work environment by ensuring the crew adhere to Corporate Regulations. Timely apprehension and processing along with appropriate use of force are crucial to Security Officer performance."
@@ -190,24 +207,51 @@
 
 /datum/job/doctor
 	skill_points = 36
+	min_skill = list(	SKILL_MEDICINE		= SKILL_ADEPT,
+						SKILL_ANATOMY		= SKILL_BASIC,
+						SKILL_VIROLOGY		= SKILL_BASIC,
+						SKILL_CHEMISTRY		= SKILL_BASIC)
+	max_skill = list(	SKILL_MEDICINE		= SKILL_MAX,
+						SKILL_ANATOMY		= SKILL_MAX,
+						SKILL_VIROLOGY		= SKILL_MAX,
+						SKILL_CHEMISTRY		= SKILL_MAX)
 
 /datum/job/doctor/get_description_blurb()
 	return "As a Medical Officer, you are responsible for the health of the station's crew. These responsibilities include proper and timely diagnosis and treatment of any and all ailments. All Medical Officers should be properly trained and well-versed in their particular fields."
 
 /datum/job/chemist
 	skill_points = 32
+	min_skill = list(	SKILL_CHEMISTRY		= SKILL_ADEPT,
+						SKILL_MEDICINE		= SKILL_BASIC,
+						SKILL_VIROLOGY		= SKILL_BASIC)
+	max_skill = list(	SKILL_MEDICINE		= SKILL_MAX,
+						SKILL_ANATOMY		= SKILL_MAX,
+						SKILL_VIROLOGY		= SKILL_MAX,
+						SKILL_CHEMISTRY		= SKILL_MAX)
 
 /datum/job/chemist/get_description_blurb()
 	return "A Chemist is responsible for keeping the Medical department properly staffed with various pharmaceuticals, and for providing other departments with necessary chemicals and reagents necessary to perform their duties."
 
 /datum/job/psychiatrist
 	skill_points = 24
+	min_skill = list(	SKILL_CHEMISTRY		= SKILL_ADEPT,
+						SKILL_MEDICINE		= SKILL_BASIC)
+	max_skill = list(	SKILL_MEDICINE		= SKILL_MAX,
+						SKILL_ANATOMY		= SKILL_MAX,
+						SKILL_CHEMISTRY		= SKILL_MAX)
 
 /datum/job/psychiatrist/get_description_blurb()
 	return "The Psychiatrist is responsible for helping the remainder of the crew cope with the rigors of life in space confined on board an artifical station. NanoTrasen recognizes the various difficulties associated with artificial space habitation and that comfortable employees are productive employees."
 
 /datum/job/Paramedic
-	skill_points = 24
+	skill_points = 28
+	min_skill = list(	SKILL_MEDICINE		= SKILL_BASIC,
+						SKILL_ANATOMY		= SKILL_BASIC,
+						SKILL_CHEMISTRY		= SKILL_BASIC)
+	max_skill = list(	SKILL_MEDICINE		= SKILL_MAX,
+						SKILL_ANATOMY		= SKILL_MAX,
+						SKILL_VIROLOGY		= SKILL_MAX,
+						SKILL_CHEMISTRY		= SKILL_MAX)
 
 /datum/job/Paramedic/get_description_blurb()
 	return "A Paramedic is the Medical Staff's first line of defense against loss of crew life. While Doctors are largely responsible for maintaining a presence within the Medical Wing, Paramedics are often required to venture into hazardous parts of the station or even space in order to retrieve, stabilize, and transport injured members of the crew."
@@ -216,18 +260,37 @@
 
 /datum/job/scientist
 	skill_points = 32
+	min_skill = list(	SKILL_DEVICES		= SKILL_ADEPT,
+						SKILL_SCIENCE		= SKILL_ADEPT)
+	max_skill = list(	SKILL_DEVICES		= SKILL_MAX,
+						SKILL_SCIENCE		= SKILL_MAX)
 
 /datum/job/scientist/get_description_blurb()
 	return "A Scientist is a member of the Research division and responsible for studying materials and devices to further NanoTrasen's studies of various concepts and materials. It is highly encouraged to work closely with Supply and Archaeology in order to accomplish these goals with expedience and minimal loss of materials. It is also your reponsibility to supply other departments with new discoveries that will enhance their productivity, and you should strive to return to Regional Operations with any discoveries at the end of the shift."
 
 /datum/job/xenobiologist
 	skill_points = 32
+	min_skill = list(	SKILL_DEVICES		= SKILL_BASIC,
+						SKILL_SCIENCE		= SKILL_BASIC,
+						SKILL_ANATOMY		= SKILL_ADEPT)
+	max_skill = list(	SKILL_DEVICES		= SKILL_MAX,
+						SKILL_SCIENCE		= SKILL_MAX,
+						SKILL_ANATOMY		= SKILL_MAX)
 
 /datum/job/xenobiologist/get_description_blurb()
 	return "A Xenobiologist primarily studies alien species and cultures and interfaces with alien species in first-contact situations. They are responsible for reporting any discoveries or useful information to the Chief Science Officer in a timely and concise manner,"
 
 /datum/job/roboticist
-	skill_points = 28
+	skill_points = 32
+	alt_titles = list("Biomech Engineer","Mechanomotive Engineer","Synthetics Engineer","Prosthesis Engineer")
+	min_skill = list(	SKILL_DEVICES		= SKILL_BASIC,
+						SKILL_SCIENCE		= SKILL_BASIC,
+						SKILL_ANATOMY		= SKILL_ADEPT,
+						SKILL_MEDICINE		= SKILL_BASIC)
+	max_skill = list(	SKILL_DEVICES		= SKILL_MAX,
+						SKILL_SCIENCE		= SKILL_MAX,
+						SKILL_ANATOMY		= SKILL_MAX)
+
 
 /datum/job/roboticist/get_description_blurb()
 	return "A Roboticist responsible for the construction, maintenance, and disbursement of Mechanical Exosuits and AI-slaved Robots and Androids. They may also be called upon for any cybernetic prosthetics required by the crew."
@@ -236,6 +299,14 @@
 
 /datum/job/engineer
 	skill_points = 32
+	min_skill = list(	SKILL_CONSTRUCTION	= SKILL_BASIC,
+						SKILL_ELECTRICAL	= SKILL_BASIC,
+						SKILL_ENGINES		= SKILL_BASIC,
+						SKILL_ATMOS			= SKILL_BASIC)
+	max_skill = list(	SKILL_CONSTRUCTION	= SKILL_MAX,
+						SKILL_ELECTRICAL	= SKILL_MAX,
+						SKILL_ENGINES		= SKILL_MAX,
+						SKILL_ATMOS			= SKILL_MAX)
 
 /datum/job/engineer/get_description_blurb()
 	return "An Engineer is, as a member of the Chief Engineer's team, responsible for the safe and effective operation of the station. They are required to repair, maintain, and properly operate the station's atmospherics, power, and hazard prevention systems."
@@ -252,7 +323,7 @@
 	return "The Quartermaster is the senior member of the Supply department and is responsible for handling requests and disbursement of materiel to and from Regional Operations. They are responsible for appropriate authorizations and any necessary Thaler payments to Reg Ops for required materiel. It is also the Quartermaster's responsibility to lead and direct any Mining operations by specifying desired materials."
 
 /datum/job/cargo_tech
-	skill_points = 16
+	skill_points = 20
 
 /datum/job/cargo_tech/get_description_blurb()
 	return "As a Cargo Technician, your role is relatively limited to handling requests and approvals through the Quartermaster for various materiel, as well as ensuring the proper disposal of refuse and recovery of discarded non-refuse."
@@ -264,7 +335,7 @@
 	return "As a Mining Technician, you are responsible for gathering, processing, and recovery of minerals and materials from the nearby asteroid. This includes hand drill operation, Industrial Drill operation, and, if necessary, Exosuit-based mining operations."
 
 /datum/job/janitor
-	skill_points = 16
+	skill_points = 20
 
 /datum/job/janitor/get_description_blurb()
 	return "As a part of the janitorial staff, you are responsible for keeping the station clean and free from minor hazards and obstructions."
@@ -295,6 +366,14 @@
 /datum/job/lawyer
 	skill_points = 48
 	alt_titles = list("Corporate Investigator","Regional Operations Agent")
+	min_skill = list(	SKILL_BUREAUCRACY	= SKILL_ADEPT,
+						SKILL_FINANCE		= SKILL_ADEPT,
+						SKILL_FORENSICS		= SKILL_BASIC,
+						SKILL_WEAPONS		= SKILL_BASIC,
+						SKILL_COMBAT		= SKILL_BASIC)
+	min_skill = list(	SKILL_FORENSICS		= SKILL_MAX,
+						SKILL_WEAPONS		= SKILL_MAX,
+						SKILL_COMBAT		= SKILL_MAX)
 
 /datum/job/lawyer/get_description_blurb()
 	return "The Internal Affairs Agent is a crucial and important role aboard the station. You report to no one, and you are responsible for no one. Instead, you are NanoTrasen's direct line for the expression and retention of corporate interests aboard the station. Your duty is primarily to observe and advise based on Corporate Regulations and Standard Operating Procedures. If general crew display subversive, illegal, or otherwise anti-productive tendencies, these crew should be promptly reported to Head Staff. Should Head Staff display these tendencies, you should promptly report them to Regional Operations and await further instructions. You are not permitted to take Corporate Regulation nor UEE Law into your own hands."

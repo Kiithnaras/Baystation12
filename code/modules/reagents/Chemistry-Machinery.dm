@@ -14,13 +14,16 @@
 	clickvol = 20
 	var/obj/item/weapon/reagent_containers/beaker = null
 	var/obj/item/weapon/storage/pill_bottle/loaded_pill_bottle = null
+	var/obj/item/weapon/storage/box/loaded_injector_box = null
 	var/mode = 0
 	var/useramount = 30 // Last used amount
 	var/pillamount = 10
+	var/injectoramount = 6
 	var/bottlesprite = "bottle-1" //yes, strings
 	var/pillsprite = "1"
 	var/client/has_sprites = list()
 	var/max_pill_count = 20
+	var/max_injector_count = 12
 	atom_flags = ATOM_FLAG_OPEN_CONTAINER
 	core_skill = SKILL_CHEMISTRY
 	var/sloppy = 1 //Whether reagents will not be fully purified (sloppy = 1) or there will be reagent loss (sloppy = 0) on reagent add.
@@ -64,6 +67,17 @@
 		to_chat(user, "You add the pill bottle into the dispenser slot!")
 		src.updateUsrDialog()
 
+	else if(istype(B, /obj/item/weapon/storage/box))
+
+		if(src.loaded_injector_box)
+			to_chat(user, "An injector-box is already loaded into the machine.")
+			return
+		if(!user.unEquip(B,src))
+			return
+		src.loaded_injector_box = B
+		to_chat(user,"You add the box to the machine's dispenser slot!")
+		src.updateUsrDialog()
+
 /obj/machinery/chem_master/Topic(href, href_list, state)
 	if(..())
 		return 1
@@ -73,6 +87,10 @@
 		if(loaded_pill_bottle)
 			loaded_pill_bottle.dropInto(loc)
 			loaded_pill_bottle = null
+	else if(href_list["ejectb"])
+		if(loaded_injector_box)
+			loaded_injector_box.dropInto(loc)
+			loaded_injector_box = null
 	else if(href_list["close"])
 		show_browser(user, null, "window=chemmaster")
 		user.unset_machine()
@@ -179,6 +197,36 @@
 					if(loaded_pill_bottle.contents.len < loaded_pill_bottle.max_storage_space)
 						P.forceMove(loaded_pill_bottle)
 
+		else if (href_list["createinjector"])
+			var/count = 1
+
+			if(reagents.total_volume/count < 1) //Sanity check
+				return
+
+			count = input("Select the number of injectors to create", "Max [max_injector_count]", injectoramount) as num
+			count = Clamp(count, 1, max_injector_count)
+
+			if(reagents.total_volume/count < 1) //Sanity check
+				return
+
+			var/amount_per_injector = reagents.total_volume/count
+			if (amount_per_injector > 30) amount_per_injector = 30
+
+			var/name = sanitizeSafe(input(usr,"Name:","Name the Injector(s)","autoinjector ([reagents.get_master_reagent_name()], [round(amount_per_injector, 0.1)]u)"), MAX_NAME_LEN)
+
+			if(reagents.total_volume/count < 1) //Sanity check
+				return
+
+			while(count-- && count >= 0)
+				var/obj/item/weapon/reagent_containers/hypospray/autoinjector/A = new/obj/item/weapon/reagent_containers/hypospray/autoinjector(loc)
+				A.SetName("[name]")
+				A.band_color = reagents.get_color()
+				reagents.trans_to_obj(A,amount_per_injector)
+				A.update_icon()
+				if(loaded_injector_box)
+					if(loaded_injector_box.contents.len < loaded_injector_box.max_storage_space)
+						A.forceMove(loaded_injector_box)
+
 		else if (href_list["createbottle"])
 			create_bottle(user)
 		else if(href_list["change_pill"])
@@ -200,6 +248,7 @@
 			pillsprite = href_list["pill_sprite"]
 		else if(href_list["bottle_sprite"])
 			bottlesprite = href_list["bottle_sprite"]
+
 
 	updateUsrDialog()
 
@@ -259,6 +308,10 @@
 			dat += "<A href='?src=\ref[src];ejectp=1'>Eject Pill Bottle \[[loaded_pill_bottle.contents.len]/[loaded_pill_bottle.max_storage_space]\]</A><BR><BR>"
 		else
 			dat += "No pill bottle inserted.<BR><BR>"
+		if(loaded_injector_box)
+			dat += "<A href='?src=\ref[src];ejectb=1'>Eject Injector Box \[[loaded_injector_box.contents.len]/[loaded_injector_box.max_storage_space]\]</A><BR><BR>"
+		else
+			dat += "No injector box present.<BR><BR>"
 		dat += "<A href='?src=\ref[src];close=1'>Close</A>"
 	else
 		var/datum/reagents/R = beaker.reagents
@@ -301,8 +354,11 @@
 /obj/machinery/chem_master/proc/extra_options()
 	. = list()
 	. += "<HR><BR><A href='?src=\ref[src];createpill=1'>Create pill (60 units max)</A><a href=\"?src=\ref[src]&change_pill=1\"><img src=\"pill[pillsprite].png\" /></a><BR>"
-	. += "<A href='?src=\ref[src];createpill_multiple=1'>Create multiple pills</A><BR>"
+	. += "<A href='?src=\ref[src];createpill_multiple=1'>Create multiple pills.</A><BR>"
+	. += "[loaded_pill_bottle ? "Pill Bottle ready for collection!" : "Load a pill bottle to auto-collect pills!"]<BR>"
 	. += "<A href='?src=\ref[src];createbottle=1'>Create bottle (60 units max)<a href=\"?src=\ref[src]&change_bottle=1\"><img src=\"[bottlesprite].png\" /></A>"
+	. += "<A href='?src=\ref[src];createinjector=1'>Create Auto-Injector(s)</A><BR>"
+	. += "[loaded_injector_box ? "Storage box ready to collect injectors." : "Load a storage box to auto-collect auto-injectors!"]<BR>"
 	return JOINTEXT(.)
 
 /obj/machinery/chem_master/condimaster

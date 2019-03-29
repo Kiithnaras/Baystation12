@@ -359,4 +359,29 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 	name = "box of adrenaline autoinjectors"
 	desc = "Contains a small arsenal of adrenaline autoinjectors."
 	icon_state = "syringe"
-	startswith = list(/obj/item/weapon/reagent_containers/hypospray/autoinjector/pouch_auto/adrenaline = 20)
+	startswith = list(/obj/item/weapon/reagent_containers/hypospray/autoinjector/pouch_auto/adrenaline = 12)
+
+/obj/item/weapon/storage/box/plastic
+	name = "plastic box"
+	desc = "A simple box made from plastic."
+	icon = 'maps/exodus/icons/exodus_items.dmi'
+	icon_state = "pbox"
+	foldable = /obj/item/stack/material/plastic
+
+/obj/item/weapon/storage/box/large/plastic
+	name = "large plastic box"
+	desc = "A large box made from plastic."
+	icon = 'maps/exodus/icons/exodus_items.dmi'
+	icon_state = "lpbox"
+	foldable = /obj/item/stack/material/plastic
+
+/datum/stack_recipe/plastic/box
+	title = "box"
+	result_type = /obj/item/weapon/storage/box/plastic
+	time = 40
+
+/datum/stack_recipe/plastic/box/large
+	title = "large box"
+	result_type = /obj/item/weapon/storage/box/large/plastic
+	req_amount = 2
+	time = 40
