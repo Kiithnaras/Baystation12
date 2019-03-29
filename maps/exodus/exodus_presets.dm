@@ -375,7 +375,7 @@ var/const/NETWORK_ENGINEERING_OUTPOST = "Engineering Outpost"
 	icon_state = "lpbox"
 	foldable = /obj/item/stack/material/plastic
 
-/datum/stack_recipe/plastic/box
+/datum/stack_recipe/plastic/box/box
 	title = "box"
 	result_type = /obj/item/weapon/storage/box/plastic
 	time = 40

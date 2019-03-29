@@ -191,3 +191,9 @@
 	name = "autoinjector"
 	band_color = COLOR_DARK_GRAY
 	starts_with = list(/datum/reagent/mindbreaker = 5)
+
+/obj/item/weapon/reagent_containers/hypospray/autoinjector/empty
+	name = "autoinjector"
+	band_color = COLOR_WHITE
+	starts_with = list()
+	volume = 30 //Allows fabricated auto-injectors to hold a hefty amount of chemicals.

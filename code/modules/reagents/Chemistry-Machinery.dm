@@ -169,6 +169,7 @@
 			var/count = 1
 
 			if(reagents.total_volume/count < 1) //Sanity checking.
+				to_chat(user,"You do not have enough reagents to make suitable pill(s).")
 				return
 
 			if (href_list["createpill_multiple"])
@@ -176,6 +177,7 @@
 				count = Clamp(count, 1, max_pill_count)
 
 			if(reagents.total_volume/count < 1) //Sanity checking.
+				to_chat(user,"You do not have enough reagents to make suitable pill(s). Add more reagent or make fewer pills.")
 				return
 
 			var/amount_per_pill = reagents.total_volume/count
@@ -184,6 +186,7 @@
 			var/name = sanitizeSafe(input(usr,"Name:","Name your pill!","[reagents.get_master_reagent_name()] ([amount_per_pill]u)"), MAX_NAME_LEN)
 
 			if(reagents.total_volume/count < 1) //Sanity checking.
+				to_chat(user,"You do not have enough reagents to make suitable pill(s). Add more reagent or make fewer pills.")
 				return
 			while (count-- && count >= 0)
 				var/obj/item/weapon/reagent_containers/pill/P = new/obj/item/weapon/reagent_containers/pill(loc)
@@ -201,27 +204,32 @@
 			var/count = 1
 
 			if(reagents.total_volume/count < 1) //Sanity check
+				to_chat(user,"You do not have enough reagents to make suitable auto-injector(s).")
 				return
 
 			count = input("Select the number of injectors to create", "Max [max_injector_count]", injectoramount) as num
 			count = Clamp(count, 1, max_injector_count)
 
 			if(reagents.total_volume/count < 1) //Sanity check
+				to_chat(user,"You do not have enough reagents to make suitable auto-injector(s). Add more reagent or make fewer injectors.")
 				return
 
-			var/amount_per_injector = reagents.total_volume/count
+			var/amount_per_injector = reagents.total_volume / count
 			if (amount_per_injector > 30) amount_per_injector = 30
 
-			var/name = sanitizeSafe(input(usr,"Name:","Name the Injector(s)","autoinjector ([reagents.get_master_reagent_name()], [round(amount_per_injector, 0.1)]u)"), MAX_NAME_LEN)
+			var/name = sanitizeSafe(input(usr,"Name:","Name the Injector(s)","autoinjector ([reagents.get_master_reagent_name()], [round(amount_per_injector, 0.1)]u)"), MAX_LNAME_LEN)
 
 			if(reagents.total_volume/count < 1) //Sanity check
+				to_chat(user,"You do not have enough reagents to make suitable auto-injector(s). Add more reagent or make fewer injectors.")
 				return
 
 			while(count-- && count >= 0)
-				var/obj/item/weapon/reagent_containers/hypospray/autoinjector/A = new/obj/item/weapon/reagent_containers/hypospray/autoinjector(loc)
+				var/obj/item/weapon/reagent_containers/hypospray/autoinjector/empty/A = new/obj/item/weapon/reagent_containers/hypospray/autoinjector/empty(loc)
 				A.SetName("[name]")
 				A.band_color = reagents.get_color()
 				reagents.trans_to_obj(A,amount_per_injector)
+				A.volume = amount_per_injector
+				A.amount_per_transfer_from_this = amount_per_injector
 				A.update_icon()
 				if(loaded_injector_box)
 					if(loaded_injector_box.contents.len < loaded_injector_box.max_storage_space)
@@ -301,9 +309,9 @@
 				usr << browse_rsc(icon('icons/obj/chemical.dmi', sprite), "[sprite].png")
 	var/dat = list()
 	dat += "<TITLE>[name]</TITLE>"
-	dat += "[name] Menu:"
+	dat += "[name] Menu: "
 	if(!beaker)
-		dat += "Please insert beaker.<BR>"
+		dat += "No Beaker Present. Please insert beaker to process reagents.<BR>"
 		if(loaded_pill_bottle)
 			dat += "<A href='?src=\ref[src];ejectp=1'>Eject Pill Bottle \[[loaded_pill_bottle.contents.len]/[loaded_pill_bottle.max_storage_space]\]</A><BR><BR>"
 		else
@@ -321,6 +329,10 @@
 			dat += "<A href='?src=\ref[src];ejectp=1'>Eject Pill Bottle \[[loaded_pill_bottle.contents.len]/[loaded_pill_bottle.max_storage_space]\]</A><BR><BR>"
 		else
 			dat += "No pill bottle inserted.<BR><BR>"
+		if(loaded_injector_box)
+			dat += "<A href='?src=\ref[src];ejectb=1'>Eject Injector Box \[[loaded_injector_box.contents.len]/[loaded_injector_box.max_storage_space]\]</A><BR><BR>"
+		else
+			dat += "No injector box present.<BR><BR>"
 		if(!R.total_volume)
 			dat += "Beaker is empty."
 		else
@@ -356,7 +368,7 @@
 	. += "<HR><BR><A href='?src=\ref[src];createpill=1'>Create pill (60 units max)</A><a href=\"?src=\ref[src]&change_pill=1\"><img src=\"pill[pillsprite].png\" /></a><BR>"
 	. += "<A href='?src=\ref[src];createpill_multiple=1'>Create multiple pills.</A><BR>"
 	. += "[loaded_pill_bottle ? "Pill Bottle ready for collection!" : "Load a pill bottle to auto-collect pills!"]<BR>"
-	. += "<A href='?src=\ref[src];createbottle=1'>Create bottle (60 units max)<a href=\"?src=\ref[src]&change_bottle=1\"><img src=\"[bottlesprite].png\" /></A>"
+	. += "<A href='?src=\ref[src];createbottle=1'>Create bottle (60 units max)<a href=\"?src=\ref[src]&change_bottle=1\"><img src=\"[bottlesprite].png\" /></A><BR>"
 	. += "<A href='?src=\ref[src];createinjector=1'>Create Auto-Injector(s)</A><BR>"
 	. += "[loaded_injector_box ? "Storage box ready to collect injectors." : "Load a storage box to auto-collect auto-injectors!"]<BR>"
 	return JOINTEXT(.)
