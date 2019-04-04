@@ -210,7 +210,10 @@
 		BP_L_FOOT   = list(/obj/item/organ/external/foot,       40),
 		BP_R_FOOT   = list(/obj/item/organ/external/foot/right, 40),
 		BP_L_HAND   = list(/obj/item/organ/external/hand,       40),
-		BP_R_HAND   = list(/obj/item/organ/external/hand/right, 40)
+		BP_R_HAND   = list(/obj/item/organ/external/hand/right, 40),
+		BP_BRAIN	= list(/obj/item/organ/internal/brain,		40),//Allow brains and bodies to be re-printed. It's not quite cloning and requires a bit more skill, e.g. stasis and surgical re-assembly, but possibly easier than trying to re-implement cloning and genetics.
+		BP_HEAD		= list(/obj/item/organ/external/head,		40),
+		BP_CHEST	= list(/obj/item/organ/external/chest,		80)
 		)
 
 	// The basic skin colours this species uses

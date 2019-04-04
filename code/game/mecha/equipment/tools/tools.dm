@@ -80,14 +80,17 @@
 			chassis.use_power(energy_drain)
 			do_after_cooldown()
 		else if (istype(target,/turf/simulated/floor))
-			if(locate(/obj/item/weapon/ore in target.contents))
+			var/turf/simulated/floor/floor = target
+			if(locate(/obj/item/weapon/ore in floor))
 				var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in chassis:cargo
 				if(ore_box)
-					for(var/obj/item/weapon/ore/ore in target.contents)
+					for(var/obj/item/weapon/ore/ore in floor)
 						ore.Move(ore_box)
-					occupant_message("<span class='notice'>You deploy \the [src]'s material funnel and collect the contents of \the [target].</span>")
+					occupant_message("<span class='notice'>You deploy \the [src]'s material funnel and collect the contents of \the [floor].</span>")
 				else
-					occupant_message("<span class='notice>Attention: You cannot collect ore individually. Acquire and load an Ore Box to collect ores.</span>")
+					occupant_message("<span class='notice'>Attention: You cannot collect ore individually. Acquire and load an Ore Box to collect ores.</span>")
+			else
+				occupant_message("<span class='notice'>Error, unable to locate ore.</span>")
 		return 1
 
 /obj/item/mecha_parts/mecha_equipment/tool/drill
@@ -151,8 +154,8 @@
 	desc = "This is an upgraded version of the drill that'll pierce the heavens! (Can be attached to: Combat and Engineering Exosuits)"
 	icon_state = "mecha_diamond_drill"
 	origin_tech = list(TECH_MATERIAL = 4, TECH_ENGINEERING = 3)
-	equip_cooldown = 20
-	force = 15
+	equip_cooldown = 15
+	force = 25
 
 	action(atom/target)
 		if(!action_checks(target)) return
@@ -202,7 +205,7 @@
 	desc = "Exosuit-mounted extinguisher (Can be attached to: Engineering exosuits)"
 	icon_state = "mecha_exting"
 	equip_cooldown = 5
-	energy_drain = 0
+	energy_drain = 1 KILOWATTS
 	range = MELEE|RANGED
 	required_type = /obj/mecha/working
 	var/spray_particles = 5
@@ -215,8 +218,8 @@
 	..()
 
 /obj/item/mecha_parts/mecha_equipment/tool/extinguisher/action(atom/target) //copypasted from extinguisher. TODO: Rewrite from scratch.
-	if(!action_checks(target) || get_dist(chassis, target)>3) return
-	if(get_dist(chassis, target)>2) return
+	if(!action_checks(target) || get_dist(chassis, target)>4) return
+	if(get_dist(chassis, target)>3) return
 	set_ready_state(0)
 	if(do_after_cooldown(target))
 		if( istype(target, /obj/structure/reagent_dispensers) && get_dist(chassis,target) <= 1)

@@ -175,7 +175,9 @@
 	icon_state = "bioprinter"
 	var/list/amount_list = list(
 		/obj/item/weapon/reagent_containers/food/snacks/meat = 50,
-		/obj/item/weapon/reagent_containers/food/snacks/rawcutlet = 15
+		/obj/item/weapon/reagent_containers/food/snacks/rawcutlet = 15,
+		/obj/item/organ/external = 40, //give us back a flat rate of matter if we feed intact organs into the machine.
+		/obj/item/organ/internal = 20,
 		)
 	var/loaded_dna //Blood sample for DNA hashing.
 	var/datum/species/loaded_species //For quick refrencing

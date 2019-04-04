@@ -246,6 +246,18 @@
 				else
 					user.visible_message("<span class='danger'><b>[user]</b> fishes around fruitlessly in [src] with [W].</span>")
 				return
+			else if(istype(W,/obj/item/organ/internal)) //Preliminary body reconstruction. Should let us add internal organs to open body parts.
+				var/list/organs = get_contents_recursive()
+				var/obj/item/organ/internal/adding = W
+				var/obj/item/organ/external/parent = src
+				if(organs.len)
+					for(var/obj/item/organ/internal/IO in organs)
+						if(IO.type == adding.type)
+							to_chat(user,"<span class='notice'>\The [parent] already contains \an [adding]!</span>")
+							return
+					if(istype(adding) && user.unEquip(adding, parent))
+						adding.status &= ~ORGAN_CUT_AWAY
+						adding.replaced(adding, parent)
 	..()
 
 

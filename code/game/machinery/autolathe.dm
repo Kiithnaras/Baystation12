@@ -186,8 +186,11 @@
 		else
 			space_left = TRUE // We filled it with a material, but it could have been filled further had we had more.
 
-		stored_material[material] += total_material
-		amount_used = max(ceil(amount_available * total_material/taking_matter[material]), amount_used) // Use only as many sheets as needed, rounding up
+		amount_used = max(ceil((amount_available * total_material) / taking_matter[material]), amount_used) // Use only as many sheets as needed, rounding up
+		if(istype(eating,/obj/item/stack/material))
+			stored_material[material] += total_material
+		else
+			stored_material[material] += total_material * amount_used //Because someone is a herp-a-fuckin'-derp and set the amount of Matter in a stack of sheets to be multiplied by the number of sheets in the stack instead of using procs to get the amount in the stack and multiply that by the base matter amount per sheet.
 
 	if(!amount_used)
 		to_chat(user, "<span class='notice'>\The [src] is full. Please remove material from the autolathe in order to insert more.</span>")

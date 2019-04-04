@@ -25,7 +25,7 @@
 			user.do_attack_animation(src)
 			if(!synth)
 				user.nutrition = user.nutrition - 5
-			var/trainprob = 10 / user.get_skill_value(SKILL_COMBAT) ** 2
+			var/trainprob = 20 / user.get_skill_value(SKILL_COMBAT) ** 2
 			to_chat(user, "<span class='warning'>You [pick(hit_message)] \the [src].</span>")
 			if(!synth && prob(trainprob))
 				if(user.too_many_buffs(/datum/skill_buff/fitness))
@@ -90,7 +90,7 @@
 					user.nutrition -= weight * 5
 				message = success_message[min(1 + round(skill - weight), fail_message.len)]
 				user.visible_message("<span class='notice'>\The [user] lift\s the weights [message].</span>", "<span class='notice'>You lift the weights [message].</span>")
-				var/toneprob = (10 * weight) / (user.get_skill_value(SKILL_HAULING) ** 2)
+				var/toneprob = (20 * weight) / (user.get_skill_value(SKILL_HAULING) ** 2)
 				if(!synth && prob(toneprob))
 					if(user.too_many_buffs(/datum/skill_buff/fitness))
 						to_chat(user,"<span class='notice'>You feel like you have toned yourself as much as you possibly can today.</span>")

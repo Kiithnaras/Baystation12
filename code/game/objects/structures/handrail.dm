@@ -6,3 +6,4 @@
 	density = 0
 	anchored = 1
 	can_buckle = 1
+	layer = ABOVE_WINDOW_LAYER
