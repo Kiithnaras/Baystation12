@@ -255,9 +255,13 @@
 						if(IO.type == adding.type)
 							to_chat(user,"<span class='notice'>\The [parent] already contains \an [adding]!</span>")
 							return
+				user.visible_message("<span class='notice'>[user] begins attaching \the [adding] to \the [parent].</span>","<span class='notice'>You begin attaching \the [adding] to \the [parent]...</span>")
+				if(do_after(user,60,adding))
 					if(istype(adding) && user.unEquip(adding, parent))
+						user.visible_message("<span class='notice'>[user] attaches \the [adding] to \the [parent].</span>","<span class='notice'>You attach \the [adding] to \the [parent].</span>")
 						adding.status &= ~ORGAN_CUT_AWAY
 						adding.replaced(adding, parent)
+						parent.internal_organs.Add(adding)
 	..()
 
 

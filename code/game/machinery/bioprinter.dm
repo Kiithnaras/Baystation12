@@ -54,7 +54,7 @@
 	print_delay = initial(print_delay)
 	max_stored_matter = 0
 	for(var/obj/item/weapon/stock_parts/matter_bin/bin in component_parts)
-		max_stored_matter += bin.rating * 50
+		max_stored_matter += bin.rating ** 2 * 125
 	for(var/obj/item/weapon/stock_parts/manipulator/manip in component_parts)
 		print_delay -= (manip.rating-1)*10
 	print_delay = max(0,print_delay)

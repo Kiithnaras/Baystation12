@@ -81,16 +81,16 @@
 			do_after_cooldown()
 		else if (istype(target,/turf/simulated/floor))
 			var/turf/simulated/floor/floor = target
-			if(locate(/obj/item/weapon/ore in floor))
+			if(locate(/obj/item/weapon/ore) in floor)
 				var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in chassis:cargo
 				if(ore_box)
 					for(var/obj/item/weapon/ore/ore in floor)
 						ore.Move(ore_box)
 					occupant_message("<span class='notice'>You deploy \the [src]'s material funnel and collect the contents of \the [floor].</span>")
+					return 1
 				else
 					occupant_message("<span class='notice'>Attention: You cannot collect ore individually. Acquire and load an Ore Box to collect ores.</span>")
-			else
-				occupant_message("<span class='notice'>Error, unable to locate ore.</span>")
+					return
 		return 1
 
 /obj/item/mecha_parts/mecha_equipment/tool/drill
